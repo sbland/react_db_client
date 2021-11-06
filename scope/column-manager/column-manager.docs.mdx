@@ -1,0 +1,37 @@
+---
+description: 'A ColumnManager component.'
+labels: ['ColumnManager']
+---
+
+import { ColumnWidthManager } from './column-manager';
+
+## React Component for managing table columns
+
+A React component that handles draggable table columns.
+
+### Component usage
+```js
+<ColumnWidthManager
+    columnWidths={[3,2,1]}
+    setColumnWidths={() => {}}
+    minWidth={100}
+/>
+```
+
+### Using props to customize the text
+
+Modify the text to see it change live:
+```js live
+
+<ColumnWidthManager
+    columnWidths={[3,2,1]}
+    setColumnWidths={() => {}}
+    minWidth={100}
+/>
+```
+
+## Column Manager
+
+The column manager is a React hook that manages table columns
+
+
