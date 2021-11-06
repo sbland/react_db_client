@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 let lastMousePos = 0;
 let columnWidthOverride = [];
 
-const ColumnWidthManager = ({
+export const ColumnWidthManager = ({
   // columnCount,
   columnWidths,
   setColumnWidths,
@@ -127,4 +127,3 @@ ColumnWidthManager.defaultProps = {
   maxWidth: 300,
 };
 
-export default DataTableColumnWidthManager;

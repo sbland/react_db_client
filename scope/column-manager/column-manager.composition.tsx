@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { ColumnWidthManager } from './column-manager';
-import { useColumnManager } from './ColumnManager';
+import { ColumnWidthManager } from './column-width-manager';
+import { useColumnManager } from './column-manager-hook';
 
 export const BasicColumnManager = () => {
   const [columnWidths, setColumnWidths] = useState([1, 2, 3]);
@@ -66,3 +66,7 @@ export const ColumnManagerHook = () => {
     </div>
   );
 };
+
+export const ColumnManagerVisibility = () => {
+  // TODO Complete this composition
+}

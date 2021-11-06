@@ -10,7 +10,7 @@ const getVisableColumns = (headingsDataList) => headingsDataList.filter((d) => !
 const getHiddenColumnIds = (headingsDataList) =>
   headingsDataList.filter((d) => d.hidden).map((d) => d.uid);
 
-const useColumnVisabilityManager = (headingsDataList) => {
+export const useColumnVisabilityManager = (headingsDataList) => {
   const [hiddenColumnIds, setHiddenColumnIds] = useState(getHiddenColumnIds(headingsDataList));
   const [visableColumns, setVisableColumns] = useState(getVisableColumns(headingsDataList));
 
@@ -52,4 +52,3 @@ useColumnVisabilityManager.propTypes = {
   ).isRequired
 };
 
-export default useColumnVisabilityManager;
