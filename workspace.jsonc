@@ -27,8 +27,16 @@
     /**
      * default scope for all components in workspace.
      **/
-    "defaultScope": "company.scope"
+    "defaultScope": "samnbuk.react_db_client"
   },
+  /**
+   * Templates
+   **/
+  "teambit.generator/generator": {
+    "aspects": ["samnbuk.react_db_client/generator/stylesheet"]
+  },
+  "samnbuk.react_db_client/generator/stylesheet": {},
+
   /**
    * main configuration for component dependency resolution.
    **/
@@ -59,7 +67,8 @@
         "react": "17.0.2",
         "react-dom": "17.0.2",
         "prop-types": "^15.6.1",
-        "@testing-library/react-hooks": "^7.0.2"
+        "@testing-library/react-hooks": "^7.0.2",
+        "lodash": "^4.17.11"
       }
     },
     "packageManagerArgs": [],
@@ -91,6 +100,12 @@
       "teambit.mdx/mdx": {}
     },
     "{envs/**}, {extensions/**}": {
+      "teambit.harmony/aspect": {}
+    },
+    "{styles/**}, {constants/**}": {
+      "teambit.react/react": "-"
+    },
+    "{generator/*}": {
       "teambit.harmony/aspect": {}
     }
   }

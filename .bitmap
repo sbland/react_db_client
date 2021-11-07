@@ -13,13 +13,49 @@
         "scope": "",
         "version": "",
         "mainFile": "index.ts",
-        "rootDir": "scope/column-manager"
+        "rootDir": "react_db_client/components/column-manager"
+    },
+    "constants/client-types": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/constants/client-types"
+    },
+    "constants/style": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.scss",
+        "rootDir": "react_db_client/constants/style"
+    },
+    "demo": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "react_db_client/demo"
     },
     "envs/my-react": {
         "scope": "",
         "version": "",
         "mainFile": "index.ts",
         "rootDir": "demo/envs/my-react"
+    },
+    "form/form": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "react_db_client/components/form/form"
+    },
+    "form/form-fields/field-text": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/components/form/form-fields/field-text"
+    },
+    "generator/stylesheet": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "react_db_client/generator/stylesheet"
     },
     "pages/welcome": {
         "scope": "",

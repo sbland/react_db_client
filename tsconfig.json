@@ -5,6 +5,7 @@
     "dist"
   ],
   "include": [
-    "react_db_client/column-manager"
+    "react_db_client/column-manager",
+    "react_db_client/form"
   ]
 }
