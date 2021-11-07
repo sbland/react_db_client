@@ -1,0 +1,225 @@
+@import '@samnbuk/react_db_client.constants.style';
+$section-padding: $unit * 0.1;
+$section-border: 1px $white dashed;
+$heading-height: $unit;
+
+.form,
+.form_inputs,
+.form_section {
+  /* FORM SECTION */
+  &.formSection,
+  .formSection {
+    position: relative;
+    display: flex;
+    overflow: visible;
+    flex-grow: 1;
+
+    // Styling
+    padding: $section-padding;
+    padding-top: $section-padding; // Allows for title
+    padding-bottom: $section-padding;
+    border: $section-border;
+    border-radius: ($unit * 0.3);
+
+    margin: 0; // Reset margin
+    margin-top: $section-padding;
+    box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.2);
+
+    &.hasHeading {
+      padding-top: $section-padding + $heading-height; // Allows for title
+      margin-top: $section-padding + $heading-height;
+    }
+  }
+  // Child of vert section
+  &.vert > .formSection {
+    // border: 3px red solid;
+    // margin-top: $section-padding * 2;
+    // padding-top: $section-padding;
+    &:not(:last-child) {
+      margin-bottom: $section-padding;
+    }
+  }
+  // Child of horiz section
+  &.horiz > .formSection {
+    // border: 3px green solid;
+    margin-left: $section-padding;
+    &:last-child {
+      margin-right: $section-padding;
+    }
+  }
+  // vert section
+  &.formSection.vert,
+  .formSection.vert {
+    // background: blue;
+    flex-direction: column;
+    // padding-top: $section-padding;
+  }
+  // horiz section
+  &.formSection.horiz,
+  .formSection.horiz {
+    // background: yellow;
+    padding-top: $section-padding;
+    align-items: stretch;
+    justify-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  /* FORM ROW */
+  .form_row {
+    flex-grow: 1;
+    display: flex;
+    margin: 0; // Reset margin
+  }
+  &.vert > .form_row {
+    // background: grey;
+    align-items: flex-end; // Ensures inputs align to bottom of label
+    &:not(:first-child) {
+      margin-top: $section-padding;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: $section-padding;
+    }
+  }
+  &.horiz > .form_row {
+    // background: fuchsia;
+    flex-direction: column;
+    margin-right: $section-padding;
+    justify-content: flex-start;
+    &:not(:first-child) {
+      margin-left: $section-padding;
+    }
+  }
+
+  /* FORM LABEL */
+  .form_label {
+    text-align: right;
+    // flex-grow: 1;
+    margin-right: $unit;
+    &.required {
+      color: $warningColour;
+    }
+
+    &.hasChanged {
+      // color: $warningColour;
+      position: relative;
+      &::after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 2px;
+        background: $warningColour;
+        height: 100%;
+        z-index: 10;
+        right: -$unit;
+        top: 0;
+      }
+    }
+  }
+  &.vert > .form_row > .form_label {
+    width: 30%;
+    max-width: 200px;
+    flex-grow: 1;
+  }
+  &.horiz > .form_row > .form_label {
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: fit-content;
+    width: fit-content;
+  }
+
+  /* SECTION HEADING */
+
+  .formSection_heading {
+    position: absolute;
+    background: whitesmoke;
+    top: -$unit * 0.5;
+    left: $unit;
+    width: auto;
+    border-radius: 3px;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    transition: all 0.2s ease-out;
+  }
+
+  &:hover {
+    h1,
+    h2,
+    h3,
+    h4 {
+      color: $primaryColour;
+    }
+    & > .formSection_heading {
+      background: white;
+    }
+    // .formSection {
+    //   .formSection_heading {
+    //     background: whitesmoke;
+    //   }
+    // }
+  }
+
+  /* INPUTS */
+
+  input[type='text'],
+  input[type='number'] {
+    min-width: 60%;
+    // height: 100%;
+    flex-grow: 1;
+    // max-height: 2.5rem;
+    border: 1px $grey-30 solid;
+    // outline: none;
+
+    &:focus {
+      // border: none;
+      // border: 1px $primaryColour solid;
+      // outline: 1px $primaryColour solid;
+    }
+  }
+
+  select {
+    min-width: 60%;
+    // height: 100%;
+    // max-height: 2.5rem;
+    border: 1px $grey-30 solid;
+    outline: none;
+  }
+
+  .formFieldFile {
+    border: 1px $primaryColour solid;
+    background: $grey-20;
+  }
+
+  .formFieldInput {
+    .vert & {
+      flex-grow: 1;
+    }
+    .horiz & {
+      flex-grow: 0;
+    }
+  }
+
+  textarea {
+    width: 100%;
+    flex-grow: 1;
+  }
+
+  input[type='checkbox'],
+  input[type='radio'] {
+    margin: 0 ($unit * 0.5);
+  }
+
+  .submitBtns {
+    display: flex;
+    width: 100%;
+  }
+
+  .formFieldInput {
+    width: 100%;
+  }
+}

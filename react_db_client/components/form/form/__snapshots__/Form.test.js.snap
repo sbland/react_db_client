@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form Matches Snapshot 1`] = `
+"<form onSubmit={[Function: onSubmit]} autoComplete=\\"on\\" className=\\"form sectionWrapper\\">
+  <FormInputs headings={{...}} formData={{...}} updateFormData={[Function]} showKey={true} orientation=\\"vert\\" additionalData={{...}} customFieldComponents={{...}} heading=\\"\\" isSection={false} />
+  <section style={{...}} />
+</form>"
+`;

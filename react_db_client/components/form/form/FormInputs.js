@@ -1,0 +1,104 @@
+import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
+
+import './_form.scss';
+import '@samnbuk/react_db_client.constants.style'
+import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
+// import FormField from './FormField';
+
+export const FormInputs = ({
+  FormField,
+  headings,
+  formData,
+  updateFormData,
+  orientation,
+  heading: sectionHeading,
+  isSection,
+  showKey,
+  additionalData,
+  customFieldComponents,
+}) => {
+  const className = [
+    'form_inputs',
+    'formSection',
+    `${orientation}`,
+    sectionHeading ? 'hasHeading' : '',
+  ]
+    .filter((f) => f)
+    .join(' ');
+
+  const fields = useMemo(
+    () =>
+      headings.map((heading) => {
+        const value =
+          formData && formData[heading.uid] !== null
+            ? formData[heading.uid]
+            : heading.defaultValue || heading.def;
+
+        if (heading.type === filterTypes.embedded) {
+          return (
+            <FormInputs
+              key={heading.uid}
+              headings={heading.children}
+              formData={formData}
+              updateFormData={updateFormData}
+              orientation={heading.orientation}
+              heading={heading.label}
+              additionalData={additionalData}
+              customFieldComponents={customFieldComponents}
+              isSection
+            />
+          );
+        }
+        return (
+          <FormField
+            heading={heading}
+            updateFormData={updateFormData}
+            value={value}
+            key={heading.uid}
+            additionalData={additionalData}
+            customFieldComponents={customFieldComponents}
+          />
+        );
+      }),
+    [headings, formData, updateFormData, additionalData, customFieldComponents]
+  );
+  return "FORM INPUTS"
+
+  // return (
+  //   <section className={className}>
+  //     {!isSection && showKey && <p>* is required. (!) has been modified.</p>}
+  //     <h4 className="formSection_heading">{sectionHeading}</h4>
+  //     {fields}
+  //   </section>
+  // );
+};
+
+FormInputs.propTypes = {
+  headings: PropTypes.arrayOf(
+    PropTypes.shape({
+      uid: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      unit: PropTypes.string,
+    })
+  ).isRequired,
+  formData: PropTypes.object.isRequired,
+  updateFormData: PropTypes.func.isRequired,
+  orientation: PropTypes.oneOf(['horiz', 'vert']),
+  heading: PropTypes.string,
+  isSection: PropTypes.bool,
+  showKey: PropTypes.bool,
+  additionalData: PropTypes.shape({}),
+  customFieldComponents: PropTypes.objectOf(PropTypes.elementType),
+};
+
+FormInputs.defaultProps = {
+  orientation: 'vert',
+  heading: '',
+  isSection: false,
+  showKey: true,
+  additionalData: {},
+  customFieldComponents: {},
+};
+
