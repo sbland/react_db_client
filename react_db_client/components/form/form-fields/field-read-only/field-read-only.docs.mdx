@@ -1,22 +1,24 @@
 ---
 description: 'A FieldReadOnly component.'
-labels: ['label1', 'label2', 'label3']
+labels: ['form_field']
 ---
 
 import { FieldReadOnly } from './field-read-only';
+import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
 
-## React Component for rendering text
+## React Component for rendering read only fields
 
 A basic div that renders some text
-
-### Component usage
-```js
-<FieldReadOnly text="hello from FieldReadOnly" />
-```
 
 ### Using props to customize the text
 
 Modify the text to see it change live:
+
 ```js live
-<FieldReadOnly text="hello from FieldReadOnly" />
+<FieldReadOnly
+  value="hello from FieldReadOnly"
+  unit="TEXT"
+  type={filterTypes.text}
+  options={{}}
+/>
 ```
