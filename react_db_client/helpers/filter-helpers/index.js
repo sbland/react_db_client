@@ -1,1 +1,1 @@
-export { filterData } from 'filter-data-func';
+export { filterData } from './filter-data-func';

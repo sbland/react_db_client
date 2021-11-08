@@ -2,6 +2,14 @@ import { useCallback, useEffect, useState } from 'react';
 
 let hidePanelTimeout = null;
 
+/**
+ *
+ * @param {*} menuRef
+ * @param {*} floating
+ * @param {*} showPanelOverride
+ * @param {*} HIDETIME
+ * @returns [showPanel, setShowPanel]
+ */
 export const useAutoHidePanel = (
   menuRef,
   floating,

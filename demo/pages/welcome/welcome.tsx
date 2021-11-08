@@ -1,7 +1,7 @@
 import React from 'react';
-import { Card } from '@company/scope.ui.card';
-import { Heading } from '@company/scope.ui.heading';
-import { Text } from '@company/scope.ui.text';
+import { Card } from '@samnbuk/react_db_client.ui.card';
+import { Heading } from '@samnbuk/react_db_client.ui.heading';
+import { Text } from '@samnbuk/react_db_client.ui.text';
 import styles from './welcome.module.scss';
 
 export function Welcome() {

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Heading } from '@company/scope.ui.heading';
-import { Text } from '@company/scope.ui.text';
+import { Heading } from '@samnbuk/react_db_client.ui.heading';
+import { Text } from '@samnbuk/react_db_client.ui.text';
 import { ExternalLink } from '@teambit/design.ui.external-link';
 import { CopyBox } from '@teambit/documenter.ui.copy-box';
 

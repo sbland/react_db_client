@@ -3,20 +3,17 @@ description: 'A AutoHidePanelHook component.'
 labels: ['label1', 'label2', 'label3']
 ---
 
-import { AutoHidePanelHook } from './auto-hide-panel-hook';
+import { useAutoHidePanel } from './auto-hide-panel-hook';
+import { BasicAutoHidePanelHook } from './auto-hide-panel-hook.composition';
 
 ## React Component for rendering text
 
 A basic div that renders some text
 
-### Component usage
-```js
-<AutoHidePanelHook text="hello from AutoHidePanelHook" />
-```
-
 ### Using props to customize the text
 
 Modify the text to see it change live:
+
 ```js live
-<AutoHidePanelHook text="hello from AutoHidePanelHook" />
+<BasicAutoHidePanelHook />
 ```
