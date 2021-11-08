@@ -1,8 +1,12 @@
 import React from 'react';
+import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
+import { FieldText } from '@samnbuk/react_db_client.components.form.form-fields.field-text';
+
+import { FormField } from './FormField';
 import { Form } from './form';
 import { FormInputs } from './FormInputs';
+
 import { demoHeadingsData, demoFormData, demoAdditionalData } from './DemoData';
-import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
 
 // export const BasicForm = () => (
 //   <Form
@@ -15,14 +19,14 @@ import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
 //     ]}
 //     onSubmit={({ formEditData, formData }) => {}}
 //     onChange={() => {}}
-//     customFieldComponents={{
+//     componentMap={{
 //       text: () => 'placeholder text',
 //     }}
 //   />
 // );
 
-const DemoFormField = () => {
-  return 'PLACEHOLDER FIELD COMPONENT';
+const DemoFormField = ({ heading }) => {
+  return <div>{heading?.label}</div>;
 };
 
 /* eslint-disable react/prop-types */
@@ -47,8 +51,28 @@ export const FormDefault = () => {
         formDataInitial={demoFormData}
         onSubmit={(data) => console.log(data)}
         additionalData={demoAdditionalData}
-        customFieldComponents={{ demoFieldType: DemoFormComponent }}
+        componentMap={{
+          demoFieldType: () => DemoFormComponent,
+        }}
         FormField={DemoFormField}
+      />
+    </div>
+  );
+};
+
+export const FormWithFormFieldComponent = () => {
+  return (
+    <div className="sectionWrapper">
+      <Form
+        headings={demoHeadingsData}
+        formDataInitial={demoFormData}
+        onSubmit={(data) => console.log(data)}
+        additionalData={demoAdditionalData}
+        componentMap={{
+          demoFieldType: () => DemoFormComponent,
+          text: () => FieldText,
+        }}
+        FormField={FormField}
       />
     </div>
   );

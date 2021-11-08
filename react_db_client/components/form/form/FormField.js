@@ -19,13 +19,18 @@ import { FieldLabel } from './field-label';
 
 import './_form.scss';
 
-const FormField = ({
+export const FormField = ({
   heading,
   value,
   updateFormData,
   additionalData,
   componentMap,
 }) => {
+  // return (
+  //   <div>
+  //     Example
+  //   </div>
+  // )
   // TODO: Is this setup causing unnessesary updates?
   const props = useMemo(
     () => ({
@@ -72,9 +77,9 @@ const FormField = ({
   // Object.entries(customFieldComponents).forEach(([key, Field]) => {
   //   componentOptions[key] = () => <Field {...props} />;
   // });
-  const defaultComponent = () => <FieldReadOnly {...props} />;
+  const defaultComponent = () => FieldReadOnly;
 
-  const formComponent = switchF(heading.type, componentMap, defaultComponent);
+  const FormComponent = switchF(heading.type, componentMap, defaultComponent);
 
   const labelClassName = [
     'form_label',
@@ -97,7 +102,8 @@ const FormField = ({
         required={required}
         hasLabel={hasLabel}
       />
-      {formComponent}
+      <FormComponent {...props} />
+      {/* {formComponent} */}
     </div>
   );
 };
@@ -123,7 +129,7 @@ FormField.propTypes = {
 
 FormField.defaultProps = {
   value: null,
-  customFieldComponents: {},
+  componentMap: {},
 };
 
-export default FormField;
+// export default FormField;

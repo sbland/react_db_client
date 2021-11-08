@@ -48,16 +48,16 @@ export const Form = ({
   endButtonRefOverride,
   errorCallback,
   additionalData,
-  customFieldComponents,
+  componentMap,
 }) => {
   // const [formData, setFormData] = useState(cloneDeep(formDataInitial));
   const [formEditData, setFormEditData] = useState({});
   const [endButtonContainerRef, setEndButtonContainerRef] = useState(null);
 
-  const formData = useMemo(() => ({ ...cloneDeep(formDataInitial), ...formEditData }), [
-    formDataInitial,
-    formEditData,
-  ]);
+  const formData = useMemo(
+    () => ({ ...cloneDeep(formDataInitial), ...formEditData }),
+    [formDataInitial, formEditData]
+  );
 
   const updateFormData = useCallback(
     (field, value) => {
@@ -99,16 +99,23 @@ export const Form = ({
         showKey={showKey}
         orientation={orientation}
         additionalData={additionalData}
-        customFieldComponents={customFieldComponents}
+        componentMap={componentMap}
         FormField={FormField}
       />
-      <section ref={(ref) => setEndButtonContainerRef(ref)} style={{ width: '100%' }} />
+      <section
+        ref={(ref) => setEndButtonContainerRef(ref)}
+        style={{ width: '100%' }}
+      />
       {showEndBtns &&
         endButtonContainerRef &&
         ReactDOM.createPortal(
           <div className="submitBtns">
             {/* TODO: Work out why setting this as a submit button does not work */}
-            <button type="button" className="button-two submitBtn" onClick={handleSubmit}>
+            <button
+              type="button"
+              className="button-two submitBtn"
+              onClick={handleSubmit}
+            >
               <span role="img" aria-label={submitBtnText}>
                 💾
               </span>
@@ -157,7 +164,7 @@ Form.propTypes = {
   endButtonRefOverride: PropTypes.any, // Should be a react reference
   errorCallback: PropTypes.func,
   additionalData: PropTypes.shape({}),
-  customFieldComponents: PropTypes.objectOf(PropTypes.elementType),
+  componentMap: PropTypes.objectOf(PropTypes.elementType),
 };
 
 Form.defaultProps = {
@@ -170,6 +177,5 @@ Form.defaultProps = {
   endButtonRefOverride: null,
   errorCallback: alert,
   additionalData: {},
-  customFieldComponents: {},
+  componentMap: {},
 };
-

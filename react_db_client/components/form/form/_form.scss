@@ -1,7 +1,7 @@
 @import '@samnbuk/react_db_client.constants.style';
 $section-padding: $unit * 0.1;
 $section-border: 1px $white dashed;
-$heading-height: $unit;
+$heading-height: $unit * 0.7;
 
 .form,
 .form_inputs,
@@ -16,7 +16,6 @@ $heading-height: $unit;
 
     // Styling
     padding: $section-padding;
-    padding-top: $section-padding; // Allows for title
     padding-bottom: $section-padding;
     border: $section-border;
     border-radius: ($unit * 0.3);
@@ -32,11 +31,8 @@ $heading-height: $unit;
   }
   // Child of vert section
   &.vert > .formSection {
-    // border: 3px red solid;
-    // margin-top: $section-padding * 2;
-    // padding-top: $section-padding;
     &:not(:last-child) {
-      margin-bottom: $section-padding;
+      margin-bottom: $section-padding + $heading-height;
     }
   }
   // Child of horiz section
@@ -50,15 +46,11 @@ $heading-height: $unit;
   // vert section
   &.formSection.vert,
   .formSection.vert {
-    // background: blue;
     flex-direction: column;
-    // padding-top: $section-padding;
   }
   // horiz section
   &.formSection.horiz,
   .formSection.horiz {
-    // background: yellow;
-    padding-top: $section-padding;
     align-items: stretch;
     justify-items: center;
     justify-content: space-between;
@@ -72,7 +64,6 @@ $heading-height: $unit;
     margin: 0; // Reset margin
   }
   &.vert > .form_row {
-    // background: grey;
     align-items: flex-end; // Ensures inputs align to bottom of label
     &:not(:first-child) {
       margin-top: $section-padding;
@@ -83,7 +74,6 @@ $heading-height: $unit;
     }
   }
   &.horiz > .form_row {
-    // background: fuchsia;
     flex-direction: column;
     margin-right: $section-padding;
     justify-content: flex-start;
@@ -95,14 +85,12 @@ $heading-height: $unit;
   /* FORM LABEL */
   .form_label {
     text-align: right;
-    // flex-grow: 1;
     margin-right: $unit;
     &.required {
       color: $warningColour;
     }
 
     &.hasChanged {
-      // color: $warningColour;
       position: relative;
       &::after {
         content: '';
@@ -134,8 +122,9 @@ $heading-height: $unit;
 
   .formSection_heading {
     position: absolute;
+    margin: 0;
     background: whitesmoke;
-    top: -$unit * 0.5;
+    top: -$heading-height;
     left: $unit;
     width: auto;
     border-radius: 3px;
@@ -147,45 +136,33 @@ $heading-height: $unit;
     transition: all 0.2s ease-out;
   }
 
-  &:hover {
-    h1,
-    h2,
-    h3,
-    h4 {
-      color: $primaryColour;
-    }
-    & > .formSection_heading {
-      background: white;
-    }
-    // .formSection {
-    //   .formSection_heading {
-    //     background: whitesmoke;
-    //   }
-    // }
-  }
+  /* Uncomment to add heading hover effect
+  // &:hover {
+  //   h1,
+  //   h2,
+  //   h3,
+  //   h4 {
+  //     color: $primaryColour;
+  //   }
+  //   & > .formSection_heading {
+  //     background: white;
+  //   }
+  // }
 
   /* INPUTS */
 
   input[type='text'],
   input[type='number'] {
     min-width: 60%;
-    // height: 100%;
     flex-grow: 1;
-    // max-height: 2.5rem;
     border: 1px $grey-30 solid;
-    // outline: none;
 
-    &:focus {
-      // border: none;
-      // border: 1px $primaryColour solid;
-      // outline: 1px $primaryColour solid;
-    }
+    // &:focus {
+    // }
   }
 
   select {
     min-width: 60%;
-    // height: 100%;
-    // max-height: 2.5rem;
     border: 1px $grey-30 solid;
     outline: none;
   }

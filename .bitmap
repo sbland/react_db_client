@@ -43,7 +43,7 @@
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-read-only"
     },
-    "components/form/form-fields/form-fields/field-text": {
+    "components/form/form-fields/field-text": {
         "scope": "",
         "version": "",
         "mainFile": "index.js",

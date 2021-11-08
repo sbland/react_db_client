@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import './_form.scss';
-import '@samnbuk/react_db_client.constants.style'
+import '@samnbuk/react_db_client.constants.style';
 import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
 // import FormField from './FormField';
 
@@ -16,7 +16,7 @@ export const FormInputs = ({
   isSection,
   showKey,
   additionalData,
-  customFieldComponents,
+  componentMap,
 }) => {
   const className = [
     'form_inputs',
@@ -45,11 +45,13 @@ export const FormInputs = ({
               orientation={heading.orientation}
               heading={heading.label}
               additionalData={additionalData}
-              customFieldComponents={customFieldComponents}
+              componentMap={componentMap}
+              FormField={FormField}
               isSection
             />
           );
         }
+        // return <div>{heading.uid}</div>;
         return (
           <FormField
             heading={heading}
@@ -57,30 +59,31 @@ export const FormInputs = ({
             value={value}
             key={heading.uid}
             additionalData={additionalData}
-            customFieldComponents={customFieldComponents}
+            componentMap={componentMap}
           />
         );
       }),
-    [headings, formData, updateFormData, additionalData, customFieldComponents]
+    [headings, formData, updateFormData, additionalData, componentMap]
   );
-  return "FORM INPUTS"
 
-  // return (
-  //   <section className={className}>
-  //     {!isSection && showKey && <p>* is required. (!) has been modified.</p>}
-  //     <h4 className="formSection_heading">{sectionHeading}</h4>
-  //     {fields}
-  //   </section>
-  // );
+  return (
+    <section className={className}>
+      {!isSection && showKey && <p>* is required. (!) has been modified.</p>}
+      <h4 className="formSection_heading">{sectionHeading}</h4>
+      {fields}
+    </section>
+  );
 };
 
 FormInputs.propTypes = {
   headings: PropTypes.arrayOf(
     PropTypes.shape({
       uid: PropTypes.string.isRequired,
+      orientation: PropTypes.oneOf(['horiz', 'vert']),
       label: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
       unit: PropTypes.string,
+      children: PropTypes.arrayOf(PropTypes.shape({})),
     })
   ).isRequired,
   formData: PropTypes.object.isRequired,
@@ -90,7 +93,7 @@ FormInputs.propTypes = {
   isSection: PropTypes.bool,
   showKey: PropTypes.bool,
   additionalData: PropTypes.shape({}),
-  customFieldComponents: PropTypes.objectOf(PropTypes.elementType),
+  componentMap: PropTypes.objectOf(PropTypes.elementType),
 };
 
 FormInputs.defaultProps = {
@@ -99,6 +102,5 @@ FormInputs.defaultProps = {
   isSection: false,
   showKey: true,
   additionalData: {},
-  customFieldComponents: {},
+  componentMap: {},
 };
-

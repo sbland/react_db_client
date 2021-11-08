@@ -115,16 +115,7 @@ importers:
   react_db_client/helpers/func-tools:
     specifiers: {}
 
-  scope/column-manager:
-    specifiers: {}
-
   scope/constants/client-types:
-    specifiers: {}
-
-  scope/form/form:
-    specifiers: {}
-
-  scope/form/form-fields/field-text:
     specifiers: {}
 
 packages:
