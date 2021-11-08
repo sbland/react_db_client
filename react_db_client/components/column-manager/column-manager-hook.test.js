@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { demoHeadingsData } from './demoData';
-import useColumnWidthManager from './ColumnManager';
+import { useColumnManager } from './column-manager-hook';
 
 const DEMO_HEADINGS = demoHeadingsData;
 
@@ -9,13 +9,13 @@ const defaultProps = {
 };
 describe('useColumnWidthManager', () => {
   test('should work', async () => {
-    const { result } = renderHook(() => useColumnWidthManager(defaultProps));
+    const { result } = renderHook(() => useColumnManager(defaultProps));
     expect(result.current).toMatchSnapshot();
   });
 
   test('should prepare input data', () => {
     const { result } = renderHook(() =>
-      useColumnWidthManager({
+      useColumnManager({
         headingsDataList: DEMO_HEADINGS,
         btnColumnBtnCount: 1,
       })
@@ -25,7 +25,7 @@ describe('useColumnWidthManager', () => {
   // TODO: For some reason this causes a memory leak
   test.skip('should allow auto column width', () => {
     const { result } = renderHook(() =>
-      useColumnWidthManager({
+      useColumnManager({
         headingsDataList: DEMO_HEADINGS,
         autoWidth: true,
         containerRef: {
@@ -38,9 +38,12 @@ describe('useColumnWidthManager', () => {
     expect(result.current).toMatchSnapshot();
   });
   test('should update table width if input columns changes', async () => {
-    const { result, rerender } = renderHook((props) => useColumnWidthManager(props), {
-      initialProps: defaultProps,
-    });
+    const { result, rerender } = renderHook(
+      (props) => useColumnManager(props),
+      {
+        initialProps: defaultProps,
+      }
+    );
     const newHeadingsData = DEMO_HEADINGS.slice(1);
     expect(result.current.columnWidths.length).toEqual(18);
     expect(result.current.tableWidth).toEqual(1927);

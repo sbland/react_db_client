@@ -1,0 +1,1 @@
+export { switchF } from 'switchf';

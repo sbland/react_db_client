@@ -1,6 +1,8 @@
-import comparisons from '../../GenericConstants/comparisons';
-import filterTypes from '../../GenericConstants/filterTypes';
-import FilterObjectClass from '../FilterManager/FilterObjectClass';
+import {
+  filterTypes,
+  FilterObjectClass,
+  comparisons,
+} from '@samnbuk/react_db_client.constants.client-types';
 
 export const demoFilterString = new FilterObjectClass({
   uid: 'demoFilterString',
@@ -10,6 +12,7 @@ export const demoFilterString = new FilterObjectClass({
   operator: comparisons.contains,
   type: filterTypes.text,
 });
+
 export const demoFilterNumber = new FilterObjectClass({
   uid: 'demoFilterNumber',
   field: 'count',
@@ -131,7 +134,8 @@ export const demoTableData = {
   b: {
     uid: 'b',
     name: 'Bar',
-    description: 'A really really really long description that needs to fit into a little box!',
+    description:
+      'A really really really long description that needs to fit into a little box!',
     hiddenDemoNumber: 3,
     hiddenDemo: 'Hide me',
   },

@@ -1,0 +1,111 @@
+$font-primary: Helvetica, Arial, sans-serif;
+$font-secondary: Helvetica, Arial, sans-serif;
+$font-readable: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+
+$font-size: $unit;
+$line-height: ($unit * 1.8);
+$font-weight-standard: 100;
+$font-weight-bold: 800;
+$pmargin: 0.2rem;
+
+$font-size-1: $font-size * 0.7;
+$font-size-2: $font-size * 0.8;
+$font-size-3: $font-size * 0.9;
+$font-size-4: $font-size * 1.1;
+$font-size-5: $font-size * 1.3;
+$font-size-6: $font-size * 1.6;
+
+$core_line-height: ($unit * 1.2);
+$header_line-height: ($unit * 1.6);
+// $textColour: #444;
+$textColour: #354866;
+
+p,
+div {
+  font-weight: $font-weight-standard;
+  font-family: $font-readable;
+  font-size: $font-size-3;
+  line-height: $core_line-height;
+}
+
+label {
+  font-family: $font-readable;
+  font-size: $font-size-2;
+  line-height: $core_line-height;
+  color: $textColour;
+}
+
+div,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+button,
+a {
+  // font-weight: $font-weight-standard;
+  line-height: $header_line-height;
+  color: $textColour;
+}
+b {
+  font-weight: $font-weight-bold;
+}
+
+h1 {
+  font-size: $font-size-6;
+}
+h2 {
+  font-size: $font-size-5;
+}
+h3 {
+  font-size: $font-size-4;
+}
+h4 {
+  font-size: $font-size-3;
+}
+h5 {
+  font-size: $font-size-2;
+}
+
+a {
+  color: $primaryColour-light;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  &:hover {
+    color: $primaryColour;
+  }
+}
+
+p {
+  margin-bottom: $pmargin;
+}
+
+/* Textblock Standard */
+@mixin textblock-standard {
+  font-family: $font-readable;
+  font-size: $font-size * 0.9;
+  line-height: $core_line-height;
+  color: $grey-80;
+}
+
+.textblock-standard {
+  @include textblock-standard;
+}
+
+/* Section Title */
+@mixin section-title {
+}
+
+.section-title {
+  @include section-title;
+}
+
+/* Section Heading */
+@mixin section-heading {
+}
+
+.section-heading {
+  @include section-heading;
+}

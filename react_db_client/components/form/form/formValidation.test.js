@@ -1,6 +1,6 @@
 import formValidation from './formValidation';
 import { demoHeadingsData, demoFormData } from './DemoData';
-import filterTypes from '../../GenericConstants/filterTypes';
+import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
 
 describe('Form Validation', () => {
   test('should pass on valid form data', () => {
