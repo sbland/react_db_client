@@ -97,6 +97,9 @@ importers:
   react_db_client/components/form/form-fields/field-text:
     specifiers: {}
 
+  react_db_client/components/styled-select-list:
+    specifiers: {}
+
   react_db_client/constants/client-types:
     specifiers: {}
 

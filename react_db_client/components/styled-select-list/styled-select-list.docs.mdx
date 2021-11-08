@@ -1,0 +1,31 @@
+---
+description: 'A StyledSelectList component.'
+labels: ['list']
+---
+
+import { StyledSelectList } from './styled-select-list';
+import { demoListInputData, demoHeadingsData, demoListInputDataLong } from './inputDataShapes';
+
+## React Component for rendering text
+
+A basic div that renders some text
+
+### Component usage
+```js
+<StyledSelectList
+  listInput={demoListInputData}
+  headings={demoHeadingsData}
+  handleSelect={(id) => alert(`Selected: ${id}`)}
+/>
+```
+
+### Using props to customize the text
+
+Modify the text to see it change live:
+```js live
+<StyledSelectList
+  listInput={demoListInputData}
+  headings={demoHeadingsData}
+  handleSelect={(id) => alert(`Selected: ${id}`)}
+/>
+```

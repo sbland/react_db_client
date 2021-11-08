@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-
-import './_form.scss';
-import '@samnbuk/react_db_client.constants.style';
 import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
-// import FormField from './FormField';
+
+import '@samnbuk/react_db_client.constants.style';
+import './_form.scss';
 
 export const FormInputs = ({
   FormField,
@@ -76,6 +75,7 @@ export const FormInputs = ({
 };
 
 FormInputs.propTypes = {
+  FormField: PropTypes.element.isRequired,
   headings: PropTypes.arrayOf(
     PropTypes.shape({
       uid: PropTypes.string.isRequired,
