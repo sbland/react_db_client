@@ -23,3 +23,34 @@ export const switchF = (c, options, def) => {
     return options[activeCase]();
   throw Error('switch F Failed!');
 };
+
+
+/**
+ * Alternate switch that allows lambda patterns as keys
+ *
+ * @param {any} c
+ * @param {Array[Array[
+ * pattern,
+ * value {function | strpattern}
+ * ]]} options
+ * @param {function} def
+ * @returns
+ */
+export const switchFLam = (c, options, def) => {
+  const choice = options.find(([key]) => {
+    if (Array.isArray(key)) {
+      return key.indexOf(c) >= 0;
+    }
+    if (typeof key === 'function') {
+      return key(c);
+    }
+    return key === c;
+  });
+  if (!choice) return def();
+  const [, choiceVal] = choice;
+  if (typeof choiceVal === 'function') return choiceVal();
+  if (typeof choiceVal === 'string') {
+    return switchFLam(choiceVal, options, def);
+  }
+  throw Error('switch F Failed!');
+};

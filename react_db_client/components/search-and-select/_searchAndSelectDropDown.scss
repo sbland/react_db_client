@@ -1,0 +1,22 @@
+@import '@samnbuk/react_db_client.constants.style';
+
+.searchFieldWrap {
+  display: flex;
+  min-height: $core_line-height;
+  height: 100%;
+  position: relative;
+}
+
+.sas_drop_wrap {
+  width: 100%;
+  position: relative;
+  .loadingIcon {
+    position: absolute;
+    top: 0;
+  }
+  &.invalid {
+    .searchField {
+      color: red;
+    }
+  }
+}

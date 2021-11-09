@@ -10,3 +10,11 @@
       return errorCallback ? errorCallback(e) : null;
     }
   };
+
+/**
+ * ifF - Functional If Statement
+ * @param {boolean} cond
+ * @param {function} trueDo
+ * @param {function} falseDo
+ */
+ export const ifF = (cond, trueDo, falseDo) => (cond ? trueDo() : falseDo());
