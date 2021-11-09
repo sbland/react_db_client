@@ -1,5 +1,10 @@
-export { filterTypes } from './client-types';
-export * as comparisons from './comparisons';
+export { filterTypes } from './filter-types';
+export {
+  comparisons,
+  stringComparisons,
+  numberComparisons,
+  dateComparisons,
+} from './comparisons';
 export {
   FilterObjectSimpleClass,
   FilterObjectClass,

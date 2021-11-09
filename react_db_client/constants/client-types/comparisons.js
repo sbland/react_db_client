@@ -15,7 +15,7 @@ export const dateComparisons = {
   before: 'before',
 };
 
-export default {
+export const comparisons = {
   equals: '=',
   ...stringComparisons,
   ...numberComparisons,

@@ -1,5 +1,5 @@
 /* eslint-disable max-classes-per-file */
-import { filterTypes } from './client-types';
+import { filterTypes } from './filter-types';
 import { comparisons } from '@samnbuk/react_db_client.constants.client-types';
 
 const getDefaultComparison = (fieldType) => {
