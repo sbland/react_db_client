@@ -1,11 +1,41 @@
 ---
-description: 'filter types.'
-labels: ['Enum', 'Types']
+description: 'Types for filters, sorting, value parsing and value display.'
+labels: ['Enum', 'Types', 'constants']
 ---
 
-import { filterTypes } from './client-types';
+import { filterTypes } from './filter-types';
+import {
+    stringComparisons,
+    numberComparisons,
+    dateComparisons,
+    comparisons,
+ } from './comparisons';
 
-## Client type enum
+## filter types enum
 
 An Enum of possible types.
-These are types that should be parasable by form fields and tables etc.
+These are types that should be parsable by form fields and tables etc.
+
+``` js live
+Object.entries(filterTypes).map(([k, v]) => <li key={k}> {k}: {v} </li>)
+```
+
+## comparisons enums
+Comparison enums allow sending comparison types to filters and sorting
+both locally and on the server.
+
+``` js live
+Object.entries(comparisons).map(([k, v]) => <li key={k}> {k}: {v} </li>)
+```
+
+``` js live
+Object.entries(stringComparisons).map(([k, v]) => <li key={k}> {k}: {v} </li>)
+```
+
+``` js live
+Object.entries(numberComparisons).map(([k, v]) => <li key={k}> {k}: {v} </li>)
+```
+
+``` js live
+Object.entries(dateComparisons).map(([k, v]) => <li key={k}> {k}: {v} </li>)
+```
