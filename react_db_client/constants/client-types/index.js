@@ -1,10 +1,12 @@
 export { filterTypes } from './filter-types';
+
 export {
   comparisons,
   stringComparisons,
   numberComparisons,
   dateComparisons,
 } from './comparisons';
+
 export {
   FilterObjectSimpleClass,
   FilterObjectClass,
