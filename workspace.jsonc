@@ -1,7 +1,7 @@
 /**
  * this is the main configuration file of your bit workspace.
  * for full documentation, please see: https://harmony-docs.bit.dev/workspace/configurations
- **/ {
+ **/{
   "$schema": "https://static.bit.dev/teambit/schemas/schema.json",
   /**
    * main configuration of the Bit workspace.
@@ -60,24 +60,28 @@
         "@teambit/react.templates.themes.theme": "0.0.4",
         "@typescript-eslint/eslint-plugin": "4.29.3",
         "classnames": "2.3.1",
+        "enzyme": "3.11.0",
         "eslint-import-resolver-node": "0.3.6",
         "eslint-plugin-import": "2.22.1",
         "eslint-plugin-jest": "24.4.0",
         "eslint-plugin-jsx-a11y": "6.4.1",
         "eslint-plugin-mdx": "1.15.0",
-        "eslint-plugin-react": "7.25.1"
+        "eslint-plugin-react": "7.25.1",
+        "react-test-renderer": "17.0.2"
       },
       "peerDependencies": {
         "@testing-library/react": "12.0.0",
-        "react": "17.0.2",
-        "react-dom": "17.0.2",
-        "prop-types": "^15.6.1",
         "@testing-library/react-hooks": "^7.0.2",
-        "lodash": "^4.17.11"
+        "lodash": "^4.17.11",
+        "prop-types": "^15.6.1",
+        "react": "17.0.2",
+        "react-dom": "17.0.2"
       }
     },
     "packageManagerArgs": [],
-    "devFilePatterns": ["**/*.spec.ts"],
+    "devFilePatterns": [
+      "**/*.spec.ts"
+    ],
     "strictPeerDependencies": true,
     "installFromBitDevRegistry": true,
     "savePrefix": ""
