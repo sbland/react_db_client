@@ -3,7 +3,7 @@ description: 'A UseAsyncRequest component.'
 labels: ['label1', 'label2', 'label3']
 ---
 
-import { UseAsyncRequest } from './use-async-request';
+import { useAsyncRequest } from './use-async-request';
 
 ## React Component for rendering text
 
@@ -17,6 +17,20 @@ A basic div that renders some text
 ### Using props to customize the text
 
 Modify the text to see it change live:
-```js live
-<UseAsyncRequest text="hello from UseAsyncRequest" />
+```js
+import { useAsyncRequest } from './use-async-request';
+
+const {
+    loading,
+    response,
+    error,
+    reload,
+} = useAsyncRequest({
+    args: [],
+    callOnInit: false,
+    callFn: async() => alert("called"),
+});
+
+<h1>Output </h1>
+<button onClick={reload}>Call</button>
 ```
