@@ -20,13 +20,23 @@ export const StyledSelectListLong = () => (
     headings={demoHeadingsData}
     handleSelect={(id) => alert(`Selected: ${id}`)}
   />
-)
+);
 
 export const StyledSelectListScroll = () => (
   <StyledSelectList
     listInput={demoListInputDataLong}
     headings={demoHeadingsData}
     handleSelect={(id) => alert(`Selected: ${id}`)}
-    limitHeight
+    limitHeight={30}
   />
-)
+);
+
+export const StyledSelectListSelected = () => (
+  <StyledSelectList
+    listInput={demoListInputData}
+    headings={demoHeadingsData}
+    handleSelect={(id) => alert(`Selected: ${id}`)}
+    limitHeight={30}
+    currentSelection={demoListInputData[0].uid}
+  />
+);

@@ -34,7 +34,6 @@ $primaryColour-light: lighten($primaryColour, 10%);
 
 .styledList_itemBtn {
   border: none;
-
   &:not(:last-child) {
     border: 1px $grey-10 solid;
     border-bottom: 2px $grey-10 solid;

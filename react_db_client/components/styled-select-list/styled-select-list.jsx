@@ -1,58 +1,13 @@
 import React, { useMemo, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { stringifyData } from '@samnbuk/react_db_client.helpers.data-processing';
 import { useColumnManager } from '@samnbuk/react_db_client.components.column-manager';
+import { ListItem } from './list-item';
 
 import styles from './StyledSelectList.module.scss'
 
-export const ListItem = ({
-  data,
-  handleSelect,
-  headings,
-  columnWidths,
-  customParsers,
-  isSelected
-}) => {
-  return (
-    <button
-      key={data.uid}
-      className={`${styles.styledList_itemBtn} ${isSelected ? 'selected' : ''}`}
-      type='button'
-      onClick={() => handleSelect(data.uid)}
-    >
-      {headings.map((heading, i) => (
-        <div
-          key={heading.uid}
-          style={{
-            width: columnWidths[i]
-          }}
-          className={`${styles.styledList_itemCell} ${
-            isSelected ? 'selected' : ''
-          }`}
-        >
-          {stringifyData(data[heading.uid], heading, customParsers)}
-        </div>
-      ))}
-    </button>
-  )
-}
-
-ListItem.propTypes = {
-  data: PropTypes.shape({
-    uid: PropTypes.string.isRequired
-  }).isRequired,
-  headings: PropTypes.arrayOf(
-    PropTypes.shape({
-      uid: PropTypes.string.isRequired,
-      label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired
-    })
-  ).isRequired,
-  handleSelect: PropTypes.func.isRequired,
-  customParsers: PropTypes.objectOf(PropTypes.func).isRequired,
-  columnWidths: PropTypes.arrayOf(PropTypes.number).isRequired,
-  isSelected: PropTypes.bool.isRequired
-}
-
+/**
+ * Styled select list
+ */
 export const StyledSelectList = ({
   listInput,
   headings,
@@ -148,22 +103,33 @@ export const StyledSelectList = ({
 }
 
 StyledSelectList.propTypes = {
+  /** list of objects to display */
   listInput: PropTypes.arrayOf(
     PropTypes.shape({
+      /** Uid for list item */
       uid: PropTypes.string.isRequired
     })
   ).isRequired,
+  /** headings for list table */
   headings: PropTypes.arrayOf(
     PropTypes.shape({
+      /** Heading uid matches field in list items */
       uid: PropTypes.string.isRequired,
+      /** Heading label to display on table */
       label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired
     })
   ).isRequired,
+  /** func to handle selecting an item */
   handleSelect: PropTypes.func.isRequired,
+  /** override current selection */
   currentSelection: PropTypes.arrayOf(PropTypes.string),
+  /** Limit the list height */
   limitHeight: PropTypes.number,
-  selectionField: PropTypes.string.isRequired,
+  /** Field to return on selection */
+  selectionField: PropTypes.string,
+  /** If true column widths are calculated */
   autoWidth: PropTypes.bool,
+  /** custom parsers for field types */
   customParsers: PropTypes.objectOf(PropTypes.func)
 }
 
@@ -171,6 +137,7 @@ StyledSelectList.defaultProps = {
   currentSelection: null,
   limitHeight: 0,
   autoWidth: true,
-  customParsers: {}
+  customParsers: {},
+  selectionField: 'uid',
 }
 
