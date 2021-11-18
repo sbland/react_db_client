@@ -35,11 +35,13 @@
   "teambit.generator/generator": {
     "aspects": [
       "samnbuk.react_db_client/generator/stylesheet",
-      "samnbuk.react_db_client/generator/helper"
+      "samnbuk.react_db_client/generator/helper",
+      "samnbuk.react_db_client/generator/field-template"
     ]
   },
   "samnbuk.react_db_client/generator/stylesheet": {},
   "samnbuk.react_db_client/generator/helper": {},
+  "samnbuk.react_db_client/generator/field-template": {},
   /**
    * main configuration for component dependency resolution.
    **/
