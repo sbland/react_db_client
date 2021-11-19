@@ -1,0 +1,48 @@
+---
+description: 'A FieldNumber component.'
+labels: ['form-field', 'number']
+---
+
+import { FieldNumber } from './field-number';
+import { defaultVal } from './default-val';
+
+## React Component for rendering numbers
+
+A form field  that renders a number
+
+### Component usage
+```js
+<FieldNumber
+    uid="foo"
+    unit="unit"
+    min={0}
+    max={10}
+    step={0.1}
+    defaultValue={3}
+    updateFormData={() => {}}
+    value={4}
+    required
+  />
+```
+
+### Using props to customize the text
+
+Modify the value to see it change live:
+```js live
+() => {
+    return (
+        <FieldNumber
+            uid="foo"
+            unit="unit"
+            min={0}
+            max={10}
+            step={0.1}
+            defaultValue={defaultVal}
+            updateFormData={() => {}}
+            value={5}
+            required
+        />
+    )
+}
+
+```

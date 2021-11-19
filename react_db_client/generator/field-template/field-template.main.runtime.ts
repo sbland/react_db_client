@@ -23,12 +23,12 @@ export class FieldTemplateMain {
 export type { ${context.namePascalCase}Props } from './${context.name}';
 `,
             },
-            /*
             // demo data file
             {
               relativePath: `demo-data.js`,
-              context: `export const defaultVal = 0;`
+              content: 'export const defaultVal = 0;'
             },
+
 
             // component file
             {
@@ -48,7 +48,7 @@ export function ${context.namePascalCase}({ text }: ${context.namePascalCase}Pro
   );
 }`,
             },
-/*
+
             // docs file
             {
               relativePath: `${context.name}.docs.mdx`,
@@ -107,7 +107,7 @@ it('should render with the correct value', () => {
 });
 `
             },
-            */
+
           ];
         },
       },

@@ -57,24 +57,6 @@
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-components/toggle-box"
     },
-    "components/form/form-fields/field-bool": {
-        "scope": "",
-        "version": "",
-        "mainFile": "index.js",
-        "rootDir": "react_db_client/components/form/form-fields/field-bool"
-    },
-    "components/form/form-fields/field-date": {
-        "scope": "",
-        "version": "",
-        "mainFile": "index.js",
-        "rootDir": "react_db_client/components/form/form-fields/field-date"
-    },
-    "components/form/form-fields/field-multi-select": {
-        "scope": "",
-        "version": "",
-        "mainFile": "index.js",
-        "rootDir": "react_db_client/components/form/form-fields/field-multi-select"
-    },
     "components/form/form-fields/field-number": {
         "scope": "",
         "version": "",
@@ -122,12 +104,6 @@
         "version": "",
         "mainFile": "index.scss",
         "rootDir": "react_db_client/constants/style"
-    },
-    "demo-hook": {
-        "scope": "",
-        "version": "",
-        "mainFile": "index.ts",
-        "rootDir": "react_db_client/demo-hook"
     },
     "envs/my-react": {
         "scope": "",
