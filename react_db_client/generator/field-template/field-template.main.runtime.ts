@@ -28,25 +28,44 @@ export type { ${context.namePascalCase}Props } from './${context.name}';
               relativePath: `demo-data.js`,
               content: 'export const defaultVal = 0;'
             },
-
-
             // component file
             {
               relativePath: `${context.name}.tsx`,
               content: `import React from 'react';
+import PropTypes from 'prop-types';
 
-export type ${context.namePascalCase}Props = {
-
-  text: string
-};
-
-export function ${context.namePascalCase}({ text }: ${context.namePascalCase}Props) {
+export function ${context.namePascalCase}({
+  uid,
+  unit,
+  defaultValue,
+  updateFormData,
+  value,
+  required,
+}: ${context.namePascalCase}Props) {
   return (
-    <div>
-      {text}
+    <div className="${context.namePascalCase}">
+      {value}
     </div>
   );
-}`,
+};
+
+${context.namePascalCase}.propTypes = {
+  uid: PropTypes.string.isRequired,
+  unit: PropTypes.string,
+  value: PropTypes.number,
+  updateFormData: PropTypes.func.isRequired,
+  required: PropTypes.bool,
+  defaultValue: PropTypes.number,
+};
+
+${context.namePascalCase}.defaultProps = {
+  unit: '',
+  value: 0,
+  required: false,
+  defaultValue: null,
+};
+
+`,
             },
 
             // docs file
@@ -54,7 +73,7 @@ export function ${context.namePascalCase}({ text }: ${context.namePascalCase}Pro
               relativePath: `${context.name}.docs.mdx`,
               content: `---
 description: 'A React Form Field Component for editing <TYPE>.'
-labels: ['form-field]
+labels: ['form-field', '${context.name.replace('form-', '')}']
 ---
 
 import { ${context.namePascalCase} } from './${context.name}';
