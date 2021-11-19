@@ -53,14 +53,15 @@ export const FormDefault = () => {
         additionalData={demoAdditionalData}
         componentMap={{
           demoFieldType: () => DemoFormComponent,
+          text: () => FieldText,
         }}
-        FormField={DemoFormField}
+        FormField={FormField}
       />
     </div>
   );
 };
 
-export const FormWithFormFieldComponent = () => {
+export const FormDefaultCustomFieldComponent = () => {
   return (
     <div className="sectionWrapper">
       <Form
@@ -70,9 +71,8 @@ export const FormWithFormFieldComponent = () => {
         additionalData={demoAdditionalData}
         componentMap={{
           demoFieldType: () => DemoFormComponent,
-          text: () => FieldText,
         }}
-        FormField={FormField}
+        FormField={DemoFormField}
       />
     </div>
   );
