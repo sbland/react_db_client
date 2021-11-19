@@ -17,10 +17,9 @@ export class FieldTemplateMain {
 
             // index file
             {
-              relativePath: 'index.ts',
+              relativePath: 'index.js',
               isMain: true,
               content: `export { ${context.namePascalCase} } from './${context.name}';
-export type { ${context.namePascalCase}Props } from './${context.name}';
 `,
             },
             // demo data file
@@ -30,7 +29,7 @@ export type { ${context.namePascalCase}Props } from './${context.name}';
             },
             // component file
             {
-              relativePath: `${context.name}.tsx`,
+              relativePath: `${context.name}.jsx`,
               content: `import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -41,7 +40,7 @@ export function ${context.namePascalCase}({
   updateFormData,
   value,
   required,
-}: ${context.namePascalCase}Props) {
+}) {
   return (
     <div className="${context.namePascalCase}">
       {value}
