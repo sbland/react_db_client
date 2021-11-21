@@ -1,1 +1,1 @@
-export const defaultVal = 0;
+export const defaultVal = False;

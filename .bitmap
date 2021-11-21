@@ -63,6 +63,12 @@
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-bool"
     },
+    "components/form/form-fields/field-date": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/components/form/form-fields/field-date"
+    },
     "components/form/form-fields/field-number": {
         "scope": "",
         "version": "",
