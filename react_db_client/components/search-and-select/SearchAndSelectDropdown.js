@@ -1,13 +1,15 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { FilterObjectClass, filterTypes, comparisons } from '@samnbuk/react_db_client.constants.client-types';
+import {
+  FilterObjectClass,
+  filterTypes,
+  comparisons,
+} from '@samnbuk/react_db_client.constants.client-types';
 import { useAsyncRequest } from '@samnbuk/react_db_client.async-hooks.use-async-request';
 import { CustomSelectDropdown } from '@samnbuk/react_db_client.components.custom-select-dropdown';
 
+import { LoadingIcon } from './loading-icon';
 import { useSelectionManager } from './logic';
-
-import LoadingIcon from './loading-icon';
-
 
 
 import './_searchAndSelectDropDown.scss';
@@ -18,7 +20,7 @@ import './_searchAndSelectDropDown.scss';
 
  */
 
-const SearchAndSelectDropdown = ({
+export const SearchAndSelectDropdown = ({
   searchFunction,
   handleSelect,
   selectionOverride: intitialValue,
@@ -99,7 +101,14 @@ const SearchAndSelectDropdown = ({
     return () => {
       clearTimeout(searchTimeout.current);
     };
-  }, [searchValue, reload, searchFieldTargetField, allowEmptySearch, isFocused, searchDelay]);
+  }, [
+    searchValue,
+    reload,
+    searchFieldTargetField,
+    allowEmptySearch,
+    isFocused,
+    searchDelay,
+  ]);
 
   const goBackToSearchField = () => searchFieldRef.current.select();
 
@@ -139,7 +148,10 @@ const SearchAndSelectDropdown = ({
     setShowResults(false);
     setIsFocused(false);
     if (allowMultiple) {
-      handleSelect(currentSelection && currentSelection[returnFieldOnSelect], currentSelection);
+      handleSelect(
+        currentSelection && currentSelection[returnFieldOnSelect],
+        currentSelection
+      );
     } else {
       handleSelect(
         currentSelection[0] && currentSelection[0][returnFieldOnSelect],
@@ -179,6 +191,7 @@ const SearchAndSelectDropdown = ({
   const classNames = [className, 'sas_drop_wrap', valid ? '' : 'invalid']
     .filter((a) => a)
     .join(' ');
+
 
   return (
     <div className={classNames}>
@@ -244,8 +257,10 @@ SearchAndSelectDropdown.propTypes = {
   allowMultiple: PropTypes.bool,
   returnFieldOnSelect: PropTypes.string,
   searchFieldTargetField: PropTypes.string,
-  labelField: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)])
-    .isRequired,
+  labelField: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+  ]).isRequired,
   className: PropTypes.string,
   searchFieldPlaceholder: PropTypes.string,
   allowEmptySearch: PropTypes.bool,
@@ -262,5 +277,3 @@ SearchAndSelectDropdown.defaultProps = {
   allowEmptySearch: false,
   searchDelay: 500,
 };
-
-export default SearchAndSelectDropdown;

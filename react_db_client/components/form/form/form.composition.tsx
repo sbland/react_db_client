@@ -1,6 +1,7 @@
 import React from 'react';
 import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
 import { FieldText } from '@samnbuk/react_db_client.components.form.form-fields.field-text';
+import { FieldMultiSelect } from '@samnbuk/react_db_client.components.form.form-fields.field-multi-select';
 
 import { FormField } from './FormField';
 import { Form } from './form';
@@ -43,6 +44,9 @@ const DemoFormComponent = ({
   return <div style={customFieldStyle}>Custom Form Component</div>;
 };
 
+/**
+ * Default form using preset form field component
+ */
 export const FormDefault = () => {
   return (
     <div className="sectionWrapper">
@@ -53,7 +57,8 @@ export const FormDefault = () => {
         additionalData={demoAdditionalData}
         componentMap={{
           demoFieldType: () => DemoFormComponent,
-          text: () => FieldText,
+          [filterTypes.text]: () => FieldText,
+          [filterTypes.selectMulti]: () => FieldMultiSelect,
         }}
         FormField={FormField}
       />

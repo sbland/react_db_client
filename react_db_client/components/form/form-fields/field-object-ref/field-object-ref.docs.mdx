@@ -1,0 +1,19 @@
+---
+description: 'A React Form Field Component for editing <TYPE>.'
+labels: ['form-field', 'field-object-ref']
+---
+
+import { FieldObjectRef } from './field-object-ref';
+
+
+Modify the value to see it change live:
+```js live
+<FieldObjectRef
+  uid="foo"
+  unit="unit"
+  defaultValue={3}
+  updateFormData={() => {}}
+  value={4}
+  required
+/>
+```
