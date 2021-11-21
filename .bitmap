@@ -51,6 +51,18 @@
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form"
     },
+    "components/form/form-components/bubble-selector": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/components/form/form-components/bubble-selector"
+    },
+    "components/form/form-components/multi-select-dropdown": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/components/form/form-components/multi-select-dropdown"
+    },
     "components/form/form-components/toggle-box": {
         "scope": "",
         "version": "",
@@ -68,6 +80,12 @@
         "version": "",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-date"
+    },
+    "components/form/form-fields/field-multi-select": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/components/form/form-fields/field-multi-select"
     },
     "components/form/form-fields/field-number": {
         "scope": "",

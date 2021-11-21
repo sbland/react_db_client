@@ -1,0 +1,24 @@
+@import '@samnbuk/react_db_client.constants.style';
+
+.bubbleSelector_list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+
+  li {
+    margin-right: ($unit * 0.5);
+    margin-bottom: ($unit * 0.1);
+  }
+
+  &.unselected {
+    max-height: ($unit * 8);
+    overflow-y: auto;
+  }
+}
+
+.bubbleSelector_item {
+  button {
+    border-radius: ($unit * 0.2);
+    min-width: ($unit * 4);
+  }
+}
