@@ -20,3 +20,21 @@
     }
   }
 }
+
+.sas_drop_loadingWrap {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+}
+
+.dropdownBtn {
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  bottom: 3px;
+  width: $unit * 1.5;
+  text-align: center;
+  border: none;
+  background: none;
+}

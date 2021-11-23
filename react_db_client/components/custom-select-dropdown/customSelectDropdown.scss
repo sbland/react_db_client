@@ -1,4 +1,3 @@
-
 @import '@samnbuk/react_db_client.constants.style';
 $listItemHeight: $unit * 1.5;
 $minDropdownListWidth: $unit * 8;
@@ -14,6 +13,8 @@ $minDropdownListWidth: $unit * 8;
   display: flex;
   flex-wrap: wrap;
   max-height: 0;
+  margin: 0;
+  padding: 0;
   overflow: auto;
   // margin-right: -8px;
   z-index: 11;

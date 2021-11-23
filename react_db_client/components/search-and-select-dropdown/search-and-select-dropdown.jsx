@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   FilterObjectClass,
@@ -8,83 +8,76 @@ import {
 import { useAsyncRequest } from '@samnbuk/react_db_client.async-hooks.use-async-request';
 import { CustomSelectDropdown } from '@samnbuk/react_db_client.components.custom-select-dropdown';
 
-import { LoadingIcon } from './loading-icon';
-import { useSelectionManager } from './logic';
+import {
+  LoadingIcon,
+} from '@samnbuk/react_db_client.components.search-and-select';
 
+import './style.scss';
 
-import './_searchAndSelectDropDown.scss';
 
 /**
  * Search and Select Dropdown Component
  * Dropdown selection with async data load
 
  */
-
 export const SearchAndSelectDropdown = ({
   searchFunction,
   handleSelect,
   selectionOverride: intitialValue,
-  allowMultiple,
-  returnFieldOnSelect, // the field in the data to return
   searchFieldTargetField, // the target field that the search string applies to
   labelField, // The field in the returned data to use as the label
   className,
   searchFieldPlaceholder,
   allowEmptySearch,
   searchDelay,
+  valid,
 }) => {
   // TODO: Provide default search function
-  // const [activeFilters, setActiveFilters] = useState(initialFilters || []);
-  const [searchValue, setSearchValue] = useState(
-    (intitialValue && intitialValue[searchFieldTargetField]) || ''
-  );
+  const [searchValue, setSearchValue] = useState(() => intitialValue);
   const [isFocused, setIsFocused] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const firstItemRef = useRef(null);
   const searchFieldRef = useRef(null);
   const searchTimeout = useRef(null);
 
-  const callOnInit = allowEmptySearch || intitialValue;
-  const {
-    response: results,
-    reload,
-    loading,
-    // hasLoaded,
-    // error,
-  } = useAsyncRequest({
+  const goBackToSearchField = () => searchFieldRef.current.select();
+  const [results, setResults] = useState([]);
+
+  const searchCallback = useCallback((resultsNew) => setResults(resultsNew), []);
+
+  const { reload, loading } = useAsyncRequest({
     args: [],
     callFn: searchFunction,
-    callOnInit,
+    callOnInit: false,
+    callback: searchCallback,
   });
 
-  useEffect(() => {
-    /* Force Reload if search function changes */
-    if (callOnInit && searchFunction && (searchValue || allowEmptySearch)) {
-      reload([]);
-    }
-  }, [callOnInit, searchFunction, reload, searchValue, allowEmptySearch]);
 
-  const {
-    handleItemSelect,
-    currentSelection,
-    currentSelectionUid,
-    currentSelectionLabels,
-    // selectAll,
-    // clearSelection,
-  } = useSelectionManager({
-    results,
-    returnFieldOnSelect,
-    allowMultiple,
-    selectionOverride: intitialValue,
-    handleSelect,
-    liveUpdate: true,
-  });
+
+  const handleItemSelect = handleSelect;
 
   const onSearchFieldChange = (e) => {
     setSearchValue(e.target.value);
-    setShowResults(true);
+    setResults([]);
+    setShowResults(false);
   };
 
+  useEffect(() => {
+    if (isFocused && !searchValue && !allowEmptySearch) setResults([]);
+  }, [isFocused, searchValue, allowEmptySearch]);
+
+  useEffect(() => {
+    if (isFocused && loading) {
+      setResults([]);
+      setShowResults(false);
+    }
+  }, [isFocused, loading]);
+
+  useEffect(() => {
+    if (isFocused && (searchValue || allowEmptySearch) && results?.length > 0) setShowResults(true);
+  }, [isFocused, searchValue, allowEmptySearch, results]);
+
+  /* Repeat search */
   useEffect(() => {
     if ((searchValue || allowEmptySearch) && isFocused) {
       const searchFilter = new FilterObjectClass({
@@ -101,16 +94,7 @@ export const SearchAndSelectDropdown = ({
     return () => {
       clearTimeout(searchTimeout.current);
     };
-  }, [
-    searchValue,
-    reload,
-    searchFieldTargetField,
-    allowEmptySearch,
-    isFocused,
-    searchDelay,
-  ]);
-
-  const goBackToSearchField = () => searchFieldRef.current.select();
+  }, [searchValue, reload, searchFieldTargetField, allowEmptySearch, isFocused, searchDelay]);
 
   const mappedResults = useMemo(() => {
     if (Array.isArray(labelField)) {
@@ -132,41 +116,25 @@ export const SearchAndSelectDropdown = ({
   const handleListItemSelect = (uid) => {
     if (!loading) {
       handleItemSelect(uid);
+      setIsFocused(false);
       setShowResults(false);
-      if (allowMultiple) {
-        setSearchValue('');
-      } else {
-        setSearchValue(results.find((r) => r.uid === uid)[labelField]);
-      }
       goBackToSearchField();
     }
   };
 
-  const handleBlur = () => {
-    // if (!currentSelection || currentSelection.length === 0) setSearchValue('');
-    // else setSearchValue(currentSelection[0][labelField]);
+  const handleCancel = () => {
     setShowResults(false);
     setIsFocused(false);
-    if (allowMultiple) {
-      handleSelect(
-        currentSelection && currentSelection[returnFieldOnSelect],
-        currentSelection
-      );
-    } else {
-      handleSelect(
-        currentSelection[0] && currentSelection[0][returnFieldOnSelect],
-        currentSelection[0]
-      );
-    }
   };
 
   const handleInputKeyDown = (e) => {
+    /* When in search field */
     if (e.key === 'Enter') {
       e.preventDefault();
       setShowResults(true);
     }
     if (e.key === 'Escape' || e.key === 'Tab') {
-      handleBlur();
+      handleCancel();
     }
     if (e.key === 'ArrowDown') {
       if (mappedResults && mappedResults.length > 0) {
@@ -180,18 +148,9 @@ export const SearchAndSelectDropdown = ({
     }
   };
 
-  const valid = useMemo(
-    () =>
-      currentSelection &&
-      currentSelection.length > 0 &&
-      currentSelection[0][labelField] === searchValue,
-    [currentSelection, searchValue, labelField]
-  );
-
   const classNames = [className, 'sas_drop_wrap', valid ? '' : 'invalid']
     .filter((a) => a)
     .join(' ');
-
 
   return (
     <div className={classNames}>
@@ -204,34 +163,22 @@ export const SearchAndSelectDropdown = ({
           value={searchValue || ''}
           onChange={onSearchFieldChange}
           onFocus={() => setIsFocused(true)}
-          // onBlur={() => handleBlur()}
+          onBlur={() => setIsFocused(false)}
           onKeyDown={handleInputKeyDown}
           ref={searchFieldRef}
         />
-        <button
-          type="button"
-          className="dropdownBtn"
-          onClick={() => setShowResults((prev) => !prev)}
-        >
-          \/
-        </button>
-      </div>
-      <div className="selectedItemsWrap">
-        {allowMultiple &&
-          currentSelectionLabels &&
-          currentSelectionLabels.map((item, i) => (
-            <button
-              type="button"
-              key={item}
-              className="button-one searchSelectedItem"
-              onClick={() => handleListItemSelect(currentSelectionUid[i])}
-            >
-              {item}
-            </button>
-          ))}
-      </div>
-      <div className="">
-        <LoadingIcon isLoading={loading} />
+        {!loading && (
+          <button
+            type="button"
+            className="dropdownBtn"
+            onClick={() => setShowResults((prev) => !prev)}
+          >
+            \/
+          </button>
+        )}
+        <div className="sas_drop_loadingWrap">
+          <LoadingIcon isLoading={loading} />
+        </div>
       </div>
       <CustomSelectDropdown
         options={mappedResults}
@@ -257,10 +204,8 @@ SearchAndSelectDropdown.propTypes = {
   allowMultiple: PropTypes.bool,
   returnFieldOnSelect: PropTypes.string,
   searchFieldTargetField: PropTypes.string,
-  labelField: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(PropTypes.string),
-  ]).isRequired,
+  labelField: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)])
+    .isRequired,
   className: PropTypes.string,
   searchFieldPlaceholder: PropTypes.string,
   allowEmptySearch: PropTypes.bool,

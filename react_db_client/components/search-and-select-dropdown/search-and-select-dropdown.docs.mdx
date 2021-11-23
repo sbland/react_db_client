@@ -1,0 +1,24 @@
+---
+description: 'A SearchAndSelectDropdown component.'
+labels: ['form','input']
+---
+
+import { SearchAndSelectDropdown } from './search-and-select-dropdown';
+import { demoResultData } from './demo-data';
+
+
+## React Component for a searchable dropdown
+
+A select component that is searchable.
+
+### Example
+
+
+```js live
+<SearchAndSelectDropdown
+    searchFunction={async() => demoResultData}
+    handleSelect={() => {}}
+    labelField="label"
+    searchFieldTargetField="label"
+/>
+```

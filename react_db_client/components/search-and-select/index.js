@@ -1,3 +1,4 @@
 export { SearchAndSelect } from './search-and-select';
-export { SearchAndSelectDropdown } from './SearchAndSelectDropdown';
 
+export { useSelectionManager } from './logic';
+export { LoadingIcon } from './loading-icon';
