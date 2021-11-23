@@ -113,9 +113,12 @@ export const SearchAndSelectDropdown = ({
       : [];
   }, [labelField, results]);
 
-  const handleListItemSelect = (uid) => {
+  const handleListItemSelect = (selectedId) => {
     if (!loading) {
-      handleItemSelect(uid);
+      const selectedData = results.find((r) => r.uid == selectedId)
+      console.log(selectedData)
+      handleItemSelect(selectedId, selectedData);
+      setSearchValue(selectedData[labelField]);
       setIsFocused(false);
       setShowResults(false);
       goBackToSearchField();

@@ -9,11 +9,14 @@ import { FieldObjectRef } from './field-object-ref';
 Modify the value to see it change live:
 ```js live
 <FieldObjectRef
-  uid="foo"
-  unit="unit"
-  defaultValue={3}
+  uid="demoid"
+  unit="demounit"
   updateFormData={() => {}}
-  value={4}
-  required
+  value={value}
+  multiple={false}
+  required={false}
+  labelField="name"
+  searchFn={(collection, schema, sortBy) => async (filters) => demoResults}
+  allowEmptySearch
 />
 ```

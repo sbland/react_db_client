@@ -3,7 +3,7 @@ import { shallow, mount } from 'enzyme';
 import { MockReactC } from '../../../Helpers/testing';
 
 import { FieldObjectRef } from './FieldObjectRef';
-import { SearchAndSelectDropdown } from '@samnbuk/react_db_client.components.search-and-select';
+import { SearchAndSelectDropdown } from '@samnbuk/react_db_client.components.search-and-select-dropdown';
 
 jest.mock('../../SearchAndSelect/SearchAndSelectDropdown', () =>
   MockReactC('SearchAndSelectDropdown')
