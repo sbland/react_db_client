@@ -17,7 +17,7 @@ export const DropDownItem = ({ itemRef, uid, label, handleSelect, isSelected, ha
 
 DropDownItem.propTypes = {
   itemRef: PropTypes.func,
-  uid: PropTypes.string.isRequired,
+  uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   label: PropTypes.string.isRequired,
   handleSelect: PropTypes.func.isRequired,
   isSelected: PropTypes.bool,

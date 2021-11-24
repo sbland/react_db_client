@@ -12,6 +12,7 @@ export const CustomSelectDropdown = ({
   firstItemRef,
   goBackToSearchField = () => {},
 }) => {
+  return <div>Hello</div>
   const menuRef = useRef(null);
   const itemRefs = useRef([]);
   const [currentItemFocus, setCurrentItemFocus] = useState(0);
@@ -96,8 +97,8 @@ CustomSelectDropdown.propTypes = {
   handleSelect: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
-      uid: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
+      uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     })
   ).isRequired,
   isOpen: PropTypes.bool.isRequired,

@@ -21,6 +21,7 @@ export const Basic = () => {
       isOpen
       handleClose={() => {}}
       firstItemRef={{ current: {} }}
+      goBackToSearchField={() => {}}
     />
   )
 }

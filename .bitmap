@@ -183,6 +183,12 @@
         "mainFile": "index.js",
         "rootDir": "react_db_client/helpers/data-processing"
     },
+    "helpers/enzyme-setup": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/helpers/enzyme-setup"
+    },
     "helpers/filter-helpers": {
         "scope": "",
         "version": "",
@@ -194,6 +200,12 @@
         "version": "",
         "mainFile": "index.js",
         "rootDir": "react_db_client/helpers/func-tools"
+    },
+    "helpers/testing": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/helpers/testing"
     },
     "pages/welcome": {
         "scope": "",
