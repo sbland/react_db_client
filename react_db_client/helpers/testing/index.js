@@ -2,7 +2,6 @@
 import React from 'react';
 
 export function MockReactC(name, namedExports = [], namedDefinedExports = {}) {
-  console.warn(name)
   function MockedComponent(props) {
     const { children } = props;
     return (

@@ -12,7 +12,6 @@ export const CustomSelectDropdown = ({
   firstItemRef,
   goBackToSearchField = () => {},
 }) => {
-  return <div>Hello</div>
   const menuRef = useRef(null);
   const itemRefs = useRef([]);
   const [currentItemFocus, setCurrentItemFocus] = useState(0);
