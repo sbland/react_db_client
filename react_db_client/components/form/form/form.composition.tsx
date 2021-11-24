@@ -1,6 +1,10 @@
 import React from 'react';
 import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
 import { FieldText } from '@samnbuk/react_db_client.components.form.form-fields.field-text';
+import { FieldBool } from '@samnbuk/react_db_client.components.form.form-fields.field-bool';
+import { FieldDate } from '@samnbuk/react_db_client.components.form.form-fields.field-date';
+import { FieldNumber } from '@samnbuk/react_db_client.components.form.form-fields.field-number';
+import { FieldObjectRef } from '@samnbuk/react_db_client.components.form.form-fields.field-object-ref';
 import { FieldMultiSelect } from '@samnbuk/react_db_client.components.form.form-fields.field-multi-select';
 
 import { FormField } from './FormField';
@@ -8,6 +12,7 @@ import { Form } from './form';
 import { FormInputs } from './FormInputs';
 
 import { demoHeadingsData, demoFormData, demoAdditionalData } from './DemoData';
+
 
 // export const BasicForm = () => (
 //   <Form
@@ -58,7 +63,18 @@ export const FormDefault = () => {
         componentMap={{
           demoFieldType: () => DemoFormComponent,
           [filterTypes.text]: () => FieldText,
+          // [filterTypes.select]: () => FieldSelect,
           [filterTypes.selectMulti]: () => FieldMultiSelect,
+          // [filterTypes.fileMultiple]: () => FieldFile,
+          // [filterTypes.file]: () => FieldFile,
+          // [filterTypes.image]: () => FieldFile,
+          // [filterTypes.textLong]: () => FieldTextArea,
+          [filterTypes.number]: () => FieldNumber,
+          [filterTypes.date]: () => FieldDate,
+          [filterTypes.bool]: () => FieldBool,
+          [filterTypes.toggle]: () => FieldBool,
+          // [filterTypes.selectSearch]: () => FieldSelectSearch,
+          [filterTypes.reference]: () => FieldObjectRef,
         }}
         FormField={FormField}
       />

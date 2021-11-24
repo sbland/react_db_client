@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
+import './style.scss';
+
 export const FieldNumber = ({
   uid,
   unit,
@@ -17,6 +19,7 @@ export const FieldNumber = ({
     <>
       <input
         type="number"
+        className="fieldNumber"
         max={Number(max)}
         min={Number(min)}
         step={Number(step)}

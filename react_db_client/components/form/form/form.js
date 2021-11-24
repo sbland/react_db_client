@@ -5,9 +5,9 @@ import ReactDOM from 'react-dom';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { FormInputs } from './FormInputs';
+import formValidation from './formValidation';
 
 import './_form.scss';
-import formValidation from './formValidation';
 // import Emoji from '../Emoji/Emoji';
 
 /** Generic Form Component that manages updates and layout
