@@ -16,7 +16,7 @@ const demoCallFn = async () => 'DEMO RESPONSE';
  *   - callFn {function} - the async function to call
  *   - cleanupFunc {function} - function to clean up the async call
  *   - callOnInit {bool}(true) - if true then will call the function on component mount
- *   - callback {function} - functino to call when async call returns
+ *   - callback {function} - function to call when async call returns (response, args) => {}
  * }
  * @return {Object} {
  *   - response {any} - the response from the async call

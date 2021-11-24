@@ -1,11 +1,7 @@
 {
   "extends": "./node_modules/@teambit/react/typescript/tsconfig.json",
-  // "include": [],
+  "include": [],
   "exclude": [
     "dist"
-  ],
-  "include": [
-    "react_db_client/column-manager",
-    "react_db_client/form"
   ]
 }
