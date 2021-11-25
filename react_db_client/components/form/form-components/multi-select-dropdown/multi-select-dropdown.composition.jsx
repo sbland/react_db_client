@@ -1,28 +1,6 @@
 import React, { useState } from 'react';
 import { MultiSelectDropdown } from './multi-select-dropdown';
-
-export const demoOptions = [
-  {
-    uid: 'a',
-    label: 'A',
-  },
-  {
-    uid: 'b',
-    label: 'B',
-  },
-  {
-    uid: 'c',
-    label: 'C',
-  },
-  {
-    uid: 'd',
-    label: 'D',
-  },
-  {
-    uid: 'e',
-    label: 'E',
-  },
-];
+import { demoOptions } from './demo-data';
 
 export const BasicMultiSelectDropdown = () => (
   <MultiSelectDropdown

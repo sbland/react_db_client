@@ -1,12 +1,11 @@
+import '@samnbuk/react_db_client.helpers.enzyme-setup';
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import { act } from 'react-dom/test-utils';
 import { MockReactC } from '@samnbuk/react_db_client.helpers.testing';
-import '@samnbuk/react_db_client.helpers.enzyme-setup';
 
 import { CustomSelectDropdown } from './custom-select-dropdown';
 import { DropDownItem } from './drop-down-item';
-import { Basic } from './custom-select-dropdown.composition';
-import { act } from 'react-dom/test-utils';
 
 jest.mock('./drop-down-item', () => MockReactC('DropDownItem', ['DropDownItem']));
 

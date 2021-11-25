@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BubbleSelector Matches Snapshot 1`] = `
+"<div className=\\"bubbleSelector\\">
+  <ul className=\\"bubbleSelector_list\\">
+    <BubbleSelectorItem uid=\\"a\\" label=\\"a\\" handleSelect={[Function: handleSelect]} isSelected={true} />
+    <BubbleSelectorItem uid=\\"b\\" label=\\"b\\" handleSelect={[Function: handleSelect]} isSelected={true} />
+    <BubbleSelectorItem uid=\\"c\\" label=\\"c\\" handleSelect={[Function: handleSelect]} isSelected={false} />
+    <BubbleSelectorItem uid=\\"d\\" label=\\"d\\" handleSelect={[Function: handleSelect]} isSelected={false} />
+  </ul>
+</div>"
+`;

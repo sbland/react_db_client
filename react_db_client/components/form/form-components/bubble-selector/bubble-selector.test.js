@@ -1,6 +1,7 @@
+import '@samnbuk/react_db_client.helpers.enzyme-setup';
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import { BubbleSelector } from './BubbleSelector';
+import { BubbleSelector } from './bubble-selector';
 
 describe('BubbleSelector', () => {
   it('Renders', () => {

@@ -1,8 +1,18 @@
+import '@samnbuk/react_db_client.helpers.enzyme-setup';
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import { MultiSelectDropdown, MultiSelectDropdownItem } from './MultiSelectDropdown';
+import { MultiSelectDropdown, MultiSelectDropdownItem } from './multi-select-dropdown';
+import * as compositions from './multi-select-dropdown.composition';
 
 describe('MultiSelectDropdown', () => {
+  describe('Compositions', () => {
+    Object.entries(compositions).forEach(([name, Composition]) => {
+      test(name, () => {
+        mount(<Composition />);
+      });
+    });
+  });
+
   it('Renders', () => {
     shallow(
       <MultiSelectDropdown
@@ -13,8 +23,8 @@ describe('MultiSelectDropdown', () => {
           { uid: 'c', label: 'c' },
           { uid: 'd', label: 'd' },
         ]}
-        updateActiveSelection={() => { }}
-      />,
+        updateActiveSelection={() => {}}
+      />
     );
   });
   it('Matches Snapshot', () => {
@@ -27,8 +37,8 @@ describe('MultiSelectDropdown', () => {
           { uid: 'c', label: 'c' },
           { uid: 'd', label: 'd' },
         ]}
-        updateActiveSelection={() => { }}
-      />,
+        updateActiveSelection={() => {}}
+      />
     );
     const tree = component.debug();
     expect(tree).toMatchSnapshot();
@@ -45,7 +55,7 @@ describe('MultiSelectDropdown', () => {
           { uid: 'd', label: 'd' },
         ]}
         updateActiveSelection={updateActiveSelection}
-      />,
+      />
     );
     it('highlights selected', () => {
       expect(bubbleSelector.find('.selected').length).toEqual(2);
@@ -79,7 +89,7 @@ describe('MultiSelectDropdown', () => {
           { uid: 'd', label: 'd' },
         ]}
         updateActiveSelection={updateActiveSelection}
-      />,
+      />
     );
     it('allows selections outside of option set', () => {
       expect(bubbleSelector.find('.selected').length).toEqual(3);
@@ -100,7 +110,7 @@ describe('MultiSelectDropdown', () => {
           { uid: 'd', label: 'd' },
         ]}
         updateActiveSelection={updateActiveSelection}
-      />,
+      />
     );
     it('allows selections outside of option set', () => {
       const dropDownBtn = multiSelectDropDown.find('.filterBtn');
