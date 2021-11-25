@@ -2,10 +2,17 @@ import React from 'react';
 import { ToggleBox } from './toggle-box';
 import { ToggleBoxRadioGroup } from './radio-group';
 
+
+const defaultProps = {
+  id:1,
+  onChange: () => {},
+  text: 'Tog',
+}
+
 export const defaultToggleBox = () => {
   return (
     <div className="sectionWrapper">
-      <ToggleBox />
+      <ToggleBox {...defaultProps}/>
     </div>
   );
 };

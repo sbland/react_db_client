@@ -16,7 +16,7 @@ export const FieldBool = ({ uid, label, updateFormData, value, required }) => (
 
 FieldBool.propTypes = {
   uid: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   value: PropTypes.bool,
   updateFormData: PropTypes.func.isRequired,
   required: PropTypes.bool,
@@ -25,4 +25,5 @@ FieldBool.propTypes = {
 FieldBool.defaultProps = {
   value: false,
   required: false,
+  label: null,
 };

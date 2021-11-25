@@ -37,7 +37,7 @@ export const ToggleBox = ({ stateIn, id, text, onChange, width, disabled }) => {
 ToggleBox.propTypes = {
   stateIn: PropTypes.bool,
   text: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   width: PropTypes.string,
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   disabled: PropTypes.bool,
@@ -48,6 +48,7 @@ ToggleBox.defaultProps = {
   stateIn: false,
   width: '100%',
   disabled: false,
+  onChange: () => {
+    throw Error('onChange not set!');
+  },
 };
-
-
