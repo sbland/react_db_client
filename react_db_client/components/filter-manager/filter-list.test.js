@@ -7,11 +7,11 @@ import { mount } from 'enzyme';
 import {
     comparisons,
     FilterObjectClass,
+    filterTypes,
   } from '@samnbuk/react_db_client.constants.client-types';
 
 import { FiltersList } from './FiltersList';
 import { demoFiltersData, demoFieldsData } from './demoData';
-import { filterTypes } from '@samnbuk/react_db_client.constants.client-types/dist/filter-types';
 
 
 const deleteFilter = jest.fn();

@@ -4,7 +4,7 @@ import { FilterObjectClass } from '@samnbuk/react_db_client.constants.client-typ
 import { useAutoHidePanel } from '@samnbuk/react_db_client.components.auto-hide-panel-hook';
 
 import { FiltersList } from './FiltersList';
-import AddFilterButton from './add-filter-button';
+import { AddFilterButton } from './add-filter-button';
 import './_filterManager.scss';
 
 /**

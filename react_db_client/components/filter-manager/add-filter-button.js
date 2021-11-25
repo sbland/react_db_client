@@ -51,5 +51,3 @@ AddFilterButton.propTypes = {
 AddFilterButton.defaultProps = {
   customFilters: {},
 };
-
-export default AddFilterButton;
