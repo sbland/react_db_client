@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FilterObjectClass } from '@samnbuk/react_db_client.constants.client-types';
 import { useAutoHidePanel } from '@samnbuk/react_db_client.components.auto-hide-panel-hook';
 
-import FiltersList from './FiltersList';
+import { FiltersList } from './FiltersList';
 import AddFilterButton from './add-filter-button';
 import './_filterManager.scss';
 
@@ -45,8 +45,7 @@ export const FilterPanel = ({
     }
   }, [filterData, autoOpenPanel, setShowPanel]);
 
-  const panelClassName = ['filterManager_panel', floating ? 'floating' : ''].join(' ');
-
+  const panelClassName = ['filterPanel_panel', floating ? 'floating' : ''].join(' ');
   return (
     <div className="filterManager">
       <button

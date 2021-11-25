@@ -1,13 +1,14 @@
+import '@samnbuk/react_db_client.helpers.enzyme-setup';
 import React from 'react';
 // import renderer from 'react-test-renderer';
 import { shallow, mount } from 'enzyme';
 import cloneDeep from 'lodash/cloneDeep';
 
 import {
-    comparisons,
-    FilterObjectClass,
-    filterTypes,
- } from '@samnbuk/react_db_client.constants.client-types';
+  comparisons,
+  FilterObjectClass,
+  filterTypes,
+} from '@samnbuk/react_db_client.constants.client-types';
 
 
 import { AddFilterButton } from './add-filter-button';
@@ -70,16 +71,11 @@ describe('FilterPanel', () => {
       });
       it('Shows a filter for each filter item', () => {
         const filterCount = demoFiltersCopy.length;
-        expect(filterList.find('.filterPanel_filterItem').length).toEqual(
-          filterCount
-        );
+        expect(filterList.find('.filterPanel_filterItem').length).toEqual(filterCount);
       });
 
       it('Entering text into a string filter will update the value in the filter data', () => {
-        const filterInput = filterList
-          .find(FilterString)
-          .first()
-          .find('.filterInput');
+        const filterInput = filterList.find(FilterString).first().find('.filterInput');
         const newVal = 'efg';
         filterInput.simulate('change', { target: { value: newVal } });
         // expect(activeFilterData.demoFilterString.value).toEqual(newVal);
@@ -89,22 +85,15 @@ describe('FilterPanel', () => {
       });
 
       it('Entering text into a number filter will update the value in the filter data', () => {
-        const filterInput = filterList
-          .find(FilterNumber)
-          .first()
-          .find('.filterInput');
+        const filterInput = filterList.find(FilterNumber).first().find('.filterInput');
         const newVal = 3;
         filterInput.simulate('change', { target: { value: newVal } });
         const newFilterData = demoFiltersCopy;
         newFilterData[1].value = newVal;
         expect(updateFilter).toHaveBeenCalledWith(1, newFilterData[1]);
       });
-      ('');
       it('Changing the filter operator dropdown updates the operator', () => {
-        const filterSelect = filterList
-          .find(FilterNumber)
-          .first()
-          .find('.filterOperatorSelect');
+        const filterSelect = filterList.find(FilterNumber).first().find('.filterOperatorSelect');
         const newOperator = comparisons.equals;
         filterSelect.simulate('change', { target: { value: newOperator } });
         const newFilterData = demoFiltersCopy;
@@ -116,9 +105,7 @@ describe('FilterPanel', () => {
         const filterNumber = filterList
           .find('.filterPanel_filterItem')
           .filter({ id: 'demoFilterNumber' });
-        const fieldDropdown = filterNumber.find(
-          '.filterItem_filterFieldSelect'
-        );
+        const fieldDropdown = filterNumber.find('.filterItem_filterFieldSelect');
         expect(fieldDropdown.props().value).toEqual('count');
       });
     });
@@ -166,9 +153,7 @@ describe('FilterPanel', () => {
         filterPanel.setProps({ filterData });
         const filterList = filterPanel.find(FiltersList);
         expect(filterList.props().filterData).toEqual(filterData);
-        let filterFieldSelect = filterList
-          .find('.filterItem_filterFieldSelect')
-          .first();
+        let filterFieldSelect = filterList.find('.filterItem_filterFieldSelect').first();
         filterFieldSelect.simulate('change', { target: { value: 'filterB' } });
         filterPanel.update();
         const updatedFilterData = [
@@ -184,9 +169,7 @@ describe('FilterPanel', () => {
         ];
         expect(updateFilter).toHaveBeenCalledWith(0, updatedFilterData[0]);
         filterPanel.setProps({ filterData: updatedFilterData });
-        filterFieldSelect = filterPanel
-          .find('.filterItem_filterFieldSelect')
-          .first();
+        filterFieldSelect = filterPanel.find('.filterItem_filterFieldSelect').first();
         expect(filterFieldSelect.props().value).toEqual('filterB');
       });
     });
@@ -218,20 +201,14 @@ describe('FilterPanel', () => {
         });
 
         component = mount(
-          <FilterPanel
-            {...defaultProps}
-            filterData={filterData}
-            fieldsData={fieldsData}
-          />
+          <FilterPanel {...defaultProps} filterData={filterData} fieldsData={fieldsData} />
         );
       });
 
       // TODO: Fix these tests
       test('Contains filter for all filter types', () => {
         const filterCount = filterData.length;
-        expect(component.find('.filterPanel_filterItem').length).toEqual(
-          filterCount
-        );
+        expect(component.find('.filterPanel_filterItem').length).toEqual(filterCount);
         expect(component.find('.invalidFilter').length).toEqual(0);
       });
     });
@@ -253,6 +230,7 @@ describe('FilterPanel', () => {
         expect(deleteFilter).toHaveBeenCalledWith(0);
       });
     });
+
     describe('Add Filter', () => {
       filterPanel = mount(<FilterPanel {...defaultProps} />);
       test('Add filter on add btn press', () => {
@@ -267,104 +245,7 @@ describe('FilterPanel', () => {
       });
     });
   });
-  describe('Add Filter Button Component', () => {
-    test('should render', () => {
-      shallow(
-        <AddFilterButton
-          fieldsData={demoFieldsData}
-          returnNewFilter={() => {}}
-        />
-      );
-    });
-    test('should match snapshot', () => {
-      const returnNewFilterFn = jest.fn();
-      const component = shallow(
-        <AddFilterButton
-          fieldsData={demoFieldsData}
-          returnNewFilter={returnNewFilterFn}
-        />
-      );
-      const tree = component.debug();
-      expect(tree).toMatchSnapshot();
-    });
-    test('should return a new filter when we click add filter btn', () => {
-      const returnNewFilterFn = jest.fn();
-      const component = mount(
-        <AddFilterButton
-          fieldsData={demoFieldsData}
-          returnNewFilter={returnNewFilterFn}
-        />
-      );
-      const addBtn = component.find('button');
-      addBtn.simulate('click');
-      expect(returnNewFilterFn).toHaveBeenCalled();
-      expect(returnNewFilterFn.mock.calls[0] instanceof FilterObjectClass);
-      expect(returnNewFilterFn).toHaveBeenCalledWith(
-        new FilterObjectClass({
-          field: 'name',
-          label: 'Name',
-          value: '',
-          operator: comparisons.contains,
-          type: filterTypes.text,
-          uid: expect.any(String),
-          filterOptionId: 'name',
-        })
-      );
-    });
-  });
-  describe('Filter List', () => {
-    let component;
-    let hiddenField;
-    beforeEach(() => {
-      updateFilter.mockClear();
-      hiddenField = {
-        uid: 'hiddenField',
-        noFilter: true,
-        label: 'Hidden Field',
-        type: filterTypes.bool,
-      };
-      const FiltersListDefaultProps = {
-        filterData: [...demoFiltersData],
-        deleteFilter,
-        updateFilter,
-        fieldsData: { ...demoFieldsData, hiddenField },
-        customFilters: {},
-      };
-      component = mount(<FiltersList {...FiltersListDefaultProps} />);
-    });
-    test('should hide filters that have the no filter prop', () => {
-      const firstItem = component.find('.filterPanel_filterItem').first();
-      const selectFilter = firstItem.find('.filterItem_filterFieldSelect');
-      const options = selectFilter.children().map((c) => c.props().value);
-      expect(
-        options.indexOf(Object.values(demoFieldsData)[0].uid)
-      ).toBeGreaterThan(-1);
-      expect(options.indexOf(hiddenField.uid)).toEqual(-1);
-    });
-    test('should update filter correctly', () => {
-      const newFilterField = demoFieldsData.count;
 
-      const updateFilterSelect = component
-        .find('.filterItem_filterFieldSelect')
-        .first();
-      updateFilterSelect.simulate('change', {
-        target: { value: newFilterField.uid },
-      });
-      component.update();
-      expect(updateFilter).toHaveBeenCalledWith(
-        0,
-        new FilterObjectClass({
-          field: newFilterField.uid,
-          type: newFilterField.type,
-          label: newFilterField.label,
-          operator: comparisons.equals,
-          filterOptionId: newFilterField.uid,
-          value: 0,
-          uid: expect.any(String),
-        })
-      );
-    });
-  });
   describe('updating filters', () => {
     //
   });
@@ -375,11 +256,7 @@ describe('FilterPanel', () => {
     const customFiltersComponents = { customFilter: CustomFilterComponent };
     const fieldsData = {
       ...demoFieldsData,
-      customField: {
-        uid: 'customField',
-        type: 'customFilter',
-        label: 'Custom field',
-      },
+      customField: { uid: 'customField', type: 'customFilter', label: 'Custom field' },
     };
     let filterPanel;
     beforeEach(() => {
@@ -400,17 +277,11 @@ describe('FilterPanel', () => {
     test('should pass custom filters to filter list component', () => {
       const filterList = filterPanel.find(FiltersList);
       expect(filterList.props().customFilters).toEqual(customFilters);
-      expect(filterList.props().customFiltersComponents).toEqual(
-        customFiltersComponents
-      );
+      expect(filterList.props().customFiltersComponents).toEqual(customFiltersComponents);
     });
     test('should be able to call update filter with custom filter', () => {
-      const filterFieldSelect = filterPanel
-        .find('.filterItem_filterFieldSelect')
-        .first();
-      filterFieldSelect.simulate('change', {
-        target: { value: 'customField' },
-      });
+      const filterFieldSelect = filterPanel.find('.filterItem_filterFieldSelect').first();
+      filterFieldSelect.simulate('change', { target: { value: 'customField' } });
       expect(updateFilter).toHaveBeenCalledWith(
         0,
         new FilterObjectClass({

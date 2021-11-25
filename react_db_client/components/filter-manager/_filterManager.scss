@@ -1,10 +1,10 @@
 @import '@samnbuk/react_db_client.constants.style';
 
-.filterManager {
+.filterPanel {
   // position: relative;
 }
 
-.filterManager_panel {
+.filterPanel_panel {
   /* Turned all these off as panel now just sits in section */
   // position: absolute;
   // background: $white-off;
@@ -28,11 +28,11 @@
   }
 }
 
-.filterManager_filterList {
+.filterPanel_filterList {
   list-style: none;
 }
 
-.filterManager_filterItem {
+.filterPanel_filterItem {
   margin-bottom: $unit;
   justify-content: stretch;
   display: flex;

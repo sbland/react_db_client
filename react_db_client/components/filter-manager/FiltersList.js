@@ -40,7 +40,7 @@ const updateFieldTarget = (
 };
 
 // Map the filters to UI
-const FiltersList = ({
+export const FiltersList = ({
   filterData,
   deleteFilter,
   updateFilter,
@@ -114,7 +114,7 @@ const FiltersList = ({
 
       return (
         <li
-          className="filterManager_filterItem"
+          className="filterPanel_filterItem"
           key={filter.uid}
           id={filter.uid}
         >
@@ -146,7 +146,7 @@ const FiltersList = ({
       );
     });
   return (
-    <ul className="filterManager_filterList">
+    <ul className="filterPanel_filterList">
       {mapFilters || 'Invalid Filter Data'}
       {filterData && filterData.length === 0 && 'No filters'}
     </ul>
@@ -180,5 +180,3 @@ FiltersList.defaultProps = {
   customFilters: {},
   customFiltersComponents: {},
 };
-
-export default FiltersList;

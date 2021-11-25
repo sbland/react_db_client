@@ -1,21 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FilterManager Add Filter Button Component should match snapshot 1`] = `
+exports[`FilterPanel Add Filter Button Component should match snapshot 1`] = `
 "<button type=\\"button\\" className=\\"button-two addFilterBtn\\" onClick={[Function: handleNewFilter]}>
   Add Filter
 </button>"
 `;
 
-exports[`FilterManager Matches Snapshot 1`] = `
-"<FilterPanel filterData={{...}} addFilter={[Function: mockConstructor]} deleteFilter={[Function: mockConstructor]} updateFilter={[Function: mockConstructor]} clearFilters={[Function: mockConstructor]} showPanelOverride={true} fieldsData={{...}} floating={false} autoOpenPanel={false} customFilters={{...}} customFiltersComponents={{...}}>
+exports[`FilterPanel Matches Snapshot 1`] = `
+"<FilterPanel filterData={{...}} addFilter={[Function: mockConstructor] { _isMockFunction: true, getMockImplementation: [Function (anonymous)], mock: Object [Object: null prototype] { calls: [], instances: [], invocationCallOrder: [], results: [] }, mockClear: [Function (anonymous)], mockReset: [Function (anonymous)], mockRestore: [Function (anonymous)], mockReturnValueOnce: [Function (anonymous)], mockResolvedValueOnce: [Function (anonymous)], mockRejectedValueOnce: [Function (anonymous)], mockReturnValue: [Function (anonymous)], mockResolvedValue: [Function (anonymous)], mockRejectedValue: [Function (anonymous)], mockImplementationOnce: [Function (anonymous)], mockImplementation: [Function (anonymous)], mockReturnThis: [Function (anonymous)], mockName: [Function (anonymous)], getMockName: [Function (anonymous)] }} deleteFilter={[Function: mockConstructor] { _isMockFunction: true, getMockImplementation: [Function (anonymous)], mock: Object [Object: null prototype] { calls: [], instances: [], invocationCallOrder: [], results: [] }, mockClear: [Function (anonymous)], mockReset: [Function (anonymous)], mockRestore: [Function (anonymous)], mockReturnValueOnce: [Function (anonymous)], mockResolvedValueOnce: [Function (anonymous)], mockRejectedValueOnce: [Function (anonymous)], mockReturnValue: [Function (anonymous)], mockResolvedValue: [Function (anonymous)], mockRejectedValue: [Function (anonymous)], mockImplementationOnce: [Function (anonymous)], mockImplementation: [Function (anonymous)], mockReturnThis: [Function (anonymous)], mockName: [Function (anonymous)], getMockName: [Function (anonymous)] }} updateFilter={[Function: mockConstructor] { _isMockFunction: true, getMockImplementation: [Function (anonymous)], mock: Object [Object: null prototype] { calls: [], instances: [], invocationCallOrder: [], results: [] }, mockClear: [Function (anonymous)], mockReset: [Function (anonymous)], mockRestore: [Function (anonymous)], mockReturnValueOnce: [Function (anonymous)], mockResolvedValueOnce: [Function (anonymous)], mockRejectedValueOnce: [Function (anonymous)], mockReturnValue: [Function (anonymous)], mockResolvedValue: [Function (anonymous)], mockRejectedValue: [Function (anonymous)], mockImplementationOnce: [Function (anonymous)], mockImplementation: [Function (anonymous)], mockReturnThis: [Function (anonymous)], mockName: [Function (anonymous)], getMockName: [Function (anonymous)] }} clearFilters={[Function: mockConstructor] { _isMockFunction: true, getMockImplementation: [Function (anonymous)], mock: Object [Object: null prototype] { calls: [], instances: [], invocationCallOrder: [], results: [] }, mockClear: [Function (anonymous)], mockReset: [Function (anonymous)], mockRestore: [Function (anonymous)], mockReturnValueOnce: [Function (anonymous)], mockResolvedValueOnce: [Function (anonymous)], mockRejectedValueOnce: [Function (anonymous)], mockReturnValue: [Function (anonymous)], mockResolvedValue: [Function (anonymous)], mockRejectedValue: [Function (anonymous)], mockImplementationOnce: [Function (anonymous)], mockImplementation: [Function (anonymous)], mockReturnThis: [Function (anonymous)], mockName: [Function (anonymous)], getMockName: [Function (anonymous)] }} showPanelOverride={true} fieldsData={{...}} floating={false} autoOpenPanel={false} customFilters={{...}} customFiltersComponents={{...}}>
   <div className=\\"filterManager\\">
     <button type=\\"button\\" className=\\"button-one openFiltersButton\\" onClick={[Function: onClick]}>
       Filters
     </button>
-    <div className=\\"filterManager_panel \\" style={{...}}>
+    <div className=\\"filterPanel_panel \\" style={{...}}>
       <FiltersList filterData={{...}} deleteFilter={[Function: deleteFilter]} updateFilter={[Function: updateFilter]} fieldsData={{...}} customFilters={{...}} customFiltersComponents={{...}}>
-        <ul className=\\"filterManager_filterList\\">
-          <li className=\\"filterManager_filterItem\\" id=\\"demoFilterString\\">
+        <ul className=\\"filterPanel_filterList\\">
+          <li className=\\"filterPanel_filterItem\\" id=\\"demoFilterString\\">
             <button type=\\"button\\" className=\\"button-one deleteFilterBtn\\" onClick={[Function: onClick]}>
               X
             </button>
@@ -54,7 +54,7 @@ exports[`FilterManager Matches Snapshot 1`] = `
               <input type=\\"text\\" className=\\"filterInput\\" value=\\"Foo\\" onChange={[Function: updateValue]} disabled={false} />
             </FilterString>
           </li>
-          <li className=\\"filterManager_filterItem\\" id=\\"demoFilterNumber\\">
+          <li className=\\"filterPanel_filterItem\\" id=\\"demoFilterNumber\\">
             <button type=\\"button\\" className=\\"button-one deleteFilterBtn\\" onClick={[Function: onClick]}>
               X
             </button>
@@ -93,7 +93,7 @@ exports[`FilterManager Matches Snapshot 1`] = `
               <input className=\\"filterInput\\" type=\\"number\\" value={0} onChange={[Function: updateValue]} />
             </FilterNumber>
           </li>
-          <li className=\\"filterManager_filterItem\\" id=\\"demoFilterExpression\\">
+          <li className=\\"filterPanel_filterItem\\" id=\\"demoFilterExpression\\">
             <button type=\\"button\\" className=\\"button-one deleteFilterBtn\\" onClick={[Function: onClick]}>
               X
             </button>
