@@ -6,15 +6,6 @@ import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composi
 import { SearchAndSelectDropdown } from './search-and-select-dropdown';
 import { demoResultData } from './demo-data';
 
-const LiveUpdateBtn = ({ liveUpdate, setLiveUpdate }) => (
-  <button
-    type="button"
-    className={liveUpdate ? 'button-two' : 'button-one'}
-    onClick={() => setLiveUpdate(!liveUpdate)}
-  >
-    Live Update
-  </button>
-);
 
 const defaultProps = {
   searchFunction: async () =>
@@ -47,7 +38,7 @@ export const DemoData = () => {
           value={searchDelay}
         />
       </div>
-      <CompositionWrapDefault height="4rem" width="4rem">
+      <CompositionWrapDefault height="4rem" width="8rem">
         <SearchAndSelectDropdown {...props} />
       </CompositionWrapDefault>
     </div>

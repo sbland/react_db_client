@@ -1,5 +1,17 @@
 @import '@samnbuk/react_db_client.constants.style';
 
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// @keyframes twist-up {
+//   to {
+//     transform: rotateX(360deg);
+//   }
+// }
+
 .searchFieldWrap {
   display: flex;
   min-height: $core_line-height;
@@ -7,12 +19,23 @@
   position: relative;
 }
 
+
 .sas_drop_wrap {
   width: 100%;
   position: relative;
   .loadingIcon {
     position: absolute;
-    top: 0;
+    top: 3px;
+    right: 3px;
+    line-height: 1rem;
+    animation: spin 1s infinite linear;
+    width: 1.5rem;
+    font-size: 1rem;
+    // display: block;
+    display: block;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 400;
   }
   &.invalid {
     .searchField {

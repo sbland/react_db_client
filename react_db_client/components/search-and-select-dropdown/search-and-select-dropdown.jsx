@@ -8,12 +8,9 @@ import {
 import { useAsyncRequest } from '@samnbuk/react_db_client.async-hooks.use-async-request';
 import { CustomSelectDropdown } from '@samnbuk/react_db_client.components.custom-select-dropdown';
 
-import {
-  LoadingIcon,
-} from '@samnbuk/react_db_client.components.search-and-select';
+import { LoadingIcon } from './loading-icon';
 
 import './style.scss';
-
 
 /**
  * Search and Select Dropdown Component
@@ -23,7 +20,7 @@ import './style.scss';
 export const SearchAndSelectDropdown = ({
   searchFunction,
   handleSelect,
-  selectionOverride: intitialValue,
+  intitialValue,
   searchFieldTargetField, // the target field that the search string applies to
   labelField, // The field in the returned data to use as the label
   className,
@@ -35,6 +32,7 @@ export const SearchAndSelectDropdown = ({
   // TODO: Provide default search function
   const [searchValue, setSearchValue] = useState(() => intitialValue);
   const [isFocused, setIsFocused] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const firstItemRef = useRef(null);
   const searchFieldRef = useRef(null);
@@ -43,16 +41,17 @@ export const SearchAndSelectDropdown = ({
   const goBackToSearchField = () => searchFieldRef.current.select();
   const [results, setResults] = useState([]);
 
-  const searchCallback = useCallback((resultsNew) => setResults(resultsNew), []);
+  const searchCallback = useCallback((resultsNew) => {
+    setResults(resultsNew);
+    setLoading(false);
+  }, []);
 
-  const { reload, loading } = useAsyncRequest({
+  const { reload } = useAsyncRequest({
     args: [],
     callFn: searchFunction,
     callOnInit: false,
     callback: searchCallback,
   });
-
-
 
   const handleItemSelect = handleSelect;
 
@@ -60,13 +59,16 @@ export const SearchAndSelectDropdown = ({
     setSearchValue(e.target.value);
     setResults([]);
     setShowResults(false);
+    setLoading(true);
   };
 
   useEffect(() => {
+    /* Set results to [] if we invalid search value */
     if (isFocused && !searchValue && !allowEmptySearch) setResults([]);
   }, [isFocused, searchValue, allowEmptySearch]);
 
   useEffect(() => {
+    /* Set results to [] if loading */
     if (isFocused && loading) {
       setResults([]);
       setShowResults(false);
@@ -74,11 +76,12 @@ export const SearchAndSelectDropdown = ({
   }, [isFocused, loading]);
 
   useEffect(() => {
+    /* Show results if focused */
     if (isFocused && (searchValue || allowEmptySearch) && results?.length > 0) setShowResults(true);
   }, [isFocused, searchValue, allowEmptySearch, results]);
 
-  /* Repeat search */
   useEffect(() => {
+    /* Repeat search */
     if ((searchValue || allowEmptySearch) && isFocused) {
       const searchFilter = new FilterObjectClass({
         uid: 'search',
@@ -115,8 +118,7 @@ export const SearchAndSelectDropdown = ({
 
   const handleListItemSelect = (selectedId) => {
     if (!loading) {
-      const selectedData = results.find((r) => r.uid == selectedId)
-      console.log(selectedData)
+      const selectedData = results.find((r) => r.uid == selectedId);
       handleItemSelect(selectedId, selectedData);
       setSearchValue(selectedData[labelField]);
       setIsFocused(false);
@@ -129,6 +131,11 @@ export const SearchAndSelectDropdown = ({
     setShowResults(false);
     setIsFocused(false);
   };
+
+  const handleEnterSearchField = useCallback(() => {
+    setIsFocused(true);
+    // if(searchValue || allowEmptySearch) setLoadin
+  }, []);
 
   const handleInputKeyDown = (e) => {
     /* When in search field */
@@ -154,7 +161,6 @@ export const SearchAndSelectDropdown = ({
   const classNames = [className, 'sas_drop_wrap', valid ? '' : 'invalid']
     .filter((a) => a)
     .join(' ');
-
   return (
     <div className={classNames}>
       <div className="searchFieldWrap">
@@ -165,7 +171,7 @@ export const SearchAndSelectDropdown = ({
           placeholder={searchFieldPlaceholder}
           value={searchValue || ''}
           onChange={onSearchFieldChange}
-          onFocus={() => setIsFocused(true)}
+          onFocus={handleEnterSearchField}
           onBlur={() => setIsFocused(false)}
           onKeyDown={handleInputKeyDown}
           ref={searchFieldRef}
