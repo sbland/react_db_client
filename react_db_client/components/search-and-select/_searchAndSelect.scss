@@ -1,9 +1,5 @@
 @import '@samnbuk/react_db_client.constants.style';
 
-.searchAndSelect {
-  // border: 1px $grey-10 solid;
-}
-
 .searchAndSelect_filterList {
   list-style: none;
 }
@@ -22,7 +18,7 @@
   position: relative;
 }
 
-.loadingWrap {
+.sas_loadingWrap {
   position: absolute;
   left: 0;
   right: 0;
@@ -50,7 +46,6 @@
     pointer-events: none;
   }
 }
-
 
 .selectionPreview_listWrap {
   border-radius: 3px;

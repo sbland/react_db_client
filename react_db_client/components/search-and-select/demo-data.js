@@ -1,90 +1,65 @@
-import {
-  comparisons,
-  filterTypes,
-  FilterObjectClass,
-} from '@samnbuk/react_db_client.constants.client-types';
-
-export const demoFilterString = new FilterObjectClass({
-  uid: 'demoFilterString',
-  field: 'name',
-  value: 'Foo',
-  operator: comparisons.contains,
-  type: filterTypes.text,
-});
-export const demoFilterNumber = new FilterObjectClass({
-  uid: 'demoFilterNumber',
-  field: 'count',
-  value: 0,
-  operator: comparisons.greaterThan,
-  type: filterTypes.number,
-});
-// export const demoFilterExpression = new FilterObjectClass({
-//   uid: 'demoFilterExpression',
-//   field: 'expression',
-//   value: 0,
-//   operator: '>',
-// });
-
-export const demoFilterSelect = new FilterObjectClass({
-  uid: 'demoFilterExpression',
-  field: 'select',
-  value: 'a',
-  operator: comparisons.contains,
-  type: filterTypes.select,
-});
-
-export const demoFieldsData = {
-  name: {
+export const demoHeadingsData = [
+  {
+    type: 'text',
+    uid: 'uid',
+    label: 'UID',
+  },
+  {
+    type: 'text',
+    uid: 'type',
+    label: 'Type',
+  },
+  {
+    type: 'text',
     uid: 'name',
     label: 'Name',
-    type: filterTypes.text,
   },
-  count: {
-    uid: 'count',
-    label: 'Count',
-    type: filterTypes.number,
-  },
-  filterA: {
-    uid: 'filterA',
-    label: 'filter A',
-    type: filterTypes.text,
-  },
-  filterB: {
-    uid: 'filterB',
-    label: 'filter B',
-    type: filterTypes.text,
-  },
-  select: {
-    uid: 'select',
-    label: 'Select',
-    type: filterTypes.select,
-    options: [
-      { uid: 'a', label: 'A' },
-      { uid: 'b', label: 'B' },
-    ],
-  },
-  filterEmbedded: {
-    uid: 'filterEmbedded',
-    label: 'Embedded Filter',
-    type: filterTypes.embedded,
-    filters: {
-      filterC: {
-        uid: 'filterC',
-        label: 'filter C',
-        type: filterTypes.text,
-      },
-      filterD: {
-        uid: 'filterD',
-        label: 'filter D',
-        type: filterTypes.text,
-      },
-    },
-  },
-};
-
-export const demoFiltersData = [
-  demoFilterString,
-  demoFilterNumber,
-  // demoFilterExpression,
-  demoFilterSelect,
 ];
+
+export const demoPreviewHeadingsData = [
+  {
+    type: 'text',
+    uid: 'uid',
+    label: 'UID',
+  },
+  {
+    type: 'text',
+    uid: 'type',
+    label: 'Type',
+  },
+  {
+    type: 'text',
+    uid: 'name',
+    label: 'Name',
+  },
+  {
+    type: 'textLong',
+    uid: 'description',
+    label: 'Description',
+  },
+];
+
+export const demoResultData = [
+  {
+    uid: '1',
+    label: 'Result 1',
+    type: 'text',
+    name: 'This thing 1',
+  },
+  {
+    uid: '2',
+    label: 'Result 2',
+    type: 'text',
+    name: 'This thing 2',
+  },
+  {
+    uid: '3',
+    label: 'Result 3',
+    type: 'text',
+    name: 'This thing 3',
+  },
+];
+
+export const demoResultsDataMany = Array.from(Array(30).keys()).map(
+  (i) => demoResultData[i % demoResultData.length]
+);

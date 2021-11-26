@@ -1,22 +1,14 @@
 ---
 description: 'A SearchAndSelect component.'
-labels: ['label1', 'label2', 'label3']
+labels: ['data', 'list', 'selectable', 'ui']
 ---
 
 import { SearchAndSelect } from './search-and-select';
+import { CompDemoData } from './search-and-select.composition'
 
-## React Component for rendering text
+## React Component for rendering a searchable list
 
-A basic div that renders some text
-
-### Component usage
-```js
-<SearchAndSelect text="hello from SearchAndSelect" />
-```
-
-### Using props to customize the text
-
-Modify the text to see it change live:
+Turn on `Live Update` to see results.
 ```js live
-<SearchAndSelect text="hello from SearchAndSelect" />
+<CompDemoData />
 ```

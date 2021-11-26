@@ -37,136 +37,130 @@ const defaultProps = {
   debug: true,
 };
 
-
-
-  export const DemoData = () => {
-    const [liveUpdate, setLiveUpdate] = useState(false);
-    const props = { ...defaultProps, autoUpdate: liveUpdate };
-    return (
-      <div>
-        <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
-        <SearchAndSelect {...props} />
-      </div>
-    );
+export const CompDemoData = () => {
+  const [liveUpdate, setLiveUpdate] = useState(false);
+  const props = { ...defaultProps, autoUpdate: liveUpdate };
+  return (
+    <div>
+      <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
+      <SearchAndSelect {...props} />
+    </div>
+  );
+};
+export const SearchField = () => {
+  const [liveUpdate, setLiveUpdate] = useState(false);
+  const props = {
+    ...defaultProps,
+    autoUpdate: liveUpdate,
+    showSearchField: true,
+    searchFieldTargetField: 'name',
   };
-  export const SearchField = () => {
-    const [liveUpdate, setLiveUpdate] = useState(false);
-    const props = {
-      ...defaultProps,
-      autoUpdate: liveUpdate,
-      showSearchField: true,
-      searchFieldTargetField: 'name',
-    };
-    return (
-      <div>
-        <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
-        <SearchAndSelect {...props} />
-      </div>
-    );
+  return (
+    <div>
+      <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
+      <SearchAndSelect {...props} />
+    </div>
+  );
+};
+export const DemoDataMulti = () => {
+  const [liveUpdate, setLiveUpdate] = useState(false);
+  const props = {
+    ...defaultProps,
+    autoUpdate: liveUpdate,
+    allowMultiple: true,
   };
-  export const DemoDataMulti = () => {
-    const [liveUpdate, setLiveUpdate] = useState(false);
-    const props = {
-      ...defaultProps,
-      autoUpdate: liveUpdate,
-      allowMultiple: true,
-    };
-    return (
-      <div>
-        <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
-        <SearchAndSelect {...props} />
-      </div>
-    );
+  return (
+    <div>
+      <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
+      <SearchAndSelect {...props} />
+    </div>
+  );
+};
+export const DemoDataMultiAutoupdate = () => {
+  const [liveUpdate, setLiveUpdate] = useState(false);
+  const [selection, setSelection] = useState(null);
+  const props = {
+    ...defaultProps,
+    autoUpdate: liveUpdate,
+    allowMultiple: true,
   };
-  export const DemoDataMultiAutoupdate = () => {
-    const [liveUpdate, setLiveUpdate] = useState(false);
-    const [selection, setSelection] = useState(null);
-    const props = {
-      ...defaultProps,
-      autoUpdate: liveUpdate,
-      allowMultiple: true,
-    };
-    return (
-      <div>
-        <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
-        <SearchAndSelect
-          {...props}
-          handleSelect={(uids, data) => setSelection(uids)}
-          liveUpdate
-          allowMultiple
-        />
-        <button type="button" className="button-one" onClick={() => alert(selection)}>
-          Accept selection
-        </button>
-        {JSON.stringify(selection)}
-      </div>
-    );
+  return (
+    <div>
+      <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
+      <SearchAndSelect
+        {...props}
+        handleSelect={(uids, data) => setSelection(uids)}
+        liveUpdate
+        allowMultiple
+      />
+      <button type="button" className="button-one" onClick={() => alert(selection)}>
+        Accept selection
+      </button>
+      {JSON.stringify(selection)}
+    </div>
+  );
+};
+export const DemoDataRefreshBtn = () => {
+  const [liveUpdate, setLiveUpdate] = useState(false);
+  const props = {
+    ...defaultProps,
+    autoUpdate: liveUpdate,
+    showRefreshBtn: true,
   };
-  export const DemoDataRefreshBtn = () => {
-    const [liveUpdate, setLiveUpdate] = useState(false);
-    const props = {
-      ...defaultProps,
-      autoUpdate: liveUpdate,
-      showRefreshBtn: true,
-    };
-    return (
-      <div>
-        <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
-        <SearchAndSelect {...props} />
-      </div>
-    );
+  return (
+    <div>
+      <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
+      <SearchAndSelect {...props} />
+    </div>
+  );
+};
+export const DemoDataUseNameAsSelectionField = () => {
+  const [liveUpdate, setLiveUpdate] = useState(false);
+  const props = {
+    ...defaultProps,
+    autoUpdate: liveUpdate,
+    showRefreshBtn: true,
+    allowMultiple: true,
+    returnFieldOnSelect: 'name',
   };
-  export const DemoDataUseNameAsSelectionField = () => {
-    const [liveUpdate, setLiveUpdate] = useState(false);
-    const props = {
-      ...defaultProps,
-      autoUpdate: liveUpdate,
-      showRefreshBtn: true,
-      allowMultiple: true,
-      returnFieldOnSelect: 'name',
-    };
-    return (
-      <div>
-        <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
-        <SearchAndSelect {...props} />
-      </div>
-    );
+  return (
+    <div>
+      <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
+      <SearchAndSelect {...props} />
+    </div>
+  );
+};
+export const SelectionPreview = () => {
+  const [liveUpdate, setLiveUpdate] = useState(false);
+  const props = {
+    ...defaultProps,
+    autoUpdate: liveUpdate,
+    showSearchField: true,
+    searchFieldTargetField: 'name',
   };
-  export const SelectionPreview = () => {
-    const [liveUpdate, setLiveUpdate] = useState(false);
-    const props = {
-      ...defaultProps,
-      autoUpdate: liveUpdate,
-      showSearchField: true,
-      searchFieldTargetField: 'name',
-    };
-    return (
-      <div>
-        <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
-        <SearchAndSelect
-          allowSelectionPreview
-          previewHeadings={demoPreviewHeadingsData}
-          {...props}
-        />
-      </div>
-    );
+  return (
+    <div>
+      <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
+      <SearchAndSelect allowSelectionPreview previewHeadings={demoPreviewHeadingsData} {...props} />
+    </div>
+  );
+};
+export const SelectionPreviewManyResults = () => {
+  const [liveUpdate, setLiveUpdate] = useState(false);
+  const props = {
+    ...defaultProps,
+    autoUpdate: liveUpdate,
+    showSearchField: true,
+    searchFieldTargetField: 'name',
+    previewHeadings: demoPreviewHeadingsData,
+    allowSelectionPreview: true,
+    searchFunction: searchFnManyResults,
+    limitResultHeight: 100,
   };
-  export const SelectionPreviewManyResults = () => {
-    const [liveUpdate, setLiveUpdate] = useState(false);
-    const props = {
-      ...defaultProps,
-      autoUpdate: liveUpdate,
-      showSearchField: true,
-      searchFieldTargetField: 'name',
-      previewHeadings: demoPreviewHeadingsData,
-      allowSelectionPreview: true,
-      searchFunction: searchFnManyResults,
-      limitResultHeight: 100,
-    };
-    return (
-      <div>
-        <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
-        <SearchAndSelect {...props} />
-      </div>
-    );
-  };
+  return (
+    <div>
+      <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
+      <SearchAndSelect {...props} />
+    </div>
+  );
+};

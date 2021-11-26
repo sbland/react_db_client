@@ -1,9 +1,9 @@
-import React, { useMemo, useRef } from 'react'
-import PropTypes from 'prop-types'
+import React, { useMemo, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { useColumnManager } from '@samnbuk/react_db_client.components.column-manager';
 import { ListItem } from './list-item';
 
-import styles from './StyledSelectList.module.scss'
+import styles from './StyledSelectList.module.scss';
 
 /**
  * Styled select list
@@ -11,16 +11,16 @@ import styles from './StyledSelectList.module.scss'
 export const StyledSelectList = ({
   listInput,
   headings,
-  handleSelect,
+  handleSelect: handleSelectTop,
   currentSelection,
   limitHeight,
   selectionField,
   autoWidth,
-  customParsers
+  customParsers,
 }) => {
-  const containerRef = useRef(null)
+  const containerRef = useRef(null);
   const {
-    columnWidths
+    columnWidths,
     // setColumnWidths,
     // tableWidth
   } = useColumnManager({
@@ -28,8 +28,10 @@ export const StyledSelectList = ({
     minWidth: 100,
     maxWidth: 1000,
     autoWidth,
-    containerRef
-  })
+    containerRef,
+  });
+
+  const handleSelect = (selectedUid, selectedData) => handleSelectTop(selectedUid, selectedData);
 
   const mapHeadings = headings.map((heading, i) => (
     <div
@@ -37,12 +39,12 @@ export const StyledSelectList = ({
       // className='styledList_heading'
       className={styles.styledList_heading}
       style={{
-        width: columnWidths[i]
+        width: columnWidths[i],
       }}
     >
       {heading.label}
     </div>
-  ))
+  ));
   const mapItems = useMemo(
     () =>
       listInput.map((item) => (
@@ -54,10 +56,7 @@ export const StyledSelectList = ({
           headings={headings}
           columnWidths={columnWidths}
           customParsers={customParsers}
-          isSelected={
-            currentSelection &&
-            currentSelection.indexOf(item[selectionField]) >= 0
-          }
+          isSelected={currentSelection && currentSelection.indexOf(item[selectionField]) >= 0}
           key={item.uid}
         />
       )),
@@ -68,20 +67,20 @@ export const StyledSelectList = ({
       selectionField,
       handleSelect,
       listInput,
-      customParsers
+      customParsers,
     ]
-  )
+  );
   const itemListClassName = [
     styles.styledList_items,
-    limitHeight ? styles['styledList_items-limitHeight'] : ''
-  ].join(' ')
+    limitHeight ? styles['styledList_items-limitHeight'] : '',
+  ].join(' ');
 
   return (
     <div
       className={styles.styledList}
       style={{
         position: 'relative',
-        ...(limitHeight ? { maxHeight: `${limitHeight}rem` } : {})
+        ...(limitHeight ? { maxHeight: `${limitHeight}rem` } : {}),
       }}
       ref={containerRef}
     >
@@ -99,15 +98,15 @@ export const StyledSelectList = ({
         {mapItems}
       </div>
     </div>
-  )
-}
+  );
+};
 
 StyledSelectList.propTypes = {
   /** list of objects to display */
   listInput: PropTypes.arrayOf(
     PropTypes.shape({
       /** Uid for list item */
-      uid: PropTypes.string.isRequired
+      uid: PropTypes.string.isRequired,
     })
   ).isRequired,
   /** headings for list table */
@@ -116,10 +115,10 @@ StyledSelectList.propTypes = {
       /** Heading uid matches field in list items */
       uid: PropTypes.string.isRequired,
       /** Heading label to display on table */
-      label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired
+      label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     })
   ).isRequired,
-  /** func to handle selecting an item */
+  /** func to handle selecting an item (selectedUid, selectedData) => {} */
   handleSelect: PropTypes.func.isRequired,
   /** override current selection */
   currentSelection: PropTypes.arrayOf(PropTypes.string),
@@ -130,8 +129,8 @@ StyledSelectList.propTypes = {
   /** If true column widths are calculated */
   autoWidth: PropTypes.bool,
   /** custom parsers for field types */
-  customParsers: PropTypes.objectOf(PropTypes.func)
-}
+  customParsers: PropTypes.objectOf(PropTypes.func),
+};
 
 StyledSelectList.defaultProps = {
   currentSelection: null,
@@ -139,5 +138,4 @@ StyledSelectList.defaultProps = {
   autoWidth: true,
   customParsers: {},
   selectionField: 'uid',
-}
-
+};

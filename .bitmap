@@ -141,6 +141,12 @@
         "mainFile": "index.js",
         "rootDir": "react_db_client/constants/client-types"
     },
+    "constants/demo-data": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/constants/demo-data"
+    },
     "constants/style": {
         "scope": "",
         "version": "",

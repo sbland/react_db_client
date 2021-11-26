@@ -399,7 +399,7 @@ SearchAndSelect.defaultProps = {
   searchFieldTargetField: null,
   acceptSelectionBtnText: 'Accept Selection',
   showRefreshBtn: false,
-  limitResultHeight: false,
+  limitResultHeight: null,
   sortBy: 'uid',
   reverseSort: false,
   reloadKey: 0,

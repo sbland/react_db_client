@@ -18,7 +18,7 @@ export const ListItem = ({
       key={data.uid}
       className={`${styles.styledList_itemBtn} ${classes.styledList_itemBtn} ${isSelected ? classes.styledListItem_item_selected : ''}`}
       type='button'
-      onClick={() => handleSelect(data.uid)}
+      onClick={() => handleSelect(data.uid, data)}
     >
       {headings.map((heading, i) => (
         <div

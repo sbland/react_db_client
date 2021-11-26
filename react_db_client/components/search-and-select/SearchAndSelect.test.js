@@ -1,466 +1,497 @@
-// import React from 'react';
-// import { shallow, mount } from 'enzyme';
-// import SearchAndSelect from './SearchAndSelect';
-// import { demoFiltersData, demoFieldsData } from '../FilterManager/demoData';
-// import { demoResultData, demoHeadingsData } from './inputDataShapes';
-// import StyledSelectList from '../StyledSelectList/StyledSelectList';
-// import FilterObjectClass from '../FilterManager/FilterObjectClass';
-// import filterTypes from '../../GenericConstants/filterTypes';
-// import comparisons from '../../GenericConstants/comparisons';
-// import AsyncRequestManager from '../AsyncRequestManager';
-// import { useSelectionManager } from './logic';
+import '@samnbuk/react_db_client.helpers.enzyme-setup';
+import React from 'react';
+import { shallow, mount } from 'enzyme';
+import { act } from 'react-dom/test-utils';
+import toJson from 'enzyme-to-json';
+import { createSerializer } from 'enzyme-to-json';
+import { MockReactC } from '@samnbuk/react_db_client.helpers.testing';
+import {
+  FilterObjectClass,
+  filterTypes,
+  comparisons,
+} from '@samnbuk/react_db_client.constants.client-types';
+import { useAsyncRequest } from '@samnbuk/react_db_client.async-hooks.use-async-request';
+import { StyledSelectList } from '@samnbuk/react_db_client.components.styled-select-list';
 
-// const DEFAULT_SORT_BY = 'uid';
-// // TODO: Mock styled select list
+import { demoFiltersData, demoFieldsData } from '@samnbuk/react_db_client.constants.demo-data';
+import { SearchAndSelect } from './search-and-select';
+import { demoResultData, demoHeadingsData } from './demo-data';
+import { useSelectionManager } from './logic';
 
-// jest.mock('../AsyncRequestManager', () => ({
-//   __esModule: true, // this property makes it work
-//   default: jest.fn(),
-// }));
+const DEFAULT_SORT_BY = 'uid';
+// TODO: Mock styled select list
 
-// jest.mock('./logic', () => ({
-//   __esModule: true, // this property makes it work
-//   useSelectionManager: jest.fn(),
-// }));
+jest.mock('@samnbuk/react_db_client.async-hooks.use-async-request', () => ({
+  useAsyncRequest: jest.fn(),
+}));
 
-// const searchFunction = jest.fn().mockName('searchFunc');
-// const handleSelect = jest
-//   .fn()
-//   .mockName('handleSelect')
-//   .mockImplementation(() => {});
-// const mockLoadFn = jest.fn();
+jest.mock('./logic', () => ({
+  useSelectionManager: jest.fn(),
+}));
 
-// const reload = jest.fn().mockName('reload');
+jest.mock('@samnbuk/react_db_client.components.styled-select-list', () =>
+  MockReactC('StyledSelectList', ['StyledSelectList'])
+);
 
-// const defaultSasProps = {
-//   searchFunction,
-//   initialFilters: demoFiltersData,
-//   availableFilters: demoFieldsData,
-//   handleSelect,
-//   headings: demoHeadingsData,
-// };
+const searchFunction = jest.fn().mockName('searchFunc');
+const handleSelect = jest
+  .fn()
+  .mockName('handleSelect')
+  .mockImplementation(() => {});
+const mockLoadFn = jest.fn();
 
-// const defaultAsyncHookReturn = {
-//   reload,
-//   loading: false,
-//   response: null,
-// };
+const reload = jest.fn().mockName('reload');
 
-// const defaultUseSelectionManagerState = {
-//   currentSelection: [],
-//   currentSelectionUid: [],
-//   handleItemSelect: jest.fn().mockName('handleItemSelect'),
-//   selectAll: jest.fn().mockName('selectAll'),
-//   clearSelection: jest.fn().mockName('clearSelection'),
-//   acceptSelection: jest.fn().mockName('acceptSelection'),
-// };
+const defaultSasProps = {
+  searchFunction,
+  initialFilters: demoFiltersData,
+  availableFilters: demoFieldsData,
+  handleSelect,
+  headings: demoHeadingsData,
+};
 
-// describe('Search and Select', () => {
-//   describe('Snapshots', () => {
-//     beforeEach(() => {
-//       AsyncRequestManager.mockClear();
-//       useSelectionManager.mockClear();
-//       AsyncRequestManager.mockImplementation(() => defaultAsyncHookReturn);
-//       useSelectionManager.mockImplementation(() => defaultUseSelectionManagerState);
-//     });
+const defaultAsyncHookReturn = {
+  reload,
+  loading: false,
+  response: null,
+};
 
-//     test('Default', () => {
-//       const component = shallow(<SearchAndSelect {...defaultSasProps} />);
-//       expect(component.debug()).toMatchSnapshot();
-//     });
+const defaultUseSelectionManagerState = {
+  currentSelection: [],
+  currentSelectionUid: [],
+  handleItemSelect: jest.fn().mockName('handleItemSelect'),
+  selectAll: jest.fn().mockName('selectAll'),
+  clearSelection: jest.fn().mockName('clearSelection'),
+  acceptSelection: jest.fn().mockName('acceptSelection'),
+};
 
-//     test('Default - with results', () => {
-//       AsyncRequestManager.mockReturnValue({ ...defaultAsyncHookReturn, response: demoResultData });
-//       const component = shallow(<SearchAndSelect {...defaultSasProps} />);
-//       expect(component.debug()).toMatchSnapshot();
-//     });
+expect.addSnapshotSerializer(createSerializer({ mode: 'deep' }));
 
-//     test('Default - loading', () => {
-//       AsyncRequestManager.mockReturnValue({ ...defaultAsyncHookReturn, loading: true });
-//       const component = shallow(<SearchAndSelect {...defaultSasProps} />);
-//       expect(component.debug()).toMatchSnapshot();
-//     });
-//     test('Default - with search field', () => {
-//       AsyncRequestManager.mockReturnValue({ ...defaultAsyncHookReturn, loading: true });
-//       const props = { ...defaultSasProps, showSearchField: true, searchFieldTargetField: 'name' };
-//       const component = shallow(<SearchAndSelect {...props} />);
-//       expect(component.debug()).toMatchSnapshot();
-//     });
-//     test('Default - with refresh btn', () => {
-//       AsyncRequestManager.mockReturnValue({ ...defaultAsyncHookReturn, loading: true });
-//       const props = { ...defaultSasProps, showRefreshBtn: true };
-//       const component = shallow(<SearchAndSelect {...props} />);
-//       expect(component.debug()).toMatchSnapshot();
-//     });
-//     test('Multiple - with live update', () => {
-//       AsyncRequestManager.mockReturnValue({ ...defaultAsyncHookReturn, loading: true });
-//       const props = { ...defaultSasProps, allowMultiple: true, liveUpdate: true };
-//       const component = shallow(<SearchAndSelect {...props} />);
-//       expect(component.debug()).toMatchSnapshot();
-//     });
-//   });
+describe('Search and Select', () => {
+  describe('Snapshots', () => {
+    beforeEach(() => {
+      useAsyncRequest.mockClear();
+      useSelectionManager.mockClear();
+      useAsyncRequest.mockImplementation(() => defaultAsyncHookReturn);
+      useSelectionManager.mockImplementation(() => defaultUseSelectionManagerState);
+    });
 
-//   describe('Unit Testing', () => {
-//     // Note we need to remount the SAS component for each test to ensure the hook mocks are updated
+    test('Default', () => {
+      const component = shallow(<SearchAndSelect {...defaultSasProps} />);
+      expect(toJson(component)).toMatchSnapshot();
+    });
 
-//     beforeEach(() => {
-//       searchFunction.mockClear();
-//       handleSelect.mockClear();
-//       defaultAsyncHookReturn.reload.mockClear();
-//       defaultUseSelectionManagerState.handleItemSelect.mockClear();
-//       defaultUseSelectionManagerState.selectAll.mockClear();
-//       defaultUseSelectionManagerState.clearSelection.mockClear();
-//       AsyncRequestManager.mockClear();
-//       useSelectionManager.mockClear();
-//       AsyncRequestManager.mockImplementation(() => defaultAsyncHookReturn);
-//       useSelectionManager.mockImplementation(() => defaultUseSelectionManagerState);
-//     });
+    test('Default - with results', () => {
+      useAsyncRequest.mockReturnValue({ ...defaultAsyncHookReturn, response: demoResultData });
+      const component = shallow(<SearchAndSelect {...defaultSasProps} />);
+      expect(toJson(component)).toMatchSnapshot();
+    });
 
-//     describe('Performing Search', () => {
-//       test('should pass correct values to async hook', () => {
-//         mount(<SearchAndSelect {...defaultSasProps} />);
-//         expect(AsyncRequestManager).toHaveBeenCalledWith({
-//           args: [],
-//           callFn: searchFunction,
-//           callOnInit: false,
-//         });
-//       });
+    test('Default - loading', () => {
+      useAsyncRequest.mockReturnValue({ ...defaultAsyncHookReturn, loading: true });
+      const component = shallow(<SearchAndSelect {...defaultSasProps} />);
+      expect(toJson(component)).toMatchSnapshot();
+    });
+    test('Default - with search field', () => {
+      useAsyncRequest.mockReturnValue({ ...defaultAsyncHookReturn, loading: true });
+      const props = { ...defaultSasProps, showSearchField: true, searchFieldTargetField: 'name' };
+      const component = shallow(<SearchAndSelect {...props} />);
+      expect(toJson(component)).toMatchSnapshot();
+    });
+    test('Default - with refresh btn', () => {
+      useAsyncRequest.mockReturnValue({ ...defaultAsyncHookReturn, loading: true });
+      const props = { ...defaultSasProps, showRefreshBtn: true };
+      const component = shallow(<SearchAndSelect {...props} />);
+      expect(toJson(component)).toMatchSnapshot();
+    });
+    test('Multiple - with live update', () => {
+      useAsyncRequest.mockReturnValue({ ...defaultAsyncHookReturn, loading: true });
+      const props = { ...defaultSasProps, allowMultiple: true, liveUpdate: true };
+      const component = shallow(<SearchAndSelect {...props} />);
+      expect(toJson(component)).toMatchSnapshot();
+    });
+  });
 
-//       test('If autoupdate is off does not load anything', () => {
-//         const props = { ...defaultSasProps, autoUpdate: false };
-//         mount(<SearchAndSelect {...props} />);
-//         expect(defaultAsyncHookReturn.reload).toHaveBeenCalledTimes(0);
-//       });
+  describe('Unit Testing', () => {
+    // Note we need to remount the SAS component for each test to ensure the hook mocks are updated
 
-//       test('should not load on init when loadOnInit is false', () => {
-//         const props = { ...defaultSasProps, autoUpdate: true, loadOnInit: false };
-//         mount(<SearchAndSelect {...props} />);
-//         expect(defaultAsyncHookReturn.reload).toHaveBeenCalledTimes(0);
-//       });
+    beforeEach(() => {
+      searchFunction.mockClear();
+      handleSelect.mockClear();
+      defaultAsyncHookReturn.reload.mockClear();
+      defaultUseSelectionManagerState.handleItemSelect.mockClear();
+      defaultUseSelectionManagerState.selectAll.mockClear();
+      defaultUseSelectionManagerState.clearSelection.mockClear();
+      useAsyncRequest.mockClear();
+      useSelectionManager.mockClear();
+      useAsyncRequest.mockImplementation(() => defaultAsyncHookReturn);
+      useSelectionManager.mockImplementation(() => defaultUseSelectionManagerState);
+    });
 
-//       test('should not perform search if filters empty and noEmptySearch is true', () => {
-//         const props = {
-//           ...defaultSasProps,
-//           autoUpdate: true,
-//           noEmptySearch: true,
-//           initialFilters: [],
-//         };
-//         mount(<SearchAndSelect {...props} />);
-//         expect(defaultAsyncHookReturn.reload).toHaveBeenCalledTimes(0);
-//       });
+    describe('Performing Search', () => {
+      test('should pass correct values to async hook', () => {
+        mount(<SearchAndSelect {...defaultSasProps} />);
+        expect(useAsyncRequest).toHaveBeenCalledWith({
+          args: [],
+          callFn: searchFunction,
+          callOnInit: false,
+        });
+      });
 
-//       test('Triggers search when we turn on autoupdate and loadOnInit is true', () => {
-//         const props = { ...defaultSasProps, autoUpdate: true };
-//         mount(<SearchAndSelect {...props} />);
-//         expect(defaultAsyncHookReturn.reload).toHaveBeenCalledTimes(1);
-//         expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
-//           demoFiltersData,
-//           DEFAULT_SORT_BY,
-//           '',
-//           false,
-//         ]);
-//       });
+      test('If autoupdate is off does not load anything', () => {
+        const props = { ...defaultSasProps, autoUpdate: false };
+        mount(<SearchAndSelect {...props} />);
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledTimes(0);
+      });
 
-//       test('should show loading icon when loading results', () => {
-//         AsyncRequestManager.mockReturnValue({ ...defaultAsyncHookReturn, loading: true });
-//         const component = mount(<SearchAndSelect {...defaultSasProps} />);
-//         expect(component.exists('.sas_loadingWrap')).toBeTruthy();
-//       });
+      test('should not load on init when loadOnInit is false', () => {
+        const props = { ...defaultSasProps, autoUpdate: true, loadOnInit: false };
+        mount(<SearchAndSelect {...props} />);
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledTimes(0);
+      });
 
-//       test('should not show loading icon when not loading results', () => {
-//         AsyncRequestManager.mockReturnValue({ ...defaultAsyncHookReturn, loading: false });
-//         const component = mount(<SearchAndSelect {...defaultSasProps} />);
-//         expect(component.exists('.sas_loadingWrap')).not.toBeTruthy();
-//       });
+      test('should not perform search if filters empty and noEmptySearch is true', () => {
+        const props = {
+          ...defaultSasProps,
+          autoUpdate: true,
+          noEmptySearch: true,
+          initialFilters: [],
+        };
+        mount(<SearchAndSelect {...props} />);
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledTimes(0);
+      });
 
-//       test('Displays a list of results when search returns', () => {
-//         AsyncRequestManager.mockReturnValue({
-//           ...defaultAsyncHookReturn,
-//           response: demoResultData,
-//         });
-//         const props = { ...defaultSasProps, autoUpdate: true };
-//         const component = mount(<SearchAndSelect {...props} />);
-//         expect(component.find(StyledSelectList).props().listInput).toEqual(demoResultData);
-//       });
-//       test('should send search sort order to async request', () => {
-//         const sortBy = 'uid';
-//         const props = { ...defaultSasProps, autoUpdate: true, sortBy };
-//         mount(<SearchAndSelect {...props} />);
-//         expect(defaultAsyncHookReturn.reload).toHaveBeenCalledTimes(1);
-//         expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
-//           demoFiltersData,
-//           sortBy,
-//           '',
-//           false,
-//         ]);
-//       });
-//     });
-//     describe('Selecting Single', () => {
-//       test('should call handleSelect when a list item is selected and we hit accept selection', () => {
-//         AsyncRequestManager.mockReturnValue({
-//           ...defaultAsyncHookReturn,
-//           response: demoResultData,
-//         });
-//         const component = mount(<SearchAndSelect {...defaultSasProps} />);
-//         const styledSelectList = component.find(StyledSelectList);
-//         expect(styledSelectList.props().listInput).toEqual(demoResultData);
-//         styledSelectList.props().handleSelect(demoResultData[0].uid);
-//         expect(defaultUseSelectionManagerState.handleItemSelect).toHaveBeenCalledWith(
-//           demoResultData[0].uid
-//         );
-//       });
+      test('Triggers search when we turn on autoupdate and loadOnInit is true', () => {
+        const props = { ...defaultSasProps, autoUpdate: true };
+        mount(<SearchAndSelect {...props} />);
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledTimes(1);
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
+          demoFiltersData,
+          DEFAULT_SORT_BY,
+          '',
+          false,
+        ]);
+      });
 
-//       test('should show results but unclickable when loading', () => {
-//         AsyncRequestManager.mockReturnValue({
-//           ...defaultAsyncHookReturn,
-//           loading: true,
-//           response: demoResultData,
-//         });
-//         const component = mount(<SearchAndSelect {...defaultSasProps} />);
-//         expect(component.exists('.sas_loadingWrap')).toBeTruthy();
-//         const styledSelectList = component.find(StyledSelectList);
-//         expect(styledSelectList.props().listInput).toEqual(demoResultData);
-//         styledSelectList.props().handleSelect('demoid');
-//         expect(defaultUseSelectionManagerState.handleItemSelect).not.toHaveBeenCalled();
-//       });
+      test('should show loading icon when loading results', () => {
+        useAsyncRequest.mockReturnValue({ ...defaultAsyncHookReturn, loading: true });
+        const component = mount(<SearchAndSelect {...defaultSasProps} />);
+        expect(component.exists('.sas_loadingWrap')).toBeTruthy();
+      });
 
-//       test('should show results as clickable when not loading', () => {
-//         AsyncRequestManager.mockReturnValue({
-//           ...defaultAsyncHookReturn,
-//           loading: false,
-//           response: demoResultData,
-//         });
-//         const component = mount(<SearchAndSelect {...defaultSasProps} />);
-//         const styledSelectList = component.find(StyledSelectList);
-//         expect(styledSelectList.props().listInput).toEqual(demoResultData);
-//         styledSelectList.props().handleSelect('demoid');
-//         expect(defaultUseSelectionManagerState.handleItemSelect).toHaveBeenCalled();
-//       });
-//     });
-//     describe('Multiple Select', () => {
-//       const defaultSasPropsMultiSel = { ...defaultSasProps, allowMultiple: true };
-//       const demoCurrentSelection = [demoResultData[0]];
-//       const setupMultiComponent = () => {
-//         AsyncRequestManager.mockReturnValue({
-//           ...defaultAsyncHookReturn,
-//           response: demoResultData,
-//         });
-//         useSelectionManager.mockReturnValue({
-//           ...defaultUseSelectionManagerState,
-//           currentSelection: demoCurrentSelection,
-//           currentSelectionUid: demoCurrentSelection.map((d) => d.uid),
-//         });
+      test('should not show loading icon when not loading results', () => {
+        useAsyncRequest.mockReturnValue({ ...defaultAsyncHookReturn, loading: false });
+        const component = mount(<SearchAndSelect {...defaultSasProps} />);
+        expect(component.exists('.sas_loadingWrap')).not.toBeTruthy();
+      });
 
-//         const component = mount(<SearchAndSelect {...defaultSasPropsMultiSel} />);
-//         return component;
-//       };
+      test('Displays a list of results when search returns', () => {
+        useAsyncRequest.mockReturnValue({
+          ...defaultAsyncHookReturn,
+          response: demoResultData,
+        });
+        const props = { ...defaultSasProps, autoUpdate: true };
+        const component = mount(<SearchAndSelect {...props} />);
+        expect(component.find(StyledSelectList).props().listInput).toEqual(demoResultData);
+      });
+      test('should send search sort order to async request', () => {
+        const sortBy = 'uid';
+        const props = { ...defaultSasProps, autoUpdate: true, sortBy };
+        mount(<SearchAndSelect {...props} />);
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledTimes(1);
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
+          demoFiltersData,
+          sortBy,
+          '',
+          false,
+        ]);
+      });
+    });
+    describe('Selecting Single', () => {
+      test('should call handleSelect when a list item is selected and we hit accept selection', () => {
+        useAsyncRequest.mockReturnValue({
+          ...defaultAsyncHookReturn,
+          response: demoResultData,
+        });
+        const component = mount(<SearchAndSelect {...defaultSasProps} />);
+        const styledSelectList = component.find(StyledSelectList);
+        expect(styledSelectList.props().listInput).toEqual(demoResultData);
+        styledSelectList.props().handleSelect(demoResultData[0].uid);
+        expect(defaultUseSelectionManagerState.handleItemSelect).toHaveBeenCalledWith(
+          demoResultData[0].uid
+        );
+      });
 
-//       // Helper func for selecting an item action
-//       const selectItem = (component, i) => {
-//         const resultsList = component.find('.sas_resultsList').children();
-//         const firstItemBtn = resultsList.find('.styledList_itemBtn').at(i);
-//         expect(firstItemBtn).toBeTruthy();
-//         firstItemBtn.simulate('click');
-//       };
+      test('should show results but unclickable when loading', () => {
+        useAsyncRequest.mockReturnValue({
+          ...defaultAsyncHookReturn,
+          loading: true,
+          response: demoResultData,
+        });
+        const component = mount(<SearchAndSelect {...defaultSasProps} />);
+        expect(component.exists('.sas_loadingWrap')).toBeTruthy();
+        const styledSelectList = component.find(StyledSelectList);
+        expect(styledSelectList.props().listInput).toEqual(demoResultData);
+        styledSelectList.props().handleSelect('demoid');
+        expect(defaultUseSelectionManagerState.handleItemSelect).not.toHaveBeenCalled();
+      });
 
-//       test('Calls handleItemSelect when a result item is clicked', () => {
-//         const component = setupMultiComponent();
-//         selectItem(component, 0);
-//         expect(defaultUseSelectionManagerState.handleItemSelect).toHaveBeenCalledWith(
-//           demoResultData[0].uid
-//         );
-//         selectItem(component, 1);
-//         expect(defaultUseSelectionManagerState.handleItemSelect).toHaveBeenCalledWith(
-//           demoResultData[1].uid
-//         );
-//       });
+      test('should show results as clickable when not loading', () => {
+        useAsyncRequest.mockReturnValue({
+          ...defaultAsyncHookReturn,
+          loading: false,
+          response: demoResultData,
+        });
+        const component = mount(<SearchAndSelect {...defaultSasProps} />);
+        const styledSelectList = component.find(StyledSelectList);
+        expect(styledSelectList.props().listInput).toEqual(demoResultData);
+        styledSelectList.props().handleSelect('demoid');
+        expect(defaultUseSelectionManagerState.handleItemSelect).toHaveBeenCalled();
+      });
+    });
+    describe('Multiple Select', () => {
+      const defaultSasPropsMultiSel = { ...defaultSasProps, allowMultiple: true };
+      const demoCurrentSelection = [demoResultData[0]];
+      const setupMultiComponent = () => {
+        useAsyncRequest.mockReturnValue({
+          ...defaultAsyncHookReturn,
+          response: demoResultData,
+        });
+        useSelectionManager.mockReturnValue({
+          ...defaultUseSelectionManagerState,
+          currentSelection: demoCurrentSelection,
+          currentSelectionUid: demoCurrentSelection.map((d) => d.uid),
+        });
 
-//       test('should show selected items as selected in list', () => {
-//         const component = setupMultiComponent();
-//         const selectAllBtn = component.find('.selectAllBtn');
-//         selectAllBtn.simulate('click');
-//         component.update();
-//         component.update();
-//         const selectList = component.find(StyledSelectList);
-//         const expectedLength = demoCurrentSelection.length;
-//         expect(selectList.props().currentSelection.length).toEqual(expectedLength);
-//         expect(component.find('.styledList_itemBtn').filter('.selected').length).toEqual(
-//           demoCurrentSelection.length
-//         );
-//       });
+        const component = mount(<SearchAndSelect {...defaultSasPropsMultiSel} />);
+        return component;
+      };
 
-//       test('Calls selection manager accept selection when clicking accept selection button', () => {
-//         const component = setupMultiComponent();
-//         const acceptSelectionBtn = component.find('.acceptSelectionBtn');
-//         acceptSelectionBtn.simulate('click');
-//         expect(defaultUseSelectionManagerState.acceptSelection).toHaveBeenCalled();
-//       });
+      // Helper func for selecting an item action
+      const selectItem = (component, selectedUid, selectedData) => {
+        const styledSelectList = component.find(StyledSelectList);
+        act(() => {
+          styledSelectList.props().handleSelect(selectedUid, selectedData);
+        });
+        // const resultsList = component.find('.sas_resultsList').children();
+        // const firstItemBtn = resultsList.find('.styledList_itemBtn').at(i);
+        // expect(firstItemBtn).toBeTruthy();
+        // firstItemBtn.simulate('click');
+      };
 
-//       test('Call select all when clicking select all button', () => {
-//         const component = setupMultiComponent();
-//         const selectAllBtn = component.find('.selectAllBtn');
-//         expect(selectAllBtn).toBeTruthy();
-//         selectAllBtn.simulate('click');
-//         expect(defaultUseSelectionManagerState.selectAll).toHaveBeenCalled();
-//       });
-//     });
-//     describe('Search Field', () => {
-//       const defaultSasPropsSearchField = {
-//         ...defaultSasProps,
-//         autoUpdate: true,
-//         initialFilters: [],
-//         showSearchField: true,
-//         searchFieldTargetField: 'name',
-//       };
-//       const setupSearchComponent = (props) => {
-//         AsyncRequestManager.mockReturnValue({
-//           ...defaultAsyncHookReturn,
-//           response: demoResultData,
-//         });
-//         const component = mount(<SearchAndSelect {...props} />);
-//         return component;
-//       };
+      test('Calls handleItemSelect when a result item is clicked', () => {
+        const component = setupMultiComponent();
+        selectItem(component, demoResultData[0].uid, demoResultData[0]);
+        expect(defaultUseSelectionManagerState.handleItemSelect).toHaveBeenCalledWith(
+          demoResultData[0].uid,
+          demoResultData[0],
+        );
+        selectItem(component, demoResultData[1].uid, demoResultData[1]);
+        expect(defaultUseSelectionManagerState.handleItemSelect).toHaveBeenCalledWith(
+          demoResultData[1].uid,
+          demoResultData[1],
+        );
+      });
 
-//       test('should initiate search on search field input', () => {
-//         const component = setupSearchComponent(defaultSasPropsSearchField);
-//         const searchField = component.find('.searchField');
+      test('should show selected items as selected in list', () => {
+        const component = setupMultiComponent();
+        const selectAllBtn = component.find('.selectAllBtn');
 
-//         let filters = [];
-//         let searchValue = '';
+        selectAllBtn.simulate('click');
+        component.update();
+        component.update();
+        const selectList = component.find(StyledSelectList);
+        const expectedLength = demoCurrentSelection.length;
+        expect(selectList.props().currentSelection.length).toEqual(expectedLength);
+      });
 
-//         expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
-//           filters,
-//           DEFAULT_SORT_BY,
-//           null,
-//           false,
-//         ]);
-//         mockLoadFn.mockClear();
-//         defaultAsyncHookReturn.reload.mockClear();
+      test('Calls selection manager accept selection when clicking accept selection button', () => {
+        const component = setupMultiComponent();
+        const acceptSelectionBtn = component.find('.acceptSelectionBtn');
+        acceptSelectionBtn.simulate('click');
+        expect(defaultUseSelectionManagerState.acceptSelection).toHaveBeenCalled();
+      });
 
-//         searchValue = 'New Search';
-//         searchField.simulate('change', { target: { value: searchValue } });
-//         filters = [
-//           new FilterObjectClass({
-//             uid: 'search',
-//             field: defaultSasPropsSearchField.searchFieldTargetField,
-//             value: searchValue,
-//             operator: comparisons.contains,
-//             type: filterTypes.text,
-//           }),
-//         ];
-//         expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
-//           filters,
-//           DEFAULT_SORT_BY,
-//           null,
-//           false,
-//         ]);
-//       });
-//       test('should rerun search without search field if set to empty string', () => {
-//         const component = setupSearchComponent(defaultSasPropsSearchField);
-//         const searchValue = 'abc';
-//         const searchField = component.find('.searchField');
+      test('Call select all when clicking select all button', () => {
+        const component = setupMultiComponent();
+        const selectAllBtn = component.find('.selectAllBtn');
+        expect(selectAllBtn).toBeTruthy();
+        selectAllBtn.simulate('click');
+        expect(defaultUseSelectionManagerState.selectAll).toHaveBeenCalled();
+      });
+    });
+    describe('Search Field', () => {
+      const defaultSasPropsSearchField = {
+        ...defaultSasProps,
+        autoUpdate: true,
+        initialFilters: [],
+        showSearchField: true,
+        searchFieldTargetField: 'name',
+      };
+      const setupSearchComponent = (props) => {
+        useAsyncRequest.mockReturnValue({
+          ...defaultAsyncHookReturn,
+          response: demoResultData,
+        });
+        const component = mount(<SearchAndSelect {...props} />);
+        return component;
+      };
 
-//         expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
-//           [],
-//           DEFAULT_SORT_BY,
-//           null,
-//           false,
-//         ]);
-//         mockLoadFn.mockClear();
+      test('should initiate search on search field input', () => {
+        const component = setupSearchComponent(defaultSasPropsSearchField);
+        const searchField = component.find('.searchField');
 
-//         expect(searchField).toBeTruthy();
-//         searchField.simulate('change', { target: { value: searchValue } });
+        let filters = [];
+        let searchValue = '';
 
-//         expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
-//           [
-//             new FilterObjectClass({
-//               uid: 'search',
-//               field: defaultSasPropsSearchField.searchFieldTargetField,
-//               value: searchValue,
-//               operator: comparisons.contains,
-//               type: filterTypes.text,
-//             }),
-//           ],
-//           DEFAULT_SORT_BY,
-//           null,
-//           false,
-//         ]);
-//         mockLoadFn.mockClear();
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
+          filters,
+          DEFAULT_SORT_BY,
+          null,
+          false,
+        ]);
+        mockLoadFn.mockClear();
+        defaultAsyncHookReturn.reload.mockClear();
 
-//         searchField.simulate('change', { target: { value: '' } });
+        searchValue = 'New Search';
+        searchField.simulate('change', { target: { value: searchValue } });
+        filters = [
+          new FilterObjectClass({
+            uid: 'search',
+            field: defaultSasPropsSearchField.searchFieldTargetField,
+            value: searchValue,
+            operator: comparisons.contains,
+            type: filterTypes.text,
+          }),
+        ];
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
+          filters,
+          DEFAULT_SORT_BY,
+          null,
+          false,
+        ]);
+      });
+      test('should rerun search without search field if set to empty string', () => {
+        const component = setupSearchComponent(defaultSasPropsSearchField);
+        const searchValue = 'abc';
+        const searchField = component.find('.searchField');
 
-//         expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
-//           [],
-//           DEFAULT_SORT_BY,
-//           null,
-//           false,
-//         ]);
-//       });
-//       test('should run search with text search field if target search field prop is null', () => {
-//         const component = setupSearchComponent({
-//           ...defaultSasPropsSearchField,
-//           searchFieldTargetField: null,
-//         });
-//         let searchValue = '';
-//         const searchField = component.find('.searchField');
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
+          [],
+          DEFAULT_SORT_BY,
+          null,
+          false,
+        ]);
+        mockLoadFn.mockClear();
 
-//         expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
-//           [],
-//           DEFAULT_SORT_BY,
-//           searchValue,
-//           false,
-//         ]);
-//         defaultAsyncHookReturn.reload.mockClear();
-//         searchValue = 'abc';
+        expect(searchField).toBeTruthy();
+        searchField.simulate('change', { target: { value: searchValue } });
 
-//         expect(searchField).toBeTruthy();
-//         searchField.simulate('change', { target: { value: searchValue } });
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
+          [
+            new FilterObjectClass({
+              uid: 'search',
+              field: defaultSasPropsSearchField.searchFieldTargetField,
+              value: searchValue,
+              operator: comparisons.contains,
+              type: filterTypes.text,
+            }),
+          ],
+          DEFAULT_SORT_BY,
+          null,
+          false,
+        ]);
+        mockLoadFn.mockClear();
 
-//         expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
-//           [],
-//           DEFAULT_SORT_BY,
-//           searchValue,
-//           false,
-//         ]);
-//         defaultAsyncHookReturn.reload.mockClear();
-//         searchValue = '';
+        searchField.simulate('change', { target: { value: '' } });
 
-//         searchField.simulate('change', { target: { value: '' } });
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
+          [],
+          DEFAULT_SORT_BY,
+          null,
+          false,
+        ]);
+      });
+      test('should run search with text search field if target search field prop is null', () => {
+        const component = setupSearchComponent({
+          ...defaultSasPropsSearchField,
+          searchFieldTargetField: null,
+        });
+        let searchValue = '';
+        const searchField = component.find('.searchField');
 
-//         expect(defaultAsyncHookReturn.reload).toHaveBeenCalledTimes(1);
-//         expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
-//           [],
-//           DEFAULT_SORT_BY,
-//           searchValue,
-//           false,
-//         ]);
-//       });
-//     });
-//     describe('Refresh button', () => {
-//       test('should run search when refresh button is pressed', () => {
-//         const props = { ...defaultSasProps, autoUpdate: false, showRefreshBtn: true };
-//         const component = mount(<SearchAndSelect {...props} />);
-//         expect(defaultAsyncHookReturn.reload).toHaveBeenCalledTimes(0);
-//         const refreshBtn = component.find('.refreshBtn');
-//         refreshBtn.simulate('click');
-//         expect(defaultAsyncHookReturn.reload).toHaveBeenCalledTimes(1);
-//       });
-//     });
-//   });
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
+          [],
+          DEFAULT_SORT_BY,
+          searchValue,
+          false,
+        ]);
+        defaultAsyncHookReturn.reload.mockClear();
+        searchValue = 'abc';
 
-//   describe('Error Handling', () => {
-//     test('should throw error if initial filters is not an array', () => {
-//       expect(() =>
-//         mount(
-//           <SearchAndSelect
-//             searchFunction={async () => {}}
-//             initialFilters={{}}
-//             availableFilters={demoFieldsData}
-//             handleSelect={() => {}}
-//             headings={demoHeadingsData}
-//           />
-//         )
-//       ).toThrow('Initial Filters should be an array');
-//     });
-//   });
-// });
+        expect(searchField).toBeTruthy();
+        searchField.simulate('change', { target: { value: searchValue } });
+
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
+          [],
+          DEFAULT_SORT_BY,
+          searchValue,
+          false,
+        ]);
+        defaultAsyncHookReturn.reload.mockClear();
+        searchValue = '';
+
+        searchField.simulate('change', { target: { value: '' } });
+
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledTimes(1);
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
+          [],
+          DEFAULT_SORT_BY,
+          searchValue,
+          false,
+        ]);
+      });
+    });
+    describe('Refresh button', () => {
+      test('should run search when refresh button is pressed', () => {
+        const props = { ...defaultSasProps, autoUpdate: false, showRefreshBtn: true };
+        const component = mount(<SearchAndSelect {...props} />);
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledTimes(0);
+        const refreshBtn = component.find('.refreshBtn');
+        refreshBtn.simulate('click');
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledTimes(1);
+      });
+    });
+  });
+
+  describe('Error Handling', () => {
+    let homepageErrors;
+    beforeAll(() => {
+      homepageErrors = console.error.bind(console.error);
+      console.error = (errormessage) => {
+        return;
+        const suppressedErrors =
+          errormessage.toString().includes('Warning: Failed prop type:') ||
+          errormessage.toString().includes('Error: Uncaught [TypeError: Initial');
+        !suppressedErrors && homepageErrors(errormessage);
+      };
+    });
+    afterAll(() => {
+      console.error = homepageErrors;
+    });
+    test('should throw error if initial filters is not an array', () => {
+      // NOTE: For some reason the error is still displayed in cli.
+      expect(() =>
+        mount(
+          <SearchAndSelect
+            searchFunction={async () => {}}
+            initialFilters={{}}
+            availableFilters={demoFieldsData}
+            handleSelect={() => {}}
+            headings={demoHeadingsData}
+          />
+        )
+      ).toThrow('Initial Filters should be an array');
+    });
+  });
+});
