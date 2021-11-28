@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { stringifyData } from '@samnbuk/react_db_client.helpers.data-processing';
 
+import './style.scss';
+
 export const SelectionPreview = ({ headings, currentSelectionData, customParsers }) => {
   const cellData = currentSelectionData
     ? headings.map((heading) => {
