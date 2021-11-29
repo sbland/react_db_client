@@ -9,6 +9,12 @@
  */
 
 {
+    "async-hooks/use-async-object-manager": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/async-hooks/use-async-object-manager"
+    },
     "async-hooks/use-async-request": {
         "scope": "",
         "version": "",
@@ -206,6 +212,12 @@
         "version": "",
         "mainFile": "index.js",
         "rootDir": "react_db_client/helpers/func-tools"
+    },
+    "helpers/generate-uid": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/helpers/generate-uid"
     },
     "helpers/testing": {
         "scope": "",

@@ -84,6 +84,9 @@ importers:
   demo/ui/text:
     specifiers: {}
 
+  react_db_client/async-hooks/use-async-object-manager:
+    specifiers: {}
+
   react_db_client/async-hooks/use-async-request:
     specifiers: {}
 
@@ -181,6 +184,9 @@ importers:
     specifiers: {}
 
   react_db_client/helpers/func-tools:
+    specifiers: {}
+
+  react_db_client/helpers/generate-uid:
     specifiers: {}
 
   react_db_client/helpers/testing:
