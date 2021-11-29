@@ -53,7 +53,6 @@ export const SearchAndSelectDropdown = ({
     callback: searchCallback,
   });
 
-  const handleItemSelect = handleSelect;
 
   const onSearchFieldChange = (e) => {
     setSearchValue(e.target.value);
@@ -119,7 +118,8 @@ export const SearchAndSelectDropdown = ({
   const handleListItemSelect = (selectedId) => {
     if (!loading) {
       const selectedData = results.find((r) => r.uid == selectedId);
-      handleItemSelect(selectedId, selectedData);
+      if (!selectedData) throw Error('Selected item not found');
+      handleSelect(selectedId, selectedData);
       setSearchValue(selectedData[labelField]);
       setIsFocused(false);
       setShowResults(false);

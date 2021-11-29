@@ -33,7 +33,6 @@ const searchFunction = jest
   );
 
 const handleSelect = jest.fn();
-const handleItemSelect = jest.fn();
 const asyncSearchCall = jest.fn();
 
 const returnFieldOnSelect = 'name';
@@ -61,21 +60,10 @@ const defaultAsyncHookReturnLoaded = {
   response: demoResultData,
 };
 
-const defaultSelectionManagerReturn = {
-  handleItemSelect,
-  currentSelection: demoResultData[0][returnFieldOnSelect],
-  currentSelectionUid: demoResultData[0].uid,
-  currentSelectionLabels: demoResultData[0][labelField],
-  selectAll: jest.fn(),
-  clearSelection: jest.fn(),
-};
-
 describe('SearchAndSelectDropdown', () => {
   beforeEach(() => {
     setTimeout.mockClear();
-    // useSelectionManager.mockClear().mockReturnValue(defaultSelectionManagerReturn);
     handleSelect.mockClear();
-    handleItemSelect.mockClear();
     asyncSearchCall.mockClear();
     useAsyncRequest.mockClear().mockReturnValue(defaultAsyncHookReturn);
   });
@@ -206,46 +194,38 @@ describe('SearchAndSelectDropdown', () => {
         expect(asyncSearchCall).toHaveBeenCalledWith([[]]);
       });
     });
-    describe.skip('Selection', () => {
+    describe('Selection', () => {
       const selectedItem = demoResultData[0];
+      const searchVal = 'searchVal';
       beforeEach(() => {
-        useAsyncRequest.mockClear().mockReturnValue(defaultAsyncHookReturnLoaded);
-        component.setProps();
-        const searchField = component.find('.searchField');
-        searchField.simulate('keyDown', { key: 'Enter' });
-        component.update();
+        focusOnSearchInput(component);
+        modifySearchInput(component, searchVal);
+        setLoaded(component, demoResultData);
       });
-      test('should call handleItemSelect when an item is selected from the customSelectDropdown', () => {
+      test('should call handleSelect when an item is selected from the customSelectDropdown', async () => {
         const customSelectDropdown = component.find(CustomSelectDropdown);
-        customSelectDropdown.props().handleSelect(selectedItem.uid);
-        expect(handleItemSelect).toHaveBeenCalledWith(selectedItem.uid);
+        act(() => {
+          customSelectDropdown.props().handleSelect(selectedItem.uid);
+        });
+        expect(handleSelect).toHaveBeenCalledWith(selectedItem.uid, selectedItem);
       });
-      test('should pass item uid and data to handle select from selection manager', () => {
-        expect(useSelectionManager.mock.calls[0]).toEqual([
-          {
-            results: null,
-            returnFieldOnSelect: defaultProps.returnFieldOnSelect,
-            allowMultiple: defaultProps.allowMultiple,
-            selectionOverride: defaultProps.selectionOverride,
-            handleSelect,
-            liveUpdate: true,
-          },
-        ]);
-      });
-
       test('should hide results dropdown after item selected', () => {
         let customSelectDropdown = component.find(CustomSelectDropdown);
         expect(customSelectDropdown.props().isOpen).toEqual(true);
-        customSelectDropdown.props().handleSelect(selectedItem.uid);
+        act(() => {
+          customSelectDropdown.props().handleSelect(selectedItem.uid);
+        });
         component.update();
         customSelectDropdown = component.find(CustomSelectDropdown);
         expect(customSelectDropdown.props().isOpen).toEqual(false);
       });
       test('should set the search value to match the selected items label field', () => {
         let searchField = component.find('.searchField');
-        expect(searchField.props().value).toEqual('');
+        expect(searchField.props().value).toEqual(searchVal);
         const customSelectDropdown = component.find(CustomSelectDropdown);
-        customSelectDropdown.props().handleSelect(selectedItem.uid);
+        act(() => {
+          customSelectDropdown.props().handleSelect(selectedItem.uid);
+        });
         component.update();
         searchField = component.find('.searchField');
         expect(searchField.props().value).toEqual(selectedItem.label);
