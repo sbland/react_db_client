@@ -9,8 +9,8 @@ import {
   demoHeadingsData,
   demoPreviewHeadingsData,
   demoResultsDataMany,
-} from './inputDataShapes';
-import { demoFiltersData, demoFieldsData } from './demo-data';
+} from './demo-data';
+import { demoFiltersData, demoFieldsData } from '@samnbuk/react_db_client.constants.demo-data';
 
 const LiveUpdateBtn = ({ liveUpdate, setLiveUpdate }) => (
   <button
