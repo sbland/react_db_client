@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  comparisons,
-  FilterObjectClass,
-} from '@samnbuk/react_db_client.constants.client-types';
+import { comparisons, FilterObjectClass } from '@samnbuk/react_db_client.constants.client-types';
 
 const FilterDate = ({ filter, updateFilter }) => {
   const updateOperator = (e) => {
@@ -25,15 +22,11 @@ const FilterDate = ({ filter, updateFilter }) => {
   const parsedDate =
     filter.value instanceof Date
       ? filter.value.toISOString().substr(0, 10)
-      : new Date(filter.value).toISOString().substr(0, 10);
+      : new Date(filter.value || 0).toISOString().substr(0, 10);
 
   return (
     <>
-      <select
-        value={filter.operator}
-        onChange={updateOperator}
-        className="filterOperatorSelect"
-      >
+      <select value={filter.operator} onChange={updateOperator} className="filterOperatorSelect">
         <option value={comparisons.equals}>=</option>
         <option value={comparisons.after}>After</option>
         <option value={comparisons.before}>Before</option>

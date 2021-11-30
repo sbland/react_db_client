@@ -8,14 +8,14 @@ import {
   comparisons,
   FilterObjectClass,
   filterTypes,
+  filterTypesDefaults,
 } from '@samnbuk/react_db_client.constants.client-types';
-
 
 import { AddFilterButton } from './add-filter-button';
 import { FilterPanel } from './filter-manager';
 import FilterString from './FilterTypes/FilterString';
 import FilterNumber from './FilterTypes/FilterNumber';
-import FiltersList from './FiltersList';
+import { FiltersList } from './FiltersList';
 
 import { demoFiltersData, demoFieldsData } from './demoData';
 
@@ -52,6 +52,8 @@ describe('FilterPanel', () => {
   describe('filters', () => {
     const setFilterDataFunc = jest.fn();
     let filterPanel;
+    let homepageErrors;
+
     beforeEach(() => {
       filterPanel = mount(<FilterPanel {...defaultProps} />);
       updateFilter.mockClear();
@@ -134,11 +136,10 @@ describe('FilterPanel', () => {
             fieldsData={fieldsData}
           />
         );
-
         const addFilterButton = filterPanel.find('.addFilterBtn');
         addFilterButton.simulate('click');
         filterPanel.update();
-        const filterData = [
+        let filterData = [
           new FilterObjectClass({
             operator: comparisons.contains,
             field: 'fieldA',
@@ -150,13 +151,24 @@ describe('FilterPanel', () => {
           }),
         ];
         expect(addFilter).toHaveBeenCalledWith(filterData[0]);
+        filterData = [
+          new FilterObjectClass({
+            operator: comparisons.contains,
+            field: 'fieldA',
+            filterOptionId: 'filterA',
+            label: 'Field A',
+            type: filterTypes.text,
+            uid: 'uid',
+            value: '',
+          }),
+        ];
         filterPanel.setProps({ filterData });
         const filterList = filterPanel.find(FiltersList);
         expect(filterList.props().filterData).toEqual(filterData);
         let filterFieldSelect = filterList.find('.filterItem_filterFieldSelect').first();
         filterFieldSelect.simulate('change', { target: { value: 'filterB' } });
         filterPanel.update();
-        const updatedFilterData = [
+        let updatedFilterData = [
           new FilterObjectClass({
             operator: 'contains',
             field: 'fieldA',
@@ -168,6 +180,17 @@ describe('FilterPanel', () => {
           }),
         ];
         expect(updateFilter).toHaveBeenCalledWith(0, updatedFilterData[0]);
+        updatedFilterData = [
+          new FilterObjectClass({
+            operator: 'contains',
+            field: 'fieldA',
+            filterOptionId: 'filterB',
+            label: 'Field A copy',
+            type: 'text',
+            uid: 'uid',
+            value: '',
+          }),
+        ];
         filterPanel.setProps({ filterData: updatedFilterData });
         filterFieldSelect = filterPanel.find('.filterItem_filterFieldSelect').first();
         expect(filterFieldSelect.props().value).toEqual('filterB');
@@ -178,14 +201,22 @@ describe('FilterPanel', () => {
       let component;
       let fieldsData;
       let filterData;
+
       beforeAll(() => {
+        homepageErrors = console.error.bind(console.error);
+        console.error = (errormessage) => {
+          // return;
+          const suppressedErrors = errormessage.toString().includes('Warning: Failed prop type:');
+          !suppressedErrors && homepageErrors(errormessage);
+        };
         // create filterdata
         filterData = Object.keys(filterTypes).map(
           (key) =>
             new FilterObjectClass({
               uid: key,
               field: key,
-              value: 0,
+              value: filterTypesDefaults[key],
+              value: null,
               operator: comparisons.greaterThan,
               type: key,
             })
@@ -205,6 +236,9 @@ describe('FilterPanel', () => {
         );
       });
 
+      afterAll(() => {
+        console.error = homepageErrors;
+      });
       // TODO: Fix these tests
       test('Contains filter for all filter types', () => {
         const filterCount = filterData.length;
@@ -259,6 +293,19 @@ describe('FilterPanel', () => {
       customField: { uid: 'customField', type: 'customFilter', label: 'Custom field' },
     };
     let filterPanel;
+    let warnings;
+    beforeAll(() => {
+      warnings = console.warn.bind(console.warn);
+      console.warn = (errormessage) => {
+        // return;
+        const suppressedErrors = errormessage.toString().includes('Invalid Filter Type customFilter must set isCustomType');
+        !suppressedErrors && warnings(errormessage);
+      };
+    });
+    afterAll(() => {
+      console.warn = warnings;
+    });
+
     beforeEach(() => {
       filterPanel = mount(
         <FilterPanel

@@ -1,4 +1,4 @@
-export { filterTypes } from './filter-types';
+export { filterTypes, filterTypesDefaults } from './filter-types';
 
 export {
   comparisons,

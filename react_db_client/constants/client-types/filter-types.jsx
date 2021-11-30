@@ -19,4 +19,26 @@ export const filterTypes = {
   dict: 'dict',
 };
 
+export const filterTypesDefaults = {
+  text: '',
+  textLong: null,
+  select: null,
+  selectMulti: null,
+  selectSearch: null,
+  bool: false,
+  toggle: false,
+  date: Date.now(),
+  number: 0,
+  uid: '',
+  reference: null,
+  file: null,
+  fileMultiple: [],
+  image: null,
+  embedded: null,
+  // TODO: Below should not be filter types
+  button: null,
+  dict: null,
+
+}
+
 export const filterTypesList = Object.keys(filterTypes);
