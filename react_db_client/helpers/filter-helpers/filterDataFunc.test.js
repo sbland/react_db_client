@@ -15,7 +15,7 @@ describe('Filter Data Func', () => {
       { uid: 'bar', name: 'bar', count: 0, select: 'a' },
     ];
 
-    const filteredItems = filterDataFunc()(filters, demoItems);
+    const filteredItems = filterData()(filters, demoItems);
     expect(filteredItems).toEqual([itemToFind]);
   });
   test('should filter string with regex', () => {
@@ -35,7 +35,7 @@ describe('Filter Data Func', () => {
       { uid: 'bar', name: 'bar', count: 0, select: 'a' },
     ];
 
-    const filteredItems = filterDataFunc()(filters, demoItems);
+    const filteredItems = filterData()(filters, demoItems);
     expect(filteredItems.map((f) => f.uid)).toEqual(['foo']);
   });
   test('should filter out rows with blank data for column of filter', () => {
@@ -55,7 +55,7 @@ describe('Filter Data Func', () => {
       { uid: 'bar', name: '', count: 0, select: 'a' },
     ];
 
-    const filteredItems = filterDataFunc()(filters, demoItems);
+    const filteredItems = filterData()(filters, demoItems);
     expect(filteredItems.map((f) => f.uid)).toEqual(['foo']);
   });
   test('should filter data with nested field', () => {
@@ -80,7 +80,7 @@ describe('Filter Data Func', () => {
       { uid: 'bar', name: 'bar', count: 0, select: 'a', data: { uid: 'b' } },
     ];
 
-    const filteredItems = filterDataFunc()(filters, demoItems);
+    const filteredItems = filterData()(filters, demoItems);
     expect(filteredItems).toEqual([itemToFind]);
   });
 
@@ -97,7 +97,7 @@ describe('Filter Data Func', () => {
     ];
     const demoItems = [itemToFind, { uid: 'bar', name: 'bar', toggle: false }];
 
-    const filteredItems = filterDataFunc()(filters, demoItems);
+    const filteredItems = filterData()(filters, demoItems);
     expect(filteredItems).toEqual([itemToFind]);
   });
   test('should filter data with false bool field', () => {
@@ -113,7 +113,7 @@ describe('Filter Data Func', () => {
     ];
     const demoItems = [itemToFind, { uid: 'bar', name: 'bar', toggle: true }];
 
-    const filteredItems = filterDataFunc()(filters, demoItems);
+    const filteredItems = filterData()(filters, demoItems);
     expect(filteredItems).toEqual([itemToFind]);
   });
   test('should filter using custom filter', () => {
@@ -131,7 +131,7 @@ describe('Filter Data Func', () => {
     const demoItems = [itemToFind, { uid: 'bar', name: 'bar', toggle: true }];
 
     const customFilter = jest.fn().mockReturnValue(true);
-    const filteredItems = filterDataFunc({
+    const filteredItems = filterData({
       customFilter,
     })(filters, demoItems);
     expect(filteredItems).toEqual(demoItems);
@@ -162,7 +162,7 @@ describe('Filter Data Func', () => {
     ];
     const demoItems = [itemToFind, { uid: 'bar', name: 'bar', toggle: true }];
 
-    const filteredItems = () => filterDataFunc()(filters, demoItems);
+    const filteredItems = () => filterData()(filters, demoItems);
     expect(filteredItems).toThrow('Invalid Filter Type: missingfilter');
   });
   test('should allow filtering by empty string', () => {
@@ -187,7 +187,7 @@ describe('Filter Data Func', () => {
       { uid: 'bar', name: 'bar', count: 0, select: 'a', data: { uid: 'b' } },
     ];
 
-    const filteredItems = filterDataFunc()(filters, demoItems);
+    const filteredItems = filterData()(filters, demoItems);
     expect(filteredItems).toEqual([itemToFind]);
   });
 });

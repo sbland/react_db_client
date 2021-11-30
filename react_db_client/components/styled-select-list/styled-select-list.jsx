@@ -56,7 +56,7 @@ export const StyledSelectList = ({
           headings={headings}
           columnWidths={columnWidths}
           customParsers={customParsers}
-          isSelected={currentSelection && currentSelection.indexOf(item[selectionField]) >= 0}
+          isSelected={currentSelection && currentSelection.indexOf(item[selectionField]) >= 0 || false}
           key={item.uid}
         />
       )),

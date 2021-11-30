@@ -57,7 +57,7 @@ exports[`Styled select list Snapshot 1`] = `
     }
   >
     <button
-      className="styledList_itemBtn "
+      className="styledList_itemBtn styledList_itemBtn "
       onClick={[Function]}
       type="button"
     >
@@ -93,7 +93,7 @@ exports[`Styled select list Snapshot 1`] = `
       </div>
     </button>
     <button
-      className="styledList_itemBtn "
+      className="styledList_itemBtn styledList_itemBtn "
       onClick={[Function]}
       type="button"
     >

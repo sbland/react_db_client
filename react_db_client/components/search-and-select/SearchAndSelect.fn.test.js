@@ -85,7 +85,6 @@ describe('SearchAndSelect', () => {
             );
             await new Promise((resolve) => setTimeout(resolve));
           });
-
       });
 
       const makeSelection = (c, uid) => {

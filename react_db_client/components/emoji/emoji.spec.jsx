@@ -5,7 +5,7 @@ import { BasicEmoji } from './emoji.composition';
 
 it('should render with the correct text', () => {
   const { getByText } = render(<BasicEmoji />);
-  const rendered = getByText('hello from Emoji');
+  const rendered = getByText('😀');
   expect(rendered).toBeTruthy();
 });
 

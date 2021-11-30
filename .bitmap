@@ -21,12 +21,6 @@
         "mainFile": "index.js",
         "rootDir": "react_db_client/async-hooks/use-async-request"
     },
-    "components/auto-hide-panel-hook": {
-        "scope": "",
-        "version": "",
-        "mainFile": "index.js",
-        "rootDir": "react_db_client/components/auto-hide-panel-hook"
-    },
     "components/column-manager": {
         "scope": "",
         "version": "",
@@ -224,6 +218,12 @@
         "version": "",
         "mainFile": "index.js",
         "rootDir": "react_db_client/helpers/testing"
+    },
+    "hooks/use-auto-hide-panel-hook": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/hooks/use-auto-hide-panel-hook"
     },
     "pages/welcome": {
         "scope": "",

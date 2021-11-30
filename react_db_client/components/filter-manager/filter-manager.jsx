@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FilterObjectClass } from '@samnbuk/react_db_client.constants.client-types';
-import { useAutoHidePanel } from '@samnbuk/react_db_client.components.auto-hide-panel-hook';
+import { useAutoHidePanel } from '@samnbuk/react_db_client.hooks.use-auto-hide-panel-hook';
 
 import { FiltersList } from './FiltersList';
 import { AddFilterButton } from './add-filter-button';
