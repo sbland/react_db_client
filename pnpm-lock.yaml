@@ -138,6 +138,9 @@ importers:
   react_db_client/components/form/form-fields/field-text:
     specifiers: {}
 
+  react_db_client/components/item-editor:
+    specifiers: {}
+
   react_db_client/components/search-and-select:
     specifiers: {}
 
