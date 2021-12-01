@@ -11,6 +11,7 @@ export const FieldReadOnly = ({ unit, value, type, options }) => {
   let val = value;
   if (type === filterTypes.select) val = getSelectValue(value, options);
   if (type === filterTypes.bool) val = value ? 'Yes' : 'no';
+  if (typeof value == 'object') val == 'INVALID';
   return (
     <>
       <span>{val}</span>
@@ -25,6 +26,8 @@ FieldReadOnly.propTypes = {
     PropTypes.string,
     PropTypes.number,
     PropTypes.bool,
+    PropTypes.object,
+    PropTypes.array,
   ]),
   type: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(

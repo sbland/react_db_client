@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FieldReadOnly shallow renders Matches Snapshot 1`] = `
+"<Fragment>
+  <span>
+    a
+  </span>
+  <span className=\\"unitSpan\\">
+     unit
+  </span>
+</Fragment>"
+`;

@@ -57,8 +57,6 @@ export const FieldObjectRef = ({
   const handleSelect = useCallback(
     // eslint-disable-next-line no-unused-vars
     (selectedId, data) => {
-      console.log(selectedId);
-      console.log(data);
       const newData = multiple
         ? [...valueChecked, data].filter(
             (v, i, self) => self.findIndex((vv) => vv.uid == v.uid) == i

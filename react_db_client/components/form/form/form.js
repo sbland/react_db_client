@@ -50,7 +50,6 @@ export const Form = ({
   additionalData,
   componentMap,
 }) => {
-  // const [formData, setFormData] = useState(cloneDeep(formDataInitial));
   const [formEditData, setFormEditData] = useState({});
   const [endButtonContainerRef, setEndButtonContainerRef] = useState(null);
 
@@ -138,20 +137,7 @@ Form.propTypes = {
     PropTypes.shape({
       uid: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
-      type: PropTypes.oneOf([
-        'uid',
-        'reference',
-        'file',
-        'textLong',
-        'text',
-        'number',
-        'date',
-        'image',
-        'bool',
-        'select',
-        'selectMulti',
-        'embedded',
-      ]).isRequired,
+      type: PropTypes.string.isRequired,
     })
   ).isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -164,7 +150,7 @@ Form.propTypes = {
   endButtonRefOverride: PropTypes.any, // Should be a react reference
   errorCallback: PropTypes.func,
   additionalData: PropTypes.shape({}),
-  componentMap: PropTypes.objectOf(PropTypes.elementType),
+  componentMap: PropTypes.objectOf(PropTypes.elementType).isRequired,
 };
 
 Form.defaultProps = {
@@ -177,5 +163,4 @@ Form.defaultProps = {
   endButtonRefOverride: null,
   errorCallback: alert,
   additionalData: {},
-  componentMap: {},
 };

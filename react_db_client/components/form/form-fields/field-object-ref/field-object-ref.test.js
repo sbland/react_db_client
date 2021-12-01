@@ -1,30 +1,39 @@
+import '@samnbuk/react_db_client.helpers.enzyme-setup';
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import { MockReactC } from '../../../Helpers/testing';
-
-import { FieldObjectRef } from './FieldObjectRef';
+import { MockReactC } from '@samnbuk/react_db_client.helpers.testing';
 import { SearchAndSelectDropdown } from '@samnbuk/react_db_client.components.search-and-select-dropdown';
 
-jest.mock('../../SearchAndSelect/SearchAndSelectDropdown', () =>
-  MockReactC('SearchAndSelectDropdown')
+import { FieldObjectRef } from './field-object-ref';
+
+jest.mock('@samnbuk/react_db_client.components.search-and-select-dropdown', () =>
+  MockReactC('SearchAndSelectDropdown', ['SearchAndSelectDropdown'])
 );
 
 const updateFormData = jest.fn();
 const searchFn = jest.fn();
 const handleSelect = jest.fn();
 
+const demoValue= {
+  _id: 'demoitem',
+  uid: 'demoitem',
+  name: 'demoitem',
+  label: 'demoitem',
+}
+
 const defaultProps = {
   uid: 'demoid',
   unit: 'demounit',
   updateFormData,
   handleSelect,
-  value: 'inputValue',
+  value: demoValue,
   multiple: false,
   required: false,
   searchFn,
   returnFieldOnSelect: 'uid',
   searchFieldTargetField: 'name',
   labelField: 'name',
+  collection: 'collection',
 };
 
 describe('FieldObjectRef', () => {
@@ -60,7 +69,7 @@ describe('FieldObjectRef', () => {
       const selectedId = 'demoid';
       const selectedData = {};
       searchComponent.props().handleSelect(selectedId, selectedData);
-      expect(updateFormData).toHaveBeenCalledWith(defaultProps.uid, selectedId);
+      expect(updateFormData).toHaveBeenCalledWith(defaultProps.uid, selectedData);
     });
   });
   describe('Passes props to search and select', () => {

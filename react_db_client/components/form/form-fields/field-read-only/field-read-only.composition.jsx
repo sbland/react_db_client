@@ -7,6 +7,6 @@ export const BasicFieldReadOnly = () => (
     value="hello from FieldReadOnly"
     unit="TEXT"
     type={filterTypes.text}
-    options={{}}
+    options={[]}
   />
 );

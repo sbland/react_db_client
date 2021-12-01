@@ -6,17 +6,6 @@ import { switchF } from '@samnbuk/react_db_client.helpers.func-tools';
 import { FieldReadOnly } from '@samnbuk/react_db_client.components.form.form-fields.field-read-only';
 import { FieldLabel } from './field-label';
 
-// import FormFieldText from './Fields/FieldText';
-// import FormFieldNumber from './Fields/FieldNumber';
-// import FormFieldDate from './Fields/FieldDate';
-// import FormFieldBool from './Fields/FieldBool';
-// import FormFieldSelect from './Fields/FieldSelect';
-// import FormFieldMultiSelect from './Fields/FieldMultiSelect';
-// import FormFieldSelectSearch from './Fields/FieldSelectSearch';
-// import FormFieldFile from './Fields/FieldFile';
-// import FormFieldTextArea from './Fields/FieldTextArea';
-// import FormFieldObjectRef from './Fields/FieldObjectRef';
-
 import './_form.scss';
 
 export const FormField = ({
@@ -26,11 +15,6 @@ export const FormField = ({
   additionalData,
   componentMap,
 }) => {
-  // return (
-  //   <div>
-  //     Example
-  //   </div>
-  // )
   // TODO: Is this setup causing unnessesary updates?
   const props = useMemo(
     () => ({
@@ -44,39 +28,6 @@ export const FormField = ({
   );
   const { label, required, type, uid, hasChanged, readOnly } = heading;
 
-  /* Move this to external component */
-  // const componentOptions = {};
-  // // componentOptions[filterTypes.fileMultiple] = () =>
-  // //   readOnly ? <FormFieldReadOnly {...props} /> : <FormFieldFile multiple {...props} />;
-  // // componentOptions[filterTypes.file] = () =>
-  // //   readOnly ? <FormFieldReadOnly {...props} /> : <FormFieldFile {...props} />;
-  // // componentOptions[filterTypes.image] = () =>
-  // //   readOnly ? <FormFieldReadOnly {...props} /> : <FormFieldFile {...props} />;
-  // componentOptions[filterTypes.text] = () =>
-  //   readOnly ? <FormFieldReadOnly {...props} /> : <FormFieldText {...props} />;
-  // componentOptions[filterTypes.textLong] = () =>
-  //   readOnly ? <FormFieldReadOnly {...props} /> : <FormFieldTextArea useArea {...props} />;
-  // componentOptions[filterTypes.number] = () =>
-  //   readOnly ? <FormFieldReadOnly {...props} /> : <FormFieldNumber {...props} />;
-  // componentOptions[filterTypes.date] = () =>
-  //   readOnly ? <FormFieldReadOnly {...props} /> : <FormFieldDate {...props} />;
-  // componentOptions[filterTypes.bool] = () =>
-  //   readOnly ? <FormFieldReadOnly {...props} /> : <FormFieldBool {...props} />;
-  // componentOptions[filterTypes.toggle] = () =>
-  //   readOnly ? <FormFieldReadOnly {...props} /> : <FormFieldBool {...props} />;
-  // componentOptions[filterTypes.select] = () =>
-  //   readOnly ? <FormFieldReadOnly {...props} /> : <FormFieldSelect {...props} />;
-  // componentOptions[filterTypes.selectMulti] = () =>
-  //   readOnly ? <FormFieldReadOnly {...props} /> : <FormFieldMultiSelect {...props} />;
-  // componentOptions[filterTypes.selectSearch] = () =>
-  //   readOnly ? <FormFieldReadOnly {...props} /> : <FormFieldSelectSearch {...props} />;
-  // componentOptions[filterTypes.reference] = () =>
-  //   readOnly ? <FormFieldReadOnly {...props} /> : <FormFieldObjectRef {...props} />;
-
-  // /* Merge custom components */
-  // Object.entries(customFieldComponents).forEach(([key, Field]) => {
-  //   componentOptions[key] = () => <Field {...props} />;
-  // });
   const defaultComponent = () => FieldReadOnly;
 
   const FormComponent = switchF(heading.type, componentMap, defaultComponent);
@@ -103,7 +54,6 @@ export const FormField = ({
         hasLabel={hasLabel}
       />
       <FormComponent {...props} />
-      {/* {formComponent} */}
     </div>
   );
 };

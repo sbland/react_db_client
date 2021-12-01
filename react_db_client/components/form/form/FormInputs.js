@@ -75,7 +75,7 @@ export const FormInputs = ({
 };
 
 FormInputs.propTypes = {
-  FormField: PropTypes.element.isRequired,
+  FormField: PropTypes.func.isRequired,
   headings: PropTypes.arrayOf(
     PropTypes.shape({
       uid: PropTypes.string.isRequired,
@@ -93,7 +93,7 @@ FormInputs.propTypes = {
   isSection: PropTypes.bool,
   showKey: PropTypes.bool,
   additionalData: PropTypes.shape({}),
-  componentMap: PropTypes.objectOf(PropTypes.elementType),
+  componentMap: PropTypes.objectOf(PropTypes.elementType).isRequired,
 };
 
 FormInputs.defaultProps = {
@@ -102,5 +102,4 @@ FormInputs.defaultProps = {
   isSection: false,
   showKey: true,
   additionalData: {},
-  componentMap: {},
 };

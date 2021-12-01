@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FieldObjectRef Matches Snapshot 1`] = `
+"<Fragment>
+  <SearchAndSelectDropdown searchFunction={[undefined]} handleSelect={[Function (anonymous)]} selectionOverride={{...}} allowMultiple={false} returnFieldOnSelect=\\"_id\\" searchFieldTargetField=\\"name\\" labelField=\\"name\\" className=\\"formFieldInput\\" searchFieldPlaceholder=\\"demoitem\\" required={false} allowEmptySearch={false} />
+  <span>
+    demounit
+  </span>
+</Fragment>"
+`;
+
+exports[`FieldObjectRef Passes props to search and select should provide default search function if searchFn override is null 1`] = `
+Object {
+  "allowEmptySearch": false,
+  "allowMultiple": false,
+  "className": "formFieldInput",
+  "handleSelect": [Function],
+  "labelField": "name",
+  "required": false,
+  "returnFieldOnSelect": "_id",
+  "searchFieldPlaceholder": "demoitem",
+  "searchFieldTargetField": "name",
+  "searchFunction": undefined,
+  "selectionOverride": Array [
+    Object {
+      "_id": "demoitem",
+      "label": "demoitem",
+      "name": "demoitem",
+      "uid": "demoitem",
+    },
+  ],
+}
+`;
