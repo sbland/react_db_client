@@ -123,6 +123,12 @@
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/item-editor"
     },
+    "components/popup-panel": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/components/popup-panel"
+    },
     "components/search-and-select": {
         "scope": "",
         "version": "",

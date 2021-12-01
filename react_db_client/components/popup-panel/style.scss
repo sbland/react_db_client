@@ -1,0 +1,76 @@
+@import '@samnbuk/react_db_client.constants.style';
+
+
+.popupPanelWrap {
+  position: fixed;
+
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
+}
+
+.popupPanel {
+  position: fixed;
+  left: ($unit * 1);
+  right: ($unit * 1);
+  top: ($unit * 1);
+  bottom: ($unit * 1);
+  background: $white-off;
+  z-index: 10;
+
+  padding: ($unit * 2);
+  border: 1px $primaryColour solid;
+  box-shadow: 1px 1px 10px 1px rgba(100,100,100,0.3);
+  height: 95%;
+  // overflow-y: auto;
+}
+
+.popupPanel_overlay {
+  position: fixed;
+  // background: black;
+  opacity: 0.4;
+  cursor: pointer;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background:url(
+    data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAMElEQVQImXXJsREAIAwDMS/kZX47b0sFByQpVElAOrajKYCaO0re8eQfJ7sAoimALAAwSVfRiD/CAAAAAElFTkSuQmCC
+  ) repeat;
+}
+
+.popupPanel_closeBtn {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  top: -10px;
+  border-radius: 10px;
+  border: none;
+}
+
+.popupPanel_content {
+  margin-bottom: $unit;
+  position: absolute;
+  overflow-y: auto;
+  top: ($unit * 1);
+  right:0;
+  left: 0;
+  bottom: 0;
+  padding: ($unit);
+}
+
+.popupPanel_topBar {
+  position: absolute;
+  top: 0;
+  right:0;
+  left: 0;
+  height: ($unit * 2);
+  background: $white-off;
+}
+
+.popupPanel_title {
+  margin-left: $unit;
+  color: $grey-40;
+}
