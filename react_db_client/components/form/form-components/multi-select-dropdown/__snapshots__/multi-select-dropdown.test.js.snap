@@ -3,7 +3,7 @@
 exports[`MultiSelectDropdown Matches Snapshot 1`] = `
 "<div className=\\"multiSelectDropdown\\">
   <button className=\\"filterBtn\\" type=\\"button\\" onClick={[Function: onClick]}>
-    <Emoji emoj=\\"🔽\\" label=\\"DropDownMenu\\" />
+    <Emoji emoj=\\"🔽\\" label=\\"DropDownMenu\\" className=\\"\\" />
   </button>
   <ul className=\\"multiSelectDropdown_list-selected\\">
     <MultiSelectDropdownItem uid=\\"a\\" label=\\"a\\" handleSelect={[Function: handleSelect]} isSelected={true} />
