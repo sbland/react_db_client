@@ -56,7 +56,9 @@ export const StyledSelectList = ({
           headings={headings}
           columnWidths={columnWidths}
           customParsers={customParsers}
-          isSelected={currentSelection && currentSelection.indexOf(item[selectionField]) >= 0 || false}
+          isSelected={
+            (currentSelection && currentSelection.indexOf(item[selectionField]) >= 0) || false
+          }
           key={item.uid}
         />
       )),
@@ -94,7 +96,7 @@ export const StyledSelectList = ({
       <div style={{ zIndex: 10 }} className={styles.styledList_headings}>
         {mapHeadings}
       </div>
-      <div style={{ zIndex: 10 }} className={itemListClassName}>
+      <div style={{ zIndex: 10 }} className={itemListClassName} role="list">
         {mapItems}
       </div>
     </div>

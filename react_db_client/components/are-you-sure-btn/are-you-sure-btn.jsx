@@ -58,7 +58,7 @@ export const AreYouSureBtn = ({
 
 AreYouSureBtn.propTypes = {
   onConfirmed: PropTypes.func.isRequired,
-  btnText: PropTypes.string.isRequired,
+  btnText: PropTypes.element.isRequired,
   confirmMessage: PropTypes.string,
   className: PropTypes.string,
   disabled: PropTypes.bool,

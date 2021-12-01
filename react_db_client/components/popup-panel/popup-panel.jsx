@@ -4,7 +4,8 @@ import ReactDOM from 'react-dom';
 
 import './style.scss';
 
-let popupRoot = document.getElementById('popup-root');
+
+let _popupRoot = document.getElementById('popup-root');
 
 let popupCount = 1;
 /**
@@ -17,8 +18,9 @@ let popupCount = 1;
  * }
  * @returns
  */
-export const PopupPanel = ({ title, isOpen, handleClose, className, renderWhenClosed, children }) => {
+export const PopupPanel = ({ title, isOpen, handleClose, className, renderWhenClosed, children, popupRoot }) => {
   const [z] = useState(popupCount);
+
   useEffect(() => {
     popupCount += 1;
     return () => {
@@ -61,10 +63,12 @@ PopupPanel.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   renderWhenClosed: PropTypes.bool,
+  popupRoot: PropTypes.any,
 };
 
 PopupPanel.defaultProps = {
   renderWhenClosed: false,
+  popupRoot: _popupRoot,
 };
 
 

@@ -1,22 +1,11 @@
 ---
 description: 'A ItemEditor component.'
-labels: ['label1', 'label2', 'label3']
+labels: ['ui', 'data']
 ---
 
 import { ItemEditor } from './item-editor';
 
-## React Component for rendering text
+## React Component for modifying a database document
 
-A basic div that renders some text
-
-### Component usage
-```js
-<ItemEditor text="hello from ItemEditor" />
-```
-
-### Using props to customize the text
-
-Modify the text to see it change live:
-```js live
-<ItemEditor text="hello from ItemEditor" />
-```
+This component is a wrapper to a form to modify a database document.
+It also handles loading, saving and deleting the document.

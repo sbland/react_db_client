@@ -228,6 +228,7 @@ export const SearchAndSelect = ({
             <input
               className="searchField"
               style={{ flexGrow: 1 }}
+              aria-label="search"
               type="text"
               placeholder="search..."
               value={searchValue}

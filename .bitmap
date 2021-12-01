@@ -117,6 +117,12 @@
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-text"
     },
+    "components/generic-catalogue": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/components/generic-catalogue"
+    },
     "components/item-editor": {
         "scope": "",
         "version": "",
