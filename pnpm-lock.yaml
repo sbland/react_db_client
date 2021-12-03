@@ -72,18 +72,6 @@ importers:
   demo/envs/my-react:
     specifiers: {}
 
-  demo/pages/welcome:
-    specifiers: {}
-
-  demo/ui/card:
-    specifiers: {}
-
-  demo/ui/heading:
-    specifiers: {}
-
-  demo/ui/text:
-    specifiers: {}
-
   react_db_client/async-hooks/use-async-object-manager:
     specifiers: {}
 

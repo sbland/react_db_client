@@ -96,12 +96,6 @@
    * see https://harmony-docs.bit.dev/aspects/variants for more info.
    **/
   "teambit.workspace/variants": {
-    "{ui/**}, {pages/**}": {
-      // uses the custom env
-      "company.scope/envs/my-react": {}
-      // uncomment the line below if you remove the custom env and remove the line above
-      // "teambit.react/react": {},
-    },
     "{themes/**}": {
       "teambit.react/react": {}
     },

@@ -10,268 +10,244 @@
 
 {
     "async-hooks/use-async-object-manager": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/async-hooks/use-async-object-manager"
     },
     "async-hooks/use-async-request": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/async-hooks/use-async-request"
     },
     "components/are-you-sure-btn": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/are-you-sure-btn"
     },
     "components/column-manager": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.2",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/column-manager"
     },
     "components/custom-select-dropdown": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.2",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/custom-select-dropdown"
     },
     "components/emoji": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.2",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/emoji"
     },
     "components/filter-manager": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/filter-manager"
     },
     "components/form/form": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.2",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form"
     },
     "components/form/form-components/bubble-selector": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-components/bubble-selector"
     },
     "components/form/form-components/multi-select-dropdown": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-components/multi-select-dropdown"
     },
     "components/form/form-components/toggle-box": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-components/toggle-box"
     },
     "components/form/form-fields/field-bool": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-bool"
     },
     "components/form/form-fields/field-date": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-date"
     },
     "components/form/form-fields/field-multi-select": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-multi-select"
     },
     "components/form/form-fields/field-number": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-number"
     },
     "components/form/form-fields/field-object-ref": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.2",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-object-ref"
     },
     "components/form/form-fields/field-read-only": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-read-only"
     },
     "components/form/form-fields/field-text": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-text"
     },
     "components/generic-catalogue": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.2",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/generic-catalogue"
     },
     "components/item-editor": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.2",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/item-editor"
     },
     "components/popup-panel": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/popup-panel"
     },
     "components/search-and-select": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/search-and-select"
     },
     "components/search-and-select-dropdown": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.2",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/search-and-select-dropdown"
     },
     "components/selection-preview": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/selection-preview"
     },
     "components/styled-select-list": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.2",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/styled-select-list"
     },
     "constants/client-types": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "mainFile": "index.js",
         "rootDir": "react_db_client/constants/client-types"
     },
     "constants/demo-data": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/constants/demo-data"
     },
     "constants/style": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.scss",
         "rootDir": "react_db_client/constants/style"
     },
     "envs/my-react": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "demo/envs/my-react"
     },
     "generator/field-template": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/generator/field-template"
     },
     "generator/helper": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/generator/helper"
     },
     "generator/stylesheet": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/generator/stylesheet"
     },
     "helpers/composition-wraps": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/helpers/composition-wraps"
     },
     "helpers/data-processing": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.2",
         "mainFile": "index.js",
         "rootDir": "react_db_client/helpers/data-processing"
     },
     "helpers/enzyme-setup": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/helpers/enzyme-setup"
     },
     "helpers/filter-helpers": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/helpers/filter-helpers"
     },
     "helpers/func-tools": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/helpers/func-tools"
     },
     "helpers/generate-uid": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/helpers/generate-uid"
     },
     "helpers/testing": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/helpers/testing"
     },
     "hooks/use-auto-hide-panel-hook": {
-        "scope": "",
-        "version": "",
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/hooks/use-auto-hide-panel-hook"
-    },
-    "pages/welcome": {
-        "scope": "",
-        "version": "",
-        "mainFile": "index.ts",
-        "rootDir": "demo/pages/welcome"
-    },
-    "ui/card": {
-        "scope": "",
-        "version": "",
-        "mainFile": "index.ts",
-        "rootDir": "demo/ui/card"
-    },
-    "ui/heading": {
-        "scope": "",
-        "version": "",
-        "mainFile": "index.ts",
-        "rootDir": "demo/ui/heading"
-    },
-    "ui/text": {
-        "scope": "",
-        "version": "",
-        "mainFile": "index.ts",
-        "rootDir": "demo/ui/text"
     },
     "$schema-version": "14.9.0"
 }
