@@ -90,6 +90,9 @@ importers:
   react_db_client/async-hooks/use-async-request:
     specifiers: {}
 
+  react_db_client/components/are-you-sure-btn:
+    specifiers: {}
+
   react_db_client/components/auto-hide-panel-hook:
     specifiers: {}
 
@@ -138,7 +141,13 @@ importers:
   react_db_client/components/form/form-fields/field-text:
     specifiers: {}
 
+  react_db_client/components/generic-catalogue:
+    specifiers: {}
+
   react_db_client/components/item-editor:
+    specifiers: {}
+
+  react_db_client/components/popup-panel:
     specifiers: {}
 
   react_db_client/components/search-and-select:
