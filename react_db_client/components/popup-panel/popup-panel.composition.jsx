@@ -10,7 +10,6 @@ export const BasicPopupPanel = () => {
     __popupRoot.setAttribute('id', 'popup-root');
     const _popupRoot = document.getElementById('popup-root');
   }, []);
-  if (!popupRoot) return <div>Loading</div>;
   return (
     <div className="">
       <div className="">

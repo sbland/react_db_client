@@ -676,6 +676,7 @@ exports[`Search and Select Snapshots Default - with search field 1`] = `
         Search: 
       </label>
       <input
+        aria-label="search"
         className="searchField"
         onChange={[Function]}
         placeholder="search..."

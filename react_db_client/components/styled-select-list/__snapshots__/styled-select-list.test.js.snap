@@ -50,6 +50,7 @@ exports[`Styled select list Snapshot 1`] = `
   </div>
   <div
     className="styledList_items "
+    role="list"
     style={
       Object {
         "zIndex": 10,
@@ -59,6 +60,7 @@ exports[`Styled select list Snapshot 1`] = `
     <button
       className="styledList_itemBtn styledList_itemBtn "
       onClick={[Function]}
+      role="listitem"
       type="button"
     >
       <div
@@ -95,6 +97,7 @@ exports[`Styled select list Snapshot 1`] = `
     <button
       className="styledList_itemBtn styledList_itemBtn "
       onClick={[Function]}
+      role="listitem"
       type="button"
     >
       <div

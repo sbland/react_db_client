@@ -5,7 +5,6 @@ import { useColumnManager } from './column-manager-hook';
 export const BasicColumnManager = () => {
   const [columnWidths, setColumnWidths] = useState([1, 2, 3]);
   return (
-    // "hello"
     <ColumnWidthManager
       columnWidths={columnWidths}
       setColumnWidths={setColumnWidths}
