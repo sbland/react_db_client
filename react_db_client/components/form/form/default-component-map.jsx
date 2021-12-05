@@ -8,6 +8,7 @@ import { FieldNumber } from '@samnbuk/react_db_client.components.form.form-field
 import { FieldObjectRef } from '@samnbuk/react_db_client.components.form.form-fields.field-object-ref';
 import { FieldMultiSelect } from '@samnbuk/react_db_client.components.form.form-fields.field-multi-select';
 import { FieldSelect } from '@samnbuk/react_db_client.components.form.form-fields.field-select';
+import { FieldSelectSearch } from '@samnbuk/react_db_client.components.form.form-fields.field-select-search';
 
 export const defaultComponentMap = {
   [filterTypes.text]: () => FieldText,
@@ -21,6 +22,6 @@ export const defaultComponentMap = {
   [filterTypes.date]: () => FieldDate,
   [filterTypes.bool]: () => FieldBool,
   [filterTypes.toggle]: () => FieldBool,
-  // [filterTypes.selectSearch]: () => FieldSelectSearch,
+  [filterTypes.selectSearch]: () => FieldSelectSearch,
   // [filterTypes.reference]: () => FieldObjectRef,
 };
