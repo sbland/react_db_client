@@ -21,7 +21,7 @@ export const CustomSelectDropdown = ({
   }, [options]);
 
   function handleClickOutside(event) {
-    if (isOpen && menuRef.current && !menuRef.current.contains(event.target)) {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
       handleClose();
     }
   }

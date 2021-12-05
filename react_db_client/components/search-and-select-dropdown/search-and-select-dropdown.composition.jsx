@@ -10,7 +10,8 @@ import { demoResultData } from './demo-data';
 const defaultProps = {
   searchFunction: async () =>
     new Promise((resolve) => setTimeout(() => resolve(demoResultData), 500)),
-  handleSelect: (id) => alert(`Selected: ${id}`),
+  // handleSelect: (id) => alert(`Selected: ${id}`),
+  handleSelect: (id) => {},
   labelField: 'label',
   debug: true,
   searchFieldTargetField: 'label',

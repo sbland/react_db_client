@@ -109,8 +109,8 @@ export const useAsyncObjectManager = ({
       });
       if (reloadOnSave) {
         loadAsync(loadArgs, (loadedResponse) => {
-          onSavedCallbackIn(uid, response, combinedData);
           loadedDataCallback(loadedResponse);
+          onSavedCallbackIn(uid, response, combinedData);
         });
       } else {
         onSavedCallbackIn(uid, response, combinedData);

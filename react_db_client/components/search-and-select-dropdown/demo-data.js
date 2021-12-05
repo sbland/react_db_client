@@ -58,6 +58,24 @@ export const demoHeadingsData = [
       type: 'text',
       name: 'This thing 3',
     },
+    {
+      uid: '4',
+      label: 'Result 4',
+      type: 'text',
+      name: 'This thing 4',
+    },
+    {
+      uid: '5',
+      label: 'Result 5',
+      type: 'text',
+      name: 'This thing 5',
+    },
+    {
+      uid: '6',
+      label: 'Result 6',
+      type: 'text',
+      name: 'This thing 6',
+    },
   ];
 
   export const demoResultsDataMany = Array.from(Array(30).keys()).map(

@@ -14,9 +14,16 @@ const defaultProps = {
   editorHeadings: demoHeadingsData,
   additionalSaveData: {},
   ItemEditor: () => <div>ITEM EDITOR PLACEHOLDER</div>,
-  apiGetDocuments: async () => Object.values(demoResults),
   apiDeleteDocuments: async () => alert('Deleted DOcument'),
   PopupPanel: ({ children, isOpen }) => (isOpen ? children : ''),
+  notificationDispatch: alert,
+  asyncGetDocument: async() => Object.values(demoResults)[0],
+  asyncGetDocuments: async () => Object.values(demoResults),
+  asyncPutDocument: async() => alert('Put doc'),
+  asyncPostDocument: async() => alert('Post doc'),
+  asyncDeleteDocument: async() => {},
+  customFieldComponents: {},
+  onError: () => {},
 };
 
 export const BasicGenericCatalogue = () => <GenericCatalogue {...defaultProps} />;

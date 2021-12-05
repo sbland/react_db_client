@@ -53,7 +53,6 @@ export const SearchAndSelectDropdown = ({
     callback: searchCallback,
   });
 
-
   const onSearchFieldChange = (e) => {
     setSearchValue(e.target.value);
     setResults([]);
@@ -61,8 +60,24 @@ export const SearchAndSelectDropdown = ({
     setLoading(true);
   };
 
+  const search = useCallback(() => {
+    setResults([]);
+    setLoading(true);
+    setShowResults(false);
+    const searchFilter = new FilterObjectClass({
+      uid: 'search',
+      field: searchFieldTargetField,
+      value: searchValue,
+      operator: comparisons.contains,
+      type: filterTypes.text,
+    });
+    clearTimeout(searchTimeout.current);
+    const args = searchValue ? [searchFilter] : [];
+    searchTimeout.current = setTimeout(() => reload([args]), searchDelay);
+  }, [searchFieldTargetField, searchValue, searchDelay, searchTimeout]);
+
   useEffect(() => {
-    /* Set results to [] if we invalid search value */
+    /* Set results to [] if invalid search value */
     if (isFocused && !searchValue && !allowEmptySearch) setResults([]);
   }, [isFocused, searchValue, allowEmptySearch]);
 
@@ -80,18 +95,9 @@ export const SearchAndSelectDropdown = ({
   }, [isFocused, searchValue, allowEmptySearch, results]);
 
   useEffect(() => {
-    /* Repeat search */
+    /* Repeat search when focused */
     if ((searchValue || allowEmptySearch) && isFocused) {
-      const searchFilter = new FilterObjectClass({
-        uid: 'search',
-        field: searchFieldTargetField,
-        value: searchValue,
-        operator: comparisons.contains,
-        type: filterTypes.text,
-      });
-      clearTimeout(searchTimeout.current);
-      const args = searchValue ? [searchFilter] : [];
-      searchTimeout.current = setTimeout(() => reload([args]), searchDelay);
+      search();
     }
     return () => {
       clearTimeout(searchTimeout.current);
@@ -119,23 +125,19 @@ export const SearchAndSelectDropdown = ({
     if (!loading) {
       const selectedData = results.find((r) => r.uid == selectedId);
       if (!selectedData) throw Error('Selected item not found');
-      handleSelect(selectedId, selectedData);
-      setSearchValue(selectedData[labelField]);
       setIsFocused(false);
       setShowResults(false);
+      setSearchValue(selectedData[labelField]);
       goBackToSearchField();
+      handleSelect(selectedId, selectedData);
     }
   };
 
   const handleCancel = () => {
     setShowResults(false);
     setIsFocused(false);
+    setLoading(false);
   };
-
-  const handleEnterSearchField = useCallback(() => {
-    setIsFocused(true);
-    // if(searchValue || allowEmptySearch) setLoadin
-  }, []);
 
   const handleInputKeyDown = (e) => {
     /* When in search field */
@@ -161,9 +163,23 @@ export const SearchAndSelectDropdown = ({
   const classNames = [className, 'sas_drop_wrap', valid ? '' : 'invalid']
     .filter((a) => a)
     .join(' ');
+
+
+  const handleEnterSearchField = () => {
+    setIsFocused(true);
+  };
+
+  const handleClickDropdownBtn = () => {
+    goBackToSearchField();
+  };
+
+  const handleDropdownClose = () => {
+    handleCancel()
+  };
+
   return (
     <div className={classNames}>
-      <div className="searchFieldWrap">
+      <div className="searchFieldWrap" style={{ border: isFocused ? '1px solid red' : '' }}>
         <input
           className="searchField"
           style={{ flexGrow: 1 }}
@@ -177,11 +193,7 @@ export const SearchAndSelectDropdown = ({
           ref={searchFieldRef}
         />
         {!loading && (
-          <button
-            type="button"
-            className="dropdownBtn"
-            onClick={() => setShowResults((prev) => !prev)}
-          >
+          <button type="button" className="dropdownBtn" onClick={handleClickDropdownBtn}>
             \/
           </button>
         )}
@@ -193,7 +205,7 @@ export const SearchAndSelectDropdown = ({
         options={mappedResults}
         isOpen={showResults}
         handleSelect={(uid) => handleListItemSelect(uid)}
-        handleClose={() => setShowResults(false)}
+        handleClose={handleDropdownClose}
         firstItemRef={firstItemRef}
         goBackToSearchField={goBackToSearchField}
       />
@@ -219,6 +231,7 @@ SearchAndSelectDropdown.propTypes = {
   searchFieldPlaceholder: PropTypes.string,
   allowEmptySearch: PropTypes.bool,
   searchDelay: PropTypes.number,
+  callOnInit: PropTypes.bool,
 };
 
 SearchAndSelectDropdown.defaultProps = {
@@ -230,4 +243,5 @@ SearchAndSelectDropdown.defaultProps = {
   searchFieldPlaceholder: 'search...',
   allowEmptySearch: false,
   searchDelay: 500,
+  callOnInit: false,
 };

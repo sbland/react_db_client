@@ -112,10 +112,6 @@ ItemEditor.defaultProps = {
   inputUid: null,
   additionalData: {},
   isNew: false,
-  // asyncGetDocument: apiGetDocument,
-  // asyncPutDocument: apiPutDocument,
-  // asyncPostDocument: apiPostDocument,
-  // asyncDeleteDocument: apiDeleteDocument,
   customFieldComponents: {},
   saveErrorCallback: () => {},
 };
