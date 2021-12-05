@@ -170,6 +170,7 @@ export const SearchAndSelectDropdown = ({
   };
 
   const handleClickDropdownBtn = () => {
+    setIsFocused(true);
     goBackToSearchField();
   };
 

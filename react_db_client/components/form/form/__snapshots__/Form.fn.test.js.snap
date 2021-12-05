@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form - Functional Tests Functional tests Passing data to fields should pass headings data to field 1`] = `
+"<FieldReadOnly updateFormData={[Function (anonymous)]} value=\\"name-1\\" additionalData={{...}} uid=\\"uid\\" label=\\"UID\\" type=\\"uid\\" unit=\\"\\" options={{...}}>
+  <span>
+    name-1
+  </span>
+  <span className=\\"unitSpan\\" />
+</FieldReadOnly>"
+`;
+
+exports[`Form - Functional Tests Functional tests Passing data to fields should pass headings data to field label 1`] = `
+"<FieldLabel label=\\"UID\\" inputClassName=\\"form_label\\" hasChanged={false} required={false} hasLabel={true}>
+  <label className=\\"form_label\\">
+    UID
+    :
+     
+  </label>
+</FieldLabel>"
+`;

@@ -8,7 +8,6 @@ import { FormInputs } from './FormInputs';
 import formValidation from './formValidation';
 
 import './_form.scss';
-// import Emoji from '../Emoji/Emoji';
 
 /** Generic Form Component that manages updates and layout
  *
@@ -132,7 +131,10 @@ export const Form = ({
 };
 
 Form.propTypes = {
+  // FormField: PropTypes.elementType.isRequired,
+  /* Initial form mdata */
   formDataInitial: PropTypes.shape().isRequired,
+  /* Form field headings data */
   headings: PropTypes.arrayOf(
     PropTypes.shape({
       uid: PropTypes.string.isRequired,
@@ -140,16 +142,27 @@ Form.propTypes = {
       type: PropTypes.string.isRequired,
     })
   ).isRequired,
+  /* Called on form submit */
   onSubmit: PropTypes.func.isRequired,
+  /* Called when inputs change */
   onChange: PropTypes.func,
+  /* Show save buttons */
   showEndBtns: PropTypes.bool,
+  /* Text to display in submit btn */
   submitBtnText: PropTypes.string,
+  /* Disable autocomplete for the form */
   disableAutocomplete: PropTypes.bool,
+  /* Show info key */
   showKey: PropTypes.bool,
+  /* Form orientation (horiz/vert) */
   orientation: PropTypes.oneOf(['horiz', 'vert']),
+  /* React reference for button container */
   endButtonRefOverride: PropTypes.any, // Should be a react reference
+  /* Callback on error */
   errorCallback: PropTypes.func,
+  /* Additional data to apply to form on save */
   additionalData: PropTypes.shape({}),
+  /* Mapping of field type id to React component field component */
   componentMap: PropTypes.objectOf(PropTypes.elementType).isRequired,
 };
 
