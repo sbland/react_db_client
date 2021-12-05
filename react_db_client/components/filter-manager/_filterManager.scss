@@ -1,4 +1,8 @@
-@import '@samnbuk/react_db_client.constants.style';
+$unit: 1rem;//var(--unit, 1rem);
+$white: white;
+$defaultBoxShadow: var(--default-box-shadow, 1px 1px);
+$primaryColour: var(--primary-color, #888);
+$font-size-1: var(--font-size-1, 1rem);
 
 .filterPanel {
   // position: relative;

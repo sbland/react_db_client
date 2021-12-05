@@ -1,4 +1,5 @@
-@import '@samnbuk/react_db_client.constants.style';
+$unit: 1rem;//var(--unit, 1rem);
+$primaryColour: #888; // var(--primary-color, #888);
 
 .searchAndSelect_filterList {
   list-style: none;

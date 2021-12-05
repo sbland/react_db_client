@@ -1,9 +1,7 @@
-@import '@samnbuk/react_db_client.constants.style';
-
 .fieldNumber {
     min-width: 60%;
     flex-grow: 1;
-    outline: 1px $grey-30 solid;
+    outline: var(--default-field-outline, 1px solid #333);
     border: 0;
     padding: 0;
     margin:0;

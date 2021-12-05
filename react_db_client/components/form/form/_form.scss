@@ -1,4 +1,11 @@
-@import '@samnbuk/react_db_client.constants.style';
+$unit: 1rem;//var(--unit, 1rem);
+$white: white;
+$defaultBoxShadow: 1px 1px;
+$primaryColour: var(--primary-color, #888);
+$warningColour: var(--warning-color, red);
+$font-size-1: var(--font-size-1, 1rem);
+$grey-20: #dddddd;
+$grey-30: #cccccc;
 
 $section-padding: $unit * 0.1;
 $section-border: 1px $white dashed;

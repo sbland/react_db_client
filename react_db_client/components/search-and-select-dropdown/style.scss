@@ -1,4 +1,5 @@
-@import '@samnbuk/react_db_client.constants.style';
+$unit: 1rem; //var(--unit, 1rem);
+$core_line-height:1rem; // (--core-line-height, 1.2rem);
 
 @keyframes spin {
   to {
@@ -15,7 +16,7 @@
 .searchFieldWrap {
   display: flex;
   min-height: $core_line-height;
-  height: 100%;
+  // height: 100%;
   position: relative;
 }
 
