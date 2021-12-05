@@ -77,7 +77,6 @@ labels: ['form-field', '${context.name.replace('form-', '')}']
 
 import { ${context.namePascalCase} } from './${context.name}';
 
-\`\`\`
 `
             },
 
@@ -87,8 +86,9 @@ import { ${context.namePascalCase} } from './${context.name}';
               content: `import React from 'react';
 import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps/dist';
 import { ${context.namePascalCase} } from './${context.name}';
-import { defaultVal, demoOptions } from './demo-data';
+import { defaultVal } from './demo-data';
 
+const updateFormData = () => {};
 
 const defaultProps = {
   uid: 'uid',
