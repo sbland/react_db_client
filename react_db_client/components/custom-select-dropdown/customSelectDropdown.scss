@@ -1,4 +1,6 @@
-@import '@samnbuk/react_db_client.constants.style';
+$unit: 1rem;
+$white: white;
+$primaryColour-light: var(--primary-color-light, #ccc);
 $listItemHeight: $unit * 1.5;
 $minDropdownListWidth: $unit * 8;
 

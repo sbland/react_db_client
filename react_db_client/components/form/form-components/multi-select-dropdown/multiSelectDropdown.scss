@@ -1,4 +1,6 @@
-@import '@samnbuk/react_db_client.constants.style';
+$unit: var(--unit, 1rem);
+$white: white;
+$grey-20: #dddddd;
 
 .multiSelectDropdown {
   // display: flex;

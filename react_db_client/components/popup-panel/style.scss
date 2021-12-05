@@ -1,4 +1,7 @@
-@import '@samnbuk/react_db_client.constants.style';
+$unit: var(--unit, 1rem);
+$white-off: #dddddd;
+$primaryColour: var(--primary-color, #888);
+$grey-40: #bbbbbb;
 
 
 .popupPanelWrap {

@@ -1,9 +1,11 @@
-@import '@samnbuk/react_db_client.constants.style';
+$grey-10: #eeeeee;
+$font-size-1: var(--font-size-2, 0.8rem);
+$mq-medium: 768px;
 
 .selectionPreview_listWrap {
   border-radius: 3px;
   border: 1px solid $grey-10;
-  padding: $unit * 0.2;
+  padding: 1rem * 0.2;
   list-style: none;
   display: flex;
   flex-direction: column;
