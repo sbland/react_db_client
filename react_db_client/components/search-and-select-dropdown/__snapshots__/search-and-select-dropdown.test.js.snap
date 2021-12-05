@@ -4,7 +4,7 @@ exports[`SearchAndSelectDropdown shallow renders Matches Snapshot 1`] = `
 "<div className=\\"sas_drop_wrap invalid\\">
   <div className=\\"searchFieldWrap\\">
     <input className=\\"searchField\\" style={{...}} type=\\"text\\" placeholder=\\"search...\\" value=\\"\\" onChange={[Function: onSearchFieldChange]} onFocus={[Function (anonymous)]} onBlur={[Function: onBlur]} onKeyDown={[Function: handleInputKeyDown]} />
-    <button type=\\"button\\" className=\\"dropdownBtn\\" onClick={[Function: onClick]}>
+    <button type=\\"button\\" className=\\"dropdownBtn\\" onClick={[Function: handleClickDropdownBtn]}>
       \\\\/
     </button>
     <div className=\\"sas_drop_loadingWrap\\">

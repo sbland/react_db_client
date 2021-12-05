@@ -60,6 +60,40 @@ const defaultAsyncHookReturnLoaded = {
   response: demoResultData,
 };
 
+
+/* Helpers*/
+
+const focusOnSearchInput = (c) => {
+  const searchField = c.find('.searchField');
+  searchField.simulate('focus');
+  c.update();
+  jest.runOnlyPendingTimers();
+};
+
+const modifySearchInput = (c, searchVal) => {
+  const searchField = c.find('.searchField');
+  searchField.simulate('change', { target: { value: searchVal } });
+  c.update();
+  jest.runOnlyPendingTimers();
+};
+
+const setLoaded = (c, results) => {
+  useAsyncRequest.mockClear().mockReturnValue(defaultAsyncHookReturnLoaded);
+  c.setProps();
+  c.update();
+  act(() => {
+    useAsyncRequest.mock.calls[0][0].callback(results);
+  });
+  c.update();
+};
+
+const clickDopdownBtn = (c) => {
+  const dropdownBtn = c.find('.dropdownBtn');
+  dropdownBtn.simulate('click');
+  c.update();
+}
+
+/* Tests */
 describe('SearchAndSelectDropdown', () => {
   beforeEach(() => {
     setTimeout.mockClear();
@@ -83,27 +117,7 @@ describe('SearchAndSelectDropdown', () => {
       component = mount(<SearchAndSelectDropdown {...defaultProps} />);
     });
 
-    const focusOnSearchInput = (c) => {
-      const searchField = c.find('.searchField');
-      searchField.simulate('focus');
-      c.update();
-    };
 
-    const modifySearchInput = (c, searchVal) => {
-      const searchField = c.find('.searchField');
-      searchField.simulate('change', { target: { value: searchVal } });
-      c.update();
-    };
-
-    const setLoaded = (c, results) => {
-      useAsyncRequest.mockClear().mockReturnValue(defaultAsyncHookReturnLoaded);
-      c.setProps();
-      c.update();
-      act(() => {
-        useAsyncRequest.mock.calls[0][0].callback(results);
-      });
-      c.update();
-    };
 
     describe('defaults', () => {
       test('should not do anything when we focus on search field', () => {
@@ -116,13 +130,11 @@ describe('SearchAndSelectDropdown', () => {
       });
 
       test('should call async search fn when we modify the search input', () => {
-        // setTimeout.mockClear();
         expect(asyncSearchCall).not.toHaveBeenCalled();
         const searchVal = 'searchVal';
         focusOnSearchInput(component);
         modifySearchInput(component, searchVal);
-        expect(setTimeout).toHaveBeenCalledTimes(1);
-        jest.runOnlyPendingTimers();
+        expect(setTimeout).toHaveBeenCalledTimes(2);
         expect(asyncSearchCall).toHaveBeenCalledWith([
           [
             new FilterObjectClass({
@@ -173,24 +185,40 @@ describe('SearchAndSelectDropdown', () => {
         component = mount(
           <SearchAndSelectDropdown {...defaultProps} searchValue="" allowEmptySearch />
         );
+        jest.runOnlyPendingTimers()
+      });
+
+      test('should still not call search function before focused', () => {
+        asyncSearchCall.mockClear()
+        expect(asyncSearchCall).not.toHaveBeenCalled();
       });
 
       test('should call async search fn when we modify the search input with empty value', () => {
         focusOnSearchInput(component);
-        component.update();
-        jest.runOnlyPendingTimers();
         expect(asyncSearchCall).toHaveBeenCalledWith([[]]);
-        asyncSearchCall.mockClear();
-        setTimeout.mockClear();
+      });
+      test('should call async search func when input is set to empty', () => {
         focusOnSearchInput(component);
-        setTimeout.mockClear();
         modifySearchInput(component, 'searchVal');
-        expect(setTimeout).toHaveBeenCalledTimes(1);
-        jest.runOnlyPendingTimers();
         asyncSearchCall.mockClear();
-        focusOnSearchInput(component);
+
         modifySearchInput(component, '');
-        jest.runOnlyPendingTimers();
+        expect(asyncSearchCall).toHaveBeenCalledWith([[]]);
+      });
+    });
+    describe('Dropdown Btn', () => {
+      beforeEach(() => {
+        component = mount(
+          <SearchAndSelectDropdown {...defaultProps} searchValue="" allowEmptySearch/>
+        );
+      });
+
+      test('should call async search fn when click dropdown btn', () => {
+        jest.runOnlyPendingTimers()
+        expect(asyncSearchCall).not.toHaveBeenCalled();
+        clickDopdownBtn(component);
+        component.update();
+        jest.runOnlyPendingTimers()
         expect(asyncSearchCall).toHaveBeenCalledWith([[]]);
       });
     });
