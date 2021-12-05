@@ -1,11 +1,13 @@
-$unit: 1rem;//var(--unit, 1rem);
+$unit: 1rem; //var(--unit, 1rem);
 $white: white;
 $defaultBoxShadow: 1px 1px;
 $primaryColour: var(--primary-color, #888);
 $warningColour: var(--warning-color, red);
 $font-size-1: var(--font-size-1, 1rem);
+$line-height-1: var(--line-height-1, 1.2rem);
 $grey-20: #dddddd;
 $grey-30: #cccccc;
+$defaultFieldOutline: var(--default-field-outline, 1px solid #333);
 
 $section-padding: $unit * 0.1;
 $section-border: 1px $white dashed;
@@ -160,12 +162,15 @@ $heading-height: $unit * 0.7;
   /* INPUTS */
 
   input[type='text'],
+  input[type='date'],
   input[type='number'] {
     min-width: 60%;
     flex-grow: 1;
     outline: 1px $grey-30 solid;
     border: 0;
-
+    height: $line-height-1;
+    max-height: $line-height-1;
+    padding: 0;
     // &:focus {
     // }
   }
@@ -193,6 +198,10 @@ $heading-height: $unit * 0.7;
   textarea {
     width: 100%;
     flex-grow: 1;
+    padding: 0;
+    margin: 0;
+    border: none;
+    outline: none;
   }
 
   input[type='checkbox'],

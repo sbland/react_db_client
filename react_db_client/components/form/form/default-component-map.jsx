@@ -1,6 +1,7 @@
 import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
 
 import { FieldText } from '@samnbuk/react_db_client.components.form.form-fields.field-text';
+import { FieldTextArea } from '@samnbuk/react_db_client.components.form.form-fields.field-text-area';
 import { FieldBool } from '@samnbuk/react_db_client.components.form.form-fields.field-bool';
 import { FieldDate } from '@samnbuk/react_db_client.components.form.form-fields.field-date';
 import { FieldNumber } from '@samnbuk/react_db_client.components.form.form-fields.field-number';

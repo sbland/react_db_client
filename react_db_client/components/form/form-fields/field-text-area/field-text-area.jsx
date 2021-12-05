@@ -1,6 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import './style.scss';
+
 export const FieldTextArea = ({
   uid,
   unit,
@@ -31,18 +33,24 @@ export const FieldTextArea = ({
 
   return (
     <>
-      <textarea
-        style={{
-          height: textareaHeight || 50,
-        }}
-        value={value || ''}
-        id={uid}
-        name={uid}
-        onChange={(e) => manageInputChange(e.target.value)}
-        required={required}
-        ref={ref}
-      />
-      <span>{unit}</span>
+      <div className="inputWrapper">
+        <textarea
+          style={{
+            height: textareaHeight || 50,
+            maxHeight: '100%',
+            minHeight: '1rem',
+            maxWidth: '100%',
+            minWidth: '100%',
+          }}
+          value={value || ''}
+          id={uid}
+          name={uid}
+          onChange={(e) => manageInputChange(e.target.value)}
+          required={required}
+          ref={ref}
+        />
+        <span>{unit}</span>
+      </div>
     </>
   );
 };
