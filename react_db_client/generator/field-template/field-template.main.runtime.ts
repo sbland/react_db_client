@@ -77,52 +77,83 @@ labels: ['form-field', '${context.name.replace('form-', '')}']
 
 import { ${context.namePascalCase} } from './${context.name}';
 
-
-Modify the value to see it change live:
-\`\`\`js live
-<${context.namePascalCase}
-  uid="foo"
-  unit="unit"
-  defaultValue={3}
-  updateFormData={() => {}}
-  value={4}
-  required
-/>
 \`\`\`
 `
             },
 
             // composition file
             {
-              relativePath: `${context.name}.composition.tsx`,
+              relativePath: `${context.name}.composition.jsx`,
               content: `import React from 'react';
+import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps/dist';
 import { ${context.namePascalCase} } from './${context.name}';
+import { defaultVal, demoOptions } from './demo-data';
+
+
+const defaultProps = {
+  uid: 'uid',
+  unit: 'unit',
+  value: defaultVal,
+  updateFormData,
+};
+
 
 export const Basic${context.namePascalCase}  = () => (
-  <${context.namePascalCase}
-    uid="foo"
-    unit="unit"
-    defaultValue={3}
-    updateFormData={() => {}}
-    value={4}
-    required
-  />
+  <CompositionWrapDefault height="4rem" width="8rem">
+    <${context.namePascalCase}
+      {...defaultProps}
+      required
+    />
+  </CompositionWrapDefault>
 );
 `
             },
 
             // test file
             {
-              relativePath: `${context.name}.spec.tsx`,
-              content: `import React from 'react';
-import { render } from '@testing-library/react';
-import { Basic${context.namePascalCase} } from './${context.name}.composition';
+              relativePath: `${context.name}.test.js`,
+              content: `import '@samnbuk/react_db_client.helpers.enzyme-setup';
+import React from 'react';
+import { mount, shallow } from 'enzyme';
 
-it('should render with the correct value', () => {
-  const { getByText } = render(<Basic${context.namePascalCase} />);
-  const rendered = getByText('hello from ${context.namePascalCase}');
-  expect(rendered).toBeTruthy();
+import { ${context.namePascalCase} } from "./${context.name}";
+import * as compositions from './${context.name}.composition';
+import { defaultVal } from './demo-data';
+
+const updateFormData = jest.fn();
+
+const defaultProps = {
+  uid: 'uid',
+  unit: 'unit',
+  value: defaultVal,
+  updateFormData,
+};
+
+
+describe('${context.name}', () => {
+  beforeEach(() => {
+    updateFormData.mockClear();
+  });
+  test('Renders', () => {
+    shallow(<${context.namePascalCase} {...defaultProps} />);
+  });
+
+  describe('Compositions', () => {
+    Object.entries(compositions).forEach(([name, Composition]) => {
+      test(name, () => {
+        mount(<Composition />);
+      });
+    });
+  });
+  describe('shallow renders', () => {
+    test('Matches Snapshot', () => {
+      const component = shallow(<${context.namePascalCase} {...defaultProps} />);
+      const tree = component.debug();
+      expect(tree).toMatchSnapshot();
+    });
+  });
 });
+
 `
             },
 

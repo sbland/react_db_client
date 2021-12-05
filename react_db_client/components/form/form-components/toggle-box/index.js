@@ -1,2 +1,2 @@
-// TODO: Implement this!
+export { ToggleBoxRadioGroup } from './radio-group';
 export { ToggleBox } from './toggle-box';
