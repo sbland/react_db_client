@@ -6,7 +6,6 @@ import { AreYouSureBtn } from '@samnbuk/react_db_client.components.are-you-sure-
 import { ItemEditor as _ItemEditor } from '@samnbuk/react_db_client.components.item-editor';
 import { Emoji } from '@samnbuk/react_db_client.components.emoji';
 
-
 export const GenericCatalogue = ({
   itemName,
   collection,
@@ -17,9 +16,15 @@ export const GenericCatalogue = ({
   availableFilters,
   ItemEditor,
   errorCallback,
-  apiGetDocuments,
-  apiDeleteDocument,
   PopupPanel,
+  notificationDispatch,
+  asyncGetDocument,
+  asyncGetDocuments,
+  asyncPutDocument,
+  asyncPostDocument,
+  asyncDeleteDocument,
+  customFieldComponents,
+  onError,
 }) => {
   const [showEditor, setShowEditor] = useState(false);
   const [selectedUid, setSelectedUid] = useState(null);
@@ -28,7 +33,7 @@ export const GenericCatalogue = ({
 
   // const { call: copySet } = useAsyncRequest({
   //   args: [],
-  //   callFn: apiCopyDocument,
+  //   callFn: asyncCopyDocument,
   //   callOnInit: false,
   //   callback: () => {
   //     setReloadDataKey((prev) => prev + 1);
@@ -39,7 +44,7 @@ export const GenericCatalogue = ({
   useEffect(() => {
     if (handleDelete) {
       setHandleDelete(false);
-      apiDeleteDocument(collection, selectedUid)
+      asyncDeleteDocument(collection, selectedUid)
         .then(() => {
           setReloadDataKey((prev) => prev + 1);
         })
@@ -63,7 +68,7 @@ export const GenericCatalogue = ({
     async (filters, sortBy, searchString) => {
       const filtersModified = [...additionalFilters, ...filters];
       const sortByA = sortBy || 'label';
-      const docs = await apiGetDocuments(
+      const docs = await asyncGetDocuments(
         collection,
         filtersModified,
         // TODO: Filter preview only headings out
@@ -78,6 +83,16 @@ export const GenericCatalogue = ({
     [collection, additionalFilters, resultsHeadings]
   );
 
+  const onSubmitCallback = useCallback(
+    (uid) => {
+      notificationDispatch(`${itemName} saved`);
+      setSelectedUid(uid);
+      setShowEditor(false);
+      setReloadDataKey((prev) => prev + 1);
+    },
+    [itemName]
+  );
+
   return (
     <>
       {showEditor && (
@@ -87,12 +102,13 @@ export const GenericCatalogue = ({
           additionalData={additionalSaveData}
           params={editorHeadings}
           collection={collection}
-          onSubmitCallback={(uid) => {
-            notificationDispatch(openMessage(`${itemName} saved`));
-            setSelectedUid(uid);
-            setShowEditor(false);
-            setReloadDataKey(reloadDatakey + 1);
-          }}
+          onSubmitCallback={onSubmitCallback}
+          asyncGetDocument={asyncGetDocument}
+          asyncPutDocument={asyncPutDocument}
+          asyncPostDocument={asyncPostDocument}
+          asyncDeleteDocument={asyncDeleteDocument}
+          customFieldComponents={customFieldComponents}
+          saveErrorCallback={onError}
         />
       )}
       <div className="GenericCatalogueFunc_Wrap sectionWrapper">
@@ -132,6 +148,7 @@ export const GenericCatalogue = ({
           <div>
             <button
               type="button"
+              className="button-two"
               onClick={() => setShowEditor(true)}
               disabled={selectedUid === null}
             >
@@ -177,9 +194,17 @@ GenericCatalogue.propTypes = {
     })
   ).isRequired,
   ItemEditor: PropTypes.elementType,
-  apiGetDocuments: PropTypes.func.isRequired,
-  apiDeleteDocuments: PropTypes.func.isRequired,
   PopupPanel: PropTypes.elementType,
+  notificationDispatch: PropTypes.func,
+  asyncGetDocuments: PropTypes.func.isRequired,
+  asyncDeleteDocuments: PropTypes.func.isRequired,
+  asyncGetDocument: PropTypes.func.isRequired,
+  asyncGetDocuments: PropTypes.func.isRequired,
+  asyncPutDocument: PropTypes.func.isRequired,
+  asyncPostDocument: PropTypes.func.isRequired,
+  asyncDeleteDocument: PropTypes.func.isRequired,
+  customFieldComponents: PropTypes.objectOf(PropTypes.elementType),
+  onError: PropTypes.func,
 };
 
 GenericCatalogue.defaultProps = {
@@ -187,4 +212,7 @@ GenericCatalogue.defaultProps = {
   additionalSaveData: {},
   ItemEditor: _ItemEditor,
   PopupPanel: () => {},
+  notificationDispatch: alert,
+  customFieldComponents: {},
+  onError: () => {},
 };
