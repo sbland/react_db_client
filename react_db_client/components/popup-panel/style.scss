@@ -1,4 +1,4 @@
-$unit: var(--unit, 1rem);
+$unit: 1rem;//var(--unit, 1rem);
 $white-off: #dddddd;
 $primaryColour: var(--primary-color, #888);
 $grey-40: #bbbbbb;
@@ -16,10 +16,11 @@ $grey-40: #bbbbbb;
 
 .popupPanel {
   position: fixed;
-  left: ($unit * 1);
-  right: ($unit * 1);
-  top: ($unit * 1);
-  bottom: ($unit * 1);
+  left: $unit;
+  // left: $unit;
+  right: $unit;
+  top: $unit;
+  bottom: $unit;
   background: $white-off;
   z-index: 10;
 
@@ -57,7 +58,7 @@ $grey-40: #bbbbbb;
   margin-bottom: $unit;
   position: absolute;
   overflow-y: auto;
-  top: ($unit * 1);
+  top: $unit;
   right:0;
   left: 0;
   bottom: 0;

@@ -1,5 +1,5 @@
-$unit: var(--unit, 1rem);
-$core_line-height: ($core-line-height, $unit * 1.2);
+$unit: 1rem; //var(--unit, 1rem);
+$core_line-height:1rem; // (--core-line-height, 1.2rem);
 
 @keyframes spin {
   to {

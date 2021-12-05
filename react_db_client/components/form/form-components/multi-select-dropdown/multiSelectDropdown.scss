@@ -1,4 +1,4 @@
-$unit: var(--unit, 1rem);
+$unit: 1rem;//var(--unit, 1rem);
 $white: white;
 $grey-20: #dddddd;
 
@@ -11,8 +11,8 @@ $grey-20: #dddddd;
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  margin-right: -($unit * 0.5);
-  margin-bottom: -($unit * 0.5);
+  margin-right: calc(-($unit * 0.5));
+  margin-bottom: calc(-($unit * 0.5));
 
   li {
     margin-right: ($unit * 0.5);

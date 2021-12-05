@@ -1,5 +1,5 @@
-$unit: var(--unit, 1rem);
-$primaryColour: var(--primary-color, #888);
+$unit: 1rem;//var(--unit, 1rem);
+$primaryColour: #888; // var(--primary-color, #888);
 
 .searchAndSelect_filterList {
   list-style: none;
@@ -29,7 +29,7 @@ $primaryColour: var(--primary-color, #888);
   z-index: 200;
   text-align: center;
   opacity: 1;
-  min-height: (10 * $unit);
+  min-height: calc(10 * $unit);
 
   transition: opacity 0.3s ease-in;
 
