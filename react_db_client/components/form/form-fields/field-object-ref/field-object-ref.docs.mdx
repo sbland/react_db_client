@@ -1,22 +1,6 @@
 ---
-description: 'A React Form Field Component for editing <TYPE>.'
+description: 'A React Form Field Component searching and selecting other collection documents.'
 labels: ['form-field', 'field-object-ref']
 ---
 
 import { FieldObjectRef } from './field-object-ref';
-
-
-Modify the value to see it change live:
-```js live
-<FieldObjectRef
-  uid="demoid"
-  unit="demounit"
-  updateFormData={() => {}}
-  value={value}
-  multiple={false}
-  required={false}
-  labelField="name"
-  searchFn={(collection, schema, sortBy) => async (filters) => demoResults}
-  allowEmptySearch
-/>
-```

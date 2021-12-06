@@ -145,7 +145,6 @@ export const SearchAndSelectDropdown = ({
   };
 
   const handleCancel = () => {
-    console.log('cancel')
     setShowResults(false);
     setIsFocused(false);
     setLoading(false);
@@ -184,7 +183,6 @@ export const SearchAndSelectDropdown = ({
   const handleClickDropdownBtn = () => {
     if (showResults) setShowResults(false);
     else {
-      console.log(showResults)
       setHasSelected(false);
       setIsFocused(true);
       goBackToSearchField();
@@ -196,7 +194,6 @@ export const SearchAndSelectDropdown = ({
   };
 
   const handleInputClick = () => {
-    console.log('click');
     setIsFocused(true);
     setHasSelected(false);
   };

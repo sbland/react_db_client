@@ -1,20 +1,7 @@
 import React, { useState } from 'react';
 import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps';
-
+import { demoResults } from './demo-data';
 import { FieldObjectRef } from './field-object-ref';
-
-const demoResults = [
-  {
-    uid: 'foo',
-    label: 'Foo',
-    name: 'FooAlt',
-  },
-  {
-    uid: 'bar',
-    label: 'Bar',
-    name: 'BarAlt',
-  },
-];
 
 export const BasicFieldObjectRef = () => {
   const [value, setValue] = useState(null);
@@ -22,7 +9,7 @@ export const BasicFieldObjectRef = () => {
     console.log(uid);
     console.log(newVal);
     setValue(newVal);
-  }
+  };
   return (
     <div>
       <CompositionWrapDefault height="4rem" width="4rem">
@@ -35,7 +22,7 @@ export const BasicFieldObjectRef = () => {
           required={false}
           labelField="label"
           collection="democollection"
-          searchFn={(collection, schema, sortBy) => async (filters) => demoResults}
+          asyncGetDocuments={async (collection, filters, schema, sortBy) => demoResults}
           allowEmptySearch
         />
       </CompositionWrapDefault>
@@ -44,15 +31,13 @@ export const BasicFieldObjectRef = () => {
   );
 };
 
-
-
 export const Multiple = () => {
   const [value, setValue] = useState(null);
   const updateFormData = (uid, newVal) => {
     console.log(uid);
     console.log(newVal);
     setValue(newVal);
-  }
+  };
   return (
     <div>
       <CompositionWrapDefault height="4rem" width="4rem">
@@ -64,15 +49,15 @@ export const Multiple = () => {
           multiple
           required={false}
           labelField="label"
-          searchFn={(collection, schema, sortBy) => async (filters) => demoResults}
+          asyncGetDocuments={async (collection, filters, schema, sortBy) => demoResults}
           allowEmptySearch
+          collection="democollection"
         />
       </CompositionWrapDefault>
       {value && value.map((v) => v.label)}
     </div>
   );
 };
-
 
 export const MultipleAltLabel = () => {
   const [value, setValue] = useState(null);
@@ -86,8 +71,9 @@ export const MultipleAltLabel = () => {
         multiple
         required={false}
         labelField="name"
-        searchFn={(collection, schema, sortBy) => async (filters) => demoResults}
+        asyncGetDocuments={async (collection, filters, schema, sortBy) => demoResults}
         allowEmptySearch
+        collection="democollection"
       />
     </CompositionWrapDefault>
   );

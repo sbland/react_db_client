@@ -23,5 +23,5 @@ export const defaultComponentMap = {
   [filterTypes.bool]: () => FieldBool,
   [filterTypes.toggle]: () => FieldBool,
   [filterTypes.selectSearch]: () => FieldSelectSearch,
-  // [filterTypes.reference]: () => FieldObjectRef,
+  [filterTypes.reference]: () => FieldObjectRef,
 };
