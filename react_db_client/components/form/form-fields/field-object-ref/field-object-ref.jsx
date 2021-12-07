@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 
 import { SearchAndSelectDropdown } from '@samnbuk/react_db_client.components.search-and-select-dropdown';
 
-// const searchFn = (collection, schema, sortBy) => async (filters) => {
-//   return apiGetDocuments(collection, filters || [], schema, sortBy);
-// };
 
 const parseVal = (val) => {
   if (!val) {
@@ -34,6 +31,10 @@ const SelectedItems = ({ items, labelField, handleItemClick }) => {
   );
 };
 
+const searchFn = (asyncGetDocuments, collection, schema, sortBy) => async (filters) => {
+  return asyncGetDocuments(collection, filters || [], schema, sortBy);
+};
+
 /**
  * A form field that deals with object id references
  */
@@ -47,7 +48,7 @@ export const FieldObjectRef = ({
   required,
   labelField, // The field in the returned data to use as the label
   allowEmptySearch,
-  searchFn,
+  asyncGetDocuments,
 }) => {
   let valueChecked = useMemo(() => parseVal(value), [value]);
   let searchFieldPlaceholder = multiple
@@ -79,14 +80,13 @@ export const FieldObjectRef = ({
   return (
     <>
       <SearchAndSelectDropdown
-        searchFunction={searchFn(collection, '_id')}
+        searchFunction={searchFn(asyncGetDocuments, collection, '_id', labelField)}
         handleSelect={handleSelect}
         selectionOverride={valueChecked}
         allowMultiple={multiple}
         returnFieldOnSelect="_id"
         searchFieldTargetField={labelField}
         labelField={labelField}
-        // TODO: pass classname to sas
         className="formFieldInput"
         searchFieldPlaceholder={searchFieldPlaceholder}
         // onChange={(e) => updateFormData(uid, e.target.value)}
@@ -126,7 +126,10 @@ FieldObjectRef.propTypes = {
   labelField: PropTypes.string,
   collection: PropTypes.string.isRequired,
   allowEmptySearch: PropTypes.bool,
-  searchFn: PropTypes.func.isRequired,
+  /* Async func to get documents for selection
+   * Signature: (collection<string>, filters<Array>, schema<String>, sortBy<String>) => <Array>
+   */
+  asyncGetDocuments: PropTypes.func.isRequired,
 };
 
 FieldObjectRef.defaultProps = {

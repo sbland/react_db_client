@@ -1,6 +1,7 @@
 import '@samnbuk/react_db_client.helpers.enzyme-setup';
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import { act } from 'react-dom/test-utils';
 import { Form } from './form';
 import { demoHeadingsData, demoFormData } from './DemoData';
 import { FormInputs } from './FormInputs';
@@ -20,15 +21,18 @@ const rowCounter = (acc, val) => {
   return acc + addme;
 };
 
+const FormField = () => <div>FormFieldMock</div>;
+
 const defaultProps = {
   headings: demoHeadingsData,
   formDataInitial: demoFormData,
   onSubmit: submitFunc,
   componentMap: defaultComponentMap,
+  FormField,
 };
 
 describe('Form', () => {
-  it.only('renders', () => {
+  it('renders', () => {
     shallow(<Form {...defaultProps} />);
   });
 
@@ -41,9 +45,7 @@ describe('Form', () => {
   const form = mount(<Form {...defaultProps} />);
 
   it('renders a row for each heading', () => {
-    expect(form.find('.form_row').filter('.form_row.form_row').length).toEqual(
-      demoHeadingsData.reduce(rowCounter, 0)
-    );
+    expect(form.find(FormField).length).toEqual(demoHeadingsData.reduce(rowCounter, 0));
   });
 
   it('renders embedded headings as sections', () => {
@@ -84,12 +86,7 @@ describe('Form', () => {
 
   describe('handleChange', () => {
     it('calls onChange func when a field is changed during live update', () => {
-      const formLive = mount(
-        <Form
-          {...defaultProps}
-          onChange={onChangeFunc}
-        />
-      );
+      const formLive = mount(<Form {...defaultProps} onChange={onChangeFunc} />);
       const formInputDOM = formLive
         .find('input')
         // Disabled ids on form inputs to prevent autofill
@@ -102,15 +99,16 @@ describe('Form', () => {
 });
 
 describe('FormInputs', () => {
-  test('should update on change', () => {
+  test.only('should update on change', () => {
     const mockUpdate = jest.fn();
     const formInputs = mount(
-      <FormInputs {...defaultProps} updateFormData={mockUpdate} />
+      <FormInputs {...defaultProps} updateFormData={mockUpdate} formData={{}} />
     );
-    // Disabled ids on form inputs to prevent autofill
-    // const formInputDOM = formInputs.find('input').filterWhere((n) => n.props().id === 'name');
-    const formInputDOM = formInputs.find('input').first();
-    formInputDOM.simulate('change', { target: { value: 'foo' } });
+    const formField = formInputs.find(FormField).first();
+
+    act(() => {
+      formField.props().updateFormData('name', 'foo');
+    });
     expect(mockUpdate).toHaveBeenCalledWith('name', 'foo');
   });
 });

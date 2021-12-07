@@ -46,7 +46,7 @@ const DemoFormComponent = ({
 /**
  * Default form using preset form field component
  */
-export const FormDefault = () => {
+ export const FormDefault = () => {
   return (
     <div className="sectionWrapper">
       <Form
@@ -56,6 +56,26 @@ export const FormDefault = () => {
         additionalData={demoAdditionalData}
         componentMap={defaultComponentMap}
         FormField={FormField}
+      />
+    </div>
+  );
+};
+
+
+/**
+ * Default form with horizontal orientation
+ */
+ export const FormDefaultHoriz = () => {
+  return (
+    <div className="sectionWrapper">
+      <Form
+        headings={demoHeadingsData}
+        formDataInitial={demoFormData}
+        onSubmit={(data) => console.log(data)}
+        additionalData={demoAdditionalData}
+        componentMap={defaultComponentMap}
+        FormField={FormField}
+        orientation='horiz'
       />
     </div>
   );

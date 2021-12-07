@@ -15,14 +15,13 @@ import './style.scss';
 /**
  * Search and Select Dropdown Component
  * Dropdown selection with async data load
-
  */
 export const SearchAndSelectDropdown = ({
   searchFunction,
   handleSelect,
   intitialValue,
-  searchFieldTargetField, // the target field that the search string applies to
-  labelField, // The field in the returned data to use as the label
+  searchFieldTargetField,
+  labelField,
   className,
   searchFieldPlaceholder,
   allowEmptySearch,
@@ -34,6 +33,7 @@ export const SearchAndSelectDropdown = ({
   const [isFocused, setIsFocused] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const [hasSelected, setHasSelected] = useState(false);
   const firstItemRef = useRef(null);
   const searchFieldRef = useRef(null);
   const searchTimeout = useRef(null);
@@ -58,6 +58,7 @@ export const SearchAndSelectDropdown = ({
     setResults([]);
     setShowResults(false);
     setLoading(true);
+    setHasSelected(false);
   };
 
   const search = useCallback(() => {
@@ -91,18 +92,27 @@ export const SearchAndSelectDropdown = ({
 
   useEffect(() => {
     /* Show results if focused */
-    if (isFocused && (searchValue || allowEmptySearch) && results?.length > 0) setShowResults(true);
-  }, [isFocused, searchValue, allowEmptySearch, results]);
+    if (!hasSelected && isFocused && (searchValue || allowEmptySearch) && results?.length > 0)
+      setShowResults(true);
+  }, [isFocused, searchValue, allowEmptySearch, results, hasSelected]);
 
   useEffect(() => {
     /* Repeat search when focused */
-    if ((searchValue || allowEmptySearch) && isFocused) {
+    if (!hasSelected && (searchValue || allowEmptySearch) && isFocused) {
       search();
     }
     return () => {
       clearTimeout(searchTimeout.current);
     };
-  }, [searchValue, reload, searchFieldTargetField, allowEmptySearch, isFocused, searchDelay]);
+  }, [
+    searchValue,
+    reload,
+    searchFieldTargetField,
+    allowEmptySearch,
+    isFocused,
+    searchDelay,
+    hasSelected,
+  ]);
 
   const mappedResults = useMemo(() => {
     if (Array.isArray(labelField)) {
@@ -129,6 +139,7 @@ export const SearchAndSelectDropdown = ({
       setShowResults(false);
       setSearchValue(selectedData[labelField]);
       goBackToSearchField();
+      setHasSelected(true);
       handleSelect(selectedId, selectedData);
     }
   };
@@ -137,6 +148,7 @@ export const SearchAndSelectDropdown = ({
     setShowResults(false);
     setIsFocused(false);
     setLoading(false);
+    setHasSelected(false);
   };
 
   const handleInputKeyDown = (e) => {
@@ -164,17 +176,26 @@ export const SearchAndSelectDropdown = ({
     .filter((a) => a)
     .join(' ');
 
-
   const handleEnterSearchField = () => {
     setIsFocused(true);
   };
 
   const handleClickDropdownBtn = () => {
-    goBackToSearchField();
+    if (showResults) setShowResults(false);
+    else {
+      setHasSelected(false);
+      setIsFocused(true);
+      goBackToSearchField();
+    }
   };
 
   const handleDropdownClose = () => {
-    handleCancel()
+    handleCancel();
+  };
+
+  const handleInputClick = () => {
+    setIsFocused(true);
+    setHasSelected(false);
   };
 
   return (
@@ -191,6 +212,7 @@ export const SearchAndSelectDropdown = ({
           onBlur={() => setIsFocused(false)}
           onKeyDown={handleInputKeyDown}
           ref={searchFieldRef}
+          onClick={handleInputClick}
         />
         {!loading && (
           <button type="button" className="dropdownBtn" onClick={handleClickDropdownBtn}>
@@ -213,35 +235,40 @@ export const SearchAndSelectDropdown = ({
   );
 };
 
-const selectionShape = {};
-
 SearchAndSelectDropdown.propTypes = {
+  /* Async function to call when searching
+   * Signature: async (searchText) => {}
+   */
   searchFunction: PropTypes.func.isRequired,
+  /* Function called when item is selected
+   * Signature: (selectedId, selectedData) => {}
+   */
   handleSelect: PropTypes.func.isRequired,
-  selectionOverride: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.shape(selectionShape)),
-    PropTypes.shape(selectionShape),
-  ]),
-  allowMultiple: PropTypes.bool,
-  returnFieldOnSelect: PropTypes.string,
+  /* Initial search field value */
+  intitialValue: PropTypes.string,
+  /* the target field that the search string applies to */
   searchFieldTargetField: PropTypes.string,
+  /* The field in the returned data to use as the label */
   labelField: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)])
     .isRequired,
+  /* Additional classnames */
   className: PropTypes.string,
+  /* Search field placeholder */
   searchFieldPlaceholder: PropTypes.string,
+  /* Call search even when input is empty */
   allowEmptySearch: PropTypes.bool,
+  /* Delay between input and search call */
   searchDelay: PropTypes.number,
-  callOnInit: PropTypes.bool,
+  /* Input is valid */
+  valid: PropTypes.bool,
 };
 
 SearchAndSelectDropdown.defaultProps = {
-  selectionOverride: null,
-  allowMultiple: false,
-  returnFieldOnSelect: 'uid',
+  initialValue: '',
   searchFieldTargetField: 'label',
   className: '',
   searchFieldPlaceholder: 'search...',
   allowEmptySearch: false,
   searchDelay: 500,
-  callOnInit: false,
+  valid: true,
 };

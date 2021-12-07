@@ -24,7 +24,7 @@ export function CompositionWrapDefault({
     padding: '1rem',
     height: heightActive,
     width: widthActive,
-    overflow: allowOverflow ? 'auto' : 'hidden',
+    overflow: allowOverflow ? 'visible' : 'hidden',
   };
   const styleInner = {
     outline: '1px solid green',
@@ -32,7 +32,7 @@ export function CompositionWrapDefault({
     padding: 0,
     width: '100%',
     height: '100%',
-    overflow: allowOverflow ? 'visable' : 'hidden',
+    overflow: allowOverflow ? 'visible' : 'hidden',
   };
 
   const btnStyle = (isOn) => ({
@@ -46,6 +46,7 @@ export function CompositionWrapDefault({
       <button onClick={() => setHeightActive(setDim(-5))}>-5 Height</button>
       <button onClick={() => setWidthActive(setDim(-5))}>-5 Width</button>
       <button style={btnStyle(allowOverflow)} onClick={() => setAllowOverflow((prev) => !prev)}>Overflow</button>
+
 
       <div style={styleOuter}>
         <div style={styleInner}>{children}</div>

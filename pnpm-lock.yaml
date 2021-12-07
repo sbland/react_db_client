@@ -126,7 +126,13 @@ importers:
   react_db_client/components/form/form-fields/field-read-only:
     specifiers: {}
 
+  react_db_client/components/form/form-fields/field-select:
+    specifiers: {}
+
   react_db_client/components/form/form-fields/field-text:
+    specifiers: {}
+
+  react_db_client/components/form/form-fields/field-text-area:
     specifiers: {}
 
   react_db_client/components/generic-catalogue:
