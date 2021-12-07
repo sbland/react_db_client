@@ -2,12 +2,11 @@ import '@samnbuk/react_db_client.helpers.enzyme-setup';
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
+import { FilterObjectClass } from '@samnbuk/react_db_client.constants.client-types';
 import { SearchAndSelectDropdown } from '@samnbuk/react_db_client.components.search-and-select-dropdown';
 
 import { FieldObjectRef } from './field-object-ref';
 import * as compositions from './field-object-ref.composition';
-import { FilterObjectSimpleClass } from '@samnbuk/react_db_client.constants.client-types/dist';
-import { FilterObjectClass } from '@samnbuk/react_db_client.constants.client-types/dist/filter-object-class';
 
 const updateFormData = jest.fn();
 const asyncGetDocuments = jest.fn();
