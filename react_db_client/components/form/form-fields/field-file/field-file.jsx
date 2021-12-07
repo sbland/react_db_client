@@ -36,7 +36,7 @@ export const FieldFile = ({
   PopupPanel,
 }) => {
   if (value && (typeof value !== 'object' || (value[0] && typeof value[0] !== 'object')))
-    throw Error('Value must be file type');
+    throw Error(`Value must be file type. Got ${value}`);
 
   const [fileList, setFileList] = useState(() => (Array.isArray(value) ? value : [value]));
   const [showFileSelectionPanel, setShowFileSelectionPanel] = useState(false);
