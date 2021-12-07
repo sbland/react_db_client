@@ -153,6 +153,9 @@ importers:
   react_db_client/components/item-editor:
     specifiers: {}
 
+  react_db_client/components/item-list:
+    specifiers: {}
+
   react_db_client/components/popup-panel:
     specifiers: {}
 

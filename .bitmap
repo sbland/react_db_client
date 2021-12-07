@@ -46,13 +46,13 @@
         "rootDir": "react_db_client/components/emoji"
     },
     "components/file-manager": {
-        "scope": "",
+        "scope": "samnbuk.react_db_client",
         "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/file-manager"
     },
     "components/file-uploader": {
-        "scope": "",
+        "scope": "samnbuk.react_db_client",
         "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/file-uploader"
@@ -100,7 +100,7 @@
         "rootDir": "react_db_client/components/form/form-fields/field-date"
     },
     "components/form/form-fields/field-file": {
-        "scope": "",
+        "scope": "samnbuk.react_db_client",
         "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-file"
@@ -130,13 +130,13 @@
         "rootDir": "react_db_client/components/form/form-fields/field-read-only"
     },
     "components/form/form-fields/field-select": {
-        "scope": "",
+        "scope": "samnbuk.react_db_client",
         "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-select"
     },
     "components/form/form-fields/field-select-search": {
-        "scope": "",
+        "scope": "samnbuk.react_db_client",
         "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-select-search"
@@ -148,7 +148,7 @@
         "rootDir": "react_db_client/components/form/form-fields/field-text"
     },
     "components/form/form-fields/field-text-area": {
-        "scope": "",
+        "scope": "samnbuk.react_db_client",
         "version": "0.0.1",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-text-area"
@@ -164,6 +164,12 @@
         "version": "0.0.10",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/item-editor"
+    },
+    "components/item-list": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/components/item-list"
     },
     "components/popup-panel": {
         "scope": "samnbuk.react_db_client",

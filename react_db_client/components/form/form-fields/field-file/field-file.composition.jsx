@@ -1,23 +1,24 @@
 import React from 'react';
 import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps/dist';
 import { FieldFile } from './field-file';
-import { defaultVal } from './demo-data';
+import { DEMO_FILES_DATA } from './demo-data';
 
 const updateFormData = () => {};
 
 const defaultProps = {
   uid: 'uid',
-  unit: 'unit',
-  value: defaultVal,
+  multiple: false,
   updateFormData,
+  collectionId: 'collectionId',
+  documentId: 'documentId',
+  fileType: 'image',
+  value: DEMO_FILES_DATA,
+  fileServerUrl: 'fileserver',
+  asyncGetDocuments: async() => DEMO_FILES_DATA,
 };
 
-
-export const BasicFieldFile  = () => (
+export const BasicFieldFile = () => (
   <CompositionWrapDefault height="4rem" width="8rem">
-    <FieldFile
-      {...defaultProps}
-      required
-    />
+    <FieldFile {...defaultProps} required />
   </CompositionWrapDefault>
 );

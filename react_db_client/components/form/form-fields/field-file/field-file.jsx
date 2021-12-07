@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FileManager } from '@samnbuk/react_db_client.components.file-manager';
-// import ItemList from '../../ItemList/ItemList';
+import { ItemList } from '@samnbuk/react_db_client.components.item-list';
 
 // TODO: Replace ItemList with styled select list
 
@@ -21,7 +21,7 @@ import { FileManager } from '@samnbuk/react_db_client.components.file-manager';
  * }
  * @return {*}
  */
-const FieldFile = ({
+export const FieldFile = ({
   uid,
   multiple,
   updateFormData,
@@ -29,9 +29,11 @@ const FieldFile = ({
   documentId,
   fileType,
   value,
-  FILE_SERVER_URL,
+  fileServerUrl,
+  asyncGetDocuments,
   // TODO: Add required check
   // required,
+  PopupPanel,
 }) => {
   if (value && (typeof value !== 'object' || (value[0] && typeof value[0] !== 'object')))
     throw Error('Value must be file type');
@@ -67,24 +69,28 @@ const FieldFile = ({
           uid: file.uid || file.name,
           label: file.name,
           type: fileType === 'image' ? 'image' : 'button',
-          src: `${FILE_SERVER_URL}/${file.filePath}`,
+          src: `${fileServerUrl}/${file.filePath}`,
         })),
     [fileList, fileType]
   );
 
   return (
     <>
-      <FileManager
-        handleSelect={handleSelected}
-        collectionId={collectionId}
-        documentId={documentId}
-        fileType={fileType}
-        // popup
+      <PopupPanel
         isOpen={showFileSelectionPanel}
         handleClose={() => setShowFileSelectionPanel(false)}
         title="File Selector"
-        allowMultiple={multiple}
-      />
+      >
+        <FileManager
+          handleSelect={handleSelected}
+          collectionId={collectionId}
+          documentId={documentId}
+          fileType={fileType}
+          allowMultiple={multiple}
+          asyncGetDocuments={asyncGetDocuments}
+          fileServerUrl={fileServerUrl}
+        />
+      </PopupPanel>
       <div className="FieldFile">
         <div>
           <button
@@ -131,10 +137,14 @@ FieldFile.propTypes = {
   documentId: PropTypes.string.isRequired,
   fileType: PropTypes.oneOf(['image', 'document', 'data', '*']),
   multiple: PropTypes.bool,
+  fileServerUrl: PropTypes.string.isRequired,
+  asyncGetDocuments: PropTypes.func.isRequired,
+  PopupPanel: PropTypes.elementType.isRequired,
 };
 
 FieldFile.defaultProps = {
   value: [],
   multiple: false,
   fileType: '*',
+  PopupPanel: ({ children, isOpen }) => (isOpen ? children : ''),
 };
