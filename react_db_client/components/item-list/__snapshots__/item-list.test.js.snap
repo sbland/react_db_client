@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`item-list shallow renders Matches Snapshot 1`] = `
+"<div className=\\"itemList_wrap grid\\">
+  <ul className=\\"itemList\\">
+    <li className=\\"itemList_itemWrap \\">
+      <OverlayButtons uid=\\"a\\" overlayButtons={{...}} />
+      <Item data={{...}} onClick={[Function: onClick]} />
+    </li>
+    <li className=\\"itemList_itemWrap \\">
+      <OverlayButtons uid=\\"b\\" overlayButtons={{...}} />
+      <Item data={{...}} onClick={[Function: onClick]} />
+    </li>
+    <li className=\\"itemList_itemWrap \\">
+      <OverlayButtons uid=\\"c\\" overlayButtons={{...}} />
+      <Item data={{...}} onClick={[Function: onClick]} />
+    </li>
+  </ul>
+</div>"
+`;

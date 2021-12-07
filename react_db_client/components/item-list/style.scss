@@ -1,0 +1,152 @@
+$unit: 1rem;
+$grey-10: #eeeeee;
+$grey-40: #bbbbbb;
+$grey-60: #999999;
+$primaryColour: var(--primary-color, #888);
+$font-size-1: var(--font-size-1, 0.7rem);
+$font-size-2: var(--font-size-2, 0.8rem);
+
+
+.itemList_wrap {
+  .itemList {
+    list-style: none;
+    display: flex;
+    margin-right: -$unit;
+    flex-wrap: wrap;
+
+    // 1px margin min to allow outline
+    margin: 1px;
+
+    // item bottom margin needs to be offset flex item margin
+    margin-bottom: -$unit;
+    // padding: $unit;
+
+    .itemList_itemWrap {
+      position: relative;
+      width: ($unit * 15);
+      max-width: ($unit * 20);
+      height: ($unit * 11);
+      border: 1px $grey-40 solid;
+      margin-bottom: $unit;
+      border-radius: 4px;
+      box-shadow: 1px 1px 20px 0px rgba(100, 100, 100, 0.05);
+      overflow: hidden;
+      // background: $primaryColour;
+
+      &.selected {
+        border: 4px $primaryColour solid;
+      }
+
+      &:not(:last-child) {
+        margin-right: $unit;
+      }
+
+      // &:nth-child(1) {
+      //   background: $primaryColour-light;
+      // }
+
+      // &:nth-child(2) {
+      //   background: #7BDE85;
+      // }
+
+      // &:nth-child(3) {
+      //   background: #7BA2DE;
+      // }
+
+      .itemList_item {
+        height: 100%;
+        width: 100%;
+        color: $grey-60;
+        background: $grey-10;
+
+        a,
+        button {
+          * {
+            font-weight: 800;
+            font-size: $font-size-2;
+          }
+
+          display: block;
+          width: 100%;
+          height: 100%;
+          padding: $unit;
+
+          &:hover {
+            background: rgba(231, 231, 231, 0.2);
+          }
+        }
+      }
+
+      .itemlist_item-image {
+        min-width: 100%;
+        min-height: 100%;
+        margin: auto;
+        border: 3px solid $grey-40;
+        // padding: 1px;
+      }
+
+      &:hover {
+        box-shadow: 1px 1px 10px 0px rgba(100, 100, 100, 0.2);
+        // outline: 1px $primaryColour solid;
+        // overlay buttons should appear on hover
+        .itemList_overlay {
+          button {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    .itemList_overlay {
+      // width: $unit * 4;
+
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+
+      padding: $unit;
+      display: flex;
+      flex-direction: column;
+      // justify-items: stretch;
+      // pointer-events: none;
+      align-items: flex-end;
+
+      button {
+        opacity: 0;
+        pointer-events: auto;
+        // flex-grow: 1;
+        padding: 0;
+        margin-bottom: 0.2 * $unit;
+        // width: 100%;
+        width: 1.5 * $unit;
+        height: 1.7 * $unit;
+        border-radius: 3px;
+
+        transition: width 0.2s ease-out, opacity 0.2s ease;
+        overflow: hidden;
+
+        &:hover {
+          width: 5 * $unit;
+          height: 1.8 * $unit;
+        }
+      }
+    }
+  }
+  &.list {
+    // background-color: red;
+    .itemList {
+      flex-direction: column;
+      margin-bottom: 0rem;
+
+      .itemList_itemWrap {
+        height: 3rem;
+        padding: 1px;
+        margin-bottom: 0.3rem;
+      }
+      .itemList_overlay {
+        padding: 0;
+      }
+    }
+  }
+}
