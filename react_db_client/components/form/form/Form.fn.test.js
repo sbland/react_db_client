@@ -12,7 +12,6 @@ import { FieldObjectRef } from '@samnbuk/react_db_client.components.form.form-fi
 import { FormInputs } from './FormInputs';
 import { FieldLabel } from './field-label';
 import { FormField } from './FormField';
-import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
 import { defaultComponentMap } from './default-component-map';
 
 const onSubmit = jest.fn();
@@ -40,8 +39,7 @@ describe('Form - Functional Tests', () => {
   describe('Functional tests', () => {
     let component;
     beforeEach(() => {
-      component = mount(<Form {...defaultProps}
-      />);
+      component = mount(<Form {...defaultProps} />);
     });
     describe('Bug fixing', () => {
       // TODO: Below no longer works but component is working
@@ -98,7 +96,7 @@ describe('Form - Functional Tests', () => {
         expect(field.debug()).toMatchSnapshot();
       });
       test('should pass headings data to field label', () => {
-        const field = component.find(FormField).first().childAt(0).childAt(0);
+        const field = component.find(FormField).find(FieldLabel).first();
         expect(field.type()).toEqual(FieldLabel);
         expect(field.props()).toEqual({
           label: demoHeadingsData[0].label,
@@ -110,7 +108,7 @@ describe('Form - Functional Tests', () => {
         expect(field.debug()).toMatchSnapshot();
       });
       test('should pass field update back to onChange function', () => {
-        const field = component.find(FormField).find(FieldText).first()
+        const field = component.find(FormField).find(FieldText).first();
         expect(field.type()).toEqual(FieldText);
         expect(field.props().uid).toEqual(demoHeadingsData[1].uid);
         const input = field.find('input');
@@ -120,8 +118,7 @@ describe('Form - Functional Tests', () => {
         expect(onChange).toHaveBeenCalledWith(demoHeadingsData[1].uid, newValue, newFormData);
       });
       test('should pass label value to read only select field', () => {
-        const fieldIndex = 12;
-        const field = component.find(FormField).at(fieldIndex).childAt(0).childAt(1);
+        const field = component.find(FormField).find(FieldReadOnly).first();
         expect(field.type()).toEqual(FieldReadOnly);
         // TODO: This is a fragile test. Should link to headings data etc
         expect(field.text()).toEqual('Rep 1');

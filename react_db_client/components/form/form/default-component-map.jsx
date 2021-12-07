@@ -9,13 +9,14 @@ import { FieldObjectRef } from '@samnbuk/react_db_client.components.form.form-fi
 import { FieldMultiSelect } from '@samnbuk/react_db_client.components.form.form-fields.field-multi-select';
 import { FieldSelect } from '@samnbuk/react_db_client.components.form.form-fields.field-select';
 import { FieldSelectSearch } from '@samnbuk/react_db_client.components.form.form-fields.field-select-search';
+import { FieldFile } from '@samnbuk/react_db_client.components.form.form-fields.field-file';
 
 export const defaultComponentMap = {
   [filterTypes.text]: () => FieldText,
   [filterTypes.select]: () => FieldSelect,
   [filterTypes.selectMulti]: () => FieldMultiSelect,
   // [filterTypes.fileMultiple]: () => FieldFile,
-  // [filterTypes.file]: () => FieldFile,
+  [filterTypes.file]: () => FieldFile,
   // [filterTypes.image]: () => FieldFile,
   [filterTypes.textLong]: () => FieldTextArea,
   [filterTypes.number]: () => FieldNumber,
