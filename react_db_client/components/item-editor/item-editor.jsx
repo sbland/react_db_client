@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { useAsyncObjectManager } from '@samnbuk/react_db_client.async-hooks.use-async-object-manager';
-import { Form, FormField, defaultComponentMap } from '@samnbuk/react_db_client.components.form.form';
+import { Form, FormField } from '@samnbuk/react_db_client.components.form.form';
 import { mapFields } from './field-mapper';
 
 export const ItemEditor = ({
@@ -17,7 +17,7 @@ export const ItemEditor = ({
   asyncPutDocument,
   asyncPostDocument,
   asyncDeleteDocument,
-  customFieldComponents,
+  componentMap,
   saveErrorCallback,
 }) => {
   const [overridenFields, setOverridenFields] = useState([]);
@@ -71,8 +71,7 @@ export const ItemEditor = ({
         onChange={handleOnChange}
         showEndBtns
         submitBtnText="Save Item"
-        customFieldComponents={customFieldComponents}
-        componentMap={defaultComponentMap}
+        componentMap={componentMap}
         FormField={FormField}
       />
     </div>
@@ -104,7 +103,7 @@ ItemEditor.propTypes = {
   asyncPutDocument: PropTypes.func.isRequired, // Async func
   asyncPostDocument: PropTypes.func.isRequired, // Async func
   asyncDeleteDocument: PropTypes.func.isRequired, // Async func
-  customFieldComponents: PropTypes.objectOf(PropTypes.elementType),
+  componentMap: PropTypes.objectOf(PropTypes.elementType).isRequired,
   saveErrorCallback: PropTypes.func,
 };
 
@@ -112,6 +111,6 @@ ItemEditor.defaultProps = {
   inputUid: null,
   additionalData: {},
   isNew: false,
-  customFieldComponents: {},
+  componentMap: {},
   saveErrorCallback: () => {},
 };

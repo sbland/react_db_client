@@ -10,7 +10,7 @@ import { FileManager } from './file-manager';
 import * as compositions from './file-manager.composition';
 import { demoSearchResults } from './demo-data';
 
-jest.mock('@samn  buk/react_db_client.components.search-and-select', () =>
+jest.mock('@samnbuk/react_db_client.components.search-and-select', () =>
   MockReactC('SearchAndSelect', ['SearchAndSelect'])
 );
 jest.mock('@samnbuk/react_db_client.components.file-uploader', () =>

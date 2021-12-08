@@ -1,3 +1,4 @@
+import React from 'react';
 import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
 
 import { FieldText } from '@samnbuk/react_db_client.components.form.form-fields.field-text';
@@ -11,12 +12,13 @@ import { FieldSelect } from '@samnbuk/react_db_client.components.form.form-field
 import { FieldSelectSearch } from '@samnbuk/react_db_client.components.form.form-fields.field-select-search';
 import { FieldFile } from '@samnbuk/react_db_client.components.form.form-fields.field-file';
 
-export const defaultComponentMap = {
+export const defaultComponentMap = ({ asyncGetDocuments, fileServerUrl } = {}) => ({
   [filterTypes.text]: () => FieldText,
   [filterTypes.select]: () => FieldSelect,
   [filterTypes.selectMulti]: () => FieldMultiSelect,
   // [filterTypes.fileMultiple]: () => FieldFile,
-  [filterTypes.file]: () => FieldFile,
+  [filterTypes.file]: () => (props) =>
+    <FieldFile {...props} fileServerUrl={fileServerUrl} asyncGetDocuments={asyncGetDocuments} />,
   // [filterTypes.image]: () => FieldFile,
   [filterTypes.textLong]: () => FieldTextArea,
   [filterTypes.number]: () => FieldNumber,
@@ -24,5 +26,6 @@ export const defaultComponentMap = {
   [filterTypes.bool]: () => FieldBool,
   [filterTypes.toggle]: () => FieldBool,
   [filterTypes.selectSearch]: () => FieldSelectSearch,
-  [filterTypes.reference]: () => FieldObjectRef,
-};
+  [filterTypes.reference]: () => (props) =>
+    <FieldObjectRef {...props} asyncGetDocuments={asyncGetDocuments} />,
+});

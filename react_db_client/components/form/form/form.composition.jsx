@@ -7,6 +7,11 @@ import { FormInputs } from './FormInputs';
 import { demoHeadingsData, demoFormData, demoAdditionalData } from './DemoData';
 import { defaultComponentMap } from './default-component-map';
 
+const asyncGetDocuments = async () => {
+  throw Error('Not implemented');
+};
+
+const fileServerUrl = '';
 
 // export const BasicForm = () => (
 //   <Form
@@ -31,14 +36,7 @@ const DemoFormField = ({ heading }) => {
 
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-const DemoFormComponent = ({
-  uid,
-  label,
-  updateFormData,
-  value,
-  required,
-  additionalData,
-}) => {
+const DemoFormComponent = ({ uid, label, updateFormData, value, required, additionalData }) => {
   const { customFieldStyle } = additionalData;
   return <div style={customFieldStyle}>Custom Form Component</div>;
 };
@@ -46,7 +44,7 @@ const DemoFormComponent = ({
 /**
  * Default form using preset form field component
  */
- export const FormDefault = () => {
+export const FormDefault = () => {
   return (
     <div className="sectionWrapper">
       <Form
@@ -54,18 +52,17 @@ const DemoFormComponent = ({
         formDataInitial={demoFormData}
         onSubmit={(data) => console.log(data)}
         additionalData={demoAdditionalData}
-        componentMap={defaultComponentMap}
+        componentMap={defaultComponentMap({ asyncGetDocuments, fileServerUrl })}
         FormField={FormField}
       />
     </div>
   );
 };
 
-
 /**
  * Default form with horizontal orientation
  */
- export const FormDefaultHoriz = () => {
+export const FormDefaultHoriz = () => {
   return (
     <div className="sectionWrapper">
       <Form
@@ -73,9 +70,9 @@ const DemoFormComponent = ({
         formDataInitial={demoFormData}
         onSubmit={(data) => console.log(data)}
         additionalData={demoAdditionalData}
-        componentMap={defaultComponentMap}
+        componentMap={defaultComponentMap({ asyncGetDocuments, fileServerUrl })}
         FormField={FormField}
-        orientation='horiz'
+        orientation="horiz"
       />
     </div>
   );
@@ -103,9 +100,7 @@ export const FormFields = () => {
     <FormInputs
       headings={demoHeadingsData}
       formData={demoFormData}
-      updateFormData={(uid, value) =>
-        console.log(`uid: ${uid} value: ${value}`)
-      }
+      updateFormData={(uid, value) => console.log(`uid: ${uid} value: ${value}`)}
       FormField={DemoFormField}
     />
   );
@@ -184,9 +179,7 @@ export const FormNested = () => {
         },
       ]}
       formData={demoFormData}
-      updateFormData={(uid, value) =>
-        console.log(`uid: ${uid} value: ${value}`)
-      }
+      updateFormData={(uid, value) => console.log(`uid: ${uid} value: ${value}`)}
       FormField={DemoFormField}
     />
   );

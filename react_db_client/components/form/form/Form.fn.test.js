@@ -16,6 +16,9 @@ import { defaultComponentMap } from './default-component-map';
 
 const onSubmit = jest.fn();
 const onChange = jest.fn();
+const asyncGetDocuments = jest.fn();
+
+const fileServerUrl = 'fileserverurl';
 
 const defaultProps = {
   headings: demoHeadingsData,
@@ -27,7 +30,7 @@ const defaultProps = {
   showKey: true,
   orientation: 'vert',
   additionalData: { hello: 'world' },
-  componentMap: defaultComponentMap,
+  componentMap: defaultComponentMap({ asyncGetDocuments, fileServerUrl }),
   FormField,
 };
 
@@ -35,6 +38,7 @@ describe('Form - Functional Tests', () => {
   beforeEach(() => {
     onChange.mockClear();
     onSubmit.mockClear();
+    asyncGetDocuments.mockClear();
   });
   describe('Functional tests', () => {
     let component;
@@ -121,7 +125,7 @@ describe('Form - Functional Tests', () => {
         const field = component.find(FormField).find(FieldReadOnly).first();
         expect(field.type()).toEqual(FieldReadOnly);
         // TODO: This is a fragile test. Should link to headings data etc
-        expect(field.text()).toEqual('Rep 1');
+        expect(field.text()).toEqual('name-1');
       });
       test('should pass additional data to fields', () => {
         // We can include additional data in the form that is accessible by each field.

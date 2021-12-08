@@ -27,7 +27,7 @@ const defaultProps = {
   headings: demoHeadingsData,
   formDataInitial: demoFormData,
   onSubmit: submitFunc,
-  componentMap: defaultComponentMap,
+  componentMap: defaultComponentMap(),
   FormField,
 };
 

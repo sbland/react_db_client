@@ -28,7 +28,7 @@ export const ToggleBox = ({ stateIn, id, text, onChange, width, disabled }) => {
         onClick={handleClick}
         style={styleOverride}
       >
-        {text || (state ? <Emoji emoj="✔️" /> : <Emoji emoj="x" />)}
+        {text || (state ? <Emoji emoj="✔️" label="yes"/> : <Emoji emoj="x" label="no"/>)}
       </button>
     </div>
   );

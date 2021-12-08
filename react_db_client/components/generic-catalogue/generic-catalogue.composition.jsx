@@ -1,5 +1,5 @@
 import React from 'react';
-import { PopupPanel } from '@samnbuk/react_db_client.components.popup-panel';
+// import { PopupPanel } from '@samnbuk/react_db_client.components.popup-panel';
 import { ItemEditor } from '@samnbuk/react_db_client.components.item-editor';
 import { GenericCatalogue } from './generic-catalogue';
 
@@ -17,21 +17,22 @@ const defaultProps = {
   apiDeleteDocuments: async () => alert('Deleted DOcument'),
   PopupPanel: ({ children, isOpen }) => (isOpen ? children : ''),
   notificationDispatch: alert,
-  asyncGetDocument: async() => Object.values(demoResults)[0],
+  asyncGetDocument: async () => Object.values(demoResults)[0],
   asyncGetDocuments: async () => Object.values(demoResults),
-  asyncPutDocument: async() => alert('Put doc'),
-  asyncPostDocument: async() => alert('Post doc'),
-  asyncDeleteDocument: async() => {},
+  asyncPutDocument: async () => alert('Put doc'),
+  asyncPostDocument: async () => alert('Post doc'),
+  asyncDeleteDocument: async () => {},
+  asyncDeleteDocuments: async () => {},
   customFieldComponents: {},
   onError: () => {},
 };
 
 export const BasicGenericCatalogue = () => <GenericCatalogue {...defaultProps} />;
 
-const popupRoot = document.createElement('div', {id: 'popup-root'});
+const popupRoot = document.createElement('div', { id: 'popup-root' });
 const _PopupItemEditor = (props) => (
   // <PopupPanel isOpen handleClose={() => setShowEditor(false)} popupRoot={popupRoot}>
-    <ItemEditor {...props} />
+  <ItemEditor {...props} />
   // </PopupPanel>
 );
 

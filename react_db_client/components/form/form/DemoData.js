@@ -1,4 +1,4 @@
-import {filterTypes} from '@samnbuk/react_db_client.constants.client-types';
+import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
 
 export const demoHeadingsData = [
   {
@@ -51,6 +51,9 @@ export const demoHeadingsData = [
   {
     uid: 'file',
     label: 'File',
+    collectionId: 'democollection',
+    documentId: 'docid',
+    fileType: 'document',
     type: filterTypes.file,
   },
   {
@@ -86,6 +89,7 @@ export const demoHeadingsData = [
     uid: 'selectSearch',
     label: 'Select Search',
     type: filterTypes.selectSearch,
+    searchFieldTargetField: 'label',
     searchFn: async () => [
       { uid: 'rep1', label: 'Rep 1' },
       { uid: 'rep2', label: 'Rep 2' },

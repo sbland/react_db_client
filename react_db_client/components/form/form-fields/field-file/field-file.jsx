@@ -3,23 +3,12 @@ import PropTypes from 'prop-types';
 import { FileManager } from '@samnbuk/react_db_client.components.file-manager';
 import { ItemList } from '@samnbuk/react_db_client.components.item-list';
 
-// TODO: Replace ItemList with styled select list
 
 /**
  * Form component file field
  *
  * Value should be either a single or array of file objects
  *
- * @param {*} {
- *   uid,
- *   multiple,
- *   updateFormData,
- *   collectionId,
- *   documentId,
- *   fileType,
- *   value,
- * }
- * @return {*}
  */
 export const FieldFile = ({
   uid,

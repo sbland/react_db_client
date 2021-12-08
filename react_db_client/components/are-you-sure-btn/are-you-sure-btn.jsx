@@ -58,11 +58,12 @@ export const AreYouSureBtn = ({
 
 AreYouSureBtn.propTypes = {
   onConfirmed: PropTypes.func.isRequired,
-  btnText: PropTypes.element.isRequired,
+  btnText: PropTypes.node.isRequired,
   confirmMessage: PropTypes.string,
   className: PropTypes.string,
   disabled: PropTypes.bool,
   notes: PropTypes.string,
+  PopupPanel: PropTypes.elementType,
 };
 
 AreYouSureBtn.defaultProps = {
@@ -70,4 +71,5 @@ AreYouSureBtn.defaultProps = {
   disabled: false,
   notes: '',
   confirmMessage: 'Confirm',
+  PopupPanel: ({ children, isOpen }) => isOpen ? children : '',
 };

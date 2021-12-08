@@ -64,7 +64,9 @@ describe('Data loader hook', () => {
     expect(result.current.hasLoaded).toEqual(false);
     expect(result.current.error).toEqual(null);
 
-    result.current.reload(['hello']);
+    act(() => {
+      result.current.reload(['hello']);
+    });
     expect(result.current.loading).toEqual(true);
     expect(result.current.hasLoaded).toEqual(false);
 
@@ -88,9 +90,15 @@ describe('Data loader hook', () => {
     const { result, waitForNextUpdate } = renderHook(() =>
       useAsyncRequest({ args, callOnInit: false, callFn: mockLoadFn })
     );
-    result.current.reload([0]);
-    result.current.reload([1]);
-    result.current.reload([2]);
+    act(() => {
+      result.current.reload([0]);
+    });
+    act(() => {
+      result.current.reload([1]);
+    });
+    act(() => {
+      result.current.reload([2]);
+    });
 
     expect(result.current.loading).toEqual(true);
 
@@ -105,7 +113,6 @@ describe('Data loader hook', () => {
   });
 
   test('should handle multiple async calls and only return last called', async () => {
-    // TODO: CHECK THIS!
     const args = ['products', 'filter'];
     const demoData = ['call 0 reponse', 'call 1 reponse', 'call 2 reponse'];
     const r = [];
@@ -123,39 +130,51 @@ describe('Data loader hook', () => {
       useAsyncRequest({ args, callOnInit: false, callFn: mockLoadFn })
     );
 
-    result.current.reload([0]);
-    result.current.reload([1]);
-    result.current.reload([2]);
+    act(() => {
+      result.current.reload([0]);
+    });
+    act(() => {
+      result.current.reload([1]);
+    });
+    act(() => {
+      result.current.reload([2]);
+    });
 
     expect(result.current.loading).toEqual(true);
 
-    await waitForNextUpdate();
     expect(mockLoadFn).toHaveBeenCalledTimes(3);
     expect(mockLoadFn.mock.calls[0]).toEqual([0]);
 
     expect(result.current.loading).toEqual(true);
     /* Test that returning the first async call does not set loading to false
     as it is still waiting for the final call */
-    r[0]();
+    act(() => {
+      r[0]();
+    });
     await waitForNextUpdate();
     expect(result.current.loading).toEqual(true);
     expect(result.current.response).toEqual(null);
 
     /* Test that returning the third async call sets loading to false and returns the results */
-    r[2]();
+    act(() => {
+      r[2]();
+    });
     await waitForNextUpdate();
     expect(result.current.response).toEqual(demoData[2]);
     expect(result.current.loading).toEqual(false);
 
     /* Test that returning the second after the third does not change the state */
-    r[1]();
+    act(() => {
+      r[1]();
+    });
     await waitForNextUpdate();
     expect(result.current.response).toEqual(demoData[2]);
     expect(result.current.loading).toEqual(false);
 
     /* Reloading the function clears everything back to the loading state */
-    result.current.reload([0]);
-    await waitForNextUpdate();
+    act(() => {
+      result.current.reload([0]);
+    });
     expect(result.current.loading).toEqual(true);
     expect(result.current.response).toEqual(null);
   });
@@ -196,7 +215,9 @@ describe('Data loader hook', () => {
     expect(result.current.response).toEqual(demoData);
     expect(result.current.error).toEqual(null);
     expect(result.current.callCount).toEqual(1);
-    result.current.reload([0]);
+    act(() => {
+      result.current.reload([0]);
+    });
     await waitForNextUpdate();
     expect(result.current.callCount).toEqual(2);
   });

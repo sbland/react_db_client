@@ -70,6 +70,6 @@ export const demoData = {
   description: 'A long description',
   images: [],
   val: 9,
-  documentation: 'doc.pdf',
-  thumbnail: 'thumbnail.jpg',
+  documentation: { filePath: 'doc.pdf', name: 'docpdf' },
+  thumbnail: { filePath: 'thumbnail.jpg', name: 'thumbnail' },
 };
