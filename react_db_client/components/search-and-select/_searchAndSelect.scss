@@ -1,5 +1,5 @@
-$unit: 1rem;//var(--unit, 1rem);
-$primaryColour: #888; // var(--primary-color, #888);
+$unit: 1rem; //var(--unit, 1rem);
+$primaryColour: var(--primary-color, #888);
 
 .searchAndSelect_filterList {
   list-style: none;

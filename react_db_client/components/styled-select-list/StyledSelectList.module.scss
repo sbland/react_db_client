@@ -5,8 +5,8 @@ $grey-40: #bbbbbb;
 $font-size-2: $unit * 0.8;
 $font-size-4: $unit * 1.1;
 $mq-medium: 768px;
-$primaryColour: rgb(204, 144, 53);
-$primaryColour-light: lighten($primaryColour, 10%);
+$primaryColour: var(--primary-color, #888);
+$primaryColour-light: var(--primary-color-light, #ccc);
 
 .styledList {
   display: flex;
