@@ -49,7 +49,7 @@ export const FieldTextArea = ({
           required={required}
           ref={ref}
         />
-        <span>{unit}</span>
+        {unit && <span>{unit}</span>}
       </div>
     </>
   );

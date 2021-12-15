@@ -72,6 +72,8 @@ $heading-height: $unit * 0.7;
     flex-grow: 1;
     display: flex;
     margin: 0; // Reset margin
+    outline: 1px solid $grey-20;
+    padding: 2px;
   }
   &.vert > .form_row {
     align-items: flex-end; // Ensures inputs align to bottom of label
@@ -94,7 +96,7 @@ $heading-height: $unit * 0.7;
 
   /* FORM LABEL */
   .form_label {
-    text-align: right;
+    text-align: left;
     margin-right: $unit;
     &.required {
       color: $warningColour;

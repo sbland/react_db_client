@@ -23,15 +23,10 @@ export const FieldDate = ({
         max={max}
         min={min}
         value={value ? parsedDate : ''}
-        onChange={(e) =>
-          updateFormData(
-            uid,
-            new Date(e.target.value).toISOString().substr(0, 10)
-          )
-        }
+        onChange={(e) => updateFormData(uid, new Date(e.target.value).toISOString().substr(0, 10))}
         required={required}
       />
-      <span>{unit}</span>
+      {unit && <span>{unit}</span>}
     </>
   );
 };

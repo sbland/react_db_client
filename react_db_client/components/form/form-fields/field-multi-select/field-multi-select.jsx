@@ -22,7 +22,7 @@ export const FieldMultiSelect = ({
           options={options}
           required={required}
         />
-        <span>{unit}</span>
+        {unit && <span>{unit}</span>}
       </>
     );
   }
@@ -35,7 +35,7 @@ export const FieldMultiSelect = ({
           options={options}
           isSorted
         />
-        <span>{unit}</span>
+        {unit && <span>{unit}</span>}
       </>
     );
   }
@@ -47,7 +47,7 @@ export const FieldMultiSelect = ({
           updateActiveSelection={(newVal) => updateFormData(uid, newVal)}
           options={options}
         />
-        <span>{unit}</span>
+        {unit && <span>{unit}</span>}
       </>
     );
   }

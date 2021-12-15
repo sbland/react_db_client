@@ -38,7 +38,7 @@ export const FieldNumber = ({
         onChange={(e) => updateFormData(uid, e.target.value)}
         required={required}
       />
-      <span>{unit}</span>
+      {unit && <span>{unit}</span>}
     </>
   );
 };

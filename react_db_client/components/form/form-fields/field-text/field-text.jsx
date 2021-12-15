@@ -1,15 +1,7 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
-export const FieldText = ({
-  uid,
-  unit,
-  updateFormData,
-  value,
-  special,
-  useArea,
-  required,
-}) => {
+export const FieldText = ({ uid, unit, updateFormData, value, special, useArea, required }) => {
   const ref = useRef(null);
 
   return (
@@ -40,7 +32,7 @@ export const FieldText = ({
           required={required}
         />
       )}
-      <span>{unit}</span>
+      {unit && <span>{unit}</span>}
     </>
   );
 };

@@ -17,27 +17,28 @@ export const FieldSelectSearch = ({
   className,
 }) => {
   // TODO: Handle multiple selection
-  if (multiple) throw Error("Multiple not implemented");
+  if (multiple) throw Error('Multiple not implemented');
   return (
-  <>
-    <SearchAndSelectDropdown
-      searchFunction={searchFn}
-      initialValue={value}
-      handleSelect={(newVal, data) => updateFormData(uid, data[returnFieldOnSelect])}
-      // selectionOverride={value}
-      // allowMultiple={multiple}
-      // returnFieldOnSelect={returnFieldOnSelect}
-      searchFieldTargetField={searchFieldTargetField}
-      labelField={labelField}
-      className={className}
-      allowEmptySearch={allowEmptySearch}
-      searchFieldPlaceholder={`${value}`}
-      // onChange={(e) => updateFormData(uid, e.target.value)}
-      required={required}
-    />
-    <span>{unit}</span>
-  </>
-)};
+    <>
+      <SearchAndSelectDropdown
+        searchFunction={searchFn}
+        initialValue={value}
+        handleSelect={(newVal, data) => updateFormData(uid, data[returnFieldOnSelect])}
+        // selectionOverride={value}
+        // allowMultiple={multiple}
+        // returnFieldOnSelect={returnFieldOnSelect}
+        searchFieldTargetField={searchFieldTargetField}
+        labelField={labelField}
+        className={className}
+        allowEmptySearch={allowEmptySearch}
+        searchFieldPlaceholder={`${value}`}
+        // onChange={(e) => updateFormData(uid, e.target.value)}
+        required={required}
+      />
+      {unit && <span>{unit}</span>}
+    </>
+  );
+};
 
 FieldSelectSearch.propTypes = {
   uid: PropTypes.string.isRequired,

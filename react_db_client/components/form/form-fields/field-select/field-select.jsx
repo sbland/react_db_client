@@ -41,7 +41,7 @@ export const FieldSelect = ({
             searchDelay={0}
             allowEmptySearch
           />
-          <span>{unit}</span>
+          {unit && <span>{unit}</span>}
         </>
       );
     case 'toggle':
