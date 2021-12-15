@@ -203,7 +203,7 @@ export const SearchAndSelectDropdown = ({
 
   return (
     <div className={classNames}>
-      <div className="searchFieldWrap" style={{ border: isFocused ? '1px solid red' : '' }}>
+      <div className="searchFieldWrap">
         <input
           className="searchField"
           style={{ flexGrow: 1 }}
