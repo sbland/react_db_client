@@ -79,7 +79,10 @@ export const SearchAndSelectDropdown = ({
 
   useEffect(() => {
     /* Set results to [] if invalid search value */
-    if (isFocused && !searchValue && !allowEmptySearch) setResults([]);
+    if (isFocused && !searchValue && !allowEmptySearch) {
+      setResults([]);
+      setLoading(false);
+    }
   }, [isFocused, searchValue, allowEmptySearch]);
 
   useEffect(() => {

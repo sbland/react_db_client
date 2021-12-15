@@ -15,6 +15,7 @@ import { CustomSelectDropdown } from '@samnbuk/react_db_client.components.custom
 
 import { SearchAndSelectDropdown } from './search-and-select-dropdown';
 import { demoResultData } from './demo-data';
+import { LoadingIcon } from './loading-icon';
 
 jest.useFakeTimers();
 
@@ -156,6 +157,20 @@ describe('SearchAndSelectDropdown', () => {
         modifySearchInput(component, searchVal);
         jest.runOnlyPendingTimers();
         expect(asyncSearchCall).not.toHaveBeenCalled();
+      });
+
+
+      test('should set not loading when search input set to empty', () => {
+        const loadingIcon = () => component.find(LoadingIcon);
+        focusOnSearchInput(component);
+
+        modifySearchInput(component, 'searchval');
+        jest.runOnlyPendingTimers();
+        expect(loadingIcon().props().isLoading).toEqual(true);
+
+        modifySearchInput(component, '');
+        jest.runOnlyPendingTimers();
+        expect(loadingIcon().props().isLoading).toEqual(false);
       });
 
       test('should show results when we are focused on search field and results loaded', () => {
