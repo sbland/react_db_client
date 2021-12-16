@@ -11,10 +11,14 @@ export const FieldNumber = ({
   step,
   defaultValue,
   updateFormData,
-  value,
+  value: valueIn,
   required,
 }) => {
   const ref = useRef(null);
+  const value =
+    valueIn === '' || valueIn === null || valueIn === undefined || Number.isNaN(Number(valueIn))
+      ? ''
+      : Number(valueIn);
   return (
     <>
       <input
@@ -23,7 +27,7 @@ export const FieldNumber = ({
         max={Number(max)}
         min={Number(min)}
         step={Number(step)}
-        value={Number(value) != null ? Number(value) : ''}
+        value={value}
         ref={ref}
         onFocus={() => {
           if (value === null) updateFormData(uid, defaultValue);
@@ -46,7 +50,7 @@ export const FieldNumber = ({
 FieldNumber.propTypes = {
   uid: PropTypes.string.isRequired,
   unit: PropTypes.string,
-  value: PropTypes.number,
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   min: PropTypes.number,
   max: PropTypes.number,
   step: PropTypes.number,
@@ -57,7 +61,7 @@ FieldNumber.propTypes = {
 
 FieldNumber.defaultProps = {
   unit: '',
-  value: 0,
+  value: null,
   min: -99999,
   max: 999999,
   step: 1,
