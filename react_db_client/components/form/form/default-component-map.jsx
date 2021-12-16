@@ -11,21 +11,27 @@ import { FieldMultiSelect } from '@samnbuk/react_db_client.components.form.form-
 import { FieldSelect } from '@samnbuk/react_db_client.components.form.form-fields.field-select';
 import { FieldSelectSearch } from '@samnbuk/react_db_client.components.form.form-fields.field-select-search';
 import { FieldFile } from '@samnbuk/react_db_client.components.form.form-fields.field-file';
+import { FieldReadOnly } from '@samnbuk/react_db_client.components.form.form-fields.field-read-only';
+
+const readOnlyWrap = (Component) => (props) =>
+  props.readOnly ? <FieldReadOnly {...props} /> : <Component {...props} />;
 
 export const defaultComponentMap = ({ asyncGetDocuments, fileServerUrl } = {}) => ({
-  [filterTypes.text]: () => FieldText,
-  [filterTypes.select]: () => FieldSelect,
-  [filterTypes.selectMulti]: () => FieldMultiSelect,
-  // [filterTypes.fileMultiple]: () => FieldFile,
-  [filterTypes.file]: () => (props) =>
-    <FieldFile {...props} fileServerUrl={fileServerUrl} asyncGetDocuments={asyncGetDocuments} />,
-  // [filterTypes.image]: () => FieldFile,
-  [filterTypes.textLong]: () => FieldTextArea,
-  [filterTypes.number]: () => FieldNumber,
-  [filterTypes.date]: () => FieldDate,
-  [filterTypes.bool]: () => FieldBool,
-  [filterTypes.toggle]: () => FieldBool,
-  [filterTypes.selectSearch]: () => FieldSelectSearch,
-  [filterTypes.reference]: () => (props) =>
-    <FieldObjectRef {...props} asyncGetDocuments={asyncGetDocuments} />,
+  [filterTypes.text]: () => readOnlyWrap(FieldText),
+  [filterTypes.select]: () => readOnlyWrap(FieldSelect),
+  [filterTypes.selectMulti]: () => readOnlyWrap(FieldMultiSelect),
+  // [filterTypes.fileMultiple]: () => readOnlyWrap(FieldFile),
+  [filterTypes.file]: () =>
+    readOnlyWrap((props) => (
+      <FieldFile {...props} fileServerUrl={fileServerUrl} asyncGetDocuments={asyncGetDocuments} />
+    )),
+  // [filterTypes.image]: () => readOnlyWrap(FieldFile),
+  [filterTypes.textLong]: () => readOnlyWrap(FieldTextArea),
+  [filterTypes.number]: () => readOnlyWrap(FieldNumber),
+  [filterTypes.date]: () => readOnlyWrap(FieldDate),
+  [filterTypes.bool]: () => readOnlyWrap(FieldBool),
+  [filterTypes.toggle]: () => readOnlyWrap(FieldBool),
+  [filterTypes.selectSearch]: () => readOnlyWrap(FieldSelectSearch),
+  [filterTypes.reference]: () =>
+    readOnlyWrap((props) => <FieldObjectRef {...props} asyncGetDocuments={asyncGetDocuments} />),
 });

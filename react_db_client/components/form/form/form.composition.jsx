@@ -78,6 +78,24 @@ export const FormDefaultHoriz = () => {
   );
 };
 
+/**
+ * Default form using preset form field component
+ */
+export const FormReadOnly = () => {
+  return (
+    <div className="sectionWrapper">
+      <Form
+        headings={demoHeadingsData.map((h) => ({ ...h, readOnly: true }))}
+        formDataInitial={demoFormData}
+        onSubmit={(data) => console.log(data)}
+        additionalData={demoAdditionalData}
+        componentMap={defaultComponentMap({ asyncGetDocuments, fileServerUrl })}
+        FormField={FormField}
+      />
+    </div>
+  );
+};
+
 export const FormDefaultCustomFieldComponent = () => {
   return (
     <div className="sectionWrapper">
