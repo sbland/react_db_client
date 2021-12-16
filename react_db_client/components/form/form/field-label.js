@@ -12,7 +12,7 @@ export const FieldLabel = ({
     {required && '*'}
     {hasLabel && (
       <>
-        {label}
+        {label || 'MISSING LABEL'}
         {/* Below is a possible hack to stop chrome autofill */}
         {/* {label.split('').join('\u200b')} */}
         {hasChanged && '(!)'}

@@ -8,14 +8,10 @@ import { FieldLabel } from './field-label';
 
 import './_form.scss';
 
-export const FormField = ({
-  heading,
-  value,
-  updateFormData,
-  additionalData,
-  componentMap,
-}) => {
-  // TODO: Is this setup causing unnessesary updates?
+const defaultComponent = () => FieldReadOnly;
+
+export const FormField = (propsIn) => {
+  const { heading, value, updateFormData, additionalData, componentMap } = propsIn;
   const props = useMemo(
     () => ({
       updateFormData,
@@ -28,9 +24,11 @@ export const FormField = ({
   );
   const { label, required, type, uid, hasChanged, readOnly } = heading;
 
-  const defaultComponent = () => FieldReadOnly;
 
-  const FormComponent = switchF(heading.type, componentMap, defaultComponent);
+  const FormComponent = useMemo(
+    () => switchF(heading.type, componentMap, defaultComponent),
+    [heading.type, componentMap, defaultComponent]
+  );
 
   const labelClassName = [
     'form_label',
@@ -40,10 +38,7 @@ export const FormField = ({
     .filter((f) => f)
     .join(' ');
 
-  const hasLabel =
-    [filterTypes.bool, filterTypes.toggle].indexOf(type) === -1 ||
-    heading.readOnly; // we do not need a label for a toggle box
-
+  const showLabel = [filterTypes.bool, filterTypes.toggle].indexOf(type) === -1 || heading.readOnly; // we do not need a label for a toggle box
   return (
     <div className="form_row" key={uid}>
       <FieldLabel
@@ -51,7 +46,7 @@ export const FormField = ({
         inputClassName={labelClassName}
         hasChanged={hasChanged}
         required={required}
-        hasLabel={hasLabel}
+        hasLabel={showLabel}
       />
       <FormComponent {...props} />
     </div>
@@ -66,10 +61,7 @@ FormField.propTypes = {
     unit: PropTypes.string,
     required: PropTypes.bool,
     hasChanged: PropTypes.bool,
-    readOnly: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.oneOf(['true', 'false']),
-    ]),
+    readOnly: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['true', 'false'])]),
   }).isRequired,
   value: PropTypes.any,
   updateFormData: PropTypes.func.isRequired,
@@ -81,4 +73,3 @@ FormField.defaultProps = {
   value: null,
   componentMap: {},
 };
-

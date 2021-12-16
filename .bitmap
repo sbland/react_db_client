@@ -65,7 +65,7 @@
     },
     "components/form/form": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.0.14",
+        "version": "0.0.16",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form"
     },
@@ -143,7 +143,7 @@
     },
     "components/form/form-fields/field-text": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-text"
     },
@@ -155,13 +155,13 @@
     },
     "components/generic-catalogue": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.0.20",
+        "version": "0.0.22",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/generic-catalogue"
     },
     "components/item-editor": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.0.15",
+        "version": "0.0.17",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/item-editor"
     },

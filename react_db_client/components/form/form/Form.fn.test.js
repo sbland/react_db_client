@@ -1,8 +1,9 @@
 import '@samnbuk/react_db_client.helpers.enzyme-setup';
 import React from 'react';
 import { mount } from 'enzyme';
+import { act } from 'react-dom/test-utils';
 import { SearchAndSelectDropdown } from '@samnbuk/react_db_client.components.search-and-select-dropdown';
-
+import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
 import { demoHeadingsData, demoFormData } from './DemoData';
 
 import { Form } from './form';
@@ -80,6 +81,21 @@ describe('Form - Functional Tests', () => {
         onChange.mockClear();
         sas.props().handleSelect(newValue);
         expect(onChange).toHaveBeenCalledWith(demoHeadingsData[6].uid, newValue, newFormData);
+      });
+      test('allow modifiying inputs', () => {
+        const formField = () => component
+          .find(FormField)
+          .filterWhere((f) => f.props().heading?.type === filterTypes.text)
+          .first();
+        // const formField = component.find(FormField).first();
+        const { uid } = formField().props().heading;
+        const inputField = () => formField().find('input');
+        act(() => {
+          inputField().simulate('focus');
+          inputField().simulate('change', { target: { value: 'a' } });
+          component.update();
+        });
+        expect(inputField().getDOMNode() === document.activeElement);
       });
     });
 

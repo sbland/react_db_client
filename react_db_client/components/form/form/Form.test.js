@@ -21,7 +21,15 @@ const rowCounter = (acc, val) => {
   return acc + addme;
 };
 
-const FormField = () => <div>FormFieldMock</div>;
+const DemoFieldComponent = ({ uid, value, updateFormData }) => (
+  <input
+    role="presentation"
+    type={'text'}
+    value={value || ''}
+    onChange={(e) => updateFormData(uid, e.target.value)}
+  />
+);
+const FormField = (props) => <DemoFieldComponent {...props} uid="DEMOID" />;
 
 const defaultProps = {
   headings: demoHeadingsData,
@@ -78,8 +86,8 @@ describe('Form', () => {
       formDOM.simulate('submit');
       expect(submitFunc).toHaveBeenCalledTimes(2);
       expect(submitFunc).lastCalledWith({
-        formData: { ...demoFormData, name: 'foo' },
-        formEditData: { name: 'foo' },
+        formData: { ...demoFormData, DEMOID: 'foo' },
+        formEditData: { DEMOID: 'foo' },
       });
     });
   });
@@ -93,13 +101,13 @@ describe('Form', () => {
         // .filterWhere((n) => n.props().id === 'name')
         .first();
       formInputDOM.simulate('change', { target: { value: 'foo' } });
-      expect(onChangeFunc).toHaveBeenCalledWith('name', 'foo', { name: 'foo' });
+      expect(onChangeFunc).toHaveBeenCalledWith('DEMOID', 'foo', { DEMOID: 'foo' });
     });
   });
 });
 
 describe('FormInputs', () => {
-  test.only('should update on change', () => {
+  test('should update on change', () => {
     const mockUpdate = jest.fn();
     const formInputs = mount(
       <FormInputs {...defaultProps} updateFormData={mockUpdate} formData={{}} />
@@ -107,8 +115,8 @@ describe('FormInputs', () => {
     const formField = formInputs.find(FormField).first();
 
     act(() => {
-      formField.props().updateFormData('name', 'foo');
+      formField.props().updateFormData('DEMOID', 'foo');
     });
-    expect(mockUpdate).toHaveBeenCalledWith('name', 'foo');
+    expect(mockUpdate).toHaveBeenCalledWith('DEMOID', 'foo');
   });
 });

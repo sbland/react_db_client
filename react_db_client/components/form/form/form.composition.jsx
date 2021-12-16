@@ -51,6 +51,7 @@ export const FormDefault = () => {
         headings={demoHeadingsData}
         formDataInitial={demoFormData}
         onSubmit={(data) => console.log(data)}
+        onChange={(field, value, newFormData) => console.info(`${field}: ${value}`)}
         additionalData={demoAdditionalData}
         componentMap={defaultComponentMap({ asyncGetDocuments, fileServerUrl })}
         FormField={FormField}
