@@ -8,14 +8,14 @@ $line-height-1: var(--line-height-1, 1.2rem);
 $grey-20: #dddddd;
 $grey-30: #cccccc;
 $defaultFieldOutline: var(--default-field-outline, 1px solid #333);
-
+$mq-medium: 768px;
 $section-padding: $unit * 0.1;
 $section-border: 1px $white dashed;
 $heading-height: $unit * 0.7;
 
 .form,
 .form_inputs,
-.form_section {
+.formSection {
   /* FORM SECTION */
   &.formSection,
   .formSection {
@@ -72,11 +72,13 @@ $heading-height: $unit * 0.7;
     flex-grow: 1;
     display: flex;
     margin: 0; // Reset margin
-    outline: 1px solid $grey-20;
     padding: 2px;
+    outline: 1px solid $grey-20;
   }
   &.vert > .form_row {
-    align-items: flex-end; // Ensures inputs align to bottom of label
+    align-items: stretch; // Ensures inputs align to bottom of label
+    flex-direction: column;
+
     &:not(:first-child) {
       margin-top: $section-padding;
     }
@@ -96,7 +98,6 @@ $heading-height: $unit * 0.7;
 
   /* FORM LABEL */
   .form_label {
-    text-align: left;
     margin-right: $unit;
     &.required {
       color: $warningColour;
@@ -118,12 +119,13 @@ $heading-height: $unit * 0.7;
     }
   }
   &.vert > .form_row > .form_label {
+    text-align: left;
     width: 30%;
     max-width: 200px;
     flex-grow: 1;
   }
   &.horiz > .form_row > .form_label {
-    text-align: right;
+    text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: fit-content;
@@ -172,9 +174,10 @@ $heading-height: $unit * 0.7;
     border: 0;
     height: $line-height-1;
     max-height: $line-height-1;
-    padding: 0;
-    // &:focus {
-    // }
+    // padding: 0;
+    &:focus {
+      outline: 2px $grey-30 solid;
+    }
   }
 
   select {
@@ -204,6 +207,9 @@ $heading-height: $unit * 0.7;
     margin: 0;
     border: none;
     outline: none;
+    &:focus {
+      outline: 2px $grey-30 solid;
+    }
   }
 
   input[type='checkbox'],
@@ -218,5 +224,23 @@ $heading-height: $unit * 0.7;
 
   .formFieldInput {
     width: 100%;
+  }
+}
+
+@media (min-width: $mq-medium) {
+  .formSection {
+    &.vert > .form_row > .form_label {
+      text-align: right;
+    }
+    &.horiz > .form_row > .form_label {
+      text-align: left;
+    }
+    &.vert > .form_row {
+      flex-direction: row;
+    align-items: flex-end; // Ensures inputs align to bottom of label
+  }
+    &.horiz > .form_row {
+      // flex-direction: column;
+    }
   }
 }
