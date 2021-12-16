@@ -6,6 +6,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { FormInputs } from './FormInputs';
 import formValidation from './formValidation';
+import { FormField as DefaultFormField } from './FormField';
 
 import './_form.scss';
 
@@ -131,9 +132,9 @@ export const Form = ({
 };
 
 Form.propTypes = {
-  // FormField: PropTypes.elementType.isRequired,
+  FormField: PropTypes.elementType,
   /* Initial form mdata */
-  formDataInitial: PropTypes.shape().isRequired,
+  formDataInitial: PropTypes.objectOf(PropTypes.any).isRequired,
   /* Form field headings data */
   headings: PropTypes.arrayOf(
     PropTypes.shape({
@@ -167,6 +168,7 @@ Form.propTypes = {
 };
 
 Form.defaultProps = {
+  FormField: DefaultFormField,
   onChange: () => {},
   showEndBtns: true,
   submitBtnText: 'Save',

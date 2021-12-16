@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
 
 import '@samnbuk/react_db_client.constants.style';
+import { FormField as DefaultFormField } from './FormField';
 import './_form.scss';
 
 export const FormInputs = ({
@@ -75,7 +76,7 @@ export const FormInputs = ({
 };
 
 FormInputs.propTypes = {
-  FormField: PropTypes.func.isRequired,
+  FormField: PropTypes.func,
   headings: PropTypes.arrayOf(
     PropTypes.shape({
       uid: PropTypes.string.isRequired,
@@ -97,6 +98,7 @@ FormInputs.propTypes = {
 };
 
 FormInputs.defaultProps = {
+  FormField: DefaultFormField,
   orientation: 'vert',
   heading: '',
   isSection: false,
