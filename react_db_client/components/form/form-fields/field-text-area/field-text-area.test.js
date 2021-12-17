@@ -2,7 +2,7 @@ import '@samnbuk/react_db_client.helpers.enzyme-setup';
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 
-import { FieldTextArea } from "./field-text-area";
+import { FieldTextArea } from './field-text-area';
 import * as compositions from './field-text-area.composition';
 import { defaultVal } from './demo-data';
 
@@ -14,7 +14,6 @@ const defaultProps = {
   value: defaultVal,
   updateFormData,
 };
-
 
 describe('field-text-area', () => {
   beforeEach(() => {
@@ -38,5 +37,24 @@ describe('field-text-area', () => {
       expect(tree).toMatchSnapshot();
     });
   });
+  describe('Unit Tests', () => {
+    let component;
+    let spyRef;
+    beforeEach(() => {
+      spyRef = jest.spyOn(React, 'useRef');
+      spyRef.mockReturnValue({ current: { scrollHeight: 100 } });
+      component = shallow(<FieldTextArea {...defaultProps} />);
+    });
+    describe('Auto size', () => {
+      test('should autosize to initial content', async () => {
+        spyRef.mockReturnValue({ current: { scrollHeight: 100 } });
+        component.update();
+        const textArea = component.find('textarea');
+        expect(textArea.props().style.height).toEqual('auto');
+        // await new Promise((resolve) => setTimeout(resolve));
+        // TODO: THis works but not in test.
+        // expect(textArea.props().style.height).toEqual(10);
+      });
+    });
+  });
 });
-

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import './style.scss';
@@ -12,35 +12,44 @@ export const FieldTextArea = ({
   initHeight,
   scaleToContent,
 }) => {
-  const ref = useRef(null);
+  const ref = React.useRef(null);
   const [textareaHeight, setTextareaHeight] = useState(initHeight);
+  const [resizing, setResizing] = useState(scaleToContent);
 
   const manageInputChange = (newValue) => {
     // This makes the textbox auto size
     if (scaleToContent) {
-      setTextareaHeight(ref.current.scrollHeight + 2);
+      setResizing(true);
     }
     updateFormData(uid, newValue);
   };
 
   useEffect(() => {
-    // Autosize the text box on load
     if (scaleToContent) {
-      if (value && ref.current.scrollHeight + 2 > initHeight)
-        setTextareaHeight(ref.current.scrollHeight + 2);
+      setResizing(true);
     }
-  }, [value, initHeight, scaleToContent]);
+  }, [value]);
+
+  useEffect(() => {
+    if (scaleToContent && resizing) {
+      if (ref.current.scrollHeight + 2 > initHeight) {
+        setTextareaHeight(ref.current.scrollHeight);
+        setResizing(false);
+      }
+    }
+  }, [scaleToContent, value, resizing, ref, initHeight]);
 
   return (
     <>
       <div className="inputWrapper">
         <textarea
           style={{
-            height: textareaHeight || 50,
+            height: resizing ? 'auto' : textareaHeight + 2 + 'px',
+            // height: textareaHeight + 'px',
             maxHeight: '100%',
             minHeight: '1rem',
             maxWidth: '100%',
-            minWidth: '100%',
+            // minWidth: '100%',
           }}
           value={value || ''}
           id={uid}
@@ -49,16 +58,16 @@ export const FieldTextArea = ({
           required={required}
           ref={ref}
         />
-        {unit && <span>{unit}</span>}
       </div>
+      {unit && <span>{unit}</span>}
     </>
   );
 };
 
 FieldTextArea.propTypes = {
-  uid: PropTypes.string.isRequired,
+  uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   unit: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   updateFormData: PropTypes.func.isRequired,
   required: PropTypes.bool,
   initHeight: PropTypes.number,

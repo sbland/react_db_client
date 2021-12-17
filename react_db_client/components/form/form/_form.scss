@@ -73,7 +73,6 @@ $heading-height: $unit * 0.7;
     display: flex;
     margin: 0; // Reset margin
     padding: 2px;
-    outline: 1px solid $grey-20;
   }
   &.vert > .form_row {
     align-items: stretch; // Ensures inputs align to bottom of label
@@ -91,6 +90,7 @@ $heading-height: $unit * 0.7;
     flex-direction: column;
     margin-right: $section-padding;
     justify-content: flex-start;
+    outline: 1px solid $grey-20;
     &:not(:first-child) {
       margin-left: $section-padding;
     }
