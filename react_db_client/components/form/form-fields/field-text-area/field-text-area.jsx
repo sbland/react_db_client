@@ -34,8 +34,8 @@ export const FieldTextArea = ({
     if (scaleToContent && resizing) {
       if (ref.current.scrollHeight + 2 > initHeight) {
         setTextareaHeight(ref.current.scrollHeight);
-        setResizing(false);
       }
+      setResizing(false);
     }
   }, [scaleToContent, value, resizing, ref, initHeight]);
 
