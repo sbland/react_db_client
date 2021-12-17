@@ -1,1 +1,1 @@
-export { CompositionWrapDefault } from './composition-wraps';
+export { CompositionWrapDefault, WrapFieldComponent } from './composition-wraps';

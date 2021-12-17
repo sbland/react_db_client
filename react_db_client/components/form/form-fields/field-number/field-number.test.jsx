@@ -38,5 +38,21 @@ describe('field number', () => {
         })
       );
     });
+    describe('Modifying Input', () => {
+      const val = '';
+      const getComponent = () => mount(<FieldNumber {...defaultProps} value={val} />);
+      test('should set to empty if value is empty', () => {
+        const component = getComponent();
+        const input = component.find('input');
+        expect(input.props().value).toEqual(val);
+      });
+      test('should set to empty if value is empty and defocus', () => {
+        const component = getComponent();
+        const input = () => component.find('input');
+        input().simulate('focus');
+        input().simulate('blur');
+        expect(input().props().value).toEqual(val);
+      });
+    });
   });
 });
