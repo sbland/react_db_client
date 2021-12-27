@@ -32,7 +32,7 @@ import './_form.scss';
 
 
  * additionalData - additional data to be passed to form field components. Useful when using a custom field
- * customFieldComponents - a map of field type against react component
+ * componentMap - a map of field type against react component
  */
 export const Form = ({
   FormField,

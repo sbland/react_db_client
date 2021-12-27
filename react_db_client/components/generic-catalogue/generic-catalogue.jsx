@@ -23,7 +23,7 @@ export const GenericCatalogue = ({
   asyncPutDocument,
   asyncPostDocument,
   asyncDeleteDocument,
-  customFieldComponents,
+  componentMap,
   onError,
 }) => {
   const [showEditor, setShowEditor] = useState(false);
@@ -107,7 +107,7 @@ export const GenericCatalogue = ({
           asyncPutDocument={asyncPutDocument}
           asyncPostDocument={asyncPostDocument}
           asyncDeleteDocument={asyncDeleteDocument}
-          customFieldComponents={customFieldComponents}
+          componentMap={componentMap}
           saveErrorCallback={onError}
         />
       )}
@@ -203,7 +203,7 @@ GenericCatalogue.propTypes = {
   asyncPutDocument: PropTypes.func.isRequired,
   asyncPostDocument: PropTypes.func.isRequired,
   asyncDeleteDocument: PropTypes.func.isRequired,
-  customFieldComponents: PropTypes.objectOf(PropTypes.elementType),
+  componentMap: PropTypes.objectOf(PropTypes.elementType),
   onError: PropTypes.func,
 };
 
@@ -213,6 +213,6 @@ GenericCatalogue.defaultProps = {
   ItemEditor: _ItemEditor,
   PopupPanel: () => {},
   notificationDispatch: alert,
-  customFieldComponents: {},
+  componentMap: {},
   onError: () => {},
 };

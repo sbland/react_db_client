@@ -23,7 +23,7 @@
 //           formDataInitial={demoFormData}
 //           onSubmit={(data) => console.log(data)}
 //           additionalData={demoAdditionalData}
-//           customFieldComponents={{ demoFieldType: DemoFormComponent }}
+//           componentMap={{ demoFieldType: DemoFormComponent }}
 //         />
 //       </div>
 //     );

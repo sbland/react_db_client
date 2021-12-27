@@ -23,7 +23,7 @@ const defaultProps = {
   asyncPostDocument: async () => alert('Post doc'),
   asyncDeleteDocument: async () => {},
   asyncDeleteDocuments: async () => {},
-  customFieldComponents: {},
+  componentMap: {},
   onError: () => {},
 };
 
