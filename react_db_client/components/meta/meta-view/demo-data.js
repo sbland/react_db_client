@@ -11,10 +11,7 @@ export const demoTemplateData = {
     a: {
       uid: 'a',
       label: 'a',
-      fields: [
-          'fa',
-          'fb',
-      ],
+      fields: ['fa', 'fb'],
     },
     b: {
       uid: 'b',
@@ -25,29 +22,47 @@ export const demoTemplateData = {
 };
 
 export const demoFieldsData = {
-    fa: {
-        uid: 'fa',
-        label: 'Fa',
-        ftype: 'text',
-    },
-    fb: {
-        uid: 'fb',
-        label: 'Fb',
-        ftype: 'text',
-    },
-}
+  fa: {
+    uid: 'fa',
+    label: 'Fa',
+    ftype: 'text',
+  },
+  fb: {
+    uid: 'fb',
+    label: 'Fb',
+    ftype: 'text',
+  },
+};
+
+const demoField = ({ viewMode, uid, value, updateFormData }) =>
+  viewMode === 'edit' ? (
+    <input
+      type="text"
+      role="textbox"
+      name={uid}
+      aria-labelledby={uid}
+      value={value}
+      onChange={(e) => updateFormData(uid, e.target.value)}
+    />
+  ) : (
+    <div>{value}</div>
+  );
 
 const componentMap = {
-    'text': () => () => <div>Text</div>
-}
+  text: () => demoField,
+};
+
+export const demoPageData = {
+  fa: 'value a',
+};
 
 export const defaultProps = {
   viewMode: 'view',
-  pageData: {},
+  pageData: demoPageData,
   datatypeData: demodataDatatype,
   templateData: demoTemplateData,
   fieldsData: demoFieldsData,
   hideMissing: false,
-  handleEditFormChange: () => {},
+  updateFormData: (field, value) => console.log(`${field}:${value}`),
   componentMap,
 };

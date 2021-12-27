@@ -124,9 +124,9 @@ SidebarWrapMain.propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
-export const SidebarSectionSubHeading = ({ title, editButtons }) => (
+export const SidebarSectionSubHeading = ({ title, editButtons, uid }) => (
   <div className="sidebarWrap_side_section_subHeadingWrap">
-    <div className="sidebarWrap_side_section_subHeading">{title}</div>
+    <label className="sidebarWrap_side_section_subHeading" id={uid}>{title}</label>
     <div className="sidebarWrap_side_section_subHeading_editBtns">{editButtons}</div>
   </div>
 );

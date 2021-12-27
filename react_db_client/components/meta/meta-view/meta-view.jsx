@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import SidebarWrap, { SidebarWrapSide, SidebarWrapMain } from './sections';
 import { mapSections } from './map-sections';
 import { mapFields } from './map-fields';
+import './style.scss';
 
 export const MetaView = ({
   // React
@@ -23,7 +24,7 @@ export const MetaView = ({
   templateData,
   fieldsData,
   hideMissing,
-  handleEditFormChange,
+  updateFormData,
   componentMap,
 }) => {
   const { sidebar, main } = templateData;
@@ -38,7 +39,7 @@ export const MetaView = ({
     fieldsData,
     viewMode,
     datatypeData,
-    handleEditFormChange
+    updateFormData
   );
   const mapSectionsFn = mapSections(mapFieldsFn, hideMissing);
 
@@ -74,6 +75,7 @@ const fieldShape = {
 MetaView.propTypes = {
   viewMode: PropTypes.string.isRequired,
   pageData: PropTypes.object.isRequired,
+  updateFormData: PropTypes.func.isRequired,
   datatypeData: PropTypes.shape({
     uid: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,

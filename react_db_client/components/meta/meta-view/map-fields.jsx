@@ -3,10 +3,10 @@ import { switchF } from '@samnbuk/react_db_client.helpers.func-tools';
 
 import { SidebarSectionSubHeading } from './sections';
 
-const defaultComponent = () => <div>PLACEHOLDER</div>
+const defaultComponent = () => <div>PLACEHOLDER</div>;
 
 export const mapFields =
-  (componentMap, hideMissing, pageData, fieldsData, viewMode, datatypeData, handleEditFormChange) =>
+  (componentMap, hideMissing, pageData, fieldsData, viewMode, datatypeData, updateFormData) =>
   (sectionFields) =>
     sectionFields
       .filter(
@@ -37,7 +37,7 @@ export const mapFields =
         if (readOnly && viewMode === 'edit') {
           return (
             <div className={classNames} key={field}>
-              <SidebarSectionSubHeading title={label} />
+              <SidebarSectionSubHeading title={label} uid={uid} />
               <p>Read Only Field</p>
             </div>
           );
@@ -46,7 +46,7 @@ export const mapFields =
         return (
           <div className={classNames} key={field}>
             {(showHeading || showHeading === undefined) && (
-              <SidebarSectionSubHeading title={label} />
+              <SidebarSectionSubHeading title={label} uid={uid} />
             )}
             {FieldComponent && (
               <FieldComponent
@@ -55,8 +55,8 @@ export const mapFields =
                 pageData={pageData}
                 viewMode={viewMode}
                 value={value}
-                handleEditFormChange={handleEditFormChange}
-                fieldName={uid}
+                updateFormData={updateFormData}
+                uid={uid}
                 {...args}
               />
             )}
