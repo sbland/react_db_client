@@ -26,19 +26,30 @@ describe('Meta View', () => {
   describe('Unit Tests', () => {
     beforeEach(() => {
       updateFormData.mockClear();
-    })
-    describe('renders fields', () => {
-      render(<MetaView {...defaultTestProps} viewMode="edit" />);
-      const field = screen.getByLabelText(demoFieldsData.fa.label);
-      expect(field).toHaveValue(demoPageData.fa);
     });
+    describe('View Mode', () => {
+      describe('renders fields', () => {
+        test('should render read only text', () => {
+          render(<MetaView {...defaultTestProps} />);
+          const field = screen.getByLabelText(demoFieldsData.fa.label);
+          expect(field).toHaveTextContent(demoPageData.fa);
+        });
+      });
+    });
+    describe('Edit Mode', () => {
+      test('renders fields', () => {
+        render(<MetaView {...defaultTestProps} viewMode="edit" />);
+        const field = screen.getByLabelText(demoFieldsData.fa.label);
+        expect(field).toHaveValue(demoPageData.fa);
+      });
 
-    describe('Changing values', () => {
-      render(<MetaView {...defaultTestProps} />);
-      const field = screen.getByLabelText(demoFieldsData.fa.label);
-      const newVal = 'newVal';
-      fireEvent.change(field, {target: { value: newVal}})
-      expect(updateFormData).toHaveBeenCalledWith(demoFieldsData.fa.uid, newVal);
+      test('Changing values', () => {
+        render(<MetaView {...defaultTestProps} viewMode="edit" />);
+        const field = screen.getByLabelText(demoFieldsData.fa.label);
+        const newVal = 'newVal';
+        fireEvent.change(field, { target: { value: newVal } });
+        expect(updateFormData).toHaveBeenCalledWith(demoFieldsData.fa.uid, newVal);
+      });
     });
   });
 });

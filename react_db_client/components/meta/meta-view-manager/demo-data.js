@@ -56,13 +56,42 @@ export const demoPageData = {
   fa: 'value a',
 };
 
+
+const asyncGetDocument = async (c, i) => {
+  switch (c) {
+    case 'pages':
+      return demoPageData;
+    case 'datatypes':
+      return demoDatatype;
+    case 'templates':
+      return demoTemplateData;
+    case 'fields':
+      return demoFieldsData;
+    default:
+      throw Error(`Not mocked: ${c}: ${i}`);
+  }
+};
+
+const asyncGetDocuments = async (c, i) => {
+  switch (c) {
+    case 'fields':
+      return demoFieldsData;
+    default:
+      throw Error(`Not mocked: ${c}: ${i}`);
+  }
+};
+
+
 export const defaultProps = {
-  viewMode: 'view',
-  pageData: demoPageData,
-  datatypeData: demoDatatype,
-  templateData: demoTemplateData,
-  fieldsData: demoFieldsData,
-  hideMissing: false,
-  updateFormData: (field, value) => console.log(`${field}:${value}`),
+  inputUid: 'DemoId',
+  datatypeId: demoDatatype.uid,
+  isNew: false,
+  additionalData: {},
+  onSubmitCallback: () => {},
+  asyncGetDocuments,
+  asyncGetDocument,
+  asyncPutDocument: async () => {},
+  asyncPostDocument: async () => {},
+  asyncDeleteDocument: async () => {},
   componentMap,
 };

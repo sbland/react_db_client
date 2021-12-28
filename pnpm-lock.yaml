@@ -156,6 +156,18 @@ importers:
   react_db_client/components/item-list:
     specifiers: {}
 
+  react_db_client/components/loading-panel:
+    specifiers: {}
+
+  react_db_client/components/meta/meta-view:
+    specifiers: {}
+
+  react_db_client/components/meta/meta-view-manager:
+    specifiers: {}
+
+  react_db_client/components/meta/use-view-data-manager:
+    specifiers: {}
+
   react_db_client/components/popup-panel:
     specifiers: {}
 

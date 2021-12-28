@@ -57,6 +57,7 @@ export const mapFields =
                 value={value}
                 updateFormData={updateFormData}
                 uid={uid}
+                type={ftype}
                 {...args}
               />
             )}

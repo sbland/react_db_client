@@ -56,13 +56,3 @@ export const demoPageData = {
   fa: 'value a',
 };
 
-export const defaultProps = {
-  viewMode: 'view',
-  pageData: demoPageData,
-  datatypeData: demoDatatype,
-  templateData: demoTemplateData,
-  fieldsData: demoFieldsData,
-  hideMissing: false,
-  updateFormData: (field, value) => console.log(`${field}:${value}`),
-  componentMap,
-};
