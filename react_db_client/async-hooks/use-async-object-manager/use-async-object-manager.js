@@ -65,13 +65,12 @@ export const useAsyncObjectManager = ({
   const [isNew, setIsNew] = useState(!activeUid || isNewIn);
   const [uid] = useState(isNew || !activeUid ? generateUid(collection) : activeUid);
   const [editData, setEditData] = useState({});
+  const [unsavedChanges, setUnsavedChanges] = useState(false); // TODO: Implement this
   const [resetToData, setResetToData] = useState({});
-  const loadArgs = useMemo(() => [collection, uid, schema, populate], [
-    collection,
-    uid,
-    schema,
-    populate,
-  ]);
+  const loadArgs = useMemo(
+    () => [collection, uid, schema, populate],
+    [collection, uid, schema, populate]
+  );
 
   const [loadedData, setLoadedData] = useState(null);
 
@@ -80,7 +79,12 @@ export const useAsyncObjectManager = ({
     setEditData({});
   };
 
-  const { call: loadAsync, loading: loadingData, callCount, hasLoaded } = useAsyncRequest({
+  const {
+    call: loadAsync,
+    loading: loadingData,
+    callCount,
+    hasLoaded,
+  } = useAsyncRequest({
     id: 'loadAsync',
     // TODO: Add populate
     args: loadArgs,
@@ -101,6 +105,7 @@ export const useAsyncObjectManager = ({
   const onSavedCallback = useCallback(
     (response) => {
       setIsNew(false);
+      setUnsavedChanges(false);
       setResetToData({
         ...loadedData,
         ...inputAdditionalData,
@@ -129,7 +134,11 @@ export const useAsyncObjectManager = ({
     ]
   );
 
-  const { response: saveResponse, call: saveAsync, loading: savingData } = useAsyncRequest({
+  const {
+    response: saveResponse,
+    call: saveAsync,
+    loading: savingData,
+  } = useAsyncRequest({
     id: 'saveAsync',
     callFn: isNew ? asyncPostDocument : asyncPutDocument,
     callOnInit: false,
@@ -137,7 +146,11 @@ export const useAsyncObjectManager = ({
     errorCallback: saveErrorCallback,
   });
 
-  const { response: deleteResponse, call: deleteAsync, loading: deletingData } = useAsyncRequest({
+  const {
+    response: deleteResponse,
+    call: deleteAsync,
+    loading: deletingData,
+  } = useAsyncRequest({
     id: 'deleteAsync',
     args: [collection, uid],
     callFn: isNew ? () => {} : asyncDeleteDocument,
@@ -161,11 +174,13 @@ export const useAsyncObjectManager = ({
   }, [collection, uid, combinedData, saveAsync]);
 
   const updateData = useCallback((newData) => {
+    setUnsavedChanges(true);
     setEditData((prev) => ({ ...prev, ...newData }));
   }, []);
 
   const updateFormData = useCallback(
     (field, value, save = false) => {
+      setUnsavedChanges(true);
       setEditData((prev) => {
         const dataCopy = cloneDeep(prev);
         dataCopy[field] = value;
@@ -208,6 +223,7 @@ export const useAsyncObjectManager = ({
     uid,
     callCount,
     hasLoaded,
+    unsavedChanges,
   };
 };
 

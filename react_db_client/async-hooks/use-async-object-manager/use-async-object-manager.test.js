@@ -246,6 +246,7 @@ describe('useAsyncObjectManager', () => {
       const updateData = { hello: 'world' };
       test('should update returned data after update data', async () => {
         await loadDataAction(rerender, defaultArgs, loadedData);
+        expect(result.current.unsavedChanges).not.toBeTruthy();
         expect(result.current.data).toEqual({
           uid: defaultArgs.activeUid,
           ...loadedData,
@@ -253,6 +254,7 @@ describe('useAsyncObjectManager', () => {
         act(() => {
           result.current.updateData(updateData);
         });
+        expect(result.current.unsavedChanges).toBeTruthy();
         expect(result.current.data).toEqual({
           uid: defaultArgs.activeUid,
           ...loadedData,
