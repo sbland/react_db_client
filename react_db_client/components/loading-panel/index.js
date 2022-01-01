@@ -1,1 +1,1 @@
-export { LoadingPanel } from './loading-panel';
+export { LoadingPanel, LoadingPanelWrapped } from './loading-panel';

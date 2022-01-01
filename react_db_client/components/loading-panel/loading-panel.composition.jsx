@@ -1,6 +1,6 @@
 import React from 'react';
-import { LoadingPanel } from './loading-panel';
+import { LoadingPanelWrapped } from './loading-panel';
 
 export const BasicLoadingPanel = () => (
-  <LoadingPanel open message="Is loading message" />
+  <LoadingPanelWrapped open message="Is loading message" />
 );
