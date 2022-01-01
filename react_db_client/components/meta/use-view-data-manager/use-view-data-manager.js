@@ -1,4 +1,6 @@
 import { useAsyncObjectManager } from '@samnbuk/react_db_client.async-hooks.use-async-object-manager';
+import { useAsyncRequest } from '@samnbuk/react_db_client.async-hooks.use-async-request';
+import { useEffect, useMemo } from 'react';
 
 export function useViewDataManager({
   datatypeId,
@@ -22,12 +24,12 @@ export function useViewDataManager({
     reload,
     saveData,
     updateFormData,
-    data,
+    data: pageData,
     deleteObject,
     resetData,
     uid,
     initialData,
-    hasLoaded,
+    hasLoaded: hasLoadedPageData,
     loadingData,
     savingData,
     deletingData,
@@ -50,10 +52,27 @@ export function useViewDataManager({
     reloadOnSave,
   });
 
-  // TODO: Load datatypeData
-  const datatypeData = {};
-  // TODO: Load templateData
-  const templateData = {};
+  const {
+    call: loadDatatypeData,
+    response: datatypeData,
+    loading: loadingDatatypeData,
+    hasLoaded: hasLoadedDataTypeData,
+  } = useAsyncRequest({
+    callOnInit: false,
+    callFn: async () => asyncGetDocument('datatypes', datatypeId, 'all', 'all'),
+  });
+
+
+  useEffect(() => {
+    if (hasLoadedPageData && pageData?.datatype?.uid && !loadingDatatypeData && !hasLoadedDataTypeData){
+      loadDatatypeData();
+    }
+  }, [hasLoadedPageData, pageData, loadingDatatypeData, hasLoadedDataTypeData]);
+
+  const templateData = useMemo(
+    () => (hasLoadedDataTypeData ? datatypeData.template : {}),
+    [hasLoadedDataTypeData, datatypeData]
+  );
 
   // TODO: Load fieldsData
   const fieldsData = {};
@@ -64,14 +83,14 @@ export function useViewDataManager({
     resetData,
     reload,
     deleteObject,
-    loadingData,
+    loadingData: loadingData || loadingDatatypeData,
     savingData,
     deletingData,
-    data,
     initialData,
     uid,
-    hasLoaded,
+    hasLoaded: hasLoadedPageData && hasLoadedDataTypeData,
     unsavedChanges,
+    pageData,
     datatypeData,
     templateData,
     fieldsData,

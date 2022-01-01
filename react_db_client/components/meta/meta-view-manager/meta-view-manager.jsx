@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { LoadingPanel } from '@samnbuk/react_db_client.components.loading-panel';
+import { LoadingPanelWrapped as LoadingPanel } from '@samnbuk/react_db_client.components.loading-panel';
 import { useViewDataManager } from '@samnbuk/react_db_client.components.meta.use-view-data-manager';
 import { MetaView } from '@samnbuk/react_db_client.components.meta.meta-view';
 import { handleViewModeSwitch } from './helpers';
@@ -30,7 +30,6 @@ export const MetaViewManager = ({
     reload,
     saveData,
     updateFormData,
-    data,
     deleteObject,
     // uid,
     // initialData,
@@ -38,9 +37,11 @@ export const MetaViewManager = ({
     savingData,
     deletingData,
     unsavedChanges, // TODO: Implement this in useasyncobjmaanger
+    pageData,
     datatypeData,
     templateData,
     fieldsData,
+    hasLoaded,
   } = useViewDataManager({
     datatypeId,
     activeUid: inputUid,
@@ -57,18 +58,19 @@ export const MetaViewManager = ({
     saveErrorCallback,
   });
 
-  const updatedAt = data?.updatedAt;
-  const modifiedBy = data?.updatedBy;
-  const createdAt = data?.createdAt;
-  const createdBy = data?.createdBy;
+  const updatedAt = pageData?.updatedAt;
+  const modifiedBy = pageData?.updatedBy;
+  const createdAt = pageData?.createdAt;
+  const createdBy = pageData?.createdBy;
 
   return (
     <>
       {/* TODO: Add edit title panel */}
-      <LoadingPanel loading={loadingData} message="Loading Page Data" />
-      <LoadingPanel loading={savingData} message="Saving Page Data" />
-      <LoadingPanel loading={deletingData} message="Deleting Page Data" />
-      <div className="">
+      {/* TODO: Add raw data panel */}
+      <LoadingPanel open={loadingData} message="Loading Page Data" />
+      <LoadingPanel open={savingData} message="Saving Page Data" />
+      <LoadingPanel open={deletingData} message="Deleting Page Data" />
+      <div className="metaViewManager">
         <TopMenu
           unsavedChanges={unsavedChanges}
           viewSwitchFtn={() => {
@@ -97,16 +99,18 @@ export const MetaViewManager = ({
           modifiedat={updatedAt || createdAt}
           modifiedby={modifiedBy || createdBy}
         />
-        <MetaView
-          viewMode={viewMode}
-          pageData={data}
-          datatypeData={datatypeData}
-          templateData={templateData}
-          fieldsData={fieldsData}
-          hideMissing={hideMissing}
-          updateFormData={updateFormData}
-          componentMap={componentMap}
-        />
+        {hasLoaded && (
+          <MetaView
+            viewMode={viewMode}
+            pageData={pageData?.data} /* TODO: Need to merge page data */
+            datatypeData={datatypeData}
+            templateData={templateData}
+            fieldsData={fieldsData}
+            hideMissing={hideMissing}
+            updateFormData={updateFormData}
+            componentMap={componentMap}
+          />
+        )}
       </div>
     </>
   );

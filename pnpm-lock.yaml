@@ -165,6 +165,9 @@ importers:
   react_db_client/components/meta/meta-view-manager:
     specifiers: {}
 
+  react_db_client/components/meta/style:
+    specifiers: {}
+
   react_db_client/components/meta/use-view-data-manager:
     specifiers: {}
 

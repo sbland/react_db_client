@@ -1,9 +1,5 @@
 import React from 'react';
 
-export const demoDatatype = {
-  uid: 'demo_datatype',
-  label: 'Demo Datatype',
-};
 
 export const demoTemplateData = {
   sidebar: {},
@@ -20,6 +16,26 @@ export const demoTemplateData = {
     },
   },
 };
+
+
+export const demoDatatype = {
+  uid: 'demo_datatype',
+  label: 'Demo Datatype',
+  template: demoTemplateData,
+};
+
+
+export const demoPageData = {
+  data: {
+    fa: 'value a',
+
+  },
+  datatype: {
+    uid: demoDatatype.uid,
+    label: demoDatatype.label,
+  }
+};
+
 
 export const demoFieldsData = {
   fa: {
@@ -52,13 +68,9 @@ const componentMap = {
   text: () => demoField,
 };
 
-export const demoPageData = {
-  fa: 'value a',
-};
-
 export const defaultProps = {
   viewMode: 'view',
-  pageData: demoPageData,
+  pageData: demoPageData.data,
   datatypeData: demoDatatype,
   templateData: demoTemplateData,
   fieldsData: demoFieldsData,

@@ -1,12 +1,95 @@
 import '@samnbuk/react_db_client.helpers.enzyme-setup';
 import React from 'react';
+import {
+  render,
+  fireEvent,
+  waitFor,
+  screen,
+  waitForElementToBeRemoved,
+  act,
+} from '@testing-library/react';
 import { mount } from 'enzyme';
-import { act } from 'react-dom/test-utils';
+// import { act } from 'react-dom/test-utils';
 
 import * as compositions from './meta-view-manager.composition';
+import {
+  defaultProps,
+  demoDatatype,
+  demoFieldsData,
+  demoPageData,
+  demoTemplateData,
+} from './demo-data';
+import { MetaViewManager } from './meta-view-manager';
+
+const asyncGetDocument = jest.fn().mockImplementation(async (c, i) => {
+  switch (c) {
+    case 'pages':
+      return demoPageData;
+    case 'datatypes':
+      return demoDatatype;
+    case 'templates':
+      return demoTemplateData;
+    case 'fields':
+      return demoFieldsData;
+    default:
+      throw Error(`Not mocked: ${c}: ${i}`);
+  }
+});
+
+const asyncGetDocuments = jest.fn().mockImplementation(async (c, i) => {
+  switch (c) {
+    case 'fields':
+      return demoFieldsData;
+    default:
+      throw Error(`Not mocked: ${c}: ${i}`);
+  }
+});
+
+const onSubmitCallback = jest.fn();
+const asyncPutDocument = jest.fn();
+const asyncPostDocument = jest.fn();
+const asyncDeleteDocument = jest.fn();
+
+const defaultTestProps = {
+  ...defaultProps,
+  onSubmitCallback,
+  asyncGetDocument,
+  asyncGetDocuments,
+  asyncPutDocument,
+  asyncPostDocument,
+  asyncDeleteDocument,
+};
+
+const setupComponent = async () => {
+  let component;
+  act(() => {
+    component = render(<MetaViewManager {...defaultTestProps} />);
+  });
+  await act(async () => {
+    // component.update();
+    await new Promise((resolve) => setTimeout(resolve));
+  });
+  return component;
+};
+
+const waitForLoaded = async () => {
+
+}
+
+const resetMocks = () => {
+  onSubmitCallback.mockClear();
+  asyncGetDocument.mockClear();
+  asyncGetDocuments.mockClear();
+  asyncPutDocument.mockClear();
+  asyncPostDocument.mockClear();
+  asyncDeleteDocument.mockClear();
+};
 
 /* Tests */
 describe('Meta View Manager', () => {
+  beforeEach(() => {
+    resetMocks();
+  });
   describe('Compositions', () => {
     Object.entries(compositions).forEach(([name, Composition]) => {
       test(name, async () => {
@@ -19,6 +102,40 @@ describe('Meta View Manager', () => {
           await new Promise((resolve) => setTimeout(resolve));
         });
       });
+    });
+  });
+  describe('Unit Test', () => {
+    describe('Loads data to meta view', () => {
+      test('should call async get document to load page data', async () => {
+        await setupComponent();
+        expect(asyncGetDocument).toHaveBeenCalledWith('pages', demoPageData.uid, 'all', 'all');
+      });
+      test.only('should have loaded dataype data', async () => {
+        render(<MetaViewManager {...defaultTestProps} />);
+        await screen.findByText('Loading Page Data');
+        await waitFor(() => expect(asyncGetDocument).toHaveBeenCalledTimes(2))
+        expect(asyncGetDocument).toHaveBeenCalledWith(
+          'datatypes',
+          demoPageData.datatype.uid,
+          'all',
+          'all'
+        );
+      });
+
+      describe('should start in view mode', () => {
+        test('Should be no inputs ', async () => {
+          //
+        });
+        test('should contain a labeled readonly metaview field', async () => {
+          await setupComponent();
+          const field = screen.getByLabelText(demoFieldsData.fa.label);
+          expect(field).toHaveTextContent(demoPageData.data.fa);
+        });
+      });
+      describe('Open Edit mode', () => {
+
+      })
+
     });
   });
 });

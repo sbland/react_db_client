@@ -1,6 +1,6 @@
 import '@samnbuk/react_db_client.helpers.enzyme-setup';
 import React from 'react';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { mount } from 'enzyme';
 
 import { MetaView } from './meta-view';
@@ -32,7 +32,7 @@ describe('Meta View', () => {
         test('should render read only text', () => {
           render(<MetaView {...defaultTestProps} />);
           const field = screen.getByLabelText(demoFieldsData.fa.label);
-          expect(field).toHaveTextContent(demoPageData.fa);
+          expect(field).toHaveTextContent(demoPageData.data.fa);
         });
       });
     });
@@ -40,7 +40,7 @@ describe('Meta View', () => {
       test('renders fields', () => {
         render(<MetaView {...defaultTestProps} viewMode="edit" />);
         const field = screen.getByLabelText(demoFieldsData.fa.label);
-        expect(field).toHaveValue(demoPageData.fa);
+        expect(field).toHaveValue(demoPageData.data.fa);
       });
 
       test('Changing values', () => {
