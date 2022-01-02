@@ -1,8 +1,10 @@
 /* eslint-disable camelcase */
 import '@samnbuk/react_db_client.helpers.enzyme-setup';
 import { renderHook, act } from '@testing-library/react-hooks';
+import { FilterObjectSimpleClass } from '@samnbuk/react_db_client.constants.client-types';
 import { demoDatatype, demoFieldsData, demoPageData, demoTemplateData } from './demo-data';
 import { useViewDataManager } from './use-view-data-manager';
+import { getFieldsListFromTemplate, useGetFieldsData } from './use-get-fields-data';
 
 Date.now = jest.fn().mockImplementation(() => 0);
 
@@ -24,7 +26,7 @@ const asyncGetDocument = jest.fn().mockImplementation(async (c, i) => {
 const asyncGetDocuments = jest.fn().mockImplementation(async (c, i) => {
   switch (c) {
     case 'fields':
-      return demoFieldsData;
+      return Object.values(demoFieldsData);
     default:
       throw Error(`Not mocked: ${c}: ${i}`);
   }
@@ -36,7 +38,7 @@ const asyncDeleteDocument = jest.fn().mockImplementation(async () => {});
 const onSavedCallback = jest.fn();
 
 const defaultArgs = {
-  activeUid: 'demouid',
+  activeUid: demoPageData.uid,
   collection: 'democollection',
   isNew: false,
   inputAdditionalData: {},
@@ -60,30 +62,78 @@ describe('View Data Manager Hook', () => {
     asyncDeleteDocument.mockClear();
   });
   describe('Loading Data', () => {
-    test.only('should load page data using UID', async () => {
+    test('should load page data using UID', async () => {
       const { waitForNextUpdate } = renderHook(() => useViewDataManager(defaultArgs));
       await waitForNextUpdate();
-      expect(asyncGetDocument).toHaveBeenCalledWith('pages', defaultArgs.activeUid);
+      expect(asyncGetDocument).toHaveBeenCalledWith('pages', defaultArgs.activeUid, 'all', 'all');
     });
-    test.skip('should load datatype from datatype id', () => {
-      //
+    test('should load datatype from datatype id', async () => {
+      const { waitForNextUpdate } = renderHook(() => useViewDataManager(defaultArgs));
+      await waitForNextUpdate();
+      expect(asyncGetDocument).toHaveBeenCalledWith('datatypes', demoDatatype.uid, 'all', 'all');
+      expect(asyncGetDocument).toHaveBeenCalledTimes(2);
+    });
+    test('should load fields data', async () => {
+      const { waitForNextUpdate } = renderHook(() => useViewDataManager(defaultArgs));
+      await waitForNextUpdate();
+      const filters = [
+        new FilterObjectSimpleClass(
+          '_id',
+          Object.values(demoFieldsData).map((d) => d._id),
+          'fieldIdFilter'
+        ),
+      ];
+      expect(asyncGetDocuments).toHaveBeenCalledWith('fields', filters, 'all');
+      expect(asyncGetDocuments).toHaveBeenCalledTimes(1);
     });
     test.skip('should load template data once datatype is loaded', () => {
       //
     });
-    test.skip('should return page data', () => {
-      //
+    test('should return page data', async () => {
+      const { result, waitForNextUpdate } = renderHook(() => useViewDataManager(defaultArgs));
+      await waitForNextUpdate();
+      expect(result.current.pageData).toEqual(demoPageData);
     });
-    test.skip('should return datatype data', () => {
-      //
+    test('should return datatype data', async () => {
+      const { result, waitForNextUpdate } = renderHook(() => useViewDataManager(defaultArgs));
+      await waitForNextUpdate();
+      expect(result.current.datatypeData).toEqual(demoDatatype);
     });
-    test.skip('should return template data', () => {
-      //
+    test('should return template data', async () => {
+      const { result, waitForNextUpdate } = renderHook(() => useViewDataManager(defaultArgs));
+      await waitForNextUpdate();
+      expect(result.current.templateData).toEqual(demoTemplateData);
+    });
+
+    test('should return fields data', async () => {
+      const { result, waitForNextUpdate } = renderHook(() => useViewDataManager(defaultArgs));
+      await waitForNextUpdate();
+      expect(result.current.fieldsData).toEqual(Object.values(demoFieldsData));
     });
   });
   describe('load data cache', () => {
     test.skip('should use cache for template data if hass already loaded', () => {
       //
+    });
+  });
+
+  describe('map fields', () => {
+    describe('Get fields list from template', () => {
+      test('should return a list of fields in the template', () => {
+        const fields = getFieldsListFromTemplate(demoTemplateData);
+        expect(fields).toEqual([demoFieldsData.fa._id, demoFieldsData.fb._id]);
+      });
+    });
+    describe('Get Fields Data Hook', () => {
+      test('should load data', async () => {
+        const { result, waitForNextUpdate } = renderHook(() =>
+          useGetFieldsData({ templateData: demoTemplateData, asyncGetDocuments })
+        );
+        await waitForNextUpdate();
+        expect(result.current.loading).toEqual(false);
+        expect(result.current.hasLoaded).toEqual(true);
+        expect(result.current.fieldsData).toEqual(Object.values(demoFieldsData));
+      });
     });
   });
 });

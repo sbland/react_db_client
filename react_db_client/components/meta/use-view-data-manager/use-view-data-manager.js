@@ -1,9 +1,9 @@
+import { useEffect, useMemo, useState } from 'react';
 import { useAsyncObjectManager } from '@samnbuk/react_db_client.async-hooks.use-async-object-manager';
 import { useAsyncRequest } from '@samnbuk/react_db_client.async-hooks.use-async-request';
-import { useEffect, useMemo } from 'react';
+import { useGetFieldsData } from './use-get-fields-data';
 
 export function useViewDataManager({
-  datatypeId,
   activeUid,
   isNew = false,
   // TODO: Setting below causes it to rerun on render
@@ -15,6 +15,7 @@ export function useViewDataManager({
   onSavedCallback = () => {},
   saveErrorCallback = () => {},
   onDeleteCallback = () => {},
+  asyncGetDocuments,
   asyncGetDocument,
   asyncPutDocument,
   asyncPostDocument,
@@ -52,6 +53,7 @@ export function useViewDataManager({
     reloadOnSave,
   });
 
+
   const {
     call: loadDatatypeData,
     response: datatypeData,
@@ -59,23 +61,27 @@ export function useViewDataManager({
     hasLoaded: hasLoadedDataTypeData,
   } = useAsyncRequest({
     callOnInit: false,
-    callFn: async () => asyncGetDocument('datatypes', datatypeId, 'all', 'all'),
+    callFn: async (datatypeId) => asyncGetDocument('datatypes', datatypeId, 'all', 'all'),
   });
 
-
   useEffect(() => {
-    if (hasLoadedPageData && pageData?.datatype?.uid && !loadingDatatypeData && !hasLoadedDataTypeData){
-      loadDatatypeData();
+    if (
+      hasLoadedPageData &&
+      pageData?.datatype?.uid &&
+      !loadingDatatypeData &&
+      !hasLoadedDataTypeData
+    ) {
+      loadDatatypeData([pageData?.datatype?.uid]);
     }
-  }, [hasLoadedPageData, pageData, loadingDatatypeData, hasLoadedDataTypeData]);
+}, [hasLoadedPageData, pageData?.datatype, loadingDatatypeData, hasLoadedDataTypeData]);
 
   const templateData = useMemo(
     () => (hasLoadedDataTypeData ? datatypeData.template : {}),
-    [hasLoadedDataTypeData, datatypeData]
+    [hasLoadedDataTypeData, datatypeData?.template]
   );
 
-  // TODO: Load fieldsData
-  const fieldsData = {};
+  // const fieldsData = {};
+  const { fieldsData={} } = useGetFieldsData({ templateData, asyncGetDocuments });
 
   return {
     saveData,

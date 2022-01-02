@@ -1,10 +1,5 @@
 import React from 'react';
 
-export const demoDatatype = {
-  uid: 'demo_datatype',
-  label: 'Demo Datatype',
-};
-
 export const demoTemplateData = {
   sidebar: {},
   main: {
@@ -21,19 +16,24 @@ export const demoTemplateData = {
   },
 };
 
+export const demoDatatype = {
+  uid: 'demo_datatype',
+  label: 'Demo Datatype',
+  template: demoTemplateData,
+};
+
 export const demoFieldsData = {
   fa: {
-    uid: 'fa',
+    _id: 'fa',
     label: 'Fa',
     ftype: 'text',
   },
   fb: {
-    uid: 'fb',
+    _id: 'fb',
     label: 'Fb',
     ftype: 'text',
   },
 };
-
 const demoField = ({ viewMode, uid, value, updateFormData }) =>
   viewMode === 'edit' ? (
     <input
@@ -45,7 +45,9 @@ const demoField = ({ viewMode, uid, value, updateFormData }) =>
       onChange={(e) => updateFormData(uid, e.target.value)}
     />
   ) : (
-    <div role="textbox" aria-readonly="true" aria-labelledby={uid}>{value}</div>
+    <div role="textbox" aria-readonly="true" aria-labelledby={uid}>
+      {value}
+    </div>
   );
 
 const componentMap = {
@@ -53,6 +55,9 @@ const componentMap = {
 };
 
 export const demoPageData = {
-  fa: 'value a',
+  uid: 'demo_page',
+  datatype: demoDatatype,
+  data: {
+    fa: 'value a',
+  },
 };
-
