@@ -139,7 +139,13 @@ describe('Meta View Manager', () => {
           expect(invalidFields).not.toBeInTheDocument();
         });
       });
-      describe('Open Edit mode', () => {});
+    });
+    describe('Edit mode', () => {
+      test.only('should allow opening edit mode', async () => {
+        await setupComponent();
+        const editButton = screen.getByText('Edit View');
+        fireEvent.click(editButton);
+      });
     });
   });
 });

@@ -6,6 +6,10 @@ import { MetaView } from '@samnbuk/react_db_client.components.meta.meta-view';
 import { handleViewModeSwitch } from './helpers';
 import { TopMenu } from './top-menu';
 
+const viewModes = [
+  'view',
+  'edit',
+]
 export const MetaViewManager = ({
   inputUid,
   isNew,
@@ -71,7 +75,7 @@ export const MetaViewManager = ({
         <TopMenu
           unsavedChanges={unsavedChanges}
           viewSwitchFtn={() => {
-            setViewMode(handleViewModeSwitch(viewMode));
+            setViewMode(handleViewModeSwitch(viewMode, viewModes));
           }}
           viewMode={viewMode}
           handleEditTitleBtn={() => setShowEditTitlePanel(true)}
