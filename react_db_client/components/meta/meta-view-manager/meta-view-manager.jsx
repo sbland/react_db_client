@@ -8,7 +8,6 @@ import { TopMenu } from './top-menu';
 
 export const MetaViewManager = ({
   inputUid,
-  datatypeId,
   isNew,
   additionalData,
   onSubmitCallback,
@@ -43,7 +42,6 @@ export const MetaViewManager = ({
     fieldsData,
     hasLoaded,
   } = useViewDataManager({
-    datatypeId,
     activeUid: inputUid,
     collection: 'pages',
     isNew: !inputUid || isNew,
@@ -62,7 +60,6 @@ export const MetaViewManager = ({
   const modifiedBy = pageData?.updatedBy;
   const createdAt = pageData?.createdAt;
   const createdBy = pageData?.createdBy;
-
   return (
     <>
       {/* TODO: Add edit title panel */}
@@ -100,16 +97,18 @@ export const MetaViewManager = ({
           modifiedby={modifiedBy || createdBy}
         />
         {hasLoaded && (
-          <MetaView
-            viewMode={viewMode}
-            pageData={pageData?.data} /* TODO: Need to merge page data */
-            datatypeData={datatypeData}
-            templateData={templateData}
-            fieldsData={fieldsData}
-            hideMissing={hideMissing}
-            updateFormData={updateFormData}
-            componentMap={componentMap}
-          />
+          <div className="meta-view">
+            <MetaView
+              viewMode={viewMode}
+              pageData={pageData?.data}
+              datatypeData={datatypeData}
+              templateData={templateData}
+              fieldsData={fieldsData}
+              hideMissing={hideMissing}
+              updateFormData={updateFormData}
+              componentMap={componentMap}
+            />
+          </div>
         )}
       </div>
     </>

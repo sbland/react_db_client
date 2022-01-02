@@ -39,12 +39,12 @@ export const demoPageData = {
 
 export const demoFieldsData = {
   fa: {
-    uid: 'fa',
+    _id: 'fa',
     label: 'Fa',
     ftype: 'text',
   },
   fb: {
-    uid: 'fb',
+    _id: 'fb',
     label: 'Fb',
     ftype: 'text',
   },
@@ -64,7 +64,7 @@ const demoField = ({ viewMode, uid, value, updateFormData }) =>
     <div role="textbox" aria-readonly="true" aria-labelledby={uid}>{value}</div>
   );
 
-const componentMap = {
+export const componentMap = {
   text: () => demoField,
 };
 

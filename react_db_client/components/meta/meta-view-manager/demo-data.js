@@ -51,7 +51,7 @@ const demoField = ({ viewMode, uid, value, updateFormData }) =>
     </div>
   );
 
-const componentMap = {
+export const componentMap = {
   text: () => demoField,
 };
 
@@ -71,8 +71,6 @@ const asyncGetDocument = async (c, i) => {
       return demoDatatype;
     case 'templates':
       return demoTemplateData;
-    case 'fields':
-      return demoFieldsData;
     default:
       throw Error(`Not mocked: ${c}: ${i}`);
   }
@@ -81,7 +79,7 @@ const asyncGetDocument = async (c, i) => {
 const asyncGetDocuments = async (c, i) => {
   switch (c) {
     case 'fields':
-      return demoFieldsData;
+      return Object.values(demoFieldsData);
     default:
       throw Error(`Not mocked: ${c}: ${i}`);
   }

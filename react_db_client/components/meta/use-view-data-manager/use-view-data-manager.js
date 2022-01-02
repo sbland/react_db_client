@@ -53,7 +53,6 @@ export function useViewDataManager({
     reloadOnSave,
   });
 
-
   const {
     call: loadDatatypeData,
     response: datatypeData,
@@ -73,7 +72,7 @@ export function useViewDataManager({
     ) {
       loadDatatypeData([pageData?.datatype?.uid]);
     }
-}, [hasLoadedPageData, pageData?.datatype, loadingDatatypeData, hasLoadedDataTypeData]);
+  }, [hasLoadedPageData, pageData?.datatype, loadingDatatypeData, hasLoadedDataTypeData]);
 
   const templateData = useMemo(
     () => (hasLoadedDataTypeData ? datatypeData.template : {}),
@@ -81,7 +80,11 @@ export function useViewDataManager({
   );
 
   // const fieldsData = {};
-  const { fieldsData={} } = useGetFieldsData({ templateData, asyncGetDocuments });
+  const {
+    fieldsData = {},
+    hasLoaded: hasLoadedFieldsData,
+    loading: loadingFieldsData,
+  } = useGetFieldsData({ templateData, asyncGetDocuments });
 
   return {
     saveData,
@@ -89,12 +92,12 @@ export function useViewDataManager({
     resetData,
     reload,
     deleteObject,
-    loadingData: loadingData || loadingDatatypeData,
+    loadingData: loadingData || loadingDatatypeData || loadingFieldsData,
     savingData,
     deletingData,
     initialData,
     uid,
-    hasLoaded: hasLoadedPageData && hasLoadedDataTypeData,
+    hasLoaded: hasLoadedPageData && hasLoadedDataTypeData && hasLoadedFieldsData,
     unsavedChanges,
     pageData,
     datatypeData,

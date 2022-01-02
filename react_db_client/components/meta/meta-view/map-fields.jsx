@@ -26,7 +26,7 @@ export const mapFields =
         const { uid: datatypeUid } = datatypeData;
 
         const fieldData = fieldsData[field];
-        const { ftype, label, showHeading, readOnly, args, uid } = fieldData;
+        const { ftype, label, showHeading, readOnly, args, _id: uid } = fieldData;
 
         const classNames = 'fieldValue';
 
@@ -70,3 +70,13 @@ export const mapFields =
           </div>
         );
       });
+
+/*
+// TODO: Implement cached fields system.
+// TODO: We will need to set this up as an async hook
+
+Everytime we request field data we will check a cache to see if it has already been loaded
+If it hasn't we need to make a call to the server for those fields.
+We could batch load these too.
+
+*/

@@ -28,7 +28,6 @@ export const MetaView = ({
   componentMap,
 }) => {
   const { sidebar, main } = templateData;
-
   /* Map field and map sections map the object fields to react components
    *
    */
@@ -64,7 +63,7 @@ const sectionShape = {
 };
 
 const fieldShape = {
-  uid: PropTypes.string.isRequired,
+  _id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   ftype: PropTypes.string.isRequired,
   showHeading: PropTypes.bool,

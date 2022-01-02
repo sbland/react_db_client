@@ -108,7 +108,7 @@ describe('View Data Manager Hook', () => {
     test('should return fields data', async () => {
       const { result, waitForNextUpdate } = renderHook(() => useViewDataManager(defaultArgs));
       await waitForNextUpdate();
-      expect(result.current.fieldsData).toEqual(Object.values(demoFieldsData));
+      expect(result.current.fieldsData).toEqual(demoFieldsData);
     });
   });
   describe('load data cache', () => {
@@ -132,7 +132,7 @@ describe('View Data Manager Hook', () => {
         await waitForNextUpdate();
         expect(result.current.loading).toEqual(false);
         expect(result.current.hasLoaded).toEqual(true);
-        expect(result.current.fieldsData).toEqual(Object.values(demoFieldsData));
+        expect(result.current.fieldsData).toEqual(demoFieldsData);
       });
     });
   });

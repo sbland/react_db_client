@@ -21,7 +21,7 @@ export const getFieldsListFromTemplate = (templateData) => {
 export const useGetFieldsData = ({ templateData, asyncGetDocuments }) => {
   const fieldsList = useMemo(() => getFieldsListFromTemplate(templateData), [templateData]);
   const {
-    response: fieldsData,
+    response: fieldsDataList,
     call: loadFieldsData,
     loading,
     hasLoaded,
@@ -33,10 +33,14 @@ export const useGetFieldsData = ({ templateData, asyncGetDocuments }) => {
   useEffect(() => {
     // TODO: Store cache here
     if (!loading && fieldsList && fieldsList.length > 0) {
-      const filtersb = [new FilterObjectSimpleClass('_id', fieldsList, 'fieldIdFilter')];
-      loadFieldsData([filtersb]);
+      const filters = [new FilterObjectSimpleClass('_id', fieldsList, 'fieldIdFilter')];
+      loadFieldsData([filters]);
     }
   }, [fieldsList]);
+
+  const fieldsData = hasLoaded
+    ? fieldsDataList.reduce((acc, field) => ({ ...acc, [field._id]: field }), {})
+    : {};
 
   return {
     fieldsData,

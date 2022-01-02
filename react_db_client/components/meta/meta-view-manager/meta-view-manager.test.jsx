@@ -1,15 +1,8 @@
 import '@samnbuk/react_db_client.helpers.enzyme-setup';
 import React from 'react';
-import {
-  render,
-  fireEvent,
-  waitFor,
-  screen,
-  waitForElementToBeRemoved,
-  act,
-} from '@testing-library/react';
+import { render, fireEvent, waitFor, screen, act } from '@testing-library/react';
 import { mount } from 'enzyme';
-// import { act } from 'react-dom/test-utils';
+import { FilterObjectSimpleClass } from '@samnbuk/react_db_client.constants.client-types';
 
 import * as compositions from './meta-view-manager.composition';
 import {
@@ -18,6 +11,8 @@ import {
   demoFieldsData,
   demoPageData,
   demoTemplateData,
+  // asyncGetDocument,
+  // asyncGetDocuments,
 } from './demo-data';
 import { MetaViewManager } from './meta-view-manager';
 
@@ -29,8 +24,6 @@ const asyncGetDocument = jest.fn().mockImplementation(async (c, i) => {
       return demoDatatype;
     case 'templates':
       return demoTemplateData;
-    case 'fields':
-      return demoFieldsData;
     default:
       throw Error(`Not mocked: ${c}: ${i}`);
   }
@@ -39,7 +32,7 @@ const asyncGetDocument = jest.fn().mockImplementation(async (c, i) => {
 const asyncGetDocuments = jest.fn().mockImplementation(async (c, i) => {
   switch (c) {
     case 'fields':
-      return demoFieldsData;
+      return Object.values(demoFieldsData);
     default:
       throw Error(`Not mocked: ${c}: ${i}`);
   }
@@ -71,10 +64,6 @@ const setupComponent = async () => {
   });
   return component;
 };
-
-const waitForLoaded = async () => {
-
-}
 
 const resetMocks = () => {
   onSubmitCallback.mockClear();
@@ -110,16 +99,29 @@ describe('Meta View Manager', () => {
         await setupComponent();
         expect(asyncGetDocument).toHaveBeenCalledWith('pages', demoPageData.uid, 'all', 'all');
       });
-      test.only('should have loaded dataype data', async () => {
+      test('should have loaded dataype data', async () => {
         render(<MetaViewManager {...defaultTestProps} />);
         await screen.findByText('Loading Page Data');
-        await waitFor(() => expect(asyncGetDocument).toHaveBeenCalledTimes(2))
+        await waitFor(() => expect(asyncGetDocument).toHaveBeenCalledTimes(2));
         expect(asyncGetDocument).toHaveBeenCalledWith(
           'datatypes',
           demoPageData.datatype.uid,
           'all',
           'all'
         );
+      });
+      test('should have loaded fields data', async () => {
+        render(<MetaViewManager {...defaultTestProps} />);
+        await screen.findByText('Loading Page Data');
+        await waitFor(() => expect(asyncGetDocuments).toHaveBeenCalledTimes(1));
+        const filters = [
+          new FilterObjectSimpleClass(
+            '_id',
+            Object.values(demoFieldsData).map((d) => d._id),
+            'fieldIdFilter'
+          ),
+        ];
+        expect(asyncGetDocuments).toHaveBeenCalledWith('fields', filters, 'all');
       });
 
       describe('should start in view mode', () => {
@@ -131,11 +133,13 @@ describe('Meta View Manager', () => {
           const field = screen.getByLabelText(demoFieldsData.fa.label);
           expect(field).toHaveTextContent(demoPageData.data.fa);
         });
+        test('should not include invalid fields', async () => {
+          await setupComponent();
+          const invalidFields = screen.queryByText('Invalid Field');
+          expect(invalidFields).not.toBeInTheDocument();
+        });
       });
-      describe('Open Edit mode', () => {
-
-      })
-
+      describe('Open Edit mode', () => {});
     });
   });
 });

@@ -48,7 +48,7 @@ describe('Meta View', () => {
         const field = screen.getByLabelText(demoFieldsData.fa.label);
         const newVal = 'newVal';
         fireEvent.change(field, { target: { value: newVal } });
-        expect(updateFormData).toHaveBeenCalledWith(demoFieldsData.fa.uid, newVal);
+        expect(updateFormData).toHaveBeenCalledWith(demoFieldsData.fa._id, newVal);
       });
     });
   });
