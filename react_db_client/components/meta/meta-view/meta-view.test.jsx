@@ -3,9 +3,15 @@ import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { mount } from 'enzyme';
 
+import {
+  demoFieldsData,
+  demoPageData,
+} from '@samnbuk/react_db_client.components.meta.meta-demo-data';
+
+
 import { MetaView } from './meta-view';
 import * as compositions from './meta-view.composition';
-import { defaultProps, demoFieldsData, demoPageData } from './demo-data';
+import { defaultProps } from './demo-data';
 
 const updateFormData = jest.fn();
 

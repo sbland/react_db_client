@@ -159,6 +159,9 @@ importers:
   react_db_client/components/loading-panel:
     specifiers: {}
 
+  react_db_client/components/meta/meta-demo-data:
+    specifiers: {}
+
   react_db_client/components/meta/meta-view:
     specifiers: {}
 

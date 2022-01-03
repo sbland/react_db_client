@@ -177,6 +177,12 @@
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/loading-panel"
     },
+    "components/meta/meta-demo-data": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/components/meta/meta-demo-data"
+    },
     "components/meta/meta-view": {
         "scope": "",
         "version": "",

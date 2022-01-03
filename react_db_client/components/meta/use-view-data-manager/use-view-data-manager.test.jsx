@@ -2,7 +2,14 @@
 import '@samnbuk/react_db_client.helpers.enzyme-setup';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { FilterObjectSimpleClass } from '@samnbuk/react_db_client.constants.client-types';
-import { demoDatatype, demoFieldsData, demoPageData, demoTemplateData } from './demo-data';
+
+import {
+  demoDatatype,
+  demoFieldsData,
+  demoPageData,
+  demoTemplateData,
+} from '@samnbuk/react_db_client.components.meta.meta-demo-data';
+
 import { useViewDataManager } from './use-view-data-manager';
 import { getFieldsListFromTemplate, useGetFieldsData } from './use-get-fields-data';
 

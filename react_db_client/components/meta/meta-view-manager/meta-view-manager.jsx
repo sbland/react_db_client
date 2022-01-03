@@ -6,10 +6,8 @@ import { MetaView } from '@samnbuk/react_db_client.components.meta.meta-view';
 import { handleViewModeSwitch } from './helpers';
 import { TopMenu } from './top-menu';
 
-const viewModes = [
-  'view',
-  'edit',
-]
+const viewModes = ['view', 'edit'];
+
 export const MetaViewManager = ({
   inputUid,
   isNew,

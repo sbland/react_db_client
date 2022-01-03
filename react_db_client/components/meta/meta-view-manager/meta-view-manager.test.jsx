@@ -4,16 +4,15 @@ import { render, fireEvent, waitFor, screen, act } from '@testing-library/react'
 import { mount } from 'enzyme';
 import { FilterObjectSimpleClass } from '@samnbuk/react_db_client.constants.client-types';
 
-import * as compositions from './meta-view-manager.composition';
 import {
-  defaultProps,
   demoDatatype,
   demoFieldsData,
   demoPageData,
   demoTemplateData,
-  // asyncGetDocument,
-  // asyncGetDocuments,
-} from './demo-data';
+} from '@samnbuk/react_db_client.components.meta.meta-demo-data';
+
+import * as compositions from './meta-view-manager.composition';
+import { defaultProps } from './demo-data';
 import { MetaViewManager } from './meta-view-manager';
 
 const asyncGetDocument = jest.fn().mockImplementation(async (c, i) => {
