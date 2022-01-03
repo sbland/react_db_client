@@ -1,9 +1,6 @@
 import { useEffect, useMemo } from 'react';
 
-import {
-  FilterObjectClass,
-  FilterObjectSimpleClass,
-} from '@samnbuk/react_db_client.constants.client-types';
+import { FilterObjectSimpleClass } from '@samnbuk/react_db_client.constants.client-types';
 import { useAsyncRequest } from '@samnbuk/react_db_client.async-hooks.use-async-request';
 
 export const getFieldsListFromTemplate = (templateData) => {

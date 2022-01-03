@@ -79,7 +79,6 @@ export function useViewDataManager({
     [hasLoadedDataTypeData, datatypeData?.template]
   );
 
-  // const fieldsData = {};
   const {
     fieldsData = {},
     hasLoaded: hasLoadedFieldsData,

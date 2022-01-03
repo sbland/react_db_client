@@ -184,6 +184,17 @@ describe('Meta View Manager', () => {
         fireEvent.change(field, { target: { value: newVal } });
         expect(field).toHaveDisplayValue(newVal);
       });
+      test('should allow editing a field b', async () => {
+        await setupComponent();
+        openEditMode();
+        const fielda = screen.getByLabelText(demoFieldsData.fa.label);
+        const fieldb = screen.getByLabelText(demoFieldsData.fb.label);
+        const newVal = 'newval';
+        expect(fielda).toHaveDisplayValue(demoPageData.data.fa);
+        fireEvent.change(fieldb, { target: { value: newVal } });
+        expect(fielda).toHaveDisplayValue(demoPageData.data.fa);
+        expect(fieldb).toHaveDisplayValue(newVal);
+      });
     });
   });
 });

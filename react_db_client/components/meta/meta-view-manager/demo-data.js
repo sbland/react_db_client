@@ -35,7 +35,7 @@ export const demoFieldsData = {
   },
 };
 
-const demoField = ({ viewMode, uid, value, updateFormData }) =>
+const demoField = ({ viewMode, uid, value='', updateFormData }) =>
   viewMode === 'edit' ? (
     <input
       type="text"
@@ -47,7 +47,7 @@ const demoField = ({ viewMode, uid, value, updateFormData }) =>
     />
   ) : (
     <div id={uid} aria-readonly="true" aria-labelledby={uid}>
-      {value}
+      {value }
     </div>
   );
 
@@ -93,7 +93,7 @@ export const defaultProps = {
   onSubmitCallback: () => {},
   asyncGetDocuments,
   asyncGetDocument,
-  asyncPutDocument: async () => {},
+  asyncPutDocument: async (collection, uid, data) => console.log(data),
   asyncPostDocument: async () => {},
   asyncDeleteDocument: async () => {},
   componentMap,

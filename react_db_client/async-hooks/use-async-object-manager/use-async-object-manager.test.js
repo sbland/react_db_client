@@ -14,7 +14,7 @@ jest.mock('@samnbuk/react_db_client.async-hooks.use-async-request', () => ({
 
 const loadData = jest.fn();
 // The default return values of the async hook
-const loadedData = { loaded: 'data' };
+const loadedData = { loaded: 'data', nested: { hello: 'world'} };
 const asyncHookReturnLoad_default = {
   call: loadData,
   loading: false,
@@ -306,6 +306,21 @@ describe('useAsyncObjectManager', () => {
         });
         act(() => {
           result.current.updateFormData('hello', 'new world', false, 'nested');
+        });
+        expect(result.current.data).toEqual({
+          uid: defaultArgs.activeUid,
+          ...loadedData,
+          ...newData,
+        });
+      });
+      test('should handle nested field value merge', async () => {
+        /* Nested fields are split by dot notation. E.g. parent.child */
+        const newData = { nested: { hello: 'new world', goodbye: 'old world' } };
+        // act(() => {
+        //   result.current.updateFormData('hello', 'new world', false, 'nested');
+        // });
+        act(() => {
+          result.current.updateFormData('goodbye', 'old world', false, 'nested');
         });
         expect(result.current.data).toEqual({
           uid: defaultArgs.activeUid,
