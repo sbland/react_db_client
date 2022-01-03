@@ -61,7 +61,7 @@ const demoField = ({ viewMode, uid, value, updateFormData }) =>
       onChange={(e) => updateFormData(uid, e.target.value)}
     />
   ) : (
-    <div role="textbox" aria-readonly="true" aria-labelledby={uid}>{value}</div>
+    <div id={uid} aria-readonly="true" aria-labelledby={uid}>{value}</div>
   );
 
 export const componentMap = {

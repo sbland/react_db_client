@@ -116,24 +116,38 @@ describe('View Data Manager Hook', () => {
       //
     });
   });
-
-  describe('map fields', () => {
-    describe('Get fields list from template', () => {
-      test('should return a list of fields in the template', () => {
-        const fields = getFieldsListFromTemplate(demoTemplateData);
-        expect(fields).toEqual([demoFieldsData.fa._id, demoFieldsData.fb._id]);
+  describe('updating data', () => {
+    test('should change page data when update form data called', async () => {
+      const { result, waitForNextUpdate } = renderHook(() => useViewDataManager(defaultArgs));
+      await waitForNextUpdate();
+      // console.info(result.current.pageData);
+      expect(result.current.pageData.data.fa).toEqual(demoPageData.data.fa);
+      const key = 'fa';
+      const value = 'newVal';
+      act(() => {
+        result.current.updateFormData(key, value);
       });
+      expect(result.current.pageData.data.fa).toEqual(value);
     });
-    describe('Get Fields Data Hook', () => {
-      test('should load data', async () => {
-        const { result, waitForNextUpdate } = renderHook(() =>
-          useGetFieldsData({ templateData: demoTemplateData, asyncGetDocuments })
-        );
-        await waitForNextUpdate();
-        expect(result.current.loading).toEqual(false);
-        expect(result.current.hasLoaded).toEqual(true);
-        expect(result.current.fieldsData).toEqual(demoFieldsData);
-      });
+  });
+});
+
+describe('map fields', () => {
+  describe('Get fields list from template', () => {
+    test('should return a list of fields in the template', () => {
+      const fields = getFieldsListFromTemplate(demoTemplateData);
+      expect(fields).toEqual([demoFieldsData.fa._id, demoFieldsData.fb._id]);
+    });
+  });
+  describe('Get Fields Data Hook', () => {
+    test('should load data', async () => {
+      const { result, waitForNextUpdate } = renderHook(() =>
+        useGetFieldsData({ templateData: demoTemplateData, asyncGetDocuments })
+      );
+      await waitForNextUpdate();
+      expect(result.current.loading).toEqual(false);
+      expect(result.current.hasLoaded).toEqual(true);
+      expect(result.current.fieldsData).toEqual(demoFieldsData);
     });
   });
 });

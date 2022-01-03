@@ -34,6 +34,11 @@ describe('Meta View', () => {
           const field = screen.getByLabelText(demoFieldsData.fa.label);
           expect(field).toHaveTextContent(demoPageData.data.fa);
         });
+        test('should not render any text fields', () => {
+          render(<MetaView {...defaultTestProps} />);
+          const fields = screen.queryAllByRole('textbox');
+          expect(fields.length).toEqual(0);
+        });
       });
     });
     describe('Edit Mode', () => {

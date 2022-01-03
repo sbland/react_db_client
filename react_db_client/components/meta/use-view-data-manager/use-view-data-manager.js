@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAsyncObjectManager } from '@samnbuk/react_db_client.async-hooks.use-async-object-manager';
 import { useAsyncRequest } from '@samnbuk/react_db_client.async-hooks.use-async-request';
 import { useGetFieldsData } from './use-get-fields-data';
@@ -86,9 +86,21 @@ export function useViewDataManager({
     loading: loadingFieldsData,
   } = useGetFieldsData({ templateData, asyncGetDocuments });
 
+  const updateTitle = useCallback(() => {
+    throw Error('Not Implemented');
+  }, []);
+
+  const updatePageData = useCallback(
+    (field, value) => {
+      updateFormData(field, value, false, 'data');
+    },
+    [updateFormData]
+  );
+
   return {
     saveData,
-    updateFormData,
+    updateFormData: updatePageData,
+    updateTitle,
     resetData,
     reload,
     deleteObject,

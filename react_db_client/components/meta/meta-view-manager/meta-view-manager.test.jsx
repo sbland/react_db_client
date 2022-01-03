@@ -141,10 +141,48 @@ describe('Meta View Manager', () => {
       });
     });
     describe('Edit mode', () => {
-      test.only('should allow opening edit mode', async () => {
-        await setupComponent();
+      const openEditMode = () => {
         const editButton = screen.getByText('Edit View');
         fireEvent.click(editButton);
+      };
+      test('should allow opening edit mode', async () => {
+        await setupComponent();
+        openEditMode();
+      });
+      test('should show save button when in edit mode', async () => {
+        await setupComponent();
+        const saveBtnBefore = screen.queryByText('Save');
+        expect(saveBtnBefore).not.toBeInTheDocument();
+        openEditMode();
+        const saveBtnAfter = screen.queryByText('Save');
+        expect(saveBtnAfter).toBeInTheDocument();
+      });
+
+      test('should show cancel button when in edit mode', async () => {
+        await setupComponent();
+        const saveBtnBefore = screen.queryByText('Cancel');
+        expect(saveBtnBefore).not.toBeInTheDocument();
+        openEditMode();
+        const saveBtnAfter = screen.queryByText('Cancel');
+        expect(saveBtnAfter).toBeInTheDocument();
+      });
+
+      test('should show inputs for each field', async () => {
+        await setupComponent();
+        const fieldsBefore = screen.queryAllByRole('textbox');
+        expect(fieldsBefore.length).toEqual(0);
+        openEditMode();
+        const fieldsAfter = screen.queryAllByRole('textbox');
+        expect(fieldsAfter.length).toBeGreaterThan(0);
+      });
+      test('should allow editing a field', async () => {
+        await setupComponent();
+        openEditMode();
+        const field = screen.getByLabelText(demoFieldsData.fa.label);
+        const newVal = 'newval';
+        expect(field).toHaveDisplayValue(demoPageData.data.fa);
+        fireEvent.change(field, { target: { value: newVal } });
+        expect(field).toHaveDisplayValue(newVal);
       });
     });
   });

@@ -33,6 +33,7 @@ export const MetaViewManager = ({
     reload,
     saveData,
     updateFormData,
+    updateTitle,
     deleteObject,
     // uid,
     // initialData,
