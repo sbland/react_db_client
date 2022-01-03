@@ -3,18 +3,10 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import cloneDeep from 'lodash/cloneDeep';
 
 import { useAsyncRequest } from '@samnbuk/react_db_client.async-hooks.use-async-request';
-
-// import {
-//   // apiDeleteDocument,
-//   // apiGetDocument,
-//   // apiPostDocument,
-//   // apiPutDocument,
-// } from '../../Api/Api';
-// import generateUid from '../../Helpers/generateUid';
 import { generateUid } from '@samnbuk/react_db_client.helpers.generate-uid';
+import { updateDict } from './helpers';
 
 /**
  * Async React request hook
@@ -179,21 +171,19 @@ export const useAsyncObjectManager = ({
   }, []);
 
   const updateFormData = useCallback(
-    (field, value, save = false) => {
+    (field, value, save = false, nested = false) => {
       setUnsavedChanges(true);
+      const saveAsyncInner = async (newData) => {
+        const dataToSave = {
+          ...loadedData,
+          ...inputAdditionalData,
+          uid,
+          ...newData,
+        };
+        saveAsync([collection, uid, dataToSave]);
+      };
       setEditData((prev) => {
-        const dataCopy = cloneDeep(prev);
-        dataCopy[field] = value;
-        if (save) {
-          const dataToSave = {
-            ...loadedData,
-            ...inputAdditionalData,
-            uid,
-            ...dataCopy,
-          };
-          saveAsync([collection, uid, dataToSave]);
-        }
-        return dataCopy;
+        return updateDict(prev, saveAsyncInner)(field, value, save, nested);
       });
     },
     [collection, uid, inputAdditionalData, loadedData, saveAsync]
