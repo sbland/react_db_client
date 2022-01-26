@@ -1,5 +1,5 @@
 import React from 'react';
-import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps/dist';
+import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps';
 import { ItemList } from './item-list';
 import { demoData } from './demo-data';
 

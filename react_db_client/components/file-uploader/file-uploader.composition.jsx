@@ -1,7 +1,6 @@
 import React from 'react';
-import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps/dist';
+import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps';
 import { FileUploader } from './file-uploader';
-// import { defaultVal } from './demo-data';
 
 const asyncUpload = async () => {}
 const onUpload = () => {};
