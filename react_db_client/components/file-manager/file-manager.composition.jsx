@@ -1,5 +1,5 @@
 import React from 'react';
-import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps/dist';
+import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps';
 import { FileManager } from './file-manager';
 import { demoSearchResults } from './demo-data';
 

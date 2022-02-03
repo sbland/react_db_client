@@ -1,5 +1,5 @@
 import React from 'react';
-import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps/dist';
+import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps';
 import { FieldFile } from './field-file';
 import { DEMO_FILES_DATA } from './demo-data';
 

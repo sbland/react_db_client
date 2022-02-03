@@ -3,6 +3,7 @@ import '@samnbuk/react_db_client.helpers.enzyme-setup';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { useAsyncObjectManager } from './use-async-object-manager';
 import { useAsyncRequest } from '@samnbuk/react_db_client.async-hooks.use-async-request';
+import { updateDict } from './helpers';
 
 Date.now = jest.fn().mockImplementation(() => 0);
 
@@ -13,7 +14,7 @@ jest.mock('@samnbuk/react_db_client.async-hooks.use-async-request', () => ({
 
 const loadData = jest.fn();
 // The default return values of the async hook
-const loadedData = { loaded: 'data' };
+const loadedData = { loaded: 'data', nested: { hello: 'world'} };
 const asyncHookReturnLoad_default = {
   call: loadData,
   loading: false,
@@ -112,7 +113,6 @@ const loadDataAction = async (rerender, args, demo_data) => {
 };
 
 describe('useAsyncObjectManager', () => {
-
   beforeEach(() => {
     loadData.mockClear();
     useAsyncRequest.mockClear();
@@ -246,6 +246,7 @@ describe('useAsyncObjectManager', () => {
       const updateData = { hello: 'world' };
       test('should update returned data after update data', async () => {
         await loadDataAction(rerender, defaultArgs, loadedData);
+        expect(result.current.unsavedChanges).not.toBeTruthy();
         expect(result.current.data).toEqual({
           uid: defaultArgs.activeUid,
           ...loadedData,
@@ -253,6 +254,7 @@ describe('useAsyncObjectManager', () => {
         act(() => {
           result.current.updateData(updateData);
         });
+        expect(result.current.unsavedChanges).toBeTruthy();
         expect(result.current.data).toEqual({
           uid: defaultArgs.activeUid,
           ...loadedData,
@@ -294,6 +296,37 @@ describe('useAsyncObjectManager', () => {
           defaultArgs.activeUid,
           { ...loadedData, uid: defaultArgs.activeUid, ...newData },
         ]);
+      });
+      test('should handle nested field values', async () => {
+        /* Nested fields are split by dot notation. E.g. parent.child */
+        const newData = { nested: { hello: 'new world' } };
+        expect(result.current.data).toEqual({
+          uid: defaultArgs.activeUid,
+          ...loadedData,
+        });
+        act(() => {
+          result.current.updateFormData('hello', 'new world', false, 'nested');
+        });
+        expect(result.current.data).toEqual({
+          uid: defaultArgs.activeUid,
+          ...loadedData,
+          ...newData,
+        });
+      });
+      test('should handle nested field value merge', async () => {
+        /* Nested fields are split by dot notation. E.g. parent.child */
+        const newData = { nested: { hello: 'new world', goodbye: 'old world' } };
+        // act(() => {
+        //   result.current.updateFormData('hello', 'new world', false, 'nested');
+        // });
+        act(() => {
+          result.current.updateFormData('goodbye', 'old world', false, 'nested');
+        });
+        expect(result.current.data).toEqual({
+          uid: defaultArgs.activeUid,
+          ...loadedData,
+          ...newData,
+        });
       });
     });
     describe('reloading', () => {
@@ -466,6 +499,54 @@ describe('useAsyncObjectManager', () => {
           uid: '0_democollection',
         });
       });
+    });
+  });
+});
+
+describe('Helpers', () => {
+  describe('Update Dict', () => {
+    test('simple field and value', () => {
+      const initialDict = {};
+      const field = 'hello';
+      const value = 'world';
+      const updatedDict = updateDict(initialDict)(field, value);
+      const expectedDict = { hello: 'world' };
+      expect(updatedDict).toEqual(expectedDict);
+    });
+    test('overwrite', () => {
+      const initialDict = { hello: 'hi' };
+      const field = 'hello';
+      const value = 'world';
+      const updatedDict = updateDict(initialDict)(field, value);
+      const expectedDict = { hello: 'world' };
+      expect(updatedDict).toEqual(expectedDict);
+    });
+    test('nested', () => {
+      const initialDict = {};
+      const field = 'hello';
+      const value = 'world';
+      const nested = 'parent';
+      const updatedDict = updateDict(initialDict)(field, value, false, nested);
+      const expectedDict = { parent: { hello: 'world' } };
+      expect(updatedDict).toEqual(expectedDict);
+    });
+    test('nested override', () => {
+      const initialDict = { parent: { hello: 'hi' } };
+      const field = 'hello';
+      const value = 'world';
+      const nested = 'parent';
+      const updatedDict = updateDict(initialDict)(field, value, false, nested);
+      const expectedDict = { parent: { hello: 'world' } };
+      expect(updatedDict).toEqual(expectedDict);
+    });
+    test('nested override merge', () => {
+      const initialDict = { parent: { hello: 'hi', other: 'saveme' } };
+      const field = 'hello';
+      const value = 'world';
+      const nested = 'parent';
+      const updatedDict = updateDict(initialDict)(field, value, false, nested);
+      const expectedDict = { parent: { hello: 'world', other: 'saveme' } };
+      expect(updatedDict).toEqual(expectedDict);
     });
   });
 });

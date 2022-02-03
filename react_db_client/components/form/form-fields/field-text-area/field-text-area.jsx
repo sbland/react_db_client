@@ -11,6 +11,7 @@ export const FieldTextArea = ({
   required,
   initHeight,
   scaleToContent,
+  styleOverrides,
 }) => {
   const ref = React.useRef(null);
   const [textareaHeight, setTextareaHeight] = useState(initHeight);
@@ -18,10 +19,10 @@ export const FieldTextArea = ({
 
   const manageInputChange = (newValue) => {
     // This makes the textbox auto size
+    updateFormData(uid, newValue);
     if (scaleToContent) {
       setResizing(true);
     }
-    updateFormData(uid, newValue);
   };
 
   useEffect(() => {
@@ -41,7 +42,12 @@ export const FieldTextArea = ({
 
   return (
     <>
-      <div className="inputWrapper">
+      <div
+        className="inputWrapper"
+        style={{
+          ...styleOverrides,
+        }}
+      >
         <textarea
           style={{
             height: resizing ? 'auto' : textareaHeight + 2 + 'px',
@@ -50,10 +56,14 @@ export const FieldTextArea = ({
             minHeight: '1rem',
             maxWidth: '100%',
             // minWidth: '100%',
+            ...styleOverrides,
           }}
           value={value || ''}
           id={uid}
           name={uid}
+          onFocus={() => {
+            ref.current.select();
+          }}
           onChange={(e) => manageInputChange(e.target.value)}
           required={required}
           ref={ref}
@@ -72,6 +82,7 @@ FieldTextArea.propTypes = {
   required: PropTypes.bool,
   initHeight: PropTypes.number,
   scaleToContent: PropTypes.bool,
+  styleOverides: PropTypes.shape({}),
 };
 
 FieldTextArea.defaultProps = {
@@ -80,4 +91,5 @@ FieldTextArea.defaultProps = {
   required: false,
   initHeight: 10,
   scaleToContent: true,
+  styleOverides: {},
 };

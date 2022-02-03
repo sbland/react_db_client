@@ -1,14 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const FieldLabel = ({
-  label,
-  inputClassName,
-  hasChanged,
-  required,
-  hasLabel,
-}) => (
-  <label className={inputClassName}>
+export const FieldLabel = ({ uid, label, inputClassName, hasChanged, required, hasLabel }) => (
+  <label className={inputClassName} id={uid}>
     {required && '*'}
     {hasLabel && (
       <>
@@ -24,6 +18,7 @@ export const FieldLabel = ({
 );
 
 FieldLabel.propTypes = {
+  uid: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   inputClassName: PropTypes.string,
   hasChanged: PropTypes.bool,

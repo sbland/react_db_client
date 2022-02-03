@@ -1,5 +1,5 @@
 import React from 'react';
-import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps/dist';
+import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps';
 import { FieldSelect } from './field-select';
 import { defaultVal, demoOptions } from './demo-data';
 

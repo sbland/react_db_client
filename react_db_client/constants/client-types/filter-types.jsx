@@ -17,6 +17,7 @@ export const filterTypes = {
   // TODO: Below should not be filter types
   button: 'button',
   dict: 'dict',
+  video: 'video',
 };
 
 export const filterTypesDefaults = {

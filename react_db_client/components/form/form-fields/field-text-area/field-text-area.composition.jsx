@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { CompositionWrapDefault, WrapFieldComponent } from '@samnbuk/react_db_client.helpers.composition-wraps';
+import {
+  CompositionWrapDefault,
+  WrapFieldComponent,
+} from '@samnbuk/react_db_client.helpers.composition-wraps';
 import { FieldTextArea } from './field-text-area';
 import { defaultVal } from './demo-data';
 
@@ -12,18 +15,29 @@ const defaultProps = {
   updateFormData,
 };
 
-
 export const BasicFieldTextArea = () => (
   <CompositionWrapDefault height="4rem" width="16rem">
-    <FieldTextArea {...defaultProps} required />
+    <WrapFieldComponent>
+      <FieldTextArea {...defaultProps} required />
+    </WrapFieldComponent>
+  </CompositionWrapDefault>
+);
+
+export const WithStyleOverride = () => (
+  <CompositionWrapDefault height="4rem" width="16rem">
+    <WrapFieldComponent>
+      <FieldTextArea {...defaultProps} styleOverrides={{ color: 'red', width: '100%' }} />
+    </WrapFieldComponent>
   </CompositionWrapDefault>
 );
 
 export const FieldTextAreaMultiple = () => (
   <CompositionWrapDefault height="4rem" width="16rem">
-    <FieldTextArea {...defaultProps} required />
-    <FieldTextArea {...defaultProps} required />
-    <FieldTextArea {...defaultProps} required />
+    <WrapFieldComponent>
+      <FieldTextArea {...defaultProps} required />
+      <FieldTextArea {...defaultProps} required />
+      <FieldTextArea {...defaultProps} required />
+    </WrapFieldComponent>
   </CompositionWrapDefault>
 );
 

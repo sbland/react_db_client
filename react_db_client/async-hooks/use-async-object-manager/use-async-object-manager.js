@@ -3,18 +3,10 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import cloneDeep from 'lodash/cloneDeep';
-
+import merge from 'lodash/merge';
 import { useAsyncRequest } from '@samnbuk/react_db_client.async-hooks.use-async-request';
-
-// import {
-//   // apiDeleteDocument,
-//   // apiGetDocument,
-//   // apiPostDocument,
-//   // apiPutDocument,
-// } from '../../Api/Api';
-// import generateUid from '../../Helpers/generateUid';
 import { generateUid } from '@samnbuk/react_db_client.helpers.generate-uid';
+import { updateDict } from './helpers';
 
 /**
  * Async React request hook
@@ -65,13 +57,12 @@ export const useAsyncObjectManager = ({
   const [isNew, setIsNew] = useState(!activeUid || isNewIn);
   const [uid] = useState(isNew || !activeUid ? generateUid(collection) : activeUid);
   const [editData, setEditData] = useState({});
+  const [unsavedChanges, setUnsavedChanges] = useState(false); // TODO: Implement this
   const [resetToData, setResetToData] = useState({});
-  const loadArgs = useMemo(() => [collection, uid, schema, populate], [
-    collection,
-    uid,
-    schema,
-    populate,
-  ]);
+  const loadArgs = useMemo(
+    () => [collection, uid, schema, populate],
+    [collection, uid, schema, populate]
+  );
 
   const [loadedData, setLoadedData] = useState(null);
 
@@ -80,7 +71,12 @@ export const useAsyncObjectManager = ({
     setEditData({});
   };
 
-  const { call: loadAsync, loading: loadingData, callCount, hasLoaded } = useAsyncRequest({
+  const {
+    call: loadAsync,
+    loading: loadingData,
+    callCount,
+    hasLoaded,
+  } = useAsyncRequest({
     id: 'loadAsync',
     // TODO: Add populate
     args: loadArgs,
@@ -90,17 +86,19 @@ export const useAsyncObjectManager = ({
   });
 
   const combinedData = useMemo(() => {
-    return {
-      ...loadedData,
-      ...inputAdditionalData,
-      uid,
-      ...editData,
-    };
+    const _combinedData = merge(
+      loadedData,
+      inputAdditionalData,
+      {uid},
+      editData,
+    )
+    return _combinedData;
   }, [loadedData, inputAdditionalData, uid, editData]);
 
   const onSavedCallback = useCallback(
     (response) => {
       setIsNew(false);
+      setUnsavedChanges(false);
       setResetToData({
         ...loadedData,
         ...inputAdditionalData,
@@ -129,7 +127,11 @@ export const useAsyncObjectManager = ({
     ]
   );
 
-  const { response: saveResponse, call: saveAsync, loading: savingData } = useAsyncRequest({
+  const {
+    response: saveResponse,
+    call: saveAsync,
+    loading: savingData,
+  } = useAsyncRequest({
     id: 'saveAsync',
     callFn: isNew ? asyncPostDocument : asyncPutDocument,
     callOnInit: false,
@@ -137,7 +139,11 @@ export const useAsyncObjectManager = ({
     errorCallback: saveErrorCallback,
   });
 
-  const { response: deleteResponse, call: deleteAsync, loading: deletingData } = useAsyncRequest({
+  const {
+    response: deleteResponse,
+    call: deleteAsync,
+    loading: deletingData,
+  } = useAsyncRequest({
     id: 'deleteAsync',
     args: [collection, uid],
     callFn: isNew ? () => {} : asyncDeleteDocument,
@@ -161,24 +167,24 @@ export const useAsyncObjectManager = ({
   }, [collection, uid, combinedData, saveAsync]);
 
   const updateData = useCallback((newData) => {
+    setUnsavedChanges(true);
     setEditData((prev) => ({ ...prev, ...newData }));
   }, []);
 
   const updateFormData = useCallback(
-    (field, value, save = false) => {
+    (field, value, save = false, nested = false) => {
+      setUnsavedChanges(true);
+      const saveAsyncInner = async (newData) => {
+        const dataToSave = {
+          ...loadedData,
+          ...inputAdditionalData,
+          uid,
+          ...newData,
+        };
+        saveAsync([collection, uid, dataToSave]);
+      };
       setEditData((prev) => {
-        const dataCopy = cloneDeep(prev);
-        dataCopy[field] = value;
-        if (save) {
-          const dataToSave = {
-            ...loadedData,
-            ...inputAdditionalData,
-            uid,
-            ...dataCopy,
-          };
-          saveAsync([collection, uid, dataToSave]);
-        }
-        return dataCopy;
+        return updateDict(prev, saveAsyncInner)(field, value, save, nested);
       });
     },
     [collection, uid, inputAdditionalData, loadedData, saveAsync]
@@ -208,6 +214,7 @@ export const useAsyncObjectManager = ({
     uid,
     callCount,
     hasLoaded,
+    unsavedChanges,
   };
 };
 

@@ -24,7 +24,6 @@ export const FormField = (propsIn) => {
   );
   const { label, required, type, uid, hasChanged, readOnly } = heading;
 
-
   const FormComponent = useMemo(
     () => switchF(heading.type, componentMap, defaultComponent),
     [heading.type, componentMap, defaultComponent]
@@ -37,11 +36,13 @@ export const FormField = (propsIn) => {
   ]
     .filter((f) => f)
     .join(' ');
+  const rowClassname = ['form_row', `form_row_heading_id_${uid}`].filter((f) => f).join(' ');
 
   const showLabel = [filterTypes.bool, filterTypes.toggle].indexOf(type) === -1 || heading.readOnly; // we do not need a label for a toggle box
   return (
-    <div className="form_row" key={uid}>
+    <div className={rowClassname} key={uid}>
       <FieldLabel
+        uid={uid}
         label={label}
         inputClassName={labelClassName}
         hasChanged={hasChanged}

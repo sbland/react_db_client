@@ -5,7 +5,7 @@ import './_emoji.scss';
 
 export const Emoji = ({ emoj, label, className }) => (
   <span className={`emoji ${className}`} role="img" aria-label={label}>
-    {emoj}
+    {emoj || ''}
   </span>
 );
 
