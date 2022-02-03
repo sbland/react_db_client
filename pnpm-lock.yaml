@@ -5,6 +5,14 @@ importers:
   .:
     specifiers:
       '@babel/runtime': 7.12.18
+      '@samnbuk/react_db_client.async-hooks.use-async-request': 0.0.2
+      '@samnbuk/react_db_client.components.are-you-sure-btn': 0.0.3
+      '@samnbuk/react_db_client.components.custom-select-dropdown': 0.0.5
+      '@samnbuk/react_db_client.components.form.form-components.bubble-selector': 0.0.3
+      '@samnbuk/react_db_client.components.form.form-fields.field-date': 0.0.6
+      '@samnbuk/react_db_client.components.form.form-fields.field-number': 0.0.9
+      '@samnbuk/react_db_client.components.form.form-fields.field-text': 0.0.4
+      '@samnbuk/react_db_client.components.form.form-fields.field-text-area': 0.0.5
       '@teambit/design.ui.external-link': 0.0.344
       '@teambit/documenter.theme.theme-compositions': 4.1.1
       '@teambit/documenter.ui.copy-box': 4.1.1
@@ -20,7 +28,7 @@ importers:
       '@types/testing-library__jest-dom': 5.9.5
       '@typescript-eslint/eslint-plugin': 4.29.3
       classnames: 2.3.1
-      core-js: ^3.20.2
+      core-js: ^3.20.3
       enzyme: 3.11.0
       enzyme-adapter-react-16: 1.15.6
       enzyme-to-json: 3.6.2
@@ -31,12 +39,20 @@ importers:
       eslint-plugin-mdx: 1.15.0
       eslint-plugin-react: 7.25.1
       lodash: ^4.17.21
-      prop-types: ^15.8.0
+      prop-types: ^15.8.1
       react: 16.14.0
       react-dom: 16.14.0
       react-test-renderer: 16.14.0
     dependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.12.18
+      '@samnbuk/react_db_client.async-hooks.use-async-request': 0.0.2_7e7bdf12f4f1f9e1a234d044e08badb8
+      '@samnbuk/react_db_client.components.are-you-sure-btn': 0.0.3_prop-types@15.8.1+react@16.14.0
+      '@samnbuk/react_db_client.components.custom-select-dropdown': 0.0.5_10a23e2e88426576ace4f04caae31acf
+      '@samnbuk/react_db_client.components.form.form-components.bubble-selector': 0.0.3_prop-types@15.8.1+react@16.14.0
+      '@samnbuk/react_db_client.components.form.form-fields.field-date': 0.0.6_prop-types@15.8.1+react@16.14.0
+      '@samnbuk/react_db_client.components.form.form-fields.field-number': 0.0.9_prop-types@15.8.1+react@16.14.0
+      '@samnbuk/react_db_client.components.form.form-fields.field-text': 0.0.4_prop-types@15.8.1+react@16.14.0
+      '@samnbuk/react_db_client.components.form.form-fields.field-text-area': 0.0.5_prop-types@15.8.1+react@16.14.0
       '@teambit/design.ui.external-link': registry.npmjs.org/@teambit/design.ui.external-link/0.0.344_react-dom@16.14.0+react@16.14.0
       '@teambit/documenter.theme.theme-compositions': registry.npmjs.org/@teambit/documenter.theme.theme-compositions/4.1.1_react-dom@16.14.0+react@16.14.0
       '@teambit/documenter.ui.copy-box': registry.npmjs.org/@teambit/documenter.ui.copy-box/4.1.1_react-dom@16.14.0+react@16.14.0
@@ -47,7 +63,7 @@ importers:
       '@testing-library/react-hooks': registry.npmjs.org/@testing-library/react-hooks/7.0.2_180f626ceae074ad6840d5b4beae7c3c
       '@typescript-eslint/eslint-plugin': registry.npmjs.org/@typescript-eslint/eslint-plugin/4.29.3
       classnames: registry.npmjs.org/classnames/2.3.1
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       enzyme: registry.npmjs.org/enzyme/3.11.0
       enzyme-adapter-react-16: registry.npmjs.org/enzyme-adapter-react-16/1.15.6_4f82faf5e8cab057bc46d4d95079ec42
       eslint-import-resolver-node: registry.npmjs.org/eslint-import-resolver-node/0.3.6
@@ -57,7 +73,7 @@ importers:
       eslint-plugin-mdx: registry.npmjs.org/eslint-plugin-mdx/1.15.0
       eslint-plugin-react: registry.npmjs.org/eslint-plugin-react/7.25.1
       lodash: registry.npmjs.org/lodash/4.17.21
-      prop-types: registry.npmjs.org/prop-types/15.8.0
+      prop-types: registry.npmjs.org/prop-types/15.8.1
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     devDependencies:
@@ -239,6 +255,90 @@ importers:
 
 packages:
 
+  /@samnbuk/react_db_client.async-hooks.use-async-request/0.0.2_7e7bdf12f4f1f9e1a234d044e08badb8:
+    resolution: {integrity: sha1-bviOIQ5jNK7yNAuWeUoHQ9Ge0YI=, tarball: '@samnbuk/react_db_client.async-hooks.use-async-request/-/@samnbuk-react_db_client.async-hooks.use-async-request-0.0.2.tgz'}
+    peerDependencies:
+      '@testing-library/react-hooks': ^7.0.2
+      prop-types: ^15.6.1
+      react: 16.14.0
+    dependencies:
+      '@testing-library/react-hooks': registry.npmjs.org/@testing-library/react-hooks/7.0.2_180f626ceae074ad6840d5b4beae7c3c
+      prop-types: registry.npmjs.org/prop-types/15.8.1
+      react: registry.npmjs.org/react/16.14.0
+    dev: false
+
+  /@samnbuk/react_db_client.components.are-you-sure-btn/0.0.3_prop-types@15.8.1+react@16.14.0:
+    resolution: {integrity: sha1-8/q5CLa4JNGvs7tHxue1Zbv+vE8=, tarball: '@samnbuk/react_db_client.components.are-you-sure-btn/-/@samnbuk-react_db_client.components.are-you-sure-btn-0.0.3.tgz'}
+    peerDependencies:
+      prop-types: ^15.6.1
+      react: 16.14.0
+    dependencies:
+      prop-types: registry.npmjs.org/prop-types/15.8.1
+      react: registry.npmjs.org/react/16.14.0
+    dev: false
+
+  /@samnbuk/react_db_client.components.custom-select-dropdown/0.0.5_10a23e2e88426576ace4f04caae31acf:
+    resolution: {integrity: sha1-gnI0K6MYsIY9iW2KoIWORnwrrC8=, tarball: '@samnbuk/react_db_client.components.custom-select-dropdown/-/@samnbuk-react_db_client.components.custom-select-dropdown-0.0.5.tgz'}
+    peerDependencies:
+      prop-types: ^15.6.1
+      react: 16.14.0
+      react-dom: 16.14.0
+    dependencies:
+      prop-types: registry.npmjs.org/prop-types/15.8.1
+      react: registry.npmjs.org/react/16.14.0
+      react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
+    dev: false
+
+  /@samnbuk/react_db_client.components.form.form-components.bubble-selector/0.0.3_prop-types@15.8.1+react@16.14.0:
+    resolution: {integrity: sha1-IhpH2A82vG/oJOxbufwJ62c9vu0=, tarball: '@samnbuk/react_db_client.components.form.form-components.bubble-selector/-/@samnbuk-react_db_client.components.form.form-components.bubble-selector-0.0.3.tgz'}
+    peerDependencies:
+      prop-types: ^15.6.1
+      react: 16.14.0
+    dependencies:
+      prop-types: registry.npmjs.org/prop-types/15.8.1
+      react: registry.npmjs.org/react/16.14.0
+    dev: false
+
+  /@samnbuk/react_db_client.components.form.form-fields.field-date/0.0.6_prop-types@15.8.1+react@16.14.0:
+    resolution: {integrity: sha1-w/UN0dsWZXiOZkdRpXmECp+s7pc=, tarball: '@samnbuk/react_db_client.components.form.form-fields.field-date/-/@samnbuk-react_db_client.components.form.form-fields.field-date-0.0.6.tgz'}
+    peerDependencies:
+      prop-types: ^15.6.1
+      react: 16.14.0
+    dependencies:
+      prop-types: registry.npmjs.org/prop-types/15.8.1
+      react: registry.npmjs.org/react/16.14.0
+    dev: false
+
+  /@samnbuk/react_db_client.components.form.form-fields.field-number/0.0.9_prop-types@15.8.1+react@16.14.0:
+    resolution: {integrity: sha1-ooRnPvDPBadtPnyDn+yZNfyoDdY=, tarball: '@samnbuk/react_db_client.components.form.form-fields.field-number/-/@samnbuk-react_db_client.components.form.form-fields.field-number-0.0.9.tgz'}
+    peerDependencies:
+      prop-types: ^15.6.1
+      react: 16.14.0
+    dependencies:
+      prop-types: registry.npmjs.org/prop-types/15.8.1
+      react: registry.npmjs.org/react/16.14.0
+    dev: false
+
+  /@samnbuk/react_db_client.components.form.form-fields.field-text-area/0.0.5_prop-types@15.8.1+react@16.14.0:
+    resolution: {integrity: sha1-7hDvSn4HbdW55yMLUuqcdjXVYJc=, tarball: '@samnbuk/react_db_client.components.form.form-fields.field-text-area/-/@samnbuk-react_db_client.components.form.form-fields.field-text-area-0.0.5.tgz'}
+    peerDependencies:
+      prop-types: ^15.6.1
+      react: 16.14.0
+    dependencies:
+      prop-types: registry.npmjs.org/prop-types/15.8.1
+      react: registry.npmjs.org/react/16.14.0
+    dev: false
+
+  /@samnbuk/react_db_client.components.form.form-fields.field-text/0.0.4_prop-types@15.8.1+react@16.14.0:
+    resolution: {integrity: sha1-kjC0T/lxdbNpH5ppiUqSkXp4sIw=, tarball: '@samnbuk/react_db_client.components.form.form-fields.field-text/-/@samnbuk-react_db_client.components.form.form-fields.field-text-0.0.4.tgz'}
+    peerDependencies:
+      prop-types: ^15.6.1
+      react: 16.14.0
+    dependencies:
+      prop-types: registry.npmjs.org/prop-types/15.8.1
+      react: registry.npmjs.org/react/16.14.0
+    dev: false
+
   /@teambit/react.templates.styles.colors/0.0.3_2a9ca605357e0112c6663ea117622970:
     resolution: {integrity: sha1-vIxjPM0J+NG/YmNBgX19mPnUg5E=, tarball: '@teambit/react.templates.styles.colors/-/@teambit-react.templates.styles.colors-0.0.3.tgz'}
     peerDependencies:
@@ -247,7 +347,7 @@ packages:
       react-dom: ^16.8.0 || ^17.0.0
     dependencies:
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.0.0_react-dom@16.14.0+react@16.14.0
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -262,7 +362,7 @@ packages:
       '@teambit/react.templates.styles.colors': 0.0.3_2a9ca605357e0112c6663ea117622970
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.0.0_react-dom@16.14.0+react@16.14.0
       classnames: registry.npmjs.org/classnames/2.3.1
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -649,7 +749,7 @@ packages:
       react-dom: ^16.8.0 || ^17.0.0
     dependencies:
       classnames: registry.npmjs.org/classnames/2.3.1
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -663,7 +763,7 @@ packages:
       react: ^16.8.0 || ^17.0.0
       react-dom: ^16.8.0 || ^17.0.0
     dependencies:
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -679,7 +779,7 @@ packages:
     dependencies:
       '@teambit/base-ui.layout.breakpoints': registry.npmjs.org/@teambit/base-ui.layout.breakpoints/1.0.0_react-dom@16.14.0+react@16.14.0
       classnames: registry.npmjs.org/classnames/2.3.1
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -693,7 +793,7 @@ packages:
       react: ^16.8.0 || ^17.0.0
       react-dom: ^16.8.0 || ^17.0.0
     dependencies:
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -708,7 +808,7 @@ packages:
       react-dom: ^16.8.0 || ^17.0.0
     dependencies:
       '@teambit/base-ui.theme.colors': registry.npmjs.org/@teambit/base-ui.theme.colors/1.0.0_react-dom@16.14.0+react@16.14.0
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -722,7 +822,7 @@ packages:
       react: ^16.8.0 || ^17.0.0
       react-dom: ^16.8.0 || ^17.0.0
     dependencies:
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -736,7 +836,7 @@ packages:
       react: ^16.8.0 || ^17.0.0
       react-dom: ^16.8.0 || ^17.0.0
     dependencies:
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -750,7 +850,7 @@ packages:
       react: ^16.8.0 || ^17.0.0
       react-dom: ^16.8.0 || ^17.0.0
     dependencies:
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -764,7 +864,7 @@ packages:
       react: ^16.8.0 || ^17.0.0
       react-dom: ^16.8.0 || ^17.0.0
     dependencies:
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -778,7 +878,7 @@ packages:
       react: ^16.8.0 || ^17.0.0
       react-dom: ^16.8.0 || ^17.0.0
     dependencies:
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -792,7 +892,7 @@ packages:
       react: ^16.8.0 || ^17.0.0
       react-dom: ^16.8.0 || ^17.0.0
     dependencies:
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -813,7 +913,7 @@ packages:
       '@teambit/base-ui.theme.shadow-definition': registry.npmjs.org/@teambit/base-ui.theme.shadow-definition/1.0.0_react-dom@16.14.0+react@16.14.0
       '@teambit/base-ui.theme.size-definition': registry.npmjs.org/@teambit/base-ui.theme.size-definition/1.0.0_react-dom@16.14.0+react@16.14.0
       classnames: registry.npmjs.org/classnames/2.3.1
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -828,7 +928,7 @@ packages:
       react: ^16.8.0 || ^17.0.0
       react-dom: ^16.8.0 || ^17.0.0
     dependencies:
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -844,7 +944,7 @@ packages:
       react-dom: ^16.8.0 || ^17.0.0
     dependencies:
       classnames: registry.npmjs.org/classnames/2.2.6
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -860,7 +960,7 @@ packages:
     dependencies:
       '@teambit/design.theme.icons-font': registry.npmjs.org/@teambit/design.theme.icons-font/1.0.0_react-dom@16.14.0+react@16.14.0
       '@teambit/documenter.theme.theme-context': registry.npmjs.org/@teambit/documenter.theme.theme-context/4.0.3_react-dom@16.14.0+react@16.14.0
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -877,7 +977,7 @@ packages:
       '@teambit/base-ui.theme.fonts.roboto': registry.npmjs.org/@teambit/base-ui.theme.fonts.roboto/1.0.0_react-dom@16.14.0+react@16.14.0
       '@teambit/base-ui.theme.theme-provider': registry.npmjs.org/@teambit/base-ui.theme.theme-provider/1.0.1_react-dom@16.14.0+react@16.14.0
       classnames: registry.npmjs.org/classnames/2.3.1
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -892,7 +992,7 @@ packages:
       react-dom: ^16.8.0 || ^17.0.0
     dependencies:
       classnames: registry.npmjs.org/classnames/2.3.1
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -911,7 +1011,7 @@ packages:
       '@teambit/evangelist.elements.icon': registry.npmjs.org/@teambit/evangelist.elements.icon/1.0.2_react-dom@16.14.0+react@16.14.0
       classnames: registry.npmjs.org/classnames/2.3.1
       copy-to-clipboard: registry.npmjs.org/copy-to-clipboard/3.3.1
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -929,7 +1029,7 @@ packages:
     dependencies:
       '@typescript-eslint/eslint-plugin': registry.npmjs.org/@typescript-eslint/eslint-plugin/4.13.0_@typescript-eslint+parser@4.13.0
       '@typescript-eslint/parser': registry.npmjs.org/@typescript-eslint/parser/4.13.0
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       eslint-config-airbnb-typescript: registry.npmjs.org/eslint-config-airbnb-typescript/12.0.0_1ba5e5e0b4d7b2a6f0e93c5490c5c8b1
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
@@ -952,7 +1052,7 @@ packages:
       react-dom: ^16.8.0 || ^17.0.0
     dependencies:
       '@teambit/base-ui.elements.icon': registry.npmjs.org/@teambit/base-ui.elements.icon/1.0.0_react-dom@16.14.0+react@16.14.0
-      core-js: registry.npmjs.org/core-js/3.20.2
+      core-js: registry.npmjs.org/core-js/3.20.3
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
     dev: false
@@ -1531,7 +1631,7 @@ packages:
       object-is: registry.npmjs.org/object-is/1.1.5
       object.assign: registry.npmjs.org/object.assign/4.1.2
       object.entries: registry.npmjs.org/object.entries/1.1.5
-      prop-types: registry.npmjs.org/prop-types/15.8.0
+      prop-types: registry.npmjs.org/prop-types/15.8.1
       prop-types-exact: registry.npmjs.org/prop-types-exact/1.2.0
       react: registry.npmjs.org/react/16.14.0
       react-is: registry.npmjs.org/react-is/16.13.1
@@ -1918,10 +2018,10 @@ packages:
     requiresBuild: true
     dev: false
 
-  registry.npmjs.org/core-js/3.20.2:
-    resolution: {integrity: sha512-nuqhq11DcOAbFBV4zCbKeGbKQsUDRqTX0oqx7AttUBuqe3h20ixsE039QHelbL6P4h+9kytVqyEtyZ6gsiwEYw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/core-js/-/core-js-3.20.2.tgz}
+  registry.npmjs.org/core-js/3.20.3:
+    resolution: {integrity: sha512-vVl8j8ph6tRS3B8qir40H7yw7voy17xL0piAjlbBUsH7WIfzoedL/ZOr1OV9FyZQLWXsayOJyV4tnRyXR85/ag==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/core-js/-/core-js-3.20.3.tgz}
     name: core-js
-    version: 3.20.2
+    version: 3.20.3
     requiresBuild: true
     dev: false
 
@@ -2132,7 +2232,7 @@ packages:
       has: registry.npmjs.org/has/1.0.3
       object.assign: registry.npmjs.org/object.assign/4.1.2
       object.values: registry.npmjs.org/object.values/1.1.5
-      prop-types: registry.npmjs.org/prop-types/15.8.0
+      prop-types: registry.npmjs.org/prop-types/15.8.1
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
       react-is: registry.npmjs.org/react-is/16.13.1
@@ -2153,7 +2253,7 @@ packages:
       has: registry.npmjs.org/has/1.0.3
       object.assign: registry.npmjs.org/object.assign/4.1.2
       object.fromentries: registry.npmjs.org/object.fromentries/2.0.5
-      prop-types: registry.npmjs.org/prop-types/15.8.0
+      prop-types: registry.npmjs.org/prop-types/15.8.1
       react: registry.npmjs.org/react/16.14.0
       semver: registry.npmjs.org/semver/5.7.1
     dev: false
@@ -2480,7 +2580,7 @@ packages:
       object.entries: registry.npmjs.org/object.entries/1.1.5
       object.fromentries: registry.npmjs.org/object.fromentries/2.0.5
       object.values: registry.npmjs.org/object.values/1.1.5
-      prop-types: registry.npmjs.org/prop-types/15.8.0
+      prop-types: registry.npmjs.org/prop-types/15.8.1
       resolve: registry.npmjs.org/resolve/2.0.0-next.3
       string.prototype.matchall: registry.npmjs.org/string.prototype.matchall/4.0.6
     dev: false
@@ -3610,10 +3710,10 @@ packages:
       reflect.ownkeys: registry.npmjs.org/reflect.ownkeys/0.2.0
     dev: false
 
-  registry.npmjs.org/prop-types/15.8.0:
-    resolution: {integrity: sha512-fDGekdaHh65eI3lMi5OnErU6a8Ighg2KjcjQxO7m8VHyWjcPyj5kiOgV1LQDOOOgVy3+5FgjXvdSSX7B8/5/4g==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/prop-types/-/prop-types-15.8.0.tgz}
+  registry.npmjs.org/prop-types/15.8.1:
+    resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz}
     name: prop-types
-    version: 15.8.0
+    version: 15.8.1
     dependencies:
       loose-envify: registry.npmjs.org/loose-envify/1.4.0
       object-assign: registry.npmjs.org/object-assign/4.1.1
@@ -3659,7 +3759,7 @@ packages:
     dependencies:
       loose-envify: registry.npmjs.org/loose-envify/1.4.0
       object-assign: registry.npmjs.org/object-assign/4.1.1
-      prop-types: registry.npmjs.org/prop-types/15.8.0
+      prop-types: registry.npmjs.org/prop-types/15.8.1
       react: registry.npmjs.org/react/16.14.0
       scheduler: registry.npmjs.org/scheduler/0.19.1
     dev: false
@@ -3696,7 +3796,7 @@ packages:
       react: ^16.14.0
     dependencies:
       object-assign: registry.npmjs.org/object-assign/4.1.1
-      prop-types: registry.npmjs.org/prop-types/15.8.0
+      prop-types: registry.npmjs.org/prop-types/15.8.1
       react: registry.npmjs.org/react/16.14.0
       react-is: registry.npmjs.org/react-is/16.13.1
       scheduler: registry.npmjs.org/scheduler/0.19.1
@@ -3709,7 +3809,7 @@ packages:
     dependencies:
       loose-envify: registry.npmjs.org/loose-envify/1.4.0
       object-assign: registry.npmjs.org/object-assign/4.1.1
-      prop-types: registry.npmjs.org/prop-types/15.8.0
+      prop-types: registry.npmjs.org/prop-types/15.8.1
     dev: false
 
   registry.npmjs.org/read-pkg-up/2.0.0:
