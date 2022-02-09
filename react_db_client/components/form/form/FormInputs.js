@@ -17,12 +17,14 @@ export const FormInputs = ({
   showKey,
   additionalData,
   componentMap,
+  id,
 }) => {
   const className = [
     'form_inputs',
     'formSection',
     `${orientation}`,
     sectionHeading ? 'hasHeading' : '',
+    `formSection_${id}`,
   ]
     .filter((f) => f)
     .join(' ');
@@ -47,6 +49,7 @@ export const FormInputs = ({
               additionalData={additionalData}
               componentMap={componentMap}
               FormField={FormField}
+              id={heading.uid}
               isSection
             />
           );
@@ -95,6 +98,7 @@ FormInputs.propTypes = {
   showKey: PropTypes.bool,
   additionalData: PropTypes.shape({}),
   componentMap: PropTypes.objectOf(PropTypes.elementType).isRequired,
+  id: PropTypes.any,
 };
 
 FormInputs.defaultProps = {
@@ -104,4 +108,5 @@ FormInputs.defaultProps = {
   isSection: false,
   showKey: true,
   additionalData: {},
+  id: null,
 };
