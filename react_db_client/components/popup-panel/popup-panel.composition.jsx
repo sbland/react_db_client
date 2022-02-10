@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { PopupPanel } from './popup-panel';
+import { PopupPanel, PopupPanelConnector } from './popup-panel';
 
 export const BasicPopupPanel = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [popupRoot, setPopupRoot] = useState(null);
-  useEffect(() => {
-    // TODO: Fix getting popup root
-    const __popupRoot = document.createElement('div');
-    __popupRoot.setAttribute('id', 'popup-root');
-    const _popupRoot = document.getElementById('popup-root');
-  }, []);
+
   return (
     <div className="">
       <div className="">
@@ -21,16 +15,41 @@ export const BasicPopupPanel = () => {
           Open
         </button>
         <PopupPanel
+          id="demo-id"
           isOpen={isOpen}
           handleClose={() => {
             setIsOpen(false);
           }}
-          popupRoot={popupRoot}
+          popupRoot="root"
         >
           <div className="" style={{ background: 'red' }}>
             Hello
           </div>
         </PopupPanel>
+      </div>
+    </div>
+  );
+};
+
+const DemoInnerComponent = (props) => {
+  return <div>Hello</div>;
+};
+const WrappedComponent = PopupPanelConnector(DemoInnerComponent, 'root', true, 'onCancel');
+
+export const PopupPanelConnectorDemo = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="">
+      <div className="">
+        <button
+          type="button"
+          className={isOpen ? 'button-one' : 'button-two'}
+          onClick={() => setIsOpen(true)}
+        >
+          Open
+        </button>
+        {isOpen && <WrappedComponent onCancel={() => setIsOpen(false)} />}
       </div>
     </div>
   );

@@ -5,7 +5,11 @@ import ReactDOM from 'react-dom';
 import './style.scss';
 
 
-let _popupRoot = document.getElementById('popup-root');
+const getRoot = (inputRoot) => {
+  if (!inputRoot) throw Error("Must supply input root");
+  if (typeof inputRoot == 'string') return document.getElementById(inputRoot);
+  if (typeof inputRoot == 'object') return inputRoot;
+};
 
 let popupCount = 1;
 /**
@@ -18,8 +22,18 @@ let popupCount = 1;
  * }
  * @returns
  */
-export const PopupPanel = ({ title, isOpen, handleClose, className, renderWhenClosed, children, popupRoot }) => {
+export const PopupPanel = ({
+  id,
+  title,
+  isOpen,
+  handleClose,
+  className,
+  renderWhenClosed,
+  children,
+  popupRoot,
+}) => {
   const [z] = useState(popupCount);
+  const _popupRoot = getRoot(popupRoot);
 
   useEffect(() => {
     popupCount += 1;
@@ -29,10 +43,13 @@ export const PopupPanel = ({ title, isOpen, handleClose, className, renderWhenCl
   }, []);
   if (!isOpen) return <></>;
 
+  const classNames = [className, `popupid_${id}`].filter((f) => f).join(' ');
+
+  if (!_popupRoot) return <div className={classNames}>Missing Popup Root</div>;
   return ReactDOM.createPortal(
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
-      className={`popupPanelWrap ${className}`}
+      className={`popupPanelWrap ${classNames}`}
       style={{
         zIndex: z * 10,
       }}
@@ -53,11 +70,12 @@ export const PopupPanel = ({ title, isOpen, handleClose, className, renderWhenCl
       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div className="popupPanel_overlay" onClick={handleClose} />
     </div>,
-    popupRoot
+    _popupRoot
   );
 };
 
 PopupPanel.propTypes = {
+  id: PropTypes.string.isRequired,
   title: PropTypes.node,
   children: PropTypes.any.isRequired,
   isOpen: PropTypes.bool.isRequired,
@@ -68,19 +86,25 @@ PopupPanel.propTypes = {
 
 PopupPanel.defaultProps = {
   renderWhenClosed: false,
-  popupRoot: _popupRoot,
+  popupRoot: null,
 };
 
-
 // Uses React HOC pattern
-export const PopupPanelConnector = (Component, root) => {
-  if (root) {
-    popupRoot = document.getElementById(root);
-  }
-  return (props) => (
-    // eslint-disable-next-line react/prop-types, react/destructuring-assignment
-    <PopupPanel handleClose={props.handleClose} isOpen={props.isOpen} title={props.title}>
-      <Component {...props} />
-    </PopupPanel>
-  );
+export const PopupPanelConnector = (Component, root, alwaysOpen, closeProp = 'handleClose') => {
+  return (props) => {
+    const { className, isOpen, title, id } = props;
+    const handleClose = props[closeProp];
+    return (
+      <PopupPanel
+        handleClose={handleClose}
+        isOpen={alwaysOpen || isOpen}
+        title={title}
+        popupRoot={root}
+        className={className}
+        id={id}
+      >
+        <Component {...props} />
+      </PopupPanel>
+    );
+  };
 };

@@ -1,1 +1,1 @@
-export { PopupPanel } from './popup-panel';
+export { PopupPanel, PopupPanelConnector } from './popup-panel';
