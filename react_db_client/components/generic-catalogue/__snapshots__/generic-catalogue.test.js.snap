@@ -2,7 +2,7 @@
 
 exports[`CertificateCatalogue Matches Snapshot 1`] = `
 "<BasicGenericCatalogue>
-  <GenericCatalogue itemName=\\"Demo Item\\" collection=\\"DEMO COLLECTION\\" additionalFilters={{...}} availableFilters={{...}} resultsHeadings={{...}} editorHeadings={{...}} additionalSaveData={{...}} ItemEditor={[Function: ItemEditor]} apiDeleteDocuments={[Function: apiDeleteDocuments]} PopupPanel={[Function: PopupPanel]} notificationDispatch={[Function (anonymous)]} asyncGetDocument={[Function: asyncGetDocument]} asyncGetDocuments={[Function: asyncGetDocuments]} asyncPutDocument={[Function: asyncPutDocument]} asyncPostDocument={[Function: asyncPostDocument]} asyncDeleteDocument={[Function: asyncDeleteDocument]} asyncDeleteDocuments={[Function: asyncDeleteDocuments]} componentMap={{...}} onError={[Function: onError]}>
+  <GenericCatalogue id=\\"demo-id\\" itemName=\\"Demo Item\\" collection=\\"DEMO COLLECTION\\" additionalFilters={{...}} availableFilters={{...}} resultsHeadings={{...}} editorHeadings={{...}} additionalSaveData={{...}} ItemEditor={[Function: ItemEditor]} apiDeleteDocuments={[Function: apiDeleteDocuments]} PopupPanel={[Function: PopupPanel]} notificationDispatch={[Function (anonymous)]} asyncGetDocument={[Function: asyncGetDocument]} asyncGetDocuments={[Function: asyncGetDocuments]} asyncPutDocument={[Function: asyncPutDocument]} asyncPostDocument={[Function: asyncPostDocument]} asyncDeleteDocument={[Function: asyncDeleteDocument]} asyncDeleteDocuments={[Function: asyncDeleteDocuments]} componentMap={{...}} onError={[Function: onError]}>
     <div className=\\"GenericCatalogueFunc_Wrap sectionWrapper\\">
       <section>
         <button type=\\"button\\" className=\\"button-two\\" onClick={[Function: onClick]}>

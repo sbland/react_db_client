@@ -7,6 +7,7 @@ import { mapFields } from './field-mapper';
 
 export const ItemEditor = ({
   // REACT
+  id,
   inputUid,
   isNew,
   onSubmitCallback,
@@ -22,7 +23,13 @@ export const ItemEditor = ({
 }) => {
   const [overridenFields, setOverridenFields] = useState([]);
 
-  const { saveData, updateFormData: updateField, data, uid, initialData } =  useAsyncObjectManager ({
+  const {
+    saveData,
+    updateFormData: updateField,
+    data,
+    uid,
+    initialData,
+  } = useAsyncObjectManager({
     activeUid: inputUid,
     collection,
     isNew: !inputUid || isNew,
@@ -62,8 +69,9 @@ export const ItemEditor = ({
     [handleUpdate]
   );
 
+  const classNames = [id].filter((f) => f).join(' ');
   return (
-    <div className="sectionWrapper">
+    <div className={`sectionWrapper ${classNames}`}>
       <Form
         formDataInitial={data}
         headings={mappedFields}
@@ -79,6 +87,7 @@ export const ItemEditor = ({
 };
 
 ItemEditor.propTypes = {
+  id: PropTypes.string.isRequired,
   inputUid: PropTypes.string,
   onSubmitCallback: PropTypes.func.isRequired,
   isNew: PropTypes.bool,

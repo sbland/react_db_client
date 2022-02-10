@@ -7,6 +7,7 @@ import { ItemEditor as _ItemEditor } from '@samnbuk/react_db_client.components.i
 import { Emoji } from '@samnbuk/react_db_client.components.emoji';
 
 export const GenericCatalogue = ({
+  id,
   itemName,
   collection,
   additionalFilters,
@@ -109,6 +110,8 @@ export const GenericCatalogue = ({
           asyncDeleteDocument={asyncDeleteDocument}
           componentMap={componentMap}
           saveErrorCallback={onError}
+          onCancel={() => setShowEditor(false)}
+          id={`item_editor_${id}`}
         />
       )}
       <div className="GenericCatalogueFunc_Wrap sectionWrapper">
@@ -171,6 +174,7 @@ export const GenericCatalogue = ({
 };
 
 GenericCatalogue.propTypes = {
+  id: PropTypes.string.isRequired,
   itemName: PropTypes.string.isRequired,
   collection: PropTypes.string.isRequired,
   additionalFilters: PropTypes.arrayOf(

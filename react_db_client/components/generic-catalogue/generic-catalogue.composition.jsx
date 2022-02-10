@@ -6,6 +6,7 @@ import { GenericCatalogue } from './generic-catalogue';
 import { demoHeadingsData, demoHeadingsDataSimple, demoResults } from './demo-data';
 
 const defaultProps = {
+  id: 'demo-id',
   itemName: 'Demo Item',
   collection: 'DEMO COLLECTION',
   additionalFilters: [],

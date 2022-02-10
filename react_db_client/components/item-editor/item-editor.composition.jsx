@@ -11,6 +11,7 @@ const fileServerUrl = '';
 export const BasicItemEditor = () => (
   <div className="productEditor_FormWrap sectionWrapper">
     <ItemEditor
+      id="demo-id"
       inputUid="abc"
       isNew={false}
       onSubmitCallback={() => {}}
