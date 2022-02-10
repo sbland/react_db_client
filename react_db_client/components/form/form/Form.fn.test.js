@@ -124,6 +124,7 @@ describe('Form - Functional Tests', () => {
           hasChanged: false,
           hasLabel: true,
           inputClassName: 'form_label',
+          uid: demoHeadingsData[0].uid,
         });
         expect(field.debug()).toMatchSnapshot();
       });
