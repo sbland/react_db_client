@@ -3,6 +3,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { AsyncRequestError } from './error-handling';
 
 const ENV = process.env.NODE_ENV;
 
@@ -117,8 +118,9 @@ export const useAsyncRequest = ({
               }
               return prev;
             });
+            // TODO: This filtering should be performed outside this component!
             const errorMessage = e.name === 'ApiError' ? e.message : 'Unknown Error';
-            errorCallbackIn(e, errorMessage);
+            errorCallbackIn(new AsyncRequestError(errorMessage, e));
           });
       } catch (error) {
         console.error('Async Call function failed');

@@ -46,8 +46,8 @@ export const useAsyncObjectManager = ({
   populate = 'all',
   loadOnInit = true,
   reloadOnSave = false,
-  onSavedCallback: onSavedCallbackIn = () => {},
-  saveErrorCallback = () => {},
+  onSavedCallback: onSavedCallbackIn = () => {} /* Returns a message string */,
+  saveErrorCallback = () => {} /* Returns a AsyncRequestError */,
   onDeleteCallback = () => {},
   asyncGetDocument,
   asyncPutDocument,
@@ -86,15 +86,11 @@ export const useAsyncObjectManager = ({
   });
 
   const combinedData = useMemo(() => {
-    const _combinedData = merge(
-      loadedData,
-      inputAdditionalData,
-      {uid},
-      editData,
-    )
+    const _combinedData = merge(loadedData, inputAdditionalData, { uid }, editData);
     return _combinedData;
   }, [loadedData, inputAdditionalData, uid, editData]);
 
+  /* Handle Saving Data */
   const onSavedCallback = useCallback(
     (response) => {
       setIsNew(false);
@@ -139,6 +135,7 @@ export const useAsyncObjectManager = ({
     errorCallback: saveErrorCallback,
   });
 
+  /* Handle Deleting Data */
   const {
     response: deleteResponse,
     call: deleteAsync,
@@ -162,10 +159,7 @@ export const useAsyncObjectManager = ({
     }
   }, [deleteResponse, onDeleteCallback, uid]);
 
-  const saveData = useCallback(() => {
-    saveAsync([collection, uid, combinedData]);
-  }, [collection, uid, combinedData, saveAsync]);
-
+  /* Handle Update Data */
   const updateData = useCallback((newData) => {
     setUnsavedChanges(true);
     setEditData((prev) => ({ ...prev, ...newData }));
@@ -190,11 +184,15 @@ export const useAsyncObjectManager = ({
     [collection, uid, inputAdditionalData, loadedData, saveAsync]
   );
 
+  /* UI Calls */
   const reload = useCallback(() => loadAsync(), [loadAsync]);
   const deleteObject = useCallback(() => deleteAsync(), [deleteAsync]);
   const resetData = useCallback(() => {
     setEditData(resetToData);
   }, [resetToData]);
+  const saveData = useCallback(() => {
+    saveAsync([collection, uid, combinedData]);
+  }, [collection, uid, combinedData, saveAsync]);
 
   return {
     loadedData,
@@ -226,7 +224,8 @@ useAsyncObjectManager.propTypes = {
   schema: PropTypes.arrayOf(PropTypes.string).isRequired,
   loadOnInit: PropTypes.bool,
   reloadOnSave: PropTypes.bool,
-  onSavedCallback: PropTypes.func,
+  onSavedCallback: PropTypes.func /* Returns a AsyncRequestError */,
+  saveErrorCallback: PropTypes.func.isRequired /* Returns a message string */,
   asyncGetDocument: PropTypes.func.isRequired,
   asyncPutDocument: PropTypes.func.isRequired,
   asyncPostDocument: PropTypes.func.isRequired,
