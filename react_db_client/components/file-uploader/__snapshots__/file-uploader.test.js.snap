@@ -21,14 +21,14 @@ exports[`file-uploader Unit Testing should add files to selected on file select 
         </div>
         <div style={{...}} className=\\"styledList_items \\" role=\\"list\\">
           <ListItem data={{...}} currentSelection={{...}} selectionField=\\"uid\\" handleSelect={[Function: handleSelect]} headings={{...}} columnWidths={{...}} customParsers={{...}} isSelected={false} classes={{...}}>
-            <button className=\\"styledList_itemBtn styledList_itemBtn \\" type=\\"button\\" onClick={[Function: onClick]} role=\\"listitem\\">
+            <button className=\\"styledList_itemBtn styledList_itemBtn styledList_itemBtn \\" type=\\"button\\" onClick={[Function: onClick]} role=\\"listitem\\">
               <div style={{...}} className=\\"styledList_itemCell \\">
                 fileA
               </div>
             </button>
           </ListItem>
           <ListItem data={{...}} currentSelection={{...}} selectionField=\\"uid\\" handleSelect={[Function: handleSelect]} headings={{...}} columnWidths={{...}} customParsers={{...}} isSelected={false} classes={{...}}>
-            <button className=\\"styledList_itemBtn styledList_itemBtn \\" type=\\"button\\" onClick={[Function: onClick]} role=\\"listitem\\">
+            <button className=\\"styledList_itemBtn styledList_itemBtn styledList_itemBtn \\" type=\\"button\\" onClick={[Function: onClick]} role=\\"listitem\\">
               <div style={{...}} className=\\"styledList_itemCell \\">
                 fileB
               </div>

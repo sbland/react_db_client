@@ -2,16 +2,16 @@
 
 exports[`AreYouSureBtn Matches Snapshot 1`] = `
 "<Fragment>
-  <mockConstructor isOpen={false} handleClose={[Function: handleClose]}>
-    <div>
+  <mockConstructor id=\\"areYouSureBtn_popupPanel\\" isOpen={false} handleClose={[Function: handleClose]}>
+    <div className=\\"areYouSurePanel_wrap\\">
       <h1>
         Are You Sure?
       </h1>
       <div>
-        <button type=\\"button\\" className=\\"areYouSureCancel button-one\\" onClick={[Function: onClick]}>
+        <button type=\\"button\\" className=\\"areYouSure_cancelBtn button-one\\" onClick={[Function: onClick]}>
           Cancel
         </button>
-        <button type=\\"button\\" className=\\"areYouSureAccept button-two\\" onClick={[Function: onClick]}>
+        <button type=\\"button\\" className=\\"areYouSure_acceptBtn button-two\\" onClick={[Function: onClick]}>
           Confirm
         </button>
       </div>
