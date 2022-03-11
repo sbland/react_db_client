@@ -46,11 +46,18 @@ export const SearchAndSelectDropdown = ({
     setLoading(false);
   }, []);
 
+  const searchErrorCallback = useCallback((error) => {
+    setResults([]);
+    setLoading(false);
+    // TODO: Handle errors
+  }, [])
+
   const { reload } = useAsyncRequest({
     args: [],
     callFn: searchFunction,
     callOnInit: false,
     callback: searchCallback,
+    errorCallback: searchErrorCallback,
   });
 
   const onSearchFieldChange = (e) => {

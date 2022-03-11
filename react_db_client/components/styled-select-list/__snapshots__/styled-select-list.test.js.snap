@@ -58,7 +58,7 @@ exports[`Styled select list Snapshot 1`] = `
     }
   >
     <button
-      className="styledList_itemBtn styledList_itemBtn "
+      className="styledList_itemBtn styledList_itemBtn styledList_itemBtn "
       onClick={[Function]}
       role="listitem"
       type="button"
@@ -95,7 +95,7 @@ exports[`Styled select list Snapshot 1`] = `
       </div>
     </button>
     <button
-      className="styledList_itemBtn styledList_itemBtn "
+      className="styledList_itemBtn styledList_itemBtn styledList_itemBtn "
       onClick={[Function]}
       role="listitem"
       type="button"

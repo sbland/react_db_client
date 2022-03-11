@@ -16,7 +16,7 @@ export const ListItem = ({
   return (
     <button
       key={data.uid}
-      className={`${styles.styledList_itemBtn} ${classes.styledList_itemBtn} ${isSelected ? classes.styledListItem_item_selected : ''}`}
+      className={`styledList_itemBtn ${styles.styledList_itemBtn} ${classes.styledList_itemBtn} ${isSelected ? classes.styledListItem_item_selected : ''}`}
       type='button'
       onClick={() => handleSelect(data.uid, data)}
       role='listitem'

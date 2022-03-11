@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { FilterObjectClass, filterTypes, comparisons } from '@samnbuk/react_db_client.constants.client-types';
+import {
+  FilterObjectClass,
+  filterTypes,
+  comparisons,
+} from '@samnbuk/react_db_client.constants.client-types';
 import { StyledSelectList } from '@samnbuk/react_db_client.components.styled-select-list';
 import { FilterPanel } from '@samnbuk/react_db_client.components.filter-manager';
 import { useAsyncRequest } from '@samnbuk/react_db_client.async-hooks.use-async-request';
@@ -70,7 +74,7 @@ export const SearchAndSelect = ({
   const [showPreview, setShowPreview] = useState(autoPreview);
   const [shouldReload, setShouldReload] = useState(loadOnInit);
   const [singleLoad, setSingleLoad] = useState(false);
-  const [activeFilters, setActiveFilters] = useState(initialFilters || []);
+  const [activeFilters, setActiveFilters] = useState(initialFilters);
   const [searchValue, setSearchValue] = useState('');
   const [sortBy] = useState(sortByOverride);
   const [canLoad, setCanLoad] = useState(loadOnInit); // flag to stop loading on init
@@ -86,6 +90,12 @@ export const SearchAndSelect = ({
     callFn: searchFunction,
     callOnInit: false,
   });
+
+  /* Reset the active filters if initial filters changes */
+  useEffect(() => {
+    setActiveFilters(initialFilters);
+    if (autoUpdate) setShouldReload(true);
+  }, [initialFilters]);
 
   const {
     handleItemSelect,
@@ -106,12 +116,12 @@ export const SearchAndSelect = ({
 
   useEffect(() => {
     // VALIDATE INPUT
-    if (initialFilters && !Array.isArray(initialFilters))
+    if (!initialFilters || !Array.isArray(initialFilters))
       throw TypeError('Initial Filters should be an array');
   }, [initialFilters]);
 
   useEffect(() => {
-    if (shouldReload && (autoUpdate || singleLoad)) {
+    if (canLoad && shouldReload && (autoUpdate || singleLoad)) {
       setSingleLoad(false);
       if (!noEmptySearch || activeFilters.length > 0 || searchValue) {
         setShouldReload(false);
@@ -141,6 +151,7 @@ export const SearchAndSelect = ({
     const newSearchString = e.target.value;
 
     setSearchValue(newSearchString);
+    /* We block loading until user input received */
     if (!canLoad) setCanLoad(true);
     setShouldReload(true);
 
@@ -294,7 +305,7 @@ export const SearchAndSelect = ({
               No results found. Try adjusting the filters above.
             </div>
           )}
-          {!loading && error && <div className="sas_resultsList-empty">{error}</div>}
+          {!loading && error && <div className="sas_resultsList-empty">{error.message}</div>}
 
           {showPreview && (
             <section className="selectionPreviewWrap">
@@ -413,4 +424,3 @@ SearchAndSelect.defaultProps = {
   allowSelectionPreview: false,
   autoPreview: false,
 };
-

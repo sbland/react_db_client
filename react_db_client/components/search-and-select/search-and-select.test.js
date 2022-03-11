@@ -284,12 +284,12 @@ describe('Search and Select', () => {
         selectItem(component, demoResultData[0].uid, demoResultData[0]);
         expect(defaultUseSelectionManagerState.handleItemSelect).toHaveBeenCalledWith(
           demoResultData[0].uid,
-          demoResultData[0],
+          demoResultData[0]
         );
         selectItem(component, demoResultData[1].uid, demoResultData[1]);
         expect(defaultUseSelectionManagerState.handleItemSelect).toHaveBeenCalledWith(
           demoResultData[1].uid,
-          demoResultData[1],
+          demoResultData[1]
         );
       });
 
@@ -460,6 +460,65 @@ describe('Search and Select', () => {
         const refreshBtn = component.find('.refreshBtn');
         refreshBtn.simulate('click');
         expect(defaultAsyncHookReturn.reload).toHaveBeenCalledTimes(1);
+      });
+    });
+    describe('Updating props', () => {
+      test('should update the filters if initial filters is updated', () => {
+        const initialFilters = [
+          new FilterObjectClass({
+            uid: 'demoFilterString',
+            field: 'name',
+            value: 'Foo',
+            operator: comparisons.contains,
+            type: filterTypes.text,
+          }),
+        ];
+        const updatedFilters = [
+          new FilterObjectClass({
+            uid: 'demoFilterString',
+            field: 'name',
+            value: 'Bar',
+            operator: comparisons.contains,
+            type: filterTypes.text,
+          }),
+        ];
+        const props = { ...defaultSasProps, initialFilters, showRefreshBtn: true, autoUpdate: true };
+        const component = mount(<SearchAndSelect {...props} />);
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
+          [
+            {
+              field: 'name',
+              filterOptionId: 'name',
+              label: 'name',
+              operator: 'contains',
+              type: 'text',
+              uid: 'demoFilterString',
+              value: 'Foo',
+            },
+          ],
+          'uid',
+          '',
+          false,
+        ]);
+        defaultAsyncHookReturn.reload.mockClear();
+        component.setProps({ initialFilters: updatedFilters });
+        component.update();
+        expect(defaultAsyncHookReturn.reload).toHaveBeenCalledWith([
+          [
+            {
+              field: 'name',
+              filterOptionId: 'name',
+              label: 'name',
+              operator: 'contains',
+              type: 'text',
+              uid: 'demoFilterString',
+              value: 'Bar',
+            },
+          ],
+          'uid',
+          '',
+          false,
+        ]);
       });
     });
   });
