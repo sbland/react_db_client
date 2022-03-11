@@ -5,6 +5,9 @@ import { useAsyncObjectManager } from '@samnbuk/react_db_client.async-hooks.use-
 import { Form, FormField } from '@samnbuk/react_db_client.components.form.form';
 import { mapFields } from './field-mapper';
 
+/**
+ *  A form component wrapper that manages item state updates and api calls
+ */
 export const ItemEditor = ({
   // REACT
   id,
@@ -40,6 +43,7 @@ export const ItemEditor = ({
     asyncPutDocument,
     asyncPostDocument,
     asyncDeleteDocument,
+    // TODO: We should have all delete error callback
     saveErrorCallback,
   });
 
@@ -70,18 +74,21 @@ export const ItemEditor = ({
   );
 
   const classNames = [id].filter((f) => f).join(' ');
+
   return (
-    <div className={`sectionWrapper ${classNames}`}>
-      <Form
-        formDataInitial={data}
-        headings={mappedFields}
-        onSubmit={() => saveData()}
-        onChange={handleOnChange}
-        showEndBtns
-        submitBtnText="Save Item"
-        componentMap={componentMap}
-        FormField={FormField}
-      />
+    <div className="itemEditor_wrap">
+      <div className={`sectionWrapper ${classNames}`}>
+        <Form
+          formDataInitial={data}
+          headings={mappedFields}
+          onSubmit={() => saveData()}
+          onChange={handleOnChange}
+          showEndBtns
+          submitBtnText="Save Item"
+          componentMap={componentMap}
+          FormField={FormField}
+        />
+      </div>
     </div>
   );
 };

@@ -22,20 +22,24 @@ export const AreYouSureBtn = ({
   }, [areYouSure, request, onConfirmed]);
   return (
     <>
-      <PopupPanel isOpen={request && !areYouSure} handleClose={() => setRequest(false)}>
-        <div>
+      <PopupPanel
+        id="areYouSureBtn_popupPanel"
+        isOpen={request && !areYouSure}
+        handleClose={() => setRequest(false)}
+      >
+        <div className="areYouSurePanel_wrap">
           <h1>Are You Sure?</h1>
           <div>
             <button
               type="button"
-              className="areYouSureCancel button-one"
+              className="areYouSure_cancelBtn button-one"
               onClick={() => setRequest(false)}
             >
               Cancel
             </button>
             <button
               type="button"
-              className="areYouSureAccept button-two"
+              className="areYouSure_acceptBtn button-two"
               onClick={() => setAreYouSure(true)}
             >
               {confirmMessage}
@@ -71,5 +75,5 @@ AreYouSureBtn.defaultProps = {
   disabled: false,
   notes: '',
   confirmMessage: 'Confirm',
-  PopupPanel: ({ children, isOpen }) => isOpen ? children : '',
+  PopupPanel: ({ children, isOpen }) => (isOpen ? children : ''),
 };
