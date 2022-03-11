@@ -90,9 +90,10 @@ PopupPanel.defaultProps = {
 };
 
 // Uses React HOC pattern
-export const PopupPanelConnector = (Component, root, alwaysOpen, closeProp = 'handleClose') => {
+export const PopupPanelConnector = (Component, root, alwaysOpen, closeProp = 'handleClose', propsOverrides = {}) => {
   return (props) => {
-    const { className, isOpen, title, id } = props;
+    const propsMerged = {...props, ...propsOverrides}
+    const { className, isOpen, title, id } = propsMerged;
     const handleClose = props[closeProp];
     return (
       <PopupPanel

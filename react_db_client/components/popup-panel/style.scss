@@ -1,8 +1,7 @@
-$unit: 1rem;//var(--unit, 1rem);
-$white-off: #dddddd;
+$unit: 1rem; //var(--unit, 1rem);
+$white-off: #fafafa;
 $primaryColour: var(--primary-color, #888);
 $grey-40: #bbbbbb;
-
 
 .popupPanelWrap {
   position: fixed;
@@ -26,7 +25,7 @@ $grey-40: #bbbbbb;
 
   padding: ($unit * 2);
   border: 1px $primaryColour solid;
-  box-shadow: 1px 1px 10px 1px rgba(100,100,100,0.3);
+  // box-shadow: 1px 1px 10px 1px rgba(100, 100, 100, 0.3);
   height: 95%;
   // overflow-y: auto;
 }
@@ -40,9 +39,8 @@ $grey-40: #bbbbbb;
   right: 0;
   top: 0;
   bottom: 0;
-  background:url(
-    data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAMElEQVQImXXJsREAIAwDMS/kZX47b0sFByQpVElAOrajKYCaO0re8eQfJ7sAoimALAAwSVfRiD/CAAAAAElFTkSuQmCC
-  ) repeat;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAMElEQVQImXXJsREAIAwDMS/kZX47b0sFByQpVElAOrajKYCaO0re8eQfJ7sAoimALAAwSVfRiD/CAAAAAElFTkSuQmCC)
+    repeat;
 }
 
 .popupPanel_closeBtn {
@@ -58,17 +56,25 @@ $grey-40: #bbbbbb;
   margin-bottom: $unit;
   position: absolute;
   overflow-y: auto;
-  top: $unit;
-  right:0;
+  top: $unit * 2;
+  right: 0;
   left: 0;
   bottom: 0;
   padding: ($unit);
+  background: $white-off;
+  section {
+    background: $white-off;
+
+    &:not(:last-child) {
+      margin-bottom: 0.2rem;
+    }
+  }
 }
 
 .popupPanel_topBar {
   position: absolute;
   top: 0;
-  right:0;
+  right: 0;
   left: 0;
   height: ($unit * 2);
   background: $white-off;
