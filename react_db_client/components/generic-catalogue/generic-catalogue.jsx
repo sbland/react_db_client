@@ -4,13 +4,67 @@ import PropTypes from 'prop-types';
 import { SearchAndSelect } from '@samnbuk/react_db_client.components.search-and-select';
 import { AreYouSureBtn } from '@samnbuk/react_db_client.components.are-you-sure-btn';
 import { ItemEditor as _ItemEditor } from '@samnbuk/react_db_client.components.item-editor';
+import { useAsyncRequest } from '@samnbuk/react_db_client.async-hooks.use-async-request';
 import { Emoji } from '@samnbuk/react_db_client.components.emoji';
+import { generateUid } from '@samnbuk/react_db_client.helpers.generate-uid';
 
+
+/**
+ * Generic catalogue wrapper for searching and editing documents from the api
+ * @param id
+ * @param itemName
+ * @param collection
+ * @param additionalFilters
+ * @param customSort
+ * @param resultsHeadings
+ * @param editorHeadings
+ * @param additionalSaveData
+ * @param availableFilters
+ * @param ItemEditor
+ * @param errorCallback
+ * @param PopupPanel
+ * @param notificationDispatch
+ * @param customParsers
+ * @param previewHeadings
+ * @param componentMap Map of field component for item editor
+ * @param {async function} asyncGetDocument async function to get a document
+ * - @argument { string } collection target database collection
+ * - @argument { string } uid id of document
+ * - @argument { Array[string] } schema fields to request from db
+ * - @argument { bool } populate if true populate nested docs
+ * @param {async function} asyncGetDocuments async function to search for multiple documents
+ * - @argument { string } collection target database collection
+ * - @argument { List[FilterObjectClass] } filters list of filters to apply to search
+ * - @argument { List[string] } schema list of fields to request
+ * - @argument { string } sortBy Field to sort by
+ * - @argument { string } textsearch string to use for text(Keyword) searching
+ * - @argument { bool } reverseSort if true reverse sorting
+ * - @argument { bool } populate if true populate nested docs
+ * @param {async function} asyncPutDocument async function to update a document
+ * - @argument { string } collection target database collection
+ * - @argument { string } uid id of document
+ * - @argument { object } data data to upload
+ * @param {async function} asyncPostDocument async function to add a new document
+ * - @argument { string } collection target database collection
+ * - @argument { string } uid id of document
+ * - @argument { object } data data to upload
+ * @param {async function} asyncDeleteDocument async function to delete a document
+ * - @argument { string } collection target database collection
+ * - @argument { string } uid id of document
+ * @param {async function} asyncCopyDocument async function to copy a document
+ * - @argument { string } fromCollection db collection to copy from
+ * - @argument { string } fromUid db uid to copy
+ * - @argument { string } toCollection db collection to copy to
+ * - @argument { string } toUid new document id
+ * - @argument { object } additionalData additional data to add to copied doc
+ * @returns
+ */
 export const GenericCatalogue = ({
   id,
   itemName,
   collection,
   additionalFilters,
+  customSort,
   resultsHeadings,
   editorHeadings,
   additionalSaveData,
@@ -19,29 +73,22 @@ export const GenericCatalogue = ({
   errorCallback,
   PopupPanel,
   notificationDispatch,
+  customParsers,
+  previewHeadings,
   asyncGetDocument,
   asyncGetDocuments,
   asyncPutDocument,
   asyncPostDocument,
   asyncDeleteDocument,
+  asyncCopyDocument,
   componentMap,
-  onError,
 }) => {
   const [showEditor, setShowEditor] = useState(false);
   const [selectedUid, setSelectedUid] = useState(null);
   const [reloadDatakey, setReloadDataKey] = useState(0);
   const [handleDelete, setHandleDelete] = useState(false);
 
-  // const { call: copySet } = useAsyncRequest({
-  //   args: [],
-  //   callFn: asyncCopyDocument,
-  //   callOnInit: false,
-  //   callback: () => {
-  //     setReloadDataKey((prev) => prev + 1);
-  //     alert('Successfully Copied Set');
-  //   },
-  // });
-
+  /* Handle Delete */
   useEffect(() => {
     if (handleDelete) {
       setHandleDelete(false);
@@ -49,29 +96,42 @@ export const GenericCatalogue = ({
         .then(() => {
           setReloadDataKey((prev) => prev + 1);
         })
-        .catch(() => {
-          errorCallback(`Error deleting ${itemName}`, 'error');
+        .catch((e) => {
+          errorCallback(`Error deleting ${itemName}`, e);
         });
     }
   }, [handleDelete, selectedUid, errorCallback, collection, itemName]);
 
-  // TODO: Implement duplicate
-  // const handleDuplicate = (uid) => {
-  //   const fromCollection = COLLECTION;
-  //   const fromUid = uid;
-  //   const toCollection = COLLECTION;
-  //   const toUid = generateUid(COLLECTION);
-  //   const additionalData = { label: toUid };
-  //   copySet([fromCollection, fromUid, toCollection, toUid, additionalData]);
-  // };
+  /* Handle Duplicate */
+  const { call: copyItem } = useAsyncRequest({
+    args: [],
+    callFn: asyncCopyDocument,
+    callOnInit: false,
+    callback: (_, [, , , toUid]) => {
+      setReloadDataKey((prev) => prev + 1);
+      notificationDispatch(`Successfully Copied ${itemName}`);
+      setSelectedUid(toUid);
+      setShowEditor(true);
+    },
+  });
+
+  const handleDuplicate = (uid) => {
+    const fromCollection = collection;
+    const fromUid = uid;
+    const toCollection = collection;
+    const toUid = generateUid(collection);
+    const additionalData = { label: toUid };
+    copyItem([fromCollection, fromUid, toCollection, toUid, additionalData]);
+  };
+
+  /* Handle Search */
 
   const searchFn = useCallback(
     async (filters, sortBy, searchString) => {
-      const filtersModified = [...additionalFilters, ...filters];
       const sortByA = sortBy || 'label';
       const docs = await asyncGetDocuments(
         collection,
-        filtersModified,
+        filters,
         // TODO: Filter preview only headings out
         resultsHeadings.map((item) => item.uid),
         sortByA,
@@ -79,9 +139,10 @@ export const GenericCatalogue = ({
         false,
         'all'
       );
+      if (customSort) return docs.sort(customSort);
       return docs;
     },
-    [collection, additionalFilters, resultsHeadings]
+    [collection, resultsHeadings]
   );
 
   const onSubmitCallback = useCallback(
@@ -109,16 +170,16 @@ export const GenericCatalogue = ({
           asyncPostDocument={asyncPostDocument}
           asyncDeleteDocument={asyncDeleteDocument}
           componentMap={componentMap}
-          saveErrorCallback={onError}
+          saveErrorCallback={errorCallback}
           onCancel={() => setShowEditor(false)}
           id={`item_editor_${id}`}
         />
       )}
-      <div className="GenericCatalogueFunc_Wrap sectionWrapper">
+      <div className={`genericCatalogueFunc_Wrap sectionWrapper genericCatalogue_${id}`}>
         <section>
           <button
             type="button"
-            className="button-two"
+            className="button-two genericCatalogue_createNewBtn"
             onClick={() => {
               setSelectedUid(null);
               setShowEditor(true);
@@ -137,9 +198,9 @@ export const GenericCatalogue = ({
             initialFilters={additionalFilters}
             availableFilters={availableFilters}
             handleSelect={setSelectedUid}
-            // TODO: Filter preview only headings
             headings={resultsHeadings}
-            previewHeadings={resultsHeadings}
+            previewHeadings={previewHeadings || resultsHeadings}
+            customParsers={customParsers}
             autoWidth={false}
             autoUpdate
             showRefreshBtn
@@ -151,11 +212,19 @@ export const GenericCatalogue = ({
           <div>
             <button
               type="button"
-              className="button-two"
+              className="button-two genericCatalogue_editSelectedBtn"
               onClick={() => setShowEditor(true)}
               disabled={selectedUid === null}
             >
               Edit Selected {itemName}
+            </button>
+            <button
+              type="button"
+              className="button-one genericCatalogue_duplicateSelectedBtn"
+              onClick={() => handleDuplicate(selectedUid)}
+              disabled={selectedUid === null}
+            >
+              Duplicate Selected {itemName}
             </button>
             <AreYouSureBtn
               onConfirmed={() => {
@@ -185,8 +254,11 @@ GenericCatalogue.propTypes = {
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     })
   ),
+  customSort: PropTypes.func,
+  customParsers: PropTypes.objectOf(PropTypes.func),
   resultsHeadings: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   editorHeadings: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  previewHeadings: PropTypes.arrayOf(PropTypes.shape({})),
   additionalSaveData: PropTypes.shape({}),
   availableFilters: PropTypes.objectOf(
     PropTypes.shape({
@@ -214,6 +286,9 @@ GenericCatalogue.propTypes = {
 GenericCatalogue.defaultProps = {
   additionalFilters: [],
   additionalSaveData: {},
+  customSort: null,
+  previewHeadings: [],
+  customParsers: {},
   ItemEditor: _ItemEditor,
   PopupPanel: () => {},
   notificationDispatch: alert,

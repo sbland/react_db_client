@@ -2,8 +2,12 @@ import React from 'react';
 // import { PopupPanel } from '@samnbuk/react_db_client.components.popup-panel';
 import { ItemEditor } from '@samnbuk/react_db_client.components.item-editor';
 import { GenericCatalogue } from './generic-catalogue';
+import { PopupPanel, PopupPanelConnector } from '@samnbuk/react_db_client.components.popup-panel';
 
 import { demoHeadingsData, demoHeadingsDataSimple, demoResults } from './demo-data';
+
+const ItemEditorPopup = PopupPanelConnector(ItemEditor, 'root', true, 'onCancel', {title: 'Demo Item Editor'});
+const PopupPanelConnected = (props) => <PopupPanel popupRoot="root" {...props} />;
 
 const defaultProps = {
   id: 'demo-id',
@@ -14,9 +18,9 @@ const defaultProps = {
   resultsHeadings: demoHeadingsDataSimple,
   editorHeadings: demoHeadingsData,
   additionalSaveData: {},
-  ItemEditor: () => <div>ITEM EDITOR PLACEHOLDER</div>,
+  ItemEditor: ItemEditorPopup,
   apiDeleteDocuments: async () => alert('Deleted DOcument'),
-  PopupPanel: ({ children, isOpen }) => (isOpen ? children : ''),
+  PopupPanel: PopupPanelConnected,
   notificationDispatch: alert,
   asyncGetDocument: async () => Object.values(demoResults)[0],
   asyncGetDocuments: async () => Object.values(demoResults),
