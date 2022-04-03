@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { PopupPanel, PopupPanelConnector } from './popup-panel';
 
 export const BasicPopupPanel = () => {
