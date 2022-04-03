@@ -66,3 +66,9 @@ export const setupAsyncMocks = (callFnMap) => (props) => {
   if (mock) return mock;
   throw Error(`${id} missing in callFnMap`);
 };
+export const sleep = (delay) =>
+  new Promise((res) => {
+    setTimeout(function () {
+      res();
+    }, delay);
+  });

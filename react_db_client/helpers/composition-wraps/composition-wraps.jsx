@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 
 const setDim = (diff) => (prev) => {
+  if (prev === 'auto') return `${1}rem`;
   const prevDim = parseInt(prev.replace('rem', '')) + diff;
   return `${prevDim}rem`;
 };
 
-export function CompositionWrapDefault({ children, width = null, height = null }) {
+export function CompositionWrapDefault({
+  children,
+  width = null,
+  height = null,
+  horizontal = false,
+}) {
   const [heightActive, setHeightActive] = useState(height == null ? 'auto' : height);
   const [widthActive, setWidthActive] = useState(width == null ? 'auto' : width);
   const [allowOverflow, setAllowOverflow] = useState(false);
@@ -25,6 +31,7 @@ export function CompositionWrapDefault({ children, width = null, height = null }
     width: '100%',
     height: '100%',
     overflow: allowOverflow ? 'visible' : 'hidden',
+    display: horizontal ? 'flex' : 'block',
   };
 
   const btnStyle = (isOn) => ({
@@ -50,7 +57,7 @@ export function CompositionWrapDefault({ children, width = null, height = null }
 
 export const WrapFieldComponent = ({ children }) => {
   const childrenArray = Array.isArray(children) ? children : [children];
-  const [state, setState] = useState(childrenArray.map((child) =>child.props.value));
+  const [state, setState] = useState(childrenArray.map((child) => child.props.value));
   const childrenWithProps = React.Children.map(childrenArray, (child, i) => {
     if (React.isValidElement(child)) {
       return React.cloneElement(child, {
