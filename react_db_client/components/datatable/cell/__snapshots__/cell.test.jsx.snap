@@ -1,0 +1,628 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DatatableCell Renders Matches Snapshot 1`] = `
+<Cell
+  className=""
+  columnIndex={1}
+  componentMap={
+    Object {
+      "bool": [Function],
+      "button": [Function],
+      "number": [Function],
+      "select": [Function],
+      "text": [Function],
+      "textLong": [Function],
+      "toggle": [Function],
+      "undefined": [Function],
+    }
+  }
+  currentFocusedColumn={0}
+  currentFocusedRow={0}
+  disabled={false}
+  headingsData={
+    Array [
+      Object {
+        "action": [Function],
+        "label": "UID",
+        "required": true,
+        "styleRule": "$count<5",
+        "type": "button",
+        "uid": "uid",
+        "unique": true,
+      },
+      Object {
+        "label": "Name",
+        "required": true,
+        "type": "text",
+        "uid": "name",
+        "unique": true,
+      },
+      Object {
+        "label": "description",
+        "type": "textLong",
+        "uid": "description",
+      },
+      Object {
+        "def": 8,
+        "label": "Count",
+        "max": 10,
+        "min": 2,
+        "showTotals": true,
+        "step": 1,
+        "type": "number",
+        "uid": "count",
+      },
+      Object {
+        "defaultValue": 7,
+        "label": "Def",
+        "max": 10,
+        "min": 1,
+        "showTotals": true,
+        "type": "number",
+        "uid": "def",
+      },
+      Object {
+        "def": "$def",
+        "label": "Multiplier",
+        "max": 10,
+        "min": 1,
+        "type": "number",
+        "uid": "multiplier",
+      },
+      Object {
+        "label": "Read Only",
+        "readOnly": true,
+        "type": "text",
+        "uid": "readOnly",
+      },
+      Object {
+        "hidden": true,
+        "label": "Hidden",
+        "type": "text",
+        "uid": "hiddenDemo",
+      },
+      Object {
+        "hidden": true,
+        "label": "Hidden Number",
+        "type": "number",
+        "uid": "hiddenDemoNumber",
+      },
+      Object {
+        "label": "Toggle",
+        "type": "toggle",
+        "uid": "toggle",
+      },
+      Object {
+        "label": "ToggleR",
+        "readOnly": true,
+        "type": "toggle",
+        "uid": "toggleR",
+      },
+      Object {
+        "evaluateType": "number",
+        "expression": "$count * $multiplier",
+        "expressionReversed": "$count=$_ / $multiplier",
+        "label": "Expression",
+        "reverseExpression": "$count * $multiplier",
+        "showTotals": true,
+        "type": "number",
+        "uid": "expression",
+      },
+      Object {
+        "evaluateType": "string",
+        "field": "select",
+        "invert": true,
+        "label": "Is Validated",
+        "operator": "=",
+        "target": "a",
+        "type": "string",
+        "uid": "validated",
+      },
+      Object {
+        "evaluateType": "number",
+        "expression": "$nothing",
+        "label": "Invalid",
+        "type": "number",
+        "uid": "invalid",
+      },
+      Object {
+        "evaluateType": "number",
+        "expression": "$invalid * 2",
+        "label": "InvalidB",
+        "type": "number",
+        "uid": "invalidb",
+      },
+      Object {
+        "label": "Select",
+        "options": Array [
+          Object {
+            "label": "A",
+            "uid": "a",
+          },
+          Object {
+            "label": "B",
+            "uid": "b",
+          },
+          Object {
+            "label": "C",
+            "uid": "c",
+          },
+        ],
+        "type": "select",
+        "uid": "select",
+      },
+      Object {
+        "collection": "rooms",
+        "label": "Internal Room",
+        "type": "entity",
+        "uid": "internalRoom",
+      },
+      Object {
+        "collection": "rooms",
+        "label": "Long Heading which is really really long",
+        "type": "entity",
+        "uid": "longHeading",
+      },
+      Object {
+        "isCustom": true,
+        "label": "Custom",
+        "showTotals": true,
+        "type": "custom",
+        "uid": "customfield",
+      },
+      Object {
+        "evaluateType": "number",
+        "expression": "$customfield + 1",
+        "expressionReversed": "$customfield=$_ - 1",
+        "isCustom": true,
+        "label": "Custom Eval",
+        "showTotals": true,
+        "type": "customeval",
+        "uid": "customfieldeval",
+      },
+    ]
+  }
+  methods={
+    Object {
+      "handleMoveFocusToTargetCell": [MockFunction],
+      "handleValueAccept": [MockFunction],
+      "handleValueChange": [MockFunction],
+      "handleValueReset": [MockFunction],
+      "setNavigationMode": [MockFunction],
+    }
+  }
+  navigationMode={true}
+  rowIndex={1}
+  style={Object {}}
+  tableData={
+    Array [
+      Object {
+        "count": 3,
+        "hiddenDemo": "Hide me",
+        "hiddenDemoNumber": 3,
+        "multiplier": 2,
+        "name": "Foo",
+        "natid": "100a",
+        "readOnly": "Can't touch me",
+        "select": "a",
+        "toggle": true,
+        "uid": "a",
+      },
+      Object {
+        "count": "99",
+        "def": 3,
+        "hiddenDemo": "Hide me",
+        "hiddenDemoNumber": 3,
+        "name": "Foobar",
+        "natid": "10a",
+        "uid": "ab",
+      },
+      Object {
+        "description": "A really really really long description that needs to fit into a little box!",
+        "hiddenDemo": "Hide me",
+        "hiddenDemoNumber": 3,
+        "name": "Bar",
+        "natid": "50a",
+        "uid": "b",
+      },
+      Object {
+        "count": 3,
+        "expression": 9,
+        "hiddenDemo": "Hide me",
+        "hiddenDemoNumber": 3,
+        "multiplier": 3,
+        "name": "C",
+        "uid": "c",
+      },
+      Object {
+        "hiddenDemo": "Hide me",
+        "hiddenDemoNumber": 3,
+        "name": "",
+        "uid": "d",
+      },
+    ]
+  }
+>
+  <DataTableCellHoverWrap
+    className=""
+    columnWidth={100}
+    disabled={false}
+    handleHover={[Function]}
+    style={Object {}}
+  >
+    <div
+      className="dataTableCell_wrap  "
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      style={
+        Object {
+          "width": 100,
+        }
+      }
+    >
+      <CellNavigationCellWrap
+        cellWrapNavBtnRef={
+          Object {
+            "current": <div
+              class=" notFocused row_index_1 column_index_1 column_id_name navigationButton cellWrapBtn button-reset"
+              role="presentation"
+              style="width: 100%;"
+              tabindex="11"
+              type="button"
+            >
+              <button
+                class="button-reset hidden"
+                style="width: 8px; font-size: 1rem; line-height: 1rem; color: white; border-radius: 0.3rem; font-weight: 800; text-align: center; cursor: pointer;"
+                type="button"
+              >
+                 
+              </button>
+              <div
+                style="height: 100%;"
+              >
+                <div
+                  class="popupMenu_righClickWrap false"
+                  style="width: 100%; height: 100%;"
+                >
+                  <div
+                    class="dataTableCellData dataTableCellData-text"
+                  >
+                    <input
+                      class="cellInput-text"
+                      style="display: none;"
+                      type="text"
+                      value="Foobar"
+                    />
+                    <textarea
+                      class="cellInput-textarea"
+                      cols="20"
+                      rows="10"
+                      style="display: none; position: absolute; width: 100%; min-height: 5rem; min-width: 20rem; left: 0px; top: 0px; white-space: normal; resize: none; z-index: 10; overflow: hidden;"
+                      type="text"
+                      wrap="hard"
+                    >
+                      Foobar
+                    </textarea>
+                    <div
+                      class="dataTableCellData_text dataTableCellData-text"
+                    >
+                      Foobar
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  Missing Popup Root
+                </div>
+              </div>
+            </div>,
+          }
+        }
+        classNames=" notFocused row_index_1 column_index_1 column_id_name"
+        columnIndex={1}
+        onClick={[Function]}
+        onKeyDown={[Function]}
+        rowIndex={1}
+      >
+        <div
+          className=" notFocused row_index_1 column_index_1 column_id_name navigationButton cellWrapBtn button-reset"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="presentation"
+          style={
+            Object {
+              "width": "100%",
+            }
+          }
+          tabIndex="11"
+          type="button"
+        >
+          <CellInfoBtn
+            message=""
+            styles={Object {}}
+          >
+            <button
+              className="button-reset hidden"
+              onClick={[Function]}
+              style={
+                Object {
+                  "borderRadius": "0.3rem",
+                  "color": "white",
+                  "cursor": "pointer",
+                  "fontSize": "1rem",
+                  "fontWeight": 800,
+                  "lineHeight": "1rem",
+                  "textAlign": "center",
+                  "width": "8px",
+                }
+              }
+              type="button"
+            >
+               
+            </button>
+          </CellInfoBtn>
+          <DataTableDataCell
+            acceptValue={[Function]}
+            cellData="Foobar"
+            classNames=" notFocused row_index_1 column_index_1 column_id_name"
+            columnData={
+              Object {
+                "label": "Name",
+                "required": true,
+                "type": "text",
+                "uid": "name",
+                "unique": true,
+              }
+            }
+            columnId="name"
+            componentMap={
+              Object {
+                "bool": [Function],
+                "button": [Function],
+                "number": [Function],
+                "select": [Function],
+                "text": [Function],
+                "textLong": [Function],
+                "toggle": [Function],
+                "undefined": [Function],
+              }
+            }
+            editMode={false}
+            focused={false}
+            isDisabled={false}
+            resetValue={[Function]}
+            rowData={
+              Object {
+                "count": "99",
+                "def": 3,
+                "hiddenDemo": "Hide me",
+                "hiddenDemoNumber": 3,
+                "name": "Foobar",
+                "natid": "10a",
+                "uid": "ab",
+              }
+            }
+            rowId="ab"
+            rowIndex={1}
+            updateData={[Function]}
+          >
+            <div
+              style={
+                Object {
+                  "height": "100%",
+                }
+              }
+            >
+              <CellRightClickWrapper
+                clearCell={[Function]}
+                readOnly={false}
+                setAsDefault={[Function]}
+              >
+                <RightClickWrapper
+                  items={
+                    Array [
+                      Object {
+                        "label": "Clear",
+                        "onClick": [Function],
+                        "uid": "clearCell",
+                      },
+                      Object {
+                        "label": "Set as Default",
+                        "onClick": [Function],
+                        "uid": "setDefault",
+                      },
+                    ]
+                  }
+                  popupRoot="root"
+                >
+                  <div
+                    className="popupMenu_righClickWrap false"
+                    onContextMenu={[Function]}
+                    style={
+                      Object {
+                        "height": "100%",
+                        "width": "100%",
+                      }
+                    }
+                  >
+                    <Component
+                      acceptValue={[Function]}
+                      cellData="Foobar"
+                      classNames=" notFocused row_index_1 column_index_1 column_id_name"
+                      columnData={
+                        Object {
+                          "label": "Name",
+                          "required": true,
+                          "type": "text",
+                          "uid": "name",
+                          "unique": true,
+                        }
+                      }
+                      columnId="name"
+                      componentMap={
+                        Object {
+                          "bool": [Function],
+                          "button": [Function],
+                          "number": [Function],
+                          "select": [Function],
+                          "text": [Function],
+                          "textLong": [Function],
+                          "toggle": [Function],
+                          "undefined": [Function],
+                        }
+                      }
+                      editMode={false}
+                      focused={false}
+                      isDisabled={false}
+                      resetValue={[Function]}
+                      rowData={
+                        Object {
+                          "count": "99",
+                          "def": 3,
+                          "hiddenDemo": "Hide me",
+                          "hiddenDemoNumber": 3,
+                          "name": "Foobar",
+                          "natid": "10a",
+                          "uid": "ab",
+                        }
+                      }
+                      rowId="ab"
+                      rowIndex={1}
+                      updateData={[Function]}
+                    >
+                      <DataTableCellText
+                        acceptValue={[Function]}
+                        cellData="Foobar"
+                        classNames=" notFocused row_index_1 column_index_1 column_id_name"
+                        columnData={
+                          Object {
+                            "label": "Name",
+                            "required": true,
+                            "type": "text",
+                            "uid": "name",
+                            "unique": true,
+                          }
+                        }
+                        columnId="name"
+                        componentMap={
+                          Object {
+                            "bool": [Function],
+                            "button": [Function],
+                            "number": [Function],
+                            "select": [Function],
+                            "text": [Function],
+                            "textLong": [Function],
+                            "toggle": [Function],
+                            "undefined": [Function],
+                          }
+                        }
+                        editMode={false}
+                        focused={false}
+                        isDisabled={false}
+                        resetValue={[Function]}
+                        rowData={
+                          Object {
+                            "count": "99",
+                            "def": 3,
+                            "hiddenDemo": "Hide me",
+                            "hiddenDemoNumber": 3,
+                            "name": "Foobar",
+                            "natid": "10a",
+                            "uid": "ab",
+                          }
+                        }
+                        rowId="ab"
+                        rowIndex={1}
+                        updateData={[Function]}
+                      >
+                        <div
+                          className="dataTableCellData dataTableCellData-text"
+                        >
+                          <input
+                            className="cellInput-text"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onKeyDown={[Function]}
+                            style={
+                              Object {
+                                "display": "none",
+                              }
+                            }
+                            type="text"
+                            value="Foobar"
+                          />
+                          <textarea
+                            className="cellInput-textarea"
+                            cols="20"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onKeyDown={[Function]}
+                            rows="10"
+                            style={
+                              Object {
+                                "display": "none",
+                                "left": 0,
+                                "minHeight": "5rem",
+                                "minWidth": "20rem",
+                                "overflow": "hidden",
+                                "position": "absolute",
+                                "resize": "none",
+                                "top": 0,
+                                "whiteSpace": "normal",
+                                "width": "100%",
+                                "zIndex": 10,
+                              }
+                            }
+                            type="text"
+                            value="Foobar"
+                            wrap="hard"
+                          />
+                          <div
+                            className="dataTableCellData_text dataTableCellData-text"
+                          >
+                            Foobar
+                          </div>
+                        </div>
+                      </DataTableCellText>
+                    </Component>
+                  </div>
+                  <PopupMenu
+                    isOpenOverride={false}
+                    items={
+                      Array [
+                        Object {
+                          "label": "Clear",
+                          "onClick": [Function],
+                          "uid": "clearCell",
+                        },
+                        Object {
+                          "label": "Set as Default",
+                          "onClick": [Function],
+                          "uid": "setDefault",
+                        },
+                      ]
+                    }
+                    onCloseCallback={[Function]}
+                    popupRoot="root"
+                    position={
+                      Object {
+                        "x": 0,
+                        "y": 0,
+                      }
+                    }
+                  >
+                    <div>
+                      Missing Popup Root
+                    </div>
+                  </PopupMenu>
+                </RightClickWrapper>
+              </CellRightClickWrapper>
+            </div>
+          </DataTableDataCell>
+        </div>
+      </CellNavigationCellWrap>
+    </div>
+  </DataTableCellHoverWrap>
+</Cell>
+`;
