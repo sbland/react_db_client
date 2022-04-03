@@ -39,6 +39,42 @@
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/custom-select-dropdown"
     },
+    "components/datatable/cell": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/components/datatable/cell"
+    },
+    "components/datatable/cell-types": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/components/datatable/cell-types"
+    },
+    "components/datatable/components": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/components/datatable/components"
+    },
+    "components/datatable/extras": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/components/datatable/extras"
+    },
+    "components/datatable/logic": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/components/datatable/logic"
+    },
+    "components/datatable/main": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/components/datatable/main"
+    },
     "components/emoji": {
         "scope": "samnbuk.react_db_client",
         "version": "0.1.0",
@@ -177,6 +213,12 @@
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/loading-panel"
     },
+    "components/popup-menu": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/components/popup-menu"
+    },
     "components/popup-panel": {
         "scope": "samnbuk.react_db_client",
         "version": "0.1.12",
@@ -266,6 +308,12 @@
         "version": "0.1.0",
         "mainFile": "index.js",
         "rootDir": "react_db_client/helpers/enzyme-setup"
+    },
+    "helpers/error-handling": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/helpers/error-handling"
     },
     "helpers/filter-helpers": {
         "scope": "samnbuk.react_db_client",
