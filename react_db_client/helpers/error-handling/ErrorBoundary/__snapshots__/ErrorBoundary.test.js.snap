@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ErrorBoundary Matches Snapshot 1`] = `
+"<ErrorBoundary onError={[Function: onError]}>
+  <DemoComponent data={{...}}>
+    <div>
+      hi
+    </div>
+  </DemoComponent>
+</ErrorBoundary>"
+`;
