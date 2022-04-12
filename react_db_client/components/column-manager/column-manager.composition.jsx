@@ -1,15 +1,44 @@
 import React, { useRef, useState } from 'react';
+import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps';
 import { ColumnWidthManager } from './column-width-manager';
 import { useColumnManager } from './column-manager-hook';
 
-export const BasicColumnManager = () => {
-  const [columnWidths, setColumnWidths] = useState([1, 2, 3]);
+export const ColumnManagerHandle = () => {
+  const [columnWidths, setColumnWidths] = useState([10, 20, 30]);
   return (
-    <ColumnWidthManager
-      columnWidths={columnWidths}
-      setColumnWidths={setColumnWidths}
-      minWidth={100}
-    />
+    <>
+      <CompositionWrapDefault width="16rem" height="16rem" horizontal>
+        <ColumnWidthManager
+          columnWidths={columnWidths}
+          setColumnWidths={setColumnWidths}
+          minWidth={5}
+          showEdges
+        />
+      </CompositionWrapDefault>
+      {columnWidths.map((c, i) => (
+        <div key={i} style={{ height: 10, width: c, border: '1px solid red' }} />
+      ))}
+    </>
+  );
+};
+
+export const ColumnManagerHandleLive = () => {
+  const [columnWidths, setColumnWidths] = useState([10, 20, 30]);
+  return (
+    <>
+      <CompositionWrapDefault width="16rem" height="16rem" horizontal>
+        <ColumnWidthManager
+          columnWidths={columnWidths}
+          setColumnWidths={setColumnWidths}
+          minWidth={5}
+          showEdges
+          liveDragging
+        />
+      </CompositionWrapDefault>
+      {columnWidths.map((c, i) => (
+        <div key={i} style={{ height: 10, width: c, border: '1px solid red' }} />
+      ))}
+    </>
   );
 };
 
@@ -68,4 +97,4 @@ export const ColumnManagerHook = () => {
 
 export const ColumnManagerVisibility = () => {
   // TODO Complete this composition
-}
+};
