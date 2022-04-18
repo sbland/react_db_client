@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useMemo } from 'react';
+import { scrollbarWidth } from '@samnbuk/react_db_client.helpers.html-helpers';
 
 const ColumnManagerStyles = styled.div`
 
@@ -11,16 +12,25 @@ const ColumnManagerStyles = styled.div`
   }
   ** {
     box-sizing: border-box;
-
   }
 
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 100;
+  overflow-x: scroll;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+
   .columnWidthManager {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 100;
+      position: relative;
+      height: 100%;
+      overflow-x: hidden; // Must be set to stop any overflows causing scroll sync issues
+      -ms-overflow-style: none; /* for Internet Explorer, Edge */
+      scrollbar-width: none; /* for Firefox */
+
   }
 
   // TODO: Move these to correct location
@@ -62,7 +72,6 @@ const ColumnManagerStyles = styled.div`
   }
 `;
 
-
 export const ColumnWidthManager = ({
   // columnCount,
   columnWidths,
@@ -71,9 +80,8 @@ export const ColumnWidthManager = ({
   maxWidth,
   showEdges,
   liveDragging,
+  innerRef,
 }) => {
-  const Ref = useRef(null);
-
   const [currentColumnn, setCurrentColumnn] = useState(-1);
   const [resizingColumn, setResizingColumn] = useState(false);
   const lastMousePosRef = useRef(0);
@@ -83,7 +91,6 @@ export const ColumnWidthManager = ({
 
   // Use offset column positions to determine
   let widthSum = 0;
-
 
   const columnEdgePositions = useMemo(
     () =>
@@ -136,13 +143,16 @@ export const ColumnWidthManager = ({
     });
   };
 
+  const scrollBarSize = React.useMemo(() => scrollbarWidth(), []);
+
+
   return (
-    <ColumnManagerStyles>
+    <ColumnManagerStyles className="columnWidthManager_styles" ref={innerRef}>
       <div
-        ref={Ref}
         className="columnWidthManager"
         style={{
           pointerEvents: resizingColumn ? 'all' : 'none',
+          width: columnWidths.reduce((acc, v) => acc + v, 0) + scrollBarSize * 1,
         }}
       >
         {columnEdgePositions.map((cw, i) => (
