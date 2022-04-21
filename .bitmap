@@ -30,7 +30,7 @@
     "components/column-manager": {
         "scope": "samnbuk.react_db_client",
         "version": "0.1.0",
-        "mainFile": "index.js",
+        "mainFile": "index.ts",
         "rootDir": "react_db_client/components/column-manager"
     },
     "components/custom-select-dropdown": {
@@ -74,6 +74,12 @@
         "version": "",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/main"
+    },
+    "components/datatable/state": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/components/datatable/state"
     },
     "components/emoji": {
         "scope": "samnbuk.react_db_client",
@@ -332,6 +338,12 @@
         "version": "0.1.0",
         "mainFile": "index.js",
         "rootDir": "react_db_client/helpers/generate-uid"
+    },
+    "helpers/html-helpers": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/helpers/html-helpers"
     },
     "helpers/testing": {
         "scope": "samnbuk.react_db_client",
