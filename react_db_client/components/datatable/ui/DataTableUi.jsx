@@ -6,21 +6,19 @@ import PropTypes from 'prop-types';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import useScrollSync from 'react-scroll-sync-hook';
 import styled from 'styled-components';
-import { useTable, useBlockLayout } from 'react-table';
 import { FixedSizeList } from 'react-window';
 import { DataTableCellReadOnly } from '@samnbuk/react_db_client.components.datatable.cell-types';
 import { scrollbarWidth } from '@samnbuk/react_db_client.helpers.html-helpers';
-
+import { switchF } from '@samnbuk/react_db_client.helpers.func-tools';
 import {
   ColumnWidthManager,
   useColumnManager,
 } from '@samnbuk/react_db_client.components.column-manager';
-
+import { CellNavigationCellWrap } from '@samnbuk/react_db_client.components.datatable.cell';
 import {
   DataTableConfigConnector,
   DataTableContext,
-  RowStyleContext,
-} from '@samnbuk/react_db_client.components.datatable.logic';
+} from '@samnbuk/react_db_client.components.datatable.config';
 
 import { Cell } from '@samnbuk/react_db_client.components.datatable.cell';
 
@@ -33,8 +31,10 @@ import {
 // import './style.scss';
 // import './_dataTable_condensed.scss';
 
+const DEFAULT_COLUMN_WIDTH = 120;
 const MIN_TABLE_HEIGHT = 30;
 
+const defaultComponent = () => (props) => <DataTableCellReadOnly {...props} />;
 const Styles = styled.div`
   // padding: 1rem;
   width: 100%;
@@ -47,6 +47,7 @@ const Styles = styled.div`
     .td {
       margin: 0;
       padding: 0;
+      position: relative;
       box-sizing: border-box;
       border-bottom: ${(props) => props.theme.cellBorder};
       border-right: ${(props) => props.theme.cellBorder};
@@ -77,98 +78,137 @@ const Styles = styled.div`
     .thrs::-webkit-scrollbar {
       display: none; /* for Chrome, Safari, and Opera */
     }
+
+    .navigationButton,
+    .dataTableCell_wrap,
+    .dataTableCellData {
+      width: 100%;
+      height: 100%;
+    }
+
+    .navigationButton,
+    .dataTableCell_wrap {
+      position: absolute;
+    }
   }
 `;
 
-const DEFAULT_COLUMN_WIDTH = 120;
-
-function TableHeadings({ headerRef, headerGroups, tableWidth, headerHeight, cellStyleOverrides }) {
+function TableHeadings({ headerRef, columns, tableWidth, headerHeight, cellStyleOverrides }) {
   return (
     <div className="thrs" style={{ width: '100%', overflow: 'auto hidden' }} ref={headerRef}>
-      {headerGroups.map((headerGroup) => (
-        <div
-          {...headerGroup.getHeaderGroupProps()}
-          style={{
-            ...headerGroup.getHeaderGroupProps().style,
-            width: tableWidth,
-            position: 'relative',
-            height: headerHeight,
-          }}
-          className="tr"
-        >
-          {headerGroup.headers.map((column, columnIndex) => (
-            <div
-              {...column.getHeaderProps()}
-              className="th"
-              style={{
-                ...column.getHeaderProps().style,
-                ...cellStyleOverrides(columnIndex),
-              }}
-            >
-              {column.render('label')}
-            </div>
-          ))}
-        </div>
-      ))}
+      <div
+        style={{
+          display: 'flex',
+          width: tableWidth,
+          position: 'relative',
+          height: headerHeight,
+        }}
+        className="tr"
+      >
+        {columns.map((column, columnIndex) => (
+          <div
+            className="th"
+            key={column.uid}
+            style={{
+              ...cellStyleOverrides(columnIndex),
+            }}
+          >
+            {column.label}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
 
-function TableRowWrap(
-  rows,
-  prepareRow,
-  tableWidth,
-  cellStyleOverrides,
-  methods,
-  tableState,
-  componentMap,
-  columns
-) {
+function TableRowWrap(tableWidth, cellStyleOverrides, componentMap, columns, tableData) {
   const TableRow = ({ index, style, isScrolling }) => {
-    const row = rows[index];
-    prepareRow(row);
-
     return (
       <div
-        {...row.getRowProps({
-          style: {
-            ...style,
-            width: tableWidth,
-          },
-        })}
         className="tr table_body_row"
+        style={{
+          ...style,
+          width: tableWidth,
+          display: 'flex',
+        }}
       >
-        {row.cells.map((cell, cellIndex) => {
+        {columns.map((column, columnIndex) => {
+          // const cellData = row[column.uid];
           // TODO: Simplify this
-          const { tableData } = tableState;
+          // const { tableData } = tableState;
+          if (isScrolling) {
+            const headingData = useMemo(() => columns[columnIndex] || {}, [columns, columnIndex]);
+            const rowData = useMemo(() => tableData[index] || {}, [tableData, index]);
+            const { uid: headingId, type: cellType } = headingData;
+            const cellData = rowData[headingId];
 
-          const headingData = useMemo(() => columns[cellIndex] || {}, [columns, cellIndex]);
-          const rowData = useMemo(() => tableData[index] || {}, [tableData, index]);
-          const { uid: headingId } = headingData;
-          const cellData = rowData[headingId];
+            // const CellComponent = useMemo(
+            //   () => switchF(cellType, componentMap, defaultComponent),
+            //   [cellType, componentMap, defaultComponent]
+            // );
+            return (
+              <>
+                {/* <CellNavigationCellWrap
+                  cellWrapNavBtnRef={null}
+                  classNames={null}
+                  onClick={() => {}}
+                  onKeyDown={() => {}}
+                  columnIndex={columnIndex}
+                  rowIndex={rowIndex}
+                /> */}
+                <div
+                  // {...cell.getCellProps()}
+                  className="td"
+                  style={{
+                    // ...cell.getCellProps().style,
+                    display: 'inline-block',
+                    // width:
+                    boxSizing: 'border-box',
+                    ...cellStyleOverrides(columnIndex),
+                  }}
+                >
+                  {/* <CellComponent
+                  // rowId={rowId}
+                  // rowIndex={rowIndex}
+                  // classNames={classNames}
+                  // focused={!disabled && isFocused}
+                  // editMode={!disabled && editMode}
+                  columnId={headingId}
+                  cellData={cellData}
+                  rowData={rowData}
+                  columnData={headingData}
+                  // TODO: rename as onChange
+                  updateData={() => {}}
+                  acceptValue={() => {}}
+                  resetValue={() => {}}
+                  componentMap={componentMap}
+                /> */}
+                  {
+                    isScrolling && (
+                      <DataTableCellReadOnly cellData={cellData} columnData={columns} />
+                    )
+                    // 'SCROLLING'
+                  }
+                </div>
+              </>
+            );
+          }
 
           return (
             <div
-              {...cell.getCellProps()}
               className="td"
               style={{
-                ...cell.getCellProps().style,
-                ...cellStyleOverrides(cellIndex),
+                display: 'inline-block',
+                boxSizing: 'border-box',
+                ...cellStyleOverrides(columnIndex),
               }}
             >
-              {isScrolling && (
-                <DataTableCellReadOnly cellData={cellData} columnData={columns} />
-              )}
-              {!isScrolling && (
-                <Cell
-                  rowIndex={index}
-                  columnIndex={cellIndex}
-                  methods={methods}
-                  tableState={tableState}
-                  componentMap={componentMap}
-                  headingsData={columns}
-                />
-              )}
+              <Cell
+                rowIndex={index}
+                columnIndex={columnIndex}
+                componentMap={componentMap}
+                headingsData={columns}
+              />
             </div>
           );
         })}
@@ -208,8 +248,6 @@ export const DataTableUi = ({
   methods,
   tableState,
   rowStyles, // per row style overrides
-  // maxTableHeight,
-  // maxTableWidth,
   currentSelectionIds,
   componentMap,
   disabled,
@@ -231,22 +269,6 @@ export const DataTableUi = ({
       }),
     [headingsData]
   );
-
-  // const {
-  //   updateSortBy,
-  //   addFilter,
-  //   updateValue,
-  //   acceptValue,
-  //   resetValue,
-  //   deleteRow,
-  //   addToSelection,
-  //   removeFromSelection,
-  //   handleAddRow,
-  //   setNavigationMode,
-  //   setCurrentFocusedRow,
-  //   setCurrentFocusedColumn,
-  //   setEditMode,
-  // } = methods;
 
   const { tableData } = tableState;
 
@@ -293,29 +315,10 @@ export const DataTableUi = ({
     },
   });
 
-  /* Setup table */
-  const defaultColumn = React.useMemo(
-    () => ({
-      width: 150,
-    }),
-    []
-  );
-
   const scrollBarSize = React.useMemo(() => scrollbarWidth(), []);
-
-  const { getTableProps, getTableBodyProps, headerGroups, rows, totalColumnsWidth, prepareRow } =
-    useTable(
-      {
-        columns,
-        data: tableData,
-        defaultColumn,
-      },
-      useBlockLayout
-    );
 
   const resizedTableWidth = useMemo(
     () => columnWidths.reduce((acc, v) => acc + v, 0) + scrollBarSize * 0,
-    // () => columnWidths.reduce((acc, v) => acc + v, 0) + scrollBarSize * 2,
     [columnWidths, scrollBarSize]
   );
 
@@ -328,78 +331,13 @@ export const DataTableUi = ({
   );
 
   const RenderRow = React.useCallback(
-    TableRowWrap(
-      rows,
-      prepareRow,
-      resizedTableWidth,
-      cellStyleOverrides,
-      methods,
-      tableState,
-      componentMap,
-      columns
-    ),
-    [
-      prepareRow,
-      rows,
-      resizedTableWidth,
-      cellStyleOverrides,
-      methods,
-      tableState,
-      componentMap,
-      columns,
-    ]
+    TableRowWrap(resizedTableWidth, cellStyleOverrides, componentMap, columns, tableData),
+    [resizedTableWidth, cellStyleOverrides, componentMap, columns, tableData]
   );
-  const rowCount = rows.length;
+
+  const rowCount = tableData.length;
   const rowHeight = 35;
   const headerHeight = 40;
-
-  /* ===== */
-  // const gridRef = useRef(null);
-
-  // const handleValueChange = useCallback(
-  //   (newVal, rowId, rowIndex, colId) => {
-  //     updateValue(newVal, rowId, rowIndex, colId);
-  //   },
-  //   [updateValue]
-  // );
-
-  // const handleValueAccept = useCallback(
-  //   (newVal, rowId, rowIndex, colId) => {
-  //     acceptValue(newVal, rowId, rowIndex, colId);
-  //   },
-  //   [acceptValue]
-  // );
-
-  // const handleValueReset = useCallback(
-  //   (rowId, rowIndex, colId) => {
-  //     resetValue(rowId, rowIndex, colId);
-  //   },
-  //   [resetValue]
-  // );
-
-  // const handleDeleteRow = useCallback(
-  //   (rowId, rowIndex) => {
-  //     deleteRow(rowId, rowIndex);
-  //   },
-  //   [deleteRow]
-  // );
-
-  // const handleAddToSelection = useCallback(
-  //   (rowId, rowIndex) => {
-  //     addToSelection(rowId, rowIndex);
-  //   },
-  //   [addToSelection]
-  // );
-  // const handleRemoveFromSelection = useCallback(
-  //   (rowId, rowIndex) => {
-  //     removeFromSelection(rowId, rowIndex);
-  //   },
-  //   [removeFromSelection]
-  // );
-
-  // const handleUpdateSortBy = (newSortByHeadingId) => {
-  //   updateSortBy(newSortByHeadingId);
-  // };
 
   // TODO: Implement edit panel opening
   // eslint-disable-next-line no-unused-vars
@@ -426,7 +364,7 @@ export const DataTableUi = ({
   // ==========================
   return (
     <Styles>
-      <div {...getTableProps()} className="table" style={{ width: '100%', overflow: 'hidden' }}>
+      <div className="table" style={{ width: '100%', overflow: 'hidden' }}>
         {allowColumnResize && (
           <ColumnWidthManager
             setColumnWidths={setColumnWidths}
@@ -439,7 +377,7 @@ export const DataTableUi = ({
         {showHeadings && (
           <TableHeadings
             headerRef={headerRef}
-            headerGroups={headerGroups}
+            columns={columns}
             tableWidth={resizedTableWidth * 1.2}
             headerHeight={headerHeight}
             cellStyleOverrides={(columnIndex) => ({
@@ -453,7 +391,6 @@ export const DataTableUi = ({
         <AutoSizer>
           {({ height, width }) => (
             <div
-              {...getTableBodyProps()}
               className="table_body"
               style={{
                 width: width,
@@ -563,4 +500,3 @@ DataTableUi.defaultProps = {
 };
 
 export const DataTableUiWithConfig = DataTableConfigConnector({})(DataTableUi);
-export default DataTableUi;

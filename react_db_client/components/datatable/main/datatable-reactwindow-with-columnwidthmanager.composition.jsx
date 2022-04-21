@@ -4,6 +4,8 @@ import useScrollSync from 'react-scroll-sync-hook';
 import styled from 'styled-components';
 import { useTable, useBlockLayout } from 'react-table';
 import { FixedSizeList } from 'react-window';
+import { RightClickWrapper } from '@samnbuk/react_db_client.components.popup-menu';
+import { DataTableCellSelect } from '@samnbuk/react_db_client.components.datatable.cell-types';
 
 import {
   ColumnWidthManager,
@@ -91,26 +93,103 @@ const Styles = styled.div`
   }
 `;
 
-const DEFAULT_COLUMN_WIDTH = 40;
+const DEFAULT_COLUMN_WIDTH = 120;
 
-function ReactWindowTable({ columns, data }) {
-  // Use the state and functions returned from useTable to build your UI
-  const headerRef = useRef(null);
-  const bodyRef = useRef(null);
-  const innerBodyRef = useRef(null);
-
-  const [columnWidths, setColumnWidths] = useState(
-    columns.map((c) => c.width || DEFAULT_COLUMN_WIDTH)
+function TableHeadings({ headerRef, headerGroups, tableWidth, headerHeight, cellStyleOverrides }) {
+  return (
+    <div className="thrs" style={{ width: '100%', overflow: 'auto hidden' }} ref={headerRef}>
+      {headerGroups.map((headerGroup) => (
+        <div
+          {...headerGroup.getHeaderGroupProps()}
+          style={{
+            ...headerGroup.getHeaderGroupProps().style,
+            width: tableWidth,
+            position: 'relative',
+            height: headerHeight,
+          }}
+          className="tr"
+        >
+          {headerGroup.headers.map((column, columnIndex) => (
+            <div
+              {...column.getHeaderProps()}
+              className="th"
+              style={{
+                ...column.getHeaderProps().style,
+                ...cellStyleOverrides(columnIndex),
+                // height: headerHeight,
+                // marginRight: columnIndex === columns.length - 1 ? scrollBarSize : 0,
+                // position: 'absolute',
+                // left: columnWidths.slice(0, columnIndex).reduce((acc, v) => acc + v, 0),
+                // width: columnWidths[columnIndex],
+              }}
+            >
+              {column.render('label')}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
   );
+}
 
-  const nodeRefs = useMemo(
-    () => [headerRef, bodyRef, innerBodyRef],
-    [headerRef, bodyRef, innerBodyRef]
-  );
+function TableRowWrap(rows, prepareRow, tableWidth, columnWidths, scrollBarSize) {
+  const TableRow = ({ index, style }) => {
+    const row = rows[index];
+    prepareRow(row);
+    return (
+      <div
+        {...row.getRowProps({
+          style: {
+            ...style,
+            width: tableWidth,
+          },
+        })}
+        className="tr table_body_row"
+      >
+        {row.cells.map((cell, cellIndex) => {
+          return (
+            <RightClickWrapper
+              items={[
+                { uid: 'clearCell', label: 'Clear', onClick: () => console.log('Clear') },
+                {
+                  uid: 'setDefault',
+                  label: 'Set as Default',
+                  onClick: () => console.log('setAsDefault'),
+                },
+              ]}
+              //TODO: How do we make this generic?
+              popupRoot="root"
+            >
+              <div
+                {...cell.getCellProps()}
+                className="td"
+                style={{
+                  ...cell.getCellProps().style,
+                  marginRight: cellIndex === columns.length - 1 ? scrollBarSize : 0,
+                  width: columnWidths[cellIndex],
+                }}
+              >
+                {/* <DataTableCellSelect
+                  columnData={columns[cellIndex]}
+                  cellData={null}
+                  editMode
+                  focused
+                  resetValue={() => {}}
+                  acceptValue={() => {}}
+                /> */}
+                {cell.render('Cell')}
+              </div>
+            </RightClickWrapper>
+          );
+        })}
+      </div>
+    );
+  };
+  return TableRow;
+}
 
-  const { registerPane, unregisterPane } = useScrollSync({
-    enabled: true,
-  });
+const useScrollSyncWrap = ({ nodeRefs, options = {} }) => {
+  const { registerPane, unregisterPane } = useScrollSync(options);
 
   useEffect(() => {
     nodeRefs.forEach((nodeRef) => {
@@ -125,6 +204,26 @@ function ReactWindowTable({ columns, data }) {
         }
       });
   }, [nodeRefs, registerPane, unregisterPane]);
+
+  return {};
+};
+
+function ReactWindowTable({ columns, data }) {
+  // Use the state and functions returned from useTable to build your UI
+  const headerRef = useRef(null);
+  const bodyRef = useRef(null);
+  const innerBodyRef = useRef(null);
+
+  const nodeRefs = useMemo(
+    () => [headerRef, bodyRef, innerBodyRef],
+    [headerRef, bodyRef, innerBodyRef]
+  );
+
+  const [columnWidths, setColumnWidths] = useState(
+    columns.map((c) => c.width || DEFAULT_COLUMN_WIDTH)
+  );
+
+  useScrollSyncWrap({ nodeRefs });
 
   const defaultColumn = React.useMemo(
     () => ({
@@ -145,41 +244,11 @@ function ReactWindowTable({ columns, data }) {
       useBlockLayout
     );
 
-  const resizedTableWidth = columnWidths.reduce((acc, v) => acc + v, 0);
+  const resizedTableWidth = columnWidths.reduce((acc, v) => acc + v, 0) + scrollBarSize * 2;
 
   const RenderRow = React.useCallback(
-    ({ index, style }) => {
-      const row = rows[index];
-      prepareRow(row);
-      return (
-        <div
-          {...row.getRowProps({
-            style: {
-              ...style,
-              width: resizedTableWidth,
-            },
-          })}
-          className="tr table_body_row"
-        >
-          {row.cells.map((cell, cellIndex) => {
-            return (
-              <div
-                {...cell.getCellProps()}
-                className="td"
-                style={{
-                  ...cell.getCellProps().style,
-                  marginRight: cellIndex === columns.length - 1 ? scrollBarSize : 0,
-                  width: columnWidths[cellIndex],
-                }}
-              >
-                {cell.render('Cell')}
-              </div>
-            );
-          })}
-        </div>
-      );
-    },
-    [prepareRow, rows, resizedTableWidth, columnWidths]
+    TableRowWrap(rows, prepareRow, resizedTableWidth, columnWidths, scrollBarSize),
+    [prepareRow, rows, resizedTableWidth, columnWidths, scrollBarSize]
   );
 
   const rowCount = rows.length;
@@ -190,46 +259,25 @@ function ReactWindowTable({ columns, data }) {
   return (
     <>
       <div {...getTableProps()} className="table" style={{ width: '100%', overflow: 'hidden' }}>
-        <div className="thrs" style={{ width: '100%', overflow: 'auto hidden' }} ref={headerRef}>
-          <ColumnWidthManager
-            setColumnWidths={setColumnWidths}
-            columnWidths={columnWidths}
-            // showEdges
-            debug
-            // minWidth={minWidth}
-            // maxWidth={maxWidth}
-          />
-          {headerGroups.map((headerGroup) => (
-            <div
-              {...headerGroup.getHeaderGroupProps()}
-              style={{
-                ...headerGroup.getHeaderGroupProps().style,
-                width: resizedTableWidth,
-                position: 'relative',
-                height: headerHeight,
-              }}
-              className="tr"
-            >
-              {headerGroup.headers.map((column, columnIndex) => (
-                <div
-                  {...column.getHeaderProps()}
-                  className="th"
-                  style={{
-                    ...column.getHeaderProps().style,
-                    height: headerHeight,
-                    marginRight: columnIndex === columns.length - 1 ? scrollBarSize : 0,
-                    position: 'absolute',
-                    left: columnWidths.slice(0, columnIndex).reduce((acc, v) => acc + v, 0),
-                    width: columnWidths[columnIndex],
-                  }}
-                >
-                  {column.render('label')}
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
+        <ColumnWidthManager
+          setColumnWidths={setColumnWidths}
+          columnWidths={columnWidths}
+          // showEdges
+          // minWidth={minWidth}
+          // maxWidth={maxWidth}
+        />
 
+        <TableHeadings
+          headerRef={headerRef}
+          headerGroups={headerGroups}
+          tableWidth={resizedTableWidth}
+          headerHeight={headerHeight}
+          cellStyleOverrides={(columnIndex) => ({
+            height: headerHeight,
+            marginRight: columnIndex === columns.length - 1 ? scrollBarSize : 0,
+            width: columnWidths[columnIndex],
+          })}
+        />
         <AutoSizer>
           {({ height, width }) => (
             <div
@@ -238,8 +286,6 @@ function ReactWindowTable({ columns, data }) {
               style={{
                 width: width,
                 height: height - headerHeight,
-                position: 'relative',
-                // display: 'none',
               }}
             >
               <FixedSizeList
@@ -284,17 +330,3 @@ export const ResizableReactWindowTable = () => {
   );
 };
 
-export const TestSizes = () => {
-  return (
-    <CompositionWrapDefault width="16rem" height="16rem" horizontal>
-      <Styles>
-        <div style={{ display: 'flex' }}>
-          <div style={{ width: 40, height: 10, background: 'red' }} />
-          <div style={{ width: 10, height: 10, background: 'red' }} />
-          <div style={{ width: 10, height: 10, background: 'red' }} />
-          <div style={{ width: 10, height: 10, background: 'red' }} />
-        </div>
-      </Styles>
-    </CompositionWrapDefault>
-  );
-};

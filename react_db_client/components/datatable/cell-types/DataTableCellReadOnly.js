@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { sanitizeCellData } from '@samnbuk/react_db_client.helpers.data-processing';
+import { DefaultCellInnerStyle } from './style';
 
 export const DataTableCellReadOnly = ({ cellData, columnData }) => {
   return (
-    <div className="dataTableCellData readOnly">
+    <DefaultCellInnerStyle className="dataTableCellData readOnly">
       <div type="button" className="dataTableCellData_text">
         {sanitizeCellData(cellData, columnData)}
       </div>
-    </div>
+    </DefaultCellInnerStyle>
   );
 };
 

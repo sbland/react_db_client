@@ -1,0 +1,1 @@
+export { DataTableTotals } from './DataTableTotals';

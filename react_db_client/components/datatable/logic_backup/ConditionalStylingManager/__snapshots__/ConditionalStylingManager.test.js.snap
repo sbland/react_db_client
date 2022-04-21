@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useConditionalStylingManager Row Error Highlighting should highlight rows with duplicate row error 1`] = `
+Array [
+  Object {
+    "background": "red",
+  },
+  Object {},
+  Object {},
+]
+`;
+
+exports[`useConditionalStylingManager Row Error Highlighting should highlight rows with missing data row error 1`] = `
+Array [
+  Object {
+    "background": "red",
+  },
+  Object {},
+  Object {},
+]
+`;
+
+exports[`useConditionalStylingManager applying a simple format rule should output rowStyles 1`] = `
+Array [
+  Object {
+    "background": "green",
+  },
+  Object {},
+  Object {},
+]
+`;
+
+exports[`useConditionalStylingManager applying no rules should output array of empty objects 1`] = `
+Array [
+  Object {},
+  Object {},
+  Object {},
+]
+`;

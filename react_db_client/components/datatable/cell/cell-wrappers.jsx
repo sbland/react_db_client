@@ -1,9 +1,8 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { switchF } from '@samnbuk/react_db_client.helpers.func-tools';
 import { Emoji } from '@samnbuk/react_db_client.components.emoji';
 // import '../_dataTable.scss';
-import { RightClickWrapper } from '@samnbuk/react_db_client.components.popup-menu';
+// import { RightClickWrapper } from '@samnbuk/react_db_client.components.popup-menu';
 import { DataTableCellReadOnly } from '@samnbuk/react_db_client.components.datatable.cell-types';
 
 /**
@@ -15,31 +14,27 @@ export const DataTableCellHoverWrap = ({
   className,
   style,
   handleHover,
-  children,
   // columnWidth,
   disabled,
 }) => (
   <div
-    className={`dataTableCell_wrap ${className} ${disabled ? 'disabled' : ''}`}
+    className={`dataTableCell_wrap ${className} ${disabled ? 'disabled' : 'enabled'}`}
     onFocus={() => handleHover && handleHover(true)}
     onMouseEnter={() => handleHover && handleHover(true)}
     onMouseLeave={() => handleHover && handleHover(false)}
     onBlur={() => handleHover && handleHover(false)}
     style={{
-      // width: columnWidth,
-      height: '100%',
+      // width: '100%',
+      // height: '100%',
       ...style,
     }}
-  >
-    {children}
-  </div>
+  />
 );
 
 DataTableCellHoverWrap.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   handleHover: PropTypes.func,
-  children: PropTypes.node.isRequired,
   columnWidth: PropTypes.number,
   disabled: PropTypes.bool,
 };
@@ -122,39 +117,39 @@ EditColumnCell.propTypes = {
   rowUid: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 };
 
-export const CellRightClickWrapper = ({ readOnly, clearCell, setAsDefault, children }) => {
-  if (readOnly) {
-    return children || '';
-  }
+// export const CellRightClickWrapper = ({ readOnly, clearCell, setAsDefault, children }) => {
+//   if (readOnly) {
+//     return children || '';
+//   }
 
-  return (
-    <RightClickWrapper
-      items={[
-        { uid: 'clearCell', label: 'Clear', onClick: clearCell },
-        {
-          uid: 'setDefault',
-          label: 'Set as Default',
-          onClick: setAsDefault,
-        },
-      ]}
-      //TODO: How do we make this generic?
-      popupRoot="root"
-    >
-      {children}
-    </RightClickWrapper>
-  );
-};
+//   return (
+//     <RightClickWrapper
+//       items={[
+//         { uid: 'clearCell', label: 'Clear', onClick: clearCell },
+//         {
+//           uid: 'setDefault',
+//           label: 'Set as Default',
+//           onClick: setAsDefault,
+//         },
+//       ]}
+//       //TODO: How do we make this generic?
+//       popupRoot="root"
+//     >
+//       {children}
+//     </RightClickWrapper>
+//   );
+// };
 
-CellRightClickWrapper.propTypes = {
-  readOnly: PropTypes.bool,
-  clearCell: PropTypes.func.isRequired,
-  setAsDefault: PropTypes.func.isRequired,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.nodes)]).isRequired,
-};
+// CellRightClickWrapper.propTypes = {
+//   readOnly: PropTypes.bool,
+//   clearCell: PropTypes.func.isRequired,
+//   setAsDefault: PropTypes.func.isRequired,
+//   children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.nodes)]).isRequired,
+// };
 
-CellRightClickWrapper.defaultProps = {
-  readOnly: false,
-};
+// CellRightClickWrapper.defaultProps = {
+//   readOnly: false,
+// };
 
 const defaultComponent = () => (props) => <DataTableCellReadOnly {...props} />;
 
@@ -171,71 +166,65 @@ const defaultComponent = () => (props) => <DataTableCellReadOnly {...props} />;
  * }
  * @returns
  */
-export const DataTableDataCell = (props) => {
-  const {
-    columnData: { type, readOnly, defaultValue },
-    updateData,
-    rowId,
-    columnId,
-    isDisabled,
-    componentMap,
-  } = props;
-  // TODO: Make sure read only component can parse any data
-  // const cellComponent = useMemo(
-  //   () =>
-  //     readOnly ? (
-  //       <DataTableCellReadOnly {...props} />
-  //     ) : (
-  //       switchF(type, componentMap, defaultComponent)
-  //     ),
-  //   [type, componentMap]
-  // );
+// export const DataTableDataCell = (props) => {
+//   const {
+//     columnData: { type, readOnly, defaultValue },
+//     updateData,
+//     rowId,
+//     columnId,
+//     isDisabled,
+//     componentMap,
+//   } = props;
+//   // TODO: Make sure read only component can parse any data
+//   // const cellComponent = useMemo(
+//   //   () =>
+//   //     readOnly ? (
+//   //       <DataTableCellReadOnly {...props} />
+//   //     ) : (
+//   //       switchF(type, componentMap, defaultComponent)
+//   //     ),
+//   //   [type, componentMap]
+//   // );
 
-  const CellComponent = useMemo(
-    () => switchF(type, componentMap, defaultComponent),
-    [type, componentMap, defaultComponent]
-  );
+//   const CellComponent = useMemo(
+//     () => switchF(type, componentMap, defaultComponent),
+//     [type, componentMap, defaultComponent]
+//   );
 
-  // TODO: Can this not also handle read only?
-  if (isDisabled) {
-    return (
-      <div style={{ height: '100%' }} className="disabled">
-        <CellComponent {...props} />
-      </div>
-    );
-  }
+//   // TODO: Can this not also handle read only?
+//   if (isDisabled) {
+//     return (
+//       <div style={{ height: '100%' }} className="disabled">
+//         <CellComponent {...props} />
+//       </div>
+//     );
+//   }
 
-  return (
-    <div style={{ height: '100%' }}>
-      <CellRightClickWrapper
-        readOnly={readOnly}
-        clearCell={() => updateData(null, rowId, columnId)}
-        setAsDefault={() => updateData(defaultValue, rowId, columnId)}
-      >
-        <CellComponent {...props} />
-      </CellRightClickWrapper>
-    </div>
-  );
-};
+//   return (
+//     <div style={{ height: '100%' }}>
+//         <CellComponent {...props} />
+//     </div>
+//   );
+// };
 
-DataTableDataCell.propTypes = {
-  rowId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  columnId: PropTypes.string.isRequired,
-  rowData: PropTypes.shape({}).isRequired,
-  columnData: PropTypes.shape({
-    uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    type: PropTypes.string.isRequired,
-    action: PropTypes.func,
-    to: PropTypes.string,
-    readOnly: PropTypes.bool,
-    defaultValue: PropTypes.any,
-  }).isRequired,
-  updateData: PropTypes.func.isRequired,
-  componentMap: PropTypes.objectOf(PropTypes.elementType).isRequired,
-  isDisabled: PropTypes.bool,
-};
+// DataTableDataCell.propTypes = {
+//   rowId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+//   columnId: PropTypes.string.isRequired,
+//   rowData: PropTypes.shape({}).isRequired,
+//   columnData: PropTypes.shape({
+//     uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+//     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+//     type: PropTypes.string.isRequired,
+//     action: PropTypes.func,
+//     to: PropTypes.string,
+//     readOnly: PropTypes.bool,
+//     defaultValue: PropTypes.any,
+//   }).isRequired,
+//   updateData: PropTypes.func.isRequired,
+//   componentMap: PropTypes.objectOf(PropTypes.elementType).isRequired,
+//   isDisabled: PropTypes.bool,
+// };
 
-DataTableDataCell.defaultProps = {
-  isDisabled: false,
-}
+// DataTableDataCell.defaultProps = {
+//   isDisabled: false,
+// }

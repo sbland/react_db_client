@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   DataTableContext,
   dataTableDefaultConfig,
 } from '@samnbuk/react_db_client.components.datatable.logic';
+import { VariableSizeGrid as Grid } from 'react-window';
 import ReactJson from 'react-json-view';
 import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps';
 import { Cell } from './cell';
@@ -45,7 +46,7 @@ const useHandleTableState = () => {
   const handleValueChange = () => {};
   const handleValueReset = () => {};
   const handleMoveFocusToTargetCell = (i, j) => {
-    console.log(`Hovered: ${i}-${j}`);
+    // console.log(`Hovered: ${i}-${j}`);
     setCurrentFocusedColumn(j);
     setCurrentFocusedRow(i);
   };
@@ -85,7 +86,7 @@ const WrapMultipleCells = ({ override = {} }) => {
         value={columnIndex}
         onChange={(e) => setColumnIndex(parseInt(e.target.value))}
       />
-      <CompositionWrapDefault width="4rem" height="4rem" horizontal>
+      <CompositionWrapDefault width="16rem" height="16rem" horizontal>
         <div className="columnA" style={{ width: '50%' }}>
           <div style={{ height: '50%' }}>
             <WrapComponent
@@ -145,3 +146,73 @@ export const MultipleCells = () => (
     <WrapMultipleCells />
   </div>
 );
+
+const tableData = Object.values(demoTableData).slice(0,4);
+
+const reactWindowCellWrap =
+  (CellComponent) =>
+  ({ data, ...reactWindowCellProps }) => {
+    return (
+      <div style={{outline: '1px solid red'}}>
+        hello: {reactWindowCellProps.columnIndex} : {reactWindowCellProps.rowIndex}
+      </div>
+    )
+    return <CellComponent {...{ ...reactWindowCellProps, ...data }} />;
+  };
+
+const WindowCell = reactWindowCellWrap(Cell);
+
+
+
+export const WithReactWindow = () => {
+  const [columnIndex, setColumnIndex] = useState(0);
+  const { methods, tableState } = useHandleTableState();
+
+  const columnWidths = [300, 100];
+  const columnCount = columnWidths.length;
+  const rowCount = tableData.length;
+  const tableWidthMin = 500;
+
+  // Props to pass to Cell
+  const getCellData = useMemo(
+    () => ({
+      ...defaultProps,
+      tableState,
+      methods,
+    }),
+    [tableData, methods]
+  );
+
+  return (
+    <div>
+      <input
+        type="number"
+        value={columnIndex}
+        onChange={(e) => setColumnIndex(parseInt(e.target.value))}
+      />
+      <CompositionWrapDefault width="16rem" height="16rem" horizontal>
+        <Grid
+          // ref={gridRef}
+          className="Grid"
+          columnCount={columnCount}
+          columnWidth={(index) => columnWidths[index]}
+          height={100}
+          // height={Math.max(MIN_TABLE_HEIGHT, Math.min(tableData.length * 22 + 22, maxTableHeight))}
+          rowCount={rowCount}
+          rowHeight={() => 22}
+          width={tableWidthMin}
+          itemData={getCellData}
+        >
+          {WindowCell}
+        </Grid>
+      </CompositionWrapDefault>
+      <div className="">
+        {tableState.currentFocusedColumn} : {tableState.className}
+      </div>
+      <div>
+        <ReactJson src={demoHeadingsData[columnIndex]} />
+        {/* <ReactJson src={demoHeadingsData} /> */}
+      </div>
+    </div>
+  );
+};

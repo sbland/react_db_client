@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CustomSelectDropdown } from '@samnbuk/react_db_client.components.custom-select-dropdown';
+import { DefaultCellInnerStyle } from './style';
+import { useCallback } from 'react';
 
 /**
  * Data Cell Select
@@ -12,25 +14,30 @@ import { CustomSelectDropdown } from '@samnbuk/react_db_client.components.custom
  * @returns
  */
 export const DataTableCellSelect = ({
-  columnData: { options },
+  columnData: { options } = {},
   cellData,
   acceptValue,
   resetValue,
   focused,
   editMode,
 }) => {
-  const acceptValueLocal = (v) => {
-    acceptValue(v);
-  };
+  const acceptValueLocal = useCallback(
+    (v) => {
+      acceptValue(v);
+    },
+    [acceptValue]
+  );
 
-  const rejectValue = () => {
+  const rejectValue = useCallback(() => {
     resetValue();
-  };
+  }, [resetValue]);
+
+  if (!options) return <div>MISSING OPTIONS</div>;
 
   const displayValue = cellData && options && options.find((opt) => opt.uid === cellData)?.label;
 
   return (
-    <div className="dataTableCellData dataTableCellData-select">
+    <DefaultCellInnerStyle className="dataTableCellData dataTableCellData-select">
       {/* TODO: Implement search dropdown */}
       {/* <div
         style={{
@@ -57,7 +64,7 @@ export const DataTableCellSelect = ({
         handleClose={() => rejectValue()}
         goBackToSearchField={() => rejectValue()}
       />
-    </div>
+    </DefaultCellInnerStyle>
   );
 };
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { DefaultCellInnerStyle } from './style';
 
 export const DataTableCellText = ({
   columnData: { type },
@@ -62,10 +63,12 @@ export const DataTableCellText = ({
   const showTextEditor = focused && editMode && type === 'text';
   const showTextAreaEditor = focused && editMode && type === 'textLong';
   return (
-    <div className={`dataTableCellData ${classNames}`}>
+    <DefaultCellInnerStyle className={`dataTableCellData ${classNames}`}>
       <input
         style={{
           display: showTextEditor ? 'block' : 'none',
+          height: '100%',
+          width: '100%',
         }}
         className="cellInput-text"
         ref={refText}
@@ -114,9 +117,31 @@ export const DataTableCellText = ({
         cols="20"
       />
       {(!editMode || !focused) && (
-        <div className={`dataTableCellData_text ${classNames}`}>{cellData}</div>
+        <span className={`dataTableCellData_text ${classNames}`}>{cellData}</span>
       )}
-    </div>
+      {/* TODO: Make text resize to fit content on focus */}
+      {focused && !editMode && (
+        <div
+          style={{
+            display: showTextAreaEditor ? 'block' : 'none',
+            position: 'absolute',
+            width: 'auto',
+            minHeight: '5rem',
+            minWidth: '20rem',
+            maxWidth: '30rem',
+            left: 0,
+            top: 0,
+            whiteSpace: 'normal',
+            resize: 'none',
+            zIndex: 10,
+            overflow: 'hidden',
+          }}
+          className={`dataTableCellData_text focusedtextCell ${classNames}`}
+        >
+          {cellData}
+        </div>
+      )}
+    </DefaultCellInnerStyle>
   );
 };
 

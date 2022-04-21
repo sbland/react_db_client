@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { DefaultCellInnerStyle } from './style';
 
 /**
  * Data Cell Type Popup Selection
@@ -23,7 +24,7 @@ export const DataTableCellPopup = ({
 }) => {
   const [popupVisable, setPopupVisable] = useState(false);
   return (
-    <div className="dataTableCellData dataTableCellData-button">
+    <DefaultCellInnerStyle className="dataTableCellData dataTableCellData-button">
       {popupVisable && !readOnly && (
         <Component
           isOpen
@@ -40,7 +41,7 @@ export const DataTableCellPopup = ({
           {cellData}
         </button>
       )}
-    </div>
+    </DefaultCellInnerStyle>
   );
 };
 

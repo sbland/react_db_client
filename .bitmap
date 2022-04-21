@@ -57,6 +57,12 @@
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/components"
     },
+    "components/datatable/config": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/components/datatable/config"
+    },
     "components/datatable/extras": {
         "scope": "",
         "version": "",
@@ -80,6 +86,12 @@
         "version": "",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/state"
+    },
+    "components/datatable/ui": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/components/datatable/ui"
     },
     "components/emoji": {
         "scope": "samnbuk.react_db_client",

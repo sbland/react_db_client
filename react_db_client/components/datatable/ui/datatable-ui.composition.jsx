@@ -4,18 +4,19 @@ import {
   demoTableData,
   demoHeadingsData,
 } from '@samnbuk/react_db_client.components.datatable.extras';
-import { DataTableUiWithConfig } from './DataTableUi';
-import {
-  DataTableContext,
-  dataTableDefaultConfig,
-} from '@samnbuk/react_db_client.components.datatable.logic';
-import { defaultComponentMap } from '@samnbuk/react_db_client.components.datatable.components';
-import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps';
 import { ThemeProvider } from 'styled-components';
-import { lightTheme } from './theme';
-import { useHandleTableState } from './use-handle-table-state';
+import { defaultComponentMap } from '@samnbuk/react_db_client.components.datatable.components';
+import {
+  TableMethodsContext,
+  TableStateContext,
+} from '@samnbuk/react_db_client.components.datatable.state';
+import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps';
 
-const DEMO_TABLE_DATA = Array(5)
+import { useHandleTableState } from '@samnbuk/react_db_client.components.datatable.state';
+import { DataTableUiWithConfig } from './DataTableUi';
+import { lightTheme } from './theme';
+
+const DEMO_TABLE_DATA = Array(1)
   .fill(0)
   .reduce((acc, _) => [...acc, ...Object.values(demoTableData)], []);
 
@@ -69,13 +70,13 @@ const defaultProps = {
   invalidRowsMessages: null,
 };
 
-export const DataTableUiBase = () => (
-  <CompositionWrapDefault width="16rem" height="16rem" horizontal>
-    <ThemeProvider theme={lightTheme}>
-      <DataTableUiWithConfig {...defaultProps} />
-    </ThemeProvider>
-  </CompositionWrapDefault>
-);
+// export const DataTableUiBase = () => (
+//   <CompositionWrapDefault width="16rem" height="16rem" horizontal>
+//     <ThemeProvider theme={lightTheme}>
+//       <DataTableUiWithConfig {...defaultProps} />
+//     </ThemeProvider>
+//   </CompositionWrapDefault>
+// );
 
 export const DataTableUiNavigation = () => {
   const { methods, tableState } = useHandleTableState({
@@ -91,7 +92,11 @@ export const DataTableUiNavigation = () => {
       <div>currentFocusedRow: {tableState.currentFocusedRow}</div>
       <CompositionWrapDefault width="16rem" height="16rem" horizontal>
         <ThemeProvider theme={lightTheme}>
-          <DataTableUiWithConfig {...defaultProps} methods={methods} tableState={tableState} />
+          <TableStateContext.Provider value={tableState}>
+            <TableMethodsContext.Provider value={methods}>
+              <DataTableUiWithConfig {...defaultProps} tableState={tableState} />
+            </TableMethodsContext.Provider>
+          </TableStateContext.Provider>
         </ThemeProvider>
       </CompositionWrapDefault>
     </>

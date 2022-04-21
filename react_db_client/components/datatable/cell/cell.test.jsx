@@ -201,7 +201,7 @@ describe('DatatableCell', () => {
 
       describe.skip('navigate type specific edge cases', () => {
         describe('button cell type', () => {
-          test('should call cell action when pressing enter on button cell', () => {
+          test('should call cell action when pressing enter on b  utton cell', () => {
             const columnData = {
               uid: 'uid',
               label: 'UID',

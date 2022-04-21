@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { DefaultCellInnerStyle } from './style';
 
 export const DataTableCellButton = ({
   columnData: { action, uid, btnLabel },
@@ -35,14 +36,15 @@ export const DataTableCellButton = ({
 
   const cellDataLabel = btnLabel ||
     cellData && typeof cellData === 'object' ? cellData.label || cellData.name : cellData;
+
   return (
-    <div className={className}>
+    <DefaultCellInnerStyle className={className}>
       <button type="button" onClick={() => {}}>
         {/* CLick disabled as button press handled by focus and edit mode */}
         {/* <button type="button" onClick={() => setCallAction(true)}> */}
         {cellDataLabel}
       </button>
-    </div>
+    </DefaultCellInnerStyle>
   );
 };
 

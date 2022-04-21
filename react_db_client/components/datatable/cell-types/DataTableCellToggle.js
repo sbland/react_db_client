@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ToggleBox } from '@samnbuk/react_db_client.components.form.form-components.toggle-box';
+import { DefaultCellInnerStyle } from './style';
 
 export const DataTableCellToggle = ({
   cellData,
@@ -15,9 +16,9 @@ export const DataTableCellToggle = ({
     }
   }, [editMode, focused, cellData, acceptValue]);
   return (
-    <div className="dataTableCellData dataTableCellData-text">
+    <DefaultCellInnerStyle className="dataTableCellData dataTableCellData-text">
       <ToggleBox stateIn={cellData} onChange={acceptValue} />
-    </div>
+    </DefaultCellInnerStyle>
   );
 };
 

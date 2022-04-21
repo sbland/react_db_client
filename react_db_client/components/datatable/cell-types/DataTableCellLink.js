@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { DefaultCellInnerStyle } from './style';
 import { Link } from 'react-router-dom';
 
 export const DataTableCellLink = ({
@@ -50,7 +51,7 @@ export const DataTableCellLink = ({
   };
 
   return (
-    <div className="dataTableCellData dataTableCellData-link">
+    <DefaultCellInnerStyle className="dataTableCellData dataTableCellData-link">
       <input
         // eslint-disable-next-line jsx-a11y/no-autofocus
         ref={refText}
@@ -64,7 +65,7 @@ export const DataTableCellLink = ({
       />
       {/* TODO: Move this to  */}
       {!editMode && <Link to={toLink}>{cellData}</Link>}
-    </div>
+    </DefaultCellInnerStyle>
   );
 };
 

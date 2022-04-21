@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { PopupPanel } from '@samnbuk/react_db_client.components.popup-panel';
 import { SearchAndSelect } from '@samnbuk/react_db_client.components.search-and-select';
 import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
+import { DefaultCellInnerStyle } from './style';
 // TODO: Make sure apiGetDocuments is passes to this component
 // import { apiGetDocuments } from '../../../Api/Api';
 
@@ -13,7 +14,7 @@ export const SelectEntityPanel = ({
   headings,
   handleSubmit,
 }) => (
-  <div className="entitySelector">
+  <DefaultCellInnerStyle className="entitySelector">
     <SearchAndSelect
       searchFunction={(filters) => apiGetDocuments(collection, filters)}
       initialFilters={[
@@ -53,7 +54,7 @@ export const SelectEntityPanel = ({
         ]
       }
     />
-  </div>
+  </DefaultCellInnerStyle>
 );
 
 SelectEntityPanel.propTypes = {

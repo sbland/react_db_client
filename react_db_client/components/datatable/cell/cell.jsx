@@ -8,6 +8,10 @@ import { RightClickWrapper } from '@samnbuk/react_db_client.components.popup-men
 import { DataTableCellReadOnly } from '@samnbuk/react_db_client.components.datatable.cell-types';
 import { CellInfoBtn } from './cell-info-btn';
 import styled from 'styled-components';
+import {
+  TableMethodsContext,
+  TableStateContext,
+} from '@samnbuk/react_db_client.components.datatable.state';
 // import {
 //   TableMethodsContext,
 //   TableStateContext,
@@ -39,22 +43,16 @@ export function Cell({
   style,
   className,
   headingsData,
-  methods,
+  // methods,
   componentMap,
   disabled, // TODO: Make this per cell
-  tableState,
+  // tableState,
 }) {
   /* Interaction Methods */
   const { onCellKeyPress, onCellChange, onCellAccept, onCellReset, onCellSelect, onCellHover } =
-    methods;
-  const {
-    tableData,
-    currentFocusedRow,
-    currentFocusedColumn,
-    navigationMode,
-    editMode,
-    invalidRowsMessages,
-  } = tableState;
+    useContext(TableMethodsContext);
+  const { navigationMode, editMode, tableData, currentFocusedRow, currentFocusedColumn } =
+    useContext(TableStateContext);
 
   /* Cell Refs */
   /* The nav btn holds the pointer if this cell is focused but not in edit mode */
@@ -123,7 +121,8 @@ export function Cell({
   // return <div>cell</div>;
   // return rcount.current;
   return (
-    <CellStyles>
+    <>
+     {/* <CellStyles> */}
       {/* <RightClickWrapper
         items={[
           { uid: 'clearCell', label: 'Clear', onClick: () => console.log('Clear') },
@@ -176,7 +175,8 @@ export function Cell({
         />
       </div>
       {/* </RightClickWrapper> */}
-    </CellStyles>
+    {/* </CellStyles> */}
+    </>
   );
 }
 
@@ -189,30 +189,30 @@ Cell.propTypes = {
       uid: PropTypes.string.isRequired,
     })
   ).isRequired,
-  tableState: PropTypes.shape({
-    tableData: PropTypes.arrayOf(
-      PropTypes.shape({
-        uid: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-    currentFocusedRow: PropTypes.number,
-    currentFocusedColumn: PropTypes.number,
-    navigationMode: PropTypes.bool.isRequired,
-    editMode: PropTypes.bool.isRequired,
-    invalidRowsMessages: PropTypes.arrayOf(
-      PropTypes.shape({
-        text: PropTypes.string,
-      })
-    ),
-  }).isRequired,
-  methods: PropTypes.shape({
-    onCellKeyPress: PropTypes.func.isRequired,
-    onCellChange: PropTypes.func.isRequired,
-    onCellAccept: PropTypes.func.isRequired,
-    onCellReset: PropTypes.func.isRequired,
-    onCellSelect: PropTypes.func.isRequired,
-    onCellHover: PropTypes.func.isRequired,
-  }).isRequired,
+  // tableState: PropTypes.shape({
+  //   tableData: PropTypes.arrayOf(
+  //     PropTypes.shape({
+  //       uid: PropTypes.string.isRequired,
+  //     })
+  //   ).isRequired,
+  //   currentFocusedRow: PropTypes.number,
+  //   currentFocusedColumn: PropTypes.number,
+  //   navigationMode: PropTypes.bool.isRequired,
+  //   editMode: PropTypes.bool.isRequired,
+  //   invalidRowsMessages: PropTypes.arrayOf(
+  //     PropTypes.shape({
+  //       text: PropTypes.string,
+  //     })
+  //   ),
+  // }).isRequired,
+  // methods: PropTypes.shape({
+  //   onCellKeyPress: PropTypes.func.isRequired,
+  //   onCellChange: PropTypes.func.isRequired,
+  //   onCellAccept: PropTypes.func.isRequired,
+  //   onCellReset: PropTypes.func.isRequired,
+  //   onCellSelect: PropTypes.func.isRequired,
+  //   onCellHover: PropTypes.func.isRequired,
+  // }).isRequired,
   className: PropTypes.string,
   componentMap: PropTypes.objectOf(PropTypes.elementType).isRequired,
   disabled: PropTypes.bool,

@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { validateValue, formatValue } from '@samnbuk/react_db_client.helpers.data-processing';
+import { DefaultCellInnerStyle } from './style';
 
 /**
  * Data Cell Number
@@ -70,8 +71,12 @@ export const DataTableCellNumber = ({
   const showEditor = focused && editMode;
 
   return (
-    <div className="dataTableCellData dataTableCellData-number">
-      {(!editMode || !focused) && <div className="dataTableCellData_text">{formatedValue}</div>}
+    <DefaultCellInnerStyle className="dataTableCellData dataTableCellData-number">
+      {(!editMode || !focused) && (
+        <span className="dataTableCellData_number">
+          {formatedValue}
+        </span>
+      )}
       <input
         style={{
           display: showEditor ? 'block' : 'none',
@@ -90,7 +95,7 @@ export const DataTableCellNumber = ({
         onBlur={onBlur}
         onKeyDown={onKeyPress}
       />
-    </div>
+    </DefaultCellInnerStyle>
   );
 };
 
