@@ -118,7 +118,7 @@ export const RightClickWrapper = ({ children, items, popupRoot }) => {
   return (
     <>
       {
-        (children.type === 'div')
+        (children?.type === 'div')
           ? React.cloneElement(children, { onContextMenu: handleContextMenu })
           // : React.cloneElement(children, { ref: childRef }, [
           //   <div
