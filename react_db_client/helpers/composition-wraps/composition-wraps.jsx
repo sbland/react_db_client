@@ -32,6 +32,7 @@ export function CompositionWrapDefault({
     height: '100%',
     overflow: allowOverflow ? 'visible' : 'hidden',
     display: horizontal ? 'flex' : 'block',
+    position: 'relative',
   };
 
   const btnStyle = (isOn) => ({
