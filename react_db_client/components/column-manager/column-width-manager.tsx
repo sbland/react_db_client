@@ -1,7 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { useMemo } from 'react';
 import { scrollbarWidth } from '@samnbuk/react_db_client.helpers.html-helpers';
 
 const ColumnManagerStyles = styled.div`
@@ -14,13 +13,14 @@ const ColumnManagerStyles = styled.div`
     box-sizing: border-box;
   }
 
+  pointer-events: none;
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
   z-index: 100;
-  overflow-x: scroll;
+  // overflow-x: scroll;
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none; /* for Firefox */
 
@@ -30,7 +30,6 @@ const ColumnManagerStyles = styled.div`
       overflow-x: hidden; // Must be set to stop any overflows causing scroll sync issues
       -ms-overflow-style: none; /* for Internet Explorer, Edge */
       scrollbar-width: none; /* for Firefox */
-
   }
 
   // TODO: Move these to correct location
@@ -72,14 +71,24 @@ const ColumnManagerStyles = styled.div`
   }
 `;
 
-export const ColumnWidthManager = ({
+export type ColumnManagerTypes = {
+  columnWidths: number[],
+  setColumnWidths: (newWidths: number[]) => void,
+  minWidth?: number,
+  maxWidth?: number,
+  showEdges?: boolean,
+  liveDragging?: boolean,
+  innerRef: React.RefObject<HTMLInputElement>,
+};
+
+export const ColumnWidthManager: React.FC<ColumnManagerTypes> = ({
   // columnCount,
   columnWidths,
   setColumnWidths,
-  minWidth,
-  maxWidth,
-  showEdges,
-  liveDragging,
+  minWidth = 10,
+  maxWidth = 99999999,
+  showEdges=false,
+  liveDragging=false,
   innerRef,
 }) => {
   const [currentColumnn, setCurrentColumnn] = useState(-1);
@@ -90,19 +99,18 @@ export const ColumnWidthManager = ({
   const [liveColumnWidths, setLiveColumnWidths] = useState(columnWidths);
 
   // Use offset column positions to determine
-  let widthSum = 0;
 
-  const columnEdgePositions = useMemo(
-    () =>
-      liveColumnWidths.map((cwidth) => {
-        widthSum += cwidth;
-        return widthSum;
-      }),
-    [liveColumnWidths]
-  );
+  const columnEdgePositions = useMemo(() => {
+    let widthSum = 0;
+
+    return liveColumnWidths.map((cwidth) => {
+      widthSum += cwidth;
+      return widthSum;
+    });
+  }, [liveColumnWidths]);
 
   // called on mouse move over resize overlay when dragging
-  const resizeColumn = (e) => {
+  const resizeColumn = (e: React.MouseEvent<HTMLDivElement>) => {
     const newWidths = [...columnWidthOverrideRef.current];
     const newWidth = newWidths[currentColumnn] + e.clientX - lastMousePosRef.current;
     // TODO: Limit by max width
@@ -124,27 +132,28 @@ export const ColumnWidthManager = ({
     lastMousePosRef.current = 0;
   };
 
-  const mouseOverEdge = (i) => {
+  const mouseOverEdge = (i: number) => {
     setCurrentColumnn(i);
     setHandlePosition(columnEdgePositions[currentColumnn]);
   };
 
-  const onMouseDownResizeHandle = (e) => {
+  const onMouseDownResizeHandle = (e: React.MouseEvent<HTMLDivElement>) => {
     setResizingColumn(true);
     lastMousePosRef.current = e.clientX;
     columnWidthOverrideRef.current = [...liveColumnWidths];
-    window.addEventListener('mouseup', () => {
-      window.removeEventListener('mouseup', this);
+    let event: EventListener = () => {};
+    event = () => {
+      window.removeEventListener('mouseup', event);
       setResizingColumn(false);
       setCurrentColumnn(-1);
       setHandlePosition(-1);
       lastMousePosRef.current = 0;
       endDragging();
-    });
+    };
+    window.addEventListener('mouseup', event);
   };
 
   const scrollBarSize = React.useMemo(() => scrollbarWidth(), []);
-
 
   return (
     <ColumnManagerStyles className="columnWidthManager_styles" ref={innerRef}>
@@ -152,7 +161,7 @@ export const ColumnWidthManager = ({
         className="columnWidthManager"
         style={{
           pointerEvents: resizingColumn ? 'all' : 'none',
-          width: columnWidths.reduce((acc, v) => acc + v, 0) + scrollBarSize * 1,
+          width: liveColumnWidths.reduce((acc, v) => acc + v, 0) + 100,
         }}
       >
         {columnEdgePositions.map((cw, i) => (
@@ -161,7 +170,6 @@ export const ColumnWidthManager = ({
             style={{
               position: 'absolute',
               top: 0,
-              width: 2,
               bottom: 0,
               width: 10,
               left: `${columnEdgePositions[i] - 5}px`,
@@ -224,7 +232,7 @@ export const ColumnWidthManager = ({
 };
 
 ColumnWidthManager.propTypes = {
-  columnWidths: PropTypes.arrayOf(PropTypes.number).isRequired,
+  columnWidths: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   setColumnWidths: PropTypes.func.isRequired,
   minWidth: PropTypes.number,
   maxWidth: PropTypes.number,
