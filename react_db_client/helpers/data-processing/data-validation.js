@@ -1,4 +1,4 @@
-export { formatValue } from './stringify-data';
+import { formatValue } from './stringify-data';
 
 /**
  * Validate and sanitize a number value
