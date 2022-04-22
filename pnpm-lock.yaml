@@ -4,6 +4,7 @@ importers:
 
   .:
     specifiers:
+      '@babel/plugin-syntax-flow': 7.16.7
       '@babel/runtime': 7.12.18
       '@teambit/design.ui.external-link': 0.0.344
       '@teambit/documenter.theme.theme-compositions': 4.1.1
@@ -15,13 +16,13 @@ importers:
       '@testing-library/react-hooks': ^7.0.2
       '@types/jest': 26.0.20
       '@types/node': 12.20.4
-      '@types/react': ^17.0.44
-      '@types/react-dom': ^17.0.15
+      '@types/react': '>=17.0.8 <18.0.0'
+      '@types/react-dom': '>=17.0.5 <18.0.0'
       '@types/styled-components': 5.1.25
       '@types/testing-library__jest-dom': 5.9.5
       '@typescript-eslint/eslint-plugin': 4.29.3
       classnames: 2.3.1
-      core-js: ^3.22.1
+      core-js: '>=3.0.0 <4.0.0'
       enzyme: 3.11.0
       enzyme-adapter-react-16: 1.15.6
       enzyme-to-json: 3.6.2
@@ -31,16 +32,16 @@ importers:
       eslint-plugin-jsx-a11y: 6.4.1
       eslint-plugin-mdx: 1.15.0
       eslint-plugin-react: 7.25.1
-      lodash: ^4.17.21
-      prop-types: ^15.8.1
+      lodash: ^4.17.11
+      prop-types: ^15.6.1
       react: 16.14.0
       react-base-table: 1.13.0
       react-dom: 16.14.0
-      react-is: 18.0.0
+      react-is: ^16.x.x
       react-json-view: 1.21.3
-      react-router-dom: ^5.3.1
+      react-router-dom: ^5.0.1
       react-scroll-sync: 0.9.0
-      react-scroll-sync-hook: 0.0.2
+      react-scroll-sync-hook: 0.0.3
       react-spreadsheet: 0.7.0
       react-table: 7.7.0
       react-test-renderer: 16.14.0
@@ -50,6 +51,7 @@ importers:
       snapshot-diff: 0.9.0
       styled-components: 5.3.5
     dependencies:
+      '@babel/plugin-syntax-flow': registry.npmjs.org/@babel/plugin-syntax-flow/7.16.7
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.12.18
       '@teambit/design.ui.external-link': registry.npmjs.org/@teambit/design.ui.external-link/0.0.344_react-dom@16.14.0+react@16.14.0
       '@teambit/documenter.theme.theme-compositions': registry.npmjs.org/@teambit/documenter.theme.theme-compositions/4.1.1_react-dom@16.14.0+react@16.14.0
@@ -74,15 +76,15 @@ importers:
       react: registry.npmjs.org/react/16.14.0
       react-base-table: registry.npmjs.org/react-base-table/1.13.0_react-dom@16.14.0+react@16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
-      react-is: registry.npmjs.org/react-is/18.0.0
+      react-is: registry.npmjs.org/react-is/16.13.1
       react-router-dom: registry.npmjs.org/react-router-dom/5.3.1_react@16.14.0
       react-scroll-sync: registry.npmjs.org/react-scroll-sync/0.9.0_react-dom@16.14.0+react@16.14.0
-      react-scroll-sync-hook: registry.npmjs.org/react-scroll-sync-hook/0.0.2_react-dom@16.14.0+react@16.14.0
+      react-scroll-sync-hook: registry.npmjs.org/react-scroll-sync-hook/0.0.3_react-dom@16.14.0+react@16.14.0
       react-virtualized-auto-sizer: registry.npmjs.org/react-virtualized-auto-sizer/1.0.6_react-dom@16.14.0+react@16.14.0
       react-window: registry.npmjs.org/react-window/1.8.6_react-dom@16.14.0+react@16.14.0
       scheduler: registry.npmjs.org/scheduler/0.21.0
       snapshot-diff: registry.npmjs.org/snapshot-diff/0.9.0
-      styled-components: registry.npmjs.org/styled-components/5.3.5_38d38440f69e99d48ebb7ed58e8b89a0
+      styled-components: registry.npmjs.org/styled-components/5.3.5_60f3b602325395587bfce1ce81a371e8
     devDependencies:
       '@types/jest': registry.npmjs.org/@types/jest/26.0.20
       '@types/node': registry.npmjs.org/@types/node/12.20.4
@@ -109,9 +111,6 @@ importers:
   react_db_client/components/are-you-sure-btn:
     specifiers: {}
 
-  react_db_client/components/auto-hide-panel-hook:
-    specifiers: {}
-
   react_db_client/components/column-manager:
     specifiers: {}
 
@@ -127,6 +126,9 @@ importers:
   react_db_client/components/datatable/components:
     specifiers: {}
 
+  react_db_client/components/datatable/config:
+    specifiers: {}
+
   react_db_client/components/datatable/extras:
     specifiers: {}
 
@@ -139,7 +141,7 @@ importers:
   react_db_client/components/datatable/state:
     specifiers: {}
 
-  react_db_client/components/datatable/style:
+  react_db_client/components/datatable/ui:
     specifiers: {}
 
   react_db_client/components/emoji:
@@ -211,28 +213,10 @@ importers:
   react_db_client/components/loading-panel:
     specifiers: {}
 
-  react_db_client/components/meta/meta-demo-data:
-    specifiers: {}
-
-  react_db_client/components/meta/meta-view:
-    specifiers: {}
-
-  react_db_client/components/meta/meta-view-manager:
-    specifiers: {}
-
-  react_db_client/components/meta/style:
-    specifiers: {}
-
-  react_db_client/components/meta/use-view-data-manager:
-    specifiers: {}
-
   react_db_client/components/popup-menu:
     specifiers: {}
 
   react_db_client/components/popup-panel:
-    specifiers: {}
-
-  react_db_client/components/scroll-sync:
     specifiers: {}
 
   react_db_client/components/search-and-select:
@@ -254,9 +238,6 @@ importers:
     specifiers: {}
 
   react_db_client/constants/style:
-    specifiers: {}
-
-  react_db_client/demo-hook:
     specifiers: {}
 
   react_db_client/generator/field-template:
@@ -296,9 +277,6 @@ importers:
     specifiers: {}
 
   react_db_client/hooks/use-auto-hide-panel-hook:
-    specifiers: {}
-
-  scope/constants/client-types:
     specifiers: {}
 
 packages:
@@ -629,13 +607,6 @@ packages:
     version: 7.10.4
     dev: false
 
-  registry.npmjs.org/@babel/helper-plugin-utils/7.14.5:
-    resolution: {integrity: sha512-/37qQCE3K0vvZKwoK4XU/irIJQdIfCJuhU5eKnNxpFDsOkgFaUAwbv+RYw6eYgsC0E4hS7r5KqGULUogqui0fQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@babel/helper-plugin-utils/-/helper-plugin-utils-7.14.5.tgz}
-    name: '@babel/helper-plugin-utils'
-    version: 7.14.5
-    engines: {node: '>=6.9.0'}
-    dev: false
-
   registry.npmjs.org/@babel/helper-plugin-utils/7.16.7:
     resolution: {integrity: sha512-Qg3Nk7ZxpgMrsox6HreY1ZNKdBq7K72tDSliA6dCl5f007jR4ne8iD5UzuNnCJH2xBf2BEEVGr+/OL6Gdp7RxA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@babel/helper-plugin-utils/-/helper-plugin-utils-7.16.7.tgz}
     name: '@babel/helper-plugin-utils'
@@ -795,7 +766,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.12.9
-      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.10.4
+      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.16.7
       '@babel/plugin-syntax-object-rest-spread': registry.npmjs.org/@babel/plugin-syntax-object-rest-spread/7.8.3_@babel+core@7.12.9
       '@babel/plugin-transform-parameters': registry.npmjs.org/@babel/plugin-transform-parameters/7.16.0_@babel+core@7.12.9
     dev: false
@@ -836,6 +807,17 @@ packages:
       '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.16.7
     dev: false
 
+  registry.npmjs.org/@babel/plugin-syntax-flow/7.16.7:
+    resolution: {integrity: sha512-UDo3YGQO0jH6ytzVwgSLv9i/CzMcUjbKenL67dTrAZPPv6GFAtDhe6jqnvmoKzC/7htNTohhos+onPtDMqJwaQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@babel/plugin-syntax-flow/-/plugin-syntax-flow-7.16.7.tgz}
+    name: '@babel/plugin-syntax-flow'
+    version: 7.16.7
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.16.7
+    dev: false
+
   registry.npmjs.org/@babel/plugin-syntax-import-meta/7.10.4_@babel+core@7.17.8:
     resolution: {integrity: sha512-Yqfm+XDx0+Prh3VSeEQCPU81yC+JWZ2pDPFSS4ZdpfZhp4MkFMaDC1UqseovEKwSUpnIL7+vK+Clp7bfh0iD7g==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@babel/plugin-syntax-import-meta/-/plugin-syntax-import-meta-7.10.4.tgz}
     id: registry.npmjs.org/@babel/plugin-syntax-import-meta/7.10.4
@@ -869,7 +851,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.12.9
-      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.10.4
+      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.16.7
     dev: false
 
   registry.npmjs.org/@babel/plugin-syntax-logical-assignment-operators/7.10.4_@babel+core@7.17.8:
@@ -917,7 +899,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.12.9
-      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.10.4
+      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.16.7
     dev: false
 
   registry.npmjs.org/@babel/plugin-syntax-object-rest-spread/7.8.3_@babel+core@7.17.8:
@@ -929,7 +911,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.17.8
-      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.10.4
+      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.16.7
     dev: false
 
   registry.npmjs.org/@babel/plugin-syntax-optional-catch-binding/7.8.3_@babel+core@7.17.8:
@@ -992,7 +974,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.12.9
-      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.14.5
+      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.16.7
     dev: false
 
   registry.npmjs.org/@babel/runtime-corejs3/7.16.0:
@@ -2469,7 +2451,7 @@ packages:
       babel-plugin-syntax-jsx: registry.npmjs.org/babel-plugin-syntax-jsx/6.18.0
       lodash: registry.npmjs.org/lodash/4.17.21
       picomatch: registry.npmjs.org/picomatch/2.3.1
-      styled-components: registry.npmjs.org/styled-components/5.3.5_38d38440f69e99d48ebb7ed58e8b89a0
+      styled-components: registry.npmjs.org/styled-components/5.3.5_60f3b602325395587bfce1ce81a371e8
     dev: false
 
   registry.npmjs.org/babel-plugin-syntax-jsx/6.18.0:
@@ -4497,7 +4479,7 @@ packages:
     name: jsonfile
     version: 4.0.0
     optionalDependencies:
-      graceful-fs: registry.npmjs.org/graceful-fs/4.2.8
+      graceful-fs: registry.npmjs.org/graceful-fs/4.2.9
     dev: false
 
   registry.npmjs.org/jstat/1.9.5:
@@ -4542,7 +4524,7 @@ packages:
     version: 2.0.0
     engines: {node: '>=4'}
     dependencies:
-      graceful-fs: registry.npmjs.org/graceful-fs/4.2.8
+      graceful-fs: registry.npmjs.org/graceful-fs/4.2.9
       parse-json: registry.npmjs.org/parse-json/2.2.0
       pify: registry.npmjs.org/pify/2.3.0
       strip-bom: registry.npmjs.org/strip-bom/3.0.0
@@ -5343,12 +5325,6 @@ packages:
     name: react-is
     version: 17.0.2
 
-  registry.npmjs.org/react-is/18.0.0:
-    resolution: {integrity: sha512-yUcBYdBBbo3QiPsgYDcfQcIkGZHfxOaoE6HLSnr1sPzMhdyxusbfKOSUbSd/ocGi32dxcj366PsTj+5oggeKKw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/react-is/-/react-is-18.0.0.tgz}
-    name: react-is
-    version: 18.0.0
-    dev: false
-
   registry.npmjs.org/react-json-view/1.21.3_6b91c8a2b8abeefe29b89a098308c917:
     resolution: {integrity: sha512-13p8IREj9/x/Ye4WI/JpjhoIwuzEgUAtgJZNBJckfzJt1qyh24BdTm6UQNGnyTq9dapQdrqvquZTo3dz1X6Cjw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/react-json-view/-/react-json-view-1.21.3.tgz}
     id: registry.npmjs.org/react-json-view/1.21.3
@@ -5414,11 +5390,11 @@ packages:
       tiny-warning: registry.npmjs.org/tiny-warning/1.0.3
     dev: false
 
-  registry.npmjs.org/react-scroll-sync-hook/0.0.2_react-dom@16.14.0+react@16.14.0:
-    resolution: {integrity: sha512-GeSeLioF6qgNOrkfTVqHzi61k3EkwJ5RNN0BMIiN2/H2tVPNe9SiyKoJuYMY/XMR6YiDMcvOwxqb+Ib2oFCRPg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/react-scroll-sync-hook/-/react-scroll-sync-hook-0.0.2.tgz}
-    id: registry.npmjs.org/react-scroll-sync-hook/0.0.2
+  registry.npmjs.org/react-scroll-sync-hook/0.0.3_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha512-qaKbUQ3h3a5dEtqb6HZmv9f+oRTOtQkWGVbhf0z6HQ99rO/ZMd6C0ahiYDxxWFMBj7s8Gse6hcfdJuTSGnQx2g==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/react-scroll-sync-hook/-/react-scroll-sync-hook-0.0.3.tgz}
+    id: registry.npmjs.org/react-scroll-sync-hook/0.0.3
     name: react-scroll-sync-hook
-    version: 0.0.2
+    version: 0.0.3
     peerDependencies:
       react: 0.14.x || 15.x || 16.x || 17.x
       react-dom: 0.14.x || 15.x || 16.x || 17.x
@@ -5991,7 +5967,7 @@ packages:
     engines: {node: '>=4'}
     dev: false
 
-  registry.npmjs.org/styled-components/5.3.5_38d38440f69e99d48ebb7ed58e8b89a0:
+  registry.npmjs.org/styled-components/5.3.5_60f3b602325395587bfce1ce81a371e8:
     resolution: {integrity: sha512-ndETJ9RKaaL6q41B69WudeqLzOpY1A/ET/glXkNZ2T7dPjPqpPCXXQjDFYZWwNnE5co0wX+gTCqx9mfxTmSIPg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/styled-components/-/styled-components-5.3.5.tgz}
     id: registry.npmjs.org/styled-components/5.3.5
     name: styled-components
@@ -6013,7 +5989,7 @@ packages:
       hoist-non-react-statics: registry.npmjs.org/hoist-non-react-statics/3.3.2
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
-      react-is: registry.npmjs.org/react-is/18.0.0
+      react-is: registry.npmjs.org/react-is/16.13.1
       shallowequal: registry.npmjs.org/shallowequal/1.1.0
       supports-color: registry.npmjs.org/supports-color/5.5.0
     dev: false

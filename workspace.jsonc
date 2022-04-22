@@ -52,6 +52,7 @@
     "packageManager": "teambit.dependencies/pnpm",
     "policy": {
       "dependencies": {
+        "@babel/plugin-syntax-flow": "7.16.7",
         "@teambit/design.ui.external-link": "0.0.344",
         "@teambit/documenter.theme.theme-compositions": "4.1.1",
         "@teambit/documenter.ui.copy-box": "4.1.1",
@@ -71,11 +72,11 @@
         "eslint-plugin-mdx": "1.15.0",
         "eslint-plugin-react": "7.25.1",
         "react-base-table": "1.13.0",
-        "react-is": "18.0.0",
+        "react-is": "^16.x.x",
         "react-json-view": "1.21.3",
         "react-router-dom": "^5.0.1",
         "react-scroll-sync": "0.9.0",
-        "react-scroll-sync-hook": "0.0.2",
+        "react-scroll-sync-hook": "0.0.3",
         "react-spreadsheet": "0.7.0",
         "react-table": "7.7.0",
         "react-test-renderer": "16.14.0",
