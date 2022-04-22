@@ -4,7 +4,7 @@ Should be used alongside the DataManager hook */
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import useScrollSync from 'react-scroll-sync-hook';
+import { useScrollSyncWrap } from 'react-scroll-sync-hook';
 import styled from 'styled-components';
 import { FixedSizeList } from 'react-window';
 import { DataTableCellReadOnly } from '@samnbuk/react_db_client.components.datatable.cell-types';
@@ -43,6 +43,7 @@ const Styles = styled.div`
   .table {
     height: 100%;
 
+    /* Cells */
     .th,
     .td {
       margin: 0;
@@ -73,10 +74,17 @@ const Styles = styled.div`
       scrollbar-width: none; /* for Firefox */
       overflow-y: scroll;
       overflow-x: hidden; // Must be set to stop any overflows causing scroll sync issues
+      width: 100%;
+      overflow: auto hidden;
+      display: flex;
     }
 
     .thrs::-webkit-scrollbar {
       display: none; /* for Chrome, Safari, and Opera */
+    }
+    .tr {
+      display: flex;
+      position: relative;
     }
 
     .navigationButton,
@@ -95,12 +103,10 @@ const Styles = styled.div`
 
 function TableHeadings({ headerRef, columns, tableWidth, headerHeight, cellStyleOverrides }) {
   return (
-    <div className="thrs" style={{ width: '100%', overflow: 'auto hidden' }} ref={headerRef}>
+    <div className="thrs" ref={headerRef}>
       <div
         style={{
-          display: 'flex',
           width: tableWidth,
-          position: 'relative',
           height: headerHeight,
         }}
         className="tr"
@@ -218,26 +224,6 @@ function TableRowWrap(tableWidth, cellStyleOverrides, componentMap, columns, tab
   return TableRow;
 }
 
-const useScrollSyncWrap = ({ nodeRefs, options = {} }) => {
-  const { registerPane, unregisterPane } = useScrollSync(options);
-
-  useEffect(() => {
-    nodeRefs.forEach((nodeRef) => {
-      if (nodeRef?.current) {
-        registerPane(nodeRef.current);
-      }
-    });
-    return () =>
-      nodeRefs.forEach((nodeRef) => {
-        if (nodeRef?.current) {
-          unregisterPane(nodeRef.current);
-        }
-      });
-  }, [nodeRefs, registerPane, unregisterPane]);
-
-  return {};
-};
-
 /** Data Table Component
  * Converts an array of objects to a table by mapping against a column schema(headingsData)
  *
@@ -299,13 +285,12 @@ export const DataTableUi = ({
 
   /* Setup Scroll Sync */
   const headerRef = useRef(null);
-  const bodyRef = useRef(null);
   const innerBodyRef = useRef(null);
   const columnManagerRef = useRef(null);
 
   const nodeRefs = useMemo(
-    () => [headerRef, bodyRef, innerBodyRef, columnManagerRef],
-    [headerRef, bodyRef, innerBodyRef, columnManagerRef]
+    () => [headerRef, innerBodyRef, columnManagerRef],
+    [headerRef, innerBodyRef, columnManagerRef]
   );
 
   useScrollSyncWrap({
