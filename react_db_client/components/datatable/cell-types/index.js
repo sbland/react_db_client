@@ -8,3 +8,4 @@ export { DataTableCellSelect } from './DataTableCellSelect';
 export { DataTableCellText } from './DataTableCellText';
 export { DataTableCellToggle } from './DataTableCellToggle';
 
+export { defaultComponentMap } from './default-component-map';

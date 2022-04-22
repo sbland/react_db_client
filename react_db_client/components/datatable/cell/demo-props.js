@@ -1,4 +1,4 @@
-import { defaultComponentMap } from '@samnbuk/react_db_client.components.datatable.components';
+import { defaultComponentMap } from '@samnbuk/react_db_client.components.datatable.cell-types';
 import {
   demoHeadingsData,
   demoTableData,

@@ -5,7 +5,7 @@ import {
   demoHeadingsData,
 } from '@samnbuk/react_db_client.components.datatable.extras';
 import { ThemeProvider } from 'styled-components';
-import { defaultComponentMap } from '@samnbuk/react_db_client.components.datatable.components';
+import { defaultComponentMap } from '@samnbuk/react_db_client.components.datatable.cell-types';
 import {
   TableMethodsContext,
   TableStateContext,

@@ -4,8 +4,7 @@ import { switchF } from '@samnbuk/react_db_client.helpers.func-tools';
 import { RowStyleContext } from '@samnbuk/react_db_client.components.datatable.logic';
 import { DataTableCellHoverWrap } from './cell-wrappers';
 import { CellNavigationCellWrap } from './cell-navigation-cell-wrap';
-import { RightClickWrapper } from '@samnbuk/react_db_client.components.popup-menu';
-import { DataTableCellReadOnly } from '@samnbuk/react_db_client.components.datatable.cell-types';
+// import { RightClickWrapper } from '@samnbuk/react_db_client.components.popup-menu';
 import { CellInfoBtn } from './cell-info-btn';
 import styled from 'styled-components';
 import {
@@ -35,7 +34,7 @@ export const CellStyles = styled.div`
   }
 `;
 
-const defaultComponent = () => (props) => <DataTableCellReadOnly {...props} />;
+const defaultComponent = () => (props) => <div>Unknown Data Type</div>;
 
 export function Cell({
   columnIndex,

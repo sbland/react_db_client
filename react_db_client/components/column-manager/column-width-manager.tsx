@@ -20,7 +20,7 @@ const ColumnManagerStyles = styled.div`
   top: 0;
   bottom: 0;
   z-index: 100;
-  // overflow-x: scroll;
+  overflow-x: auto;
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none; /* for Firefox */
 
@@ -71,15 +71,15 @@ const ColumnManagerStyles = styled.div`
   }
 `;
 
-export type ColumnManagerTypes = {
-  columnWidths: number[],
-  setColumnWidths: (newWidths: number[]) => void,
-  minWidth?: number,
-  maxWidth?: number,
-  showEdges?: boolean,
-  liveDragging?: boolean,
-  innerRef: React.RefObject<HTMLInputElement>,
-};
+export interface ColumnManagerTypes {
+  columnWidths: number[];
+  setColumnWidths: (newWidths: number[]) => void;
+  minWidth?: number;
+  maxWidth?: number;
+  showEdges?: boolean;
+  liveDragging?: boolean;
+  innerRef: React.RefObject<HTMLInputElement>;
+}
 
 export const ColumnWidthManager: React.FC<ColumnManagerTypes> = ({
   // columnCount,
@@ -87,8 +87,8 @@ export const ColumnWidthManager: React.FC<ColumnManagerTypes> = ({
   setColumnWidths,
   minWidth = 10,
   maxWidth = 99999999,
-  showEdges=false,
-  liveDragging=false,
+  showEdges = false,
+  liveDragging = false,
   innerRef,
 }) => {
   const [currentColumnn, setCurrentColumnn] = useState(-1);

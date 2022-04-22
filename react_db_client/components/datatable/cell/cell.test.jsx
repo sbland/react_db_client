@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { sleep } from '@samnbuk/react_db_client.helpers.testing';
 import { Cell } from './cell';
-import { defaultComponentMap } from '@samnbuk/react_db_client.components.datatable.components';
+import { defaultComponentMap } from '@samnbuk/react_db_client.components.datatable.cell-types';
 import { DataTableDataCell } from './cell-wrappers';
 import { DataTableCellText } from '@samnbuk/react_db_client.components.datatable.cell-types';
 import {
