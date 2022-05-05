@@ -1,7 +1,6 @@
 import React, { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { scrollbarWidth } from '@samnbuk/react_db_client.helpers.html-helpers';
 
 const ColumnManagerStyles = styled.div`
 
@@ -78,7 +77,7 @@ export interface ColumnManagerTypes {
   maxWidth?: number;
   showEdges?: boolean;
   liveDragging?: boolean;
-  innerRef: React.RefObject<HTMLInputElement>;
+  innerRef: React.RefObject<HTMLDivElement>;
 }
 
 export const ColumnWidthManager: React.FC<ColumnManagerTypes> = ({
@@ -153,7 +152,6 @@ export const ColumnWidthManager: React.FC<ColumnManagerTypes> = ({
     window.addEventListener('mouseup', event);
   };
 
-  const scrollBarSize = React.useMemo(() => scrollbarWidth(), []);
 
   return (
     <ColumnManagerStyles className="columnWidthManager_styles" ref={innerRef}>
