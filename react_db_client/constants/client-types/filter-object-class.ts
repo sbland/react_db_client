@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
-import { filterTypes } from './filter-types';
-import { comparisons } from '@samnbuk/react_db_client.constants.client-types';
+import { FilterType, filterTypes } from './filter-types';
+import { Comparisons, comparisons } from './comparisons';
 
 const getDefaultComparison = (fieldType) => {
   switch (fieldType) {
@@ -21,13 +21,20 @@ const getDefaultValue = (fieldType) => {
       return false;
     case filterTypes.number:
       return 0;
-    case filterTypes.string:
+    case filterTypes.text:
     default:
       return '';
   }
 };
 
 export class FilterObjectClass {
+  uid: string;
+  field: string;
+  value: null|string;
+  label: string;
+  operator: Comparisons;
+  type: FilterType|string;
+  filterOptionId: string;
   constructor({
     uid = `filter_${Date.now()}`,
     field = null,
