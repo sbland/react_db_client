@@ -2,24 +2,36 @@
  *
  */
 
-import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
-const getVisableColumns = (headingsDataList) => headingsDataList.filter((d) => !d.hidden);
+export type HeadingObject = {
+  uid: string,
+  label?: string;
+  columnWidth?: number;
+  hidden?: boolean;
+};
 
-const getHiddenColumnIds = (headingsDataList) =>
+const getVisableColumns = (headingsDataList: HeadingObject[]) =>
+  headingsDataList.filter((d) => !d.hidden);
+
+const getHiddenColumnIds = (headingsDataList: HeadingObject[]) =>
   headingsDataList.filter((d) => d.hidden).map((d) => d.uid);
 
-export const useColumnVisabilityManager = (headingsDataList) => {
-  const [hiddenColumnIds, setHiddenColumnIds] = useState(getHiddenColumnIds(headingsDataList));
-  const [visableColumns, setVisableColumns] = useState(getVisableColumns(headingsDataList));
+export const useColumnVisabilityManager = (headingsDataList: HeadingObject[]) => {
+  const [hiddenColumnIds, setHiddenColumnIds] = useState(
+    getHiddenColumnIds(headingsDataList)
+  );
+  const [visableColumns, setVisableColumns] = useState(
+    getVisableColumns(headingsDataList)
+  );
 
   useEffect(() => {
     setVisableColumns(getVisableColumns(headingsDataList));
     setHiddenColumnIds(getHiddenColumnIds(headingsDataList));
   }, [headingsDataList]);
 
-  const handleHideColumn = (columnId) => {
+  const handleHideColumn = (columnId: string) => {
     const indexOfHidden = hiddenColumnIds.indexOf(columnId);
     const alreadyHidden = indexOfHidden !== -1;
     const newHiddenList = [...hiddenColumnIds];
@@ -31,14 +43,16 @@ export const useColumnVisabilityManager = (headingsDataList) => {
       newHiddenList.push(columnId);
       newHiddenList.sort();
     }
-    const newVisableColumns = headingsDataList.filter((d) => newHiddenList.indexOf(d.uid) === -1);
+    const newVisableColumns = headingsDataList.filter(
+      (d) => newHiddenList.indexOf(d.uid) === -1
+    );
     setVisableColumns(newVisableColumns);
     setHiddenColumnIds(newHiddenList);
   };
   return {
     handleHideColumn,
     visableColumns,
-    hiddenColumnIds
+    hiddenColumnIds,
   };
 };
 
@@ -47,8 +61,7 @@ useColumnVisabilityManager.propTypes = {
     PropTypes.shape({
       uid: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
-      hidden: PropTypes.bool
+      hidden: PropTypes.bool,
     })
-  ).isRequired
+  ).isRequired,
 };
-

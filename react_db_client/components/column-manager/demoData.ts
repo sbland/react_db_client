@@ -2,7 +2,7 @@ import {
   filterTypes,
   FilterObjectClass,
   comparisons,
-} from '@samnbuk/react_db_client.constants.client-types';
+} from '@react_db_client/constants.client-types';
 
 export const demoFilterString = new FilterObjectClass({
   uid: 'demoFilterString',
@@ -99,6 +99,7 @@ export const demoHeadingsDataSimple = [
     type: filterTypes.number,
     expression: '$count + 1',
     expressionReversed: '$count=$_ - 1',
+    hidden: false,
   },
 ];
 
