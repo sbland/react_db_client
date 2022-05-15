@@ -11,12 +11,12 @@ export const DefaultCellInnerStyle = styled.div`
   height: 100%;
   width: 100%;
 
-  font-size: ${(props) => props.theme.typography.fontSize4};
-  line-height: ${(props) => props.theme.typography.fontSize4};
+  font-size: ${(props) => props.theme.typography?.fontSize4};
+  line-height: ${(props) => props.theme.typography?.fontSize4};
 
   * {
-    font-size: ${(props) => props.theme.typography.fontSize4};
-    line-height: ${(props) => props.theme.typography.fontSize4};
+    font-size: ${(props) => props.theme.typography?.fontSize4};
+    line-height: ${(props) => props.theme.typography?.fontSize4};
   }
 
   .dataTableCellData_text,

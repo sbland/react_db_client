@@ -1,49 +1,64 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const CellNavigationCellWrap = ({
-  children,
-  cellWrapNavBtnRef,
-  classNames,
-  onClick,
-  onKeyDown,
-  columnIndex,
-  rowIndex,
-}) => {
+import {
+  TableMethodsContext,
+  TableStateContext,
+} from '@samnbuk/react_db_client.components.datatable.state';
+
+export const CellNavigationCellWrap = ({ classNames, columnIndex, rowIndex }) => {
+  /* Interaction Methods */
+  const { onCellKeyPress, onCellSelect } = React.useContext(TableMethodsContext);
+  const { navigationMode, editMode, currentFocusedRow, currentFocusedColumn } =
+    React.useContext(TableStateContext);
+  const cellWrapNavBtnRef = React.useRef(null);
+  const isFocused = currentFocusedColumn === columnIndex && currentFocusedRow === rowIndex;
+
+  // TODO: This is not always e.
+  const withCellId = React.useCallback(
+    (fn) => (e) => fn(e, rowIndex, columnIndex),
+    [rowIndex, columnIndex]
+  );
+
+  const _onCellKeyPress = React.useCallback(withCellId(onCellKeyPress), [
+    (withCellId, onCellKeyPress),
+  ]);
+  const _onCellSelect = React.useCallback(withCellId(onCellSelect), [(withCellId, onCellSelect)]);
+
+  /* Update cell Focus State */
+  React.useEffect(() => {
+    // If cell is focused set focus to navBtn
+    const shouldFocus =
+      !editMode && navigationMode && isFocused && cellWrapNavBtnRef && cellWrapNavBtnRef.current
+        ? true
+        : false;
+    if (shouldFocus) {
+      cellWrapNavBtnRef.current.focus();
+    }
+  }, [cellWrapNavBtnRef, isFocused, editMode, navigationMode]);
+
   return (
     <div
       ref={cellWrapNavBtnRef}
       type="button"
       className={`${classNames} navigationButton cellWrapBtn button-reset`}
-      onClick={onClick}
-      style={{ width: '100%' }}
-      onKeyDown={onKeyDown}
+      onClick={_onCellSelect}
+      onKeyDown={_onCellKeyPress}
       role="presentation"
       tabIndex={`${columnIndex + rowIndex * 10}`}
-    >
-      {children}
-    </div>
+    />
   );
 };
 
-const refPropType = PropTypes.oneOfType([
-  // Either a function
-  PropTypes.func,
-  // Or the instance of a DOM native element (see the note about SSR)
-  PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-]);
-const childrenPropType = PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]);
-
 CellNavigationCellWrap.propTypes = {
-  children: childrenPropType.isRequired,
-  cellWrapNavBtnRef: refPropType.isRequired,
-  classNames: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  onKeyDown: PropTypes.func.isRequired,
+  classNames: PropTypes.string,
   columnIndex: PropTypes.number.isRequired,
   rowIndex: PropTypes.number.isRequired,
 };
 
+CellNavigationCellWrap.defaultProps = {
+  classNames: "",
+}
 
 /* ====================== */
 // import React, { useCallback, useContext } from 'react';

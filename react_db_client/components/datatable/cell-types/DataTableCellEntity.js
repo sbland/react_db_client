@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { PopupPanel } from '@samnbuk/react_db_client.components.popup-panel';
 import { SearchAndSelect } from '@samnbuk/react_db_client.components.search-and-select';
-import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
+import { filterTypes } from '@react_db_client/constants.client-types';
 import { DefaultCellInnerStyle } from './style';
 // TODO: Make sure apiGetDocuments is passes to this component
 // import { apiGetDocuments } from '../../../Api/Api';

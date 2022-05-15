@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { headingDataShape } from '@samnbuk/react_db_client.components.datatable.extras';
 import { Emoji } from '@samnbuk/react_db_client.components.emoji';
 import { DataTableContext } from '@samnbuk/react_db_client.components.datatable.logic';
-import { FilterObjectClass } from '@samnbuk/react_db_client.constants.client-types';
+import { FilterObjectClass } from '@react_db_client/constants.client-types';
 import { useAutoHidePanel } from '@samnbuk/react_db_client.hooks.use-auto-hide-panel-hook';
 
 import { DataTableCellHoverWrap } from '@samnbuk/react_db_client.components.datatable.cell';

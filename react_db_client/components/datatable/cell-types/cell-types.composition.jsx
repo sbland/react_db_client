@@ -5,7 +5,7 @@ import { DataTableCellText } from './DataTableCellText';
 import { DataTableCellNumber } from './DataTableCellNumber';
 import { DataTableCellEntity } from './DataTableCellEntity';
 import { DataTableCellSelect } from './DataTableCellSelect';
-import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
+import { filterTypes } from '@react_db_client/constants.client-types';
 
 export const CellText = () => {
   const [data, setData] = useState('hello');

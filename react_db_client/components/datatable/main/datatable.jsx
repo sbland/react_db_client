@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import cloneDeep from 'lodash/cloneDeep';
 import PropTypes from 'prop-types';
 
-import { FilterObjectClass } from '@samnbuk/react_db_client.constants.client-types';
-import { useColumnVisabilityManager } from '@samnbuk/react_db_client.components.column-manager';
+import { FilterObjectClass } from '@react_db_client/constants.client-types';
+import { useColumnVisabilityManager } from '@react_db_client/components.column-manager';
 import { wrapWithErrorBoundary } from '@samnbuk/react_db_client.helpers.error-handling';
 import { SelectionPreview } from '@samnbuk/react_db_client.components.selection-preview';
 

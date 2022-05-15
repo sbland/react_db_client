@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo } from 'react';
-import { comparisons, filterTypes, FilterObjectClass } from '@samnbuk/react_db_client.constants.client-types';
+import { comparisons, filterTypes, FilterObjectClass } from '@react_db_client/constants.client-types';
 
 export const demoFilterString = new FilterObjectClass({
   uid: 'demoFilterString',

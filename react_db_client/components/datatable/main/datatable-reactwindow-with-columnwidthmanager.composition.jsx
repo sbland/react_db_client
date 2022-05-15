@@ -10,7 +10,7 @@ import { DataTableCellSelect } from '@samnbuk/react_db_client.components.datatab
 import {
   ColumnWidthManager,
   useColumnManager,
-} from '@samnbuk/react_db_client.components.column-manager';
+} from '@react_db_client/components.column-manager';
 
 import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps';
 
