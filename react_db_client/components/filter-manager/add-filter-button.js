@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import {
   FilterObjectClass,
-} from '@samnbuk/react_db_client.constants.client-types';
+} from '@react_db_client/constants.client-types';
 
 export const AddFilterButton = ({
   fieldsData,

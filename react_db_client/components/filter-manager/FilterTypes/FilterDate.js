@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { comparisons, FilterObjectClass } from '@samnbuk/react_db_client.constants.client-types';
+import { comparisons, FilterObjectClass } from '@react_db_client/constants.client-types';
 
 const FilterDate = ({ filter, updateFilter }) => {
   const updateOperator = (e) => {

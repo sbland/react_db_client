@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo } from 'react';
-import { comparisons, filterTypes } from '@samnbuk/react_db_client.constants.client-types';
+import { comparisons, filterTypes } from '@react_db_client/constants.client-types';
 
 export const demoHeadingsDataSimple = [
   {
@@ -279,7 +279,7 @@ export const customFilter = (value, expression, targetValue, item) => {
 };
 
 // =================================
-// import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
+// import { filterTypes } from '@react_db_client/constants.client-types';
 
 // export const demoHeadingsData = [
 //   {

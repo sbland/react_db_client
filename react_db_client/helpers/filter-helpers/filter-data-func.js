@@ -1,7 +1,7 @@
 import {
   comparisons,
   filterTypes,
-} from '@samnbuk/react_db_client.constants.client-types';
+} from '@react_db_client/constants.client-types';
 import {
   evaluateString,
   evaluateNumber,

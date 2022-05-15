@@ -4,7 +4,7 @@ import {
   FilterObjectClass,
   filterTypes,
   comparisons,
-} from '@samnbuk/react_db_client.constants.client-types';
+} from '@react_db_client/constants.client-types';
 import { useAsyncRequest } from '@samnbuk/react_db_client.async-hooks.use-async-request';
 import { CustomSelectDropdown } from '@samnbuk/react_db_client.components.custom-select-dropdown';
 

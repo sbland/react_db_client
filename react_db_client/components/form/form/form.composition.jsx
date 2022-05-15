@@ -1,5 +1,5 @@
 import React from 'react';
-import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
+import { filterTypes } from '@react_db_client/constants.client-types';
 import { FormField } from './FormField';
 import { Form } from './form';
 import { FormInputs } from './FormInputs';

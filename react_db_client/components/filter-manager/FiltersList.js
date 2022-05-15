@@ -4,7 +4,7 @@ import { switchF } from '@samnbuk/react_db_client.helpers.func-tools';
 import {
   filterTypes,
   FilterObjectClass,
-} from '@samnbuk/react_db_client.constants.client-types';
+} from '@react_db_client/constants.client-types';
 
 import FilterDate from './FilterTypes/FilterDate';
 import FilterBool from './FilterTypes/FilterBool';

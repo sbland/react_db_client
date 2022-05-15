@@ -1,4 +1,4 @@
-import { FilterObjectSimpleClass, filterTypes } from '@samnbuk/react_db_client.constants.client-types';
+import { FilterObjectSimpleClass, filterTypes } from '@react_db_client/constants.client-types';
 
 export const searchResultHeadings = (fileServerUrl, collectionId, documentId) => [
   // {

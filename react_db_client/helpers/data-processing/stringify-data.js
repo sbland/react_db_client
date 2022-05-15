@@ -1,4 +1,4 @@
-import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
+import { filterTypes } from '@react_db_client/constants.client-types';
 import { switchF, tryF } from '@samnbuk/react_db_client.helpers.func-tools';
 
 /**
