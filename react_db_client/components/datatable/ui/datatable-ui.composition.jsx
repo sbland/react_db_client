@@ -1,8 +1,8 @@
 import React from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import {
   demoTableData,
   demoHeadingsData,
+  demoHeadingsDataSimple,
 } from '@samnbuk/react_db_client.components.datatable.extras';
 import { ThemeProvider } from 'styled-components';
 import { defaultComponentMap } from '@samnbuk/react_db_client.components.datatable.cell-types';
@@ -10,19 +10,20 @@ import {
   TableMethodsContext,
   TableStateContext,
 } from '@samnbuk/react_db_client.components.datatable.state';
+import {
+  DataTableContext,
+  dataTableDefaultConfig,
+} from '@samnbuk/react_db_client.components.datatable.config';
 import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps';
 
 import { useHandleTableState } from '@samnbuk/react_db_client.components.datatable.state';
-import { DataTableUiWithConfig } from './DataTableUi';
+import { DataTableUi } from './DataTableUi';
 import { lightTheme } from './theme';
 
-const DEMO_TABLE_DATA = Array(1)
+const DEMO_TABLE_DATA = Array(1000)
   .fill(0)
-  .reduce((acc, _) => [...acc, ...Object.values(demoTableData)], []);
-
-// const DEMO_TABLE_DATA = Object.values(demoTableData);
-
-const customCellNode = () => <div className="">CustomCELL</div>;
+  .reduce((acc, _) => [...acc, ...Object.values(demoTableData)], [])
+  .map((row, i) => ({ ...row, uid: i }));
 
 const methods = {
   updateSortBy: () => {},
@@ -70,17 +71,43 @@ const defaultProps = {
   invalidRowsMessages: null,
 };
 
-// export const DataTableUiBase = () => (
-//   <CompositionWrapDefault width="16rem" height="16rem" horizontal>
-//     <ThemeProvider theme={lightTheme}>
-//       <DataTableUiWithConfig {...defaultProps} />
-//     </ThemeProvider>
-//   </CompositionWrapDefault>
-// );
-
 export const DataTableUiNavigation = () => {
   const { methods, tableState } = useHandleTableState({
     columns: defaultProps.headingsData,
+    initialData: Object.values(DEMO_TABLE_DATA),
+  });
+
+  const _methods = {
+    ...methods,
+    onCellKeyPress: (...args) => {
+      console.log('move');
+      methods.onCellKeyPress(...args);
+    },
+  };
+
+  return (
+    <>
+      <div>Edit mode: {tableState.editMode ? 'yes' : 'no'}</div>
+      <div>navigation mode: {tableState.navigationMode ? 'yes' : 'no'}</div>
+      <div>currentFocusedColumn: {tableState.currentFocusedColumn}</div>
+      <div>currentFocusedRow: {tableState.currentFocusedRow}</div>
+      <CompositionWrapDefault width="16rem" height="16rem" horizontal>
+        <ThemeProvider theme={lightTheme}>
+          <DataTableContext.Provider value={dataTableDefaultConfig}>
+            <TableStateContext.Provider value={tableState}>
+              <TableMethodsContext.Provider value={_methods}>
+                <DataTableUiWithConfig {...defaultProps} tableState={tableState} />
+              </TableMethodsContext.Provider>
+            </TableStateContext.Provider>
+          </DataTableContext.Provider>
+        </ThemeProvider>
+      </CompositionWrapDefault>
+    </>
+  );
+};
+export const DataTableUiNavigationSimple = () => {
+  const { methods, tableState } = useHandleTableState({
+    columns: demoHeadingsDataSimple,
     initialData: Object.values(DEMO_TABLE_DATA),
   });
 
@@ -92,11 +119,17 @@ export const DataTableUiNavigation = () => {
       <div>currentFocusedRow: {tableState.currentFocusedRow}</div>
       <CompositionWrapDefault width="16rem" height="16rem" horizontal>
         <ThemeProvider theme={lightTheme}>
-          <TableStateContext.Provider value={tableState}>
-            <TableMethodsContext.Provider value={methods}>
-              <DataTableUiWithConfig {...defaultProps} tableState={tableState} />
-            </TableMethodsContext.Provider>
-          </TableStateContext.Provider>
+          <DataTableContext.Provider value={dataTableDefaultConfig}>
+            <TableStateContext.Provider value={tableState}>
+              <TableMethodsContext.Provider value={methods}>
+                <DataTableUi
+                  {...defaultProps}
+                  headingsData={demoHeadingsDataSimple}
+                  tableState={tableState}
+                />
+              </TableMethodsContext.Provider>
+            </TableStateContext.Provider>
+          </DataTableContext.Provider>
         </ThemeProvider>
       </CompositionWrapDefault>
     </>

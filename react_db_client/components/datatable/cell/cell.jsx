@@ -1,20 +1,15 @@
-import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { switchF } from '@samnbuk/react_db_client.helpers.func-tools';
 import { RowStyleContext } from '@samnbuk/react_db_client.components.datatable.logic';
-import { DataTableCellHoverWrap } from './cell-wrappers';
 import { CellNavigationCellWrap } from './cell-navigation-cell-wrap';
-// import { RightClickWrapper } from '@samnbuk/react_db_client.components.popup-menu';
-import { CellInfoBtn } from './cell-info-btn';
+// import { CellInfoBtn } from './cell-info-btn';
 import styled from 'styled-components';
 import {
   TableMethodsContext,
   TableStateContext,
 } from '@samnbuk/react_db_client.components.datatable.state';
-// import {
-//   TableMethodsContext,
-//   TableStateContext,
-// } from '@samnbuk/react_db_client.components.datatable.state';
 
 export const CellStyles = styled.div`
   width: 100%;
@@ -36,36 +31,59 @@ export const CellStyles = styled.div`
 
 const defaultComponent = () => (props) => <div>Unknown Data Type</div>;
 
+export const ActiveCell = ({ position, children }) => {
+  return ReactDOM.createPortal(
+    <div
+      style={{
+        zIndex: 100,
+        position: 'absolute',
+        top: position.top,
+        minWidth: position.width,
+        minHeight: position.height,
+        background: 'white',
+        left: position.left,
+      }}
+    >
+      {children}
+    </div>,
+    // TODO: GET ROOT CORRECTLY
+    document.getElementById('root')
+  );
+};
+
 export function Cell({
   columnIndex,
   rowIndex,
   style,
   className,
-  headingsData,
-  // methods,
+  headingData,
   componentMap,
   disabled, // TODO: Make this per cell
-  // tableState,
+  rowData,
 }) {
   /* Interaction Methods */
-  const { onCellKeyPress, onCellChange, onCellAccept, onCellReset, onCellSelect, onCellHover } =
-    useContext(TableMethodsContext);
-  const { navigationMode, editMode, tableData, currentFocusedRow, currentFocusedColumn } =
+  const { onCellChange, onCellAccept, onCellReset } = useContext(TableMethodsContext);
+  const { navigationMode, editMode, currentFocusedRow, currentFocusedColumn } =
     useContext(TableStateContext);
 
   /* Cell Refs */
-  /* The nav btn holds the pointer if this cell is focused but not in edit mode */
-  const cellWrapNavBtnRef = useRef(null);
-
-  /* Row State */
-  // TODO: Can remove this or should pass to cell component?
-  // const rowIsSelected = rowSelectionState[rowIndex];
+  const cellWrapRef = React.useRef(null);
+  const [cellPosition, setCellPosition] = React.useState({ top: 999 });
 
   /* Cell State */
   const isFocused = currentFocusedColumn === columnIndex && currentFocusedRow === rowIndex;
+
+  React.useEffect(() => {
+    if (cellWrapRef.current && isFocused && navigationMode)
+      setCellPosition(cellWrapRef.current.getBoundingClientRect());
+  }, [isFocused]);
+
+  // console.log(cellPosition);
   /* Cell Data */
-  const headingData = useMemo(() => headingsData[columnIndex] || {}, [headingsData, columnIndex]);
-  const rowData = useMemo(() => tableData[rowIndex] || {}, [tableData, rowIndex]);
+
+  // TODO: Check if it is faster to get data from props or context
+  // const headingData = useMemo(() => headingsData[columnIndex] || {}, [headingsData, columnIndex]);
+  // const rowData = useMemo(() => tableData[rowIndex] || {}, [tableData, rowIndex]);
   const { type: cellType, isDisabled, uid: headingId } = headingData;
   const { uid: rowId } = rowData;
   const cellData = useMemo(() => rowData[headingId], [rowData, headingId]);
@@ -77,27 +95,14 @@ export function Cell({
     ...(rowStyles && rowStyles[rowIndex]),
   };
 
-  const cellClassName = [className, isFocused && 'focusedCell'].filter((f) => f).join(' ');
-
   const classNames = [
     className,
     isFocused ? 'focused' : 'notFocused',
     `row_index_${rowIndex}`,
     `column_index_${columnIndex}`,
     `column_id_${headingId}`,
+    isDisabled ? 'disabled' : null,
   ].join(' ');
-
-  /* Update cell Focus State */
-  useEffect(() => {
-    // If cell is focused set focus to navBtn
-    const shouldFocus =
-      !editMode && navigationMode && isFocused && cellWrapNavBtnRef && cellWrapNavBtnRef.current
-        ? true
-        : false;
-    if (shouldFocus) {
-      cellWrapNavBtnRef.current.focus();
-    }
-  }, [cellWrapNavBtnRef, isFocused, editMode, navigationMode]);
 
   const CellComponent = useMemo(
     () => switchF(cellType, componentMap, defaultComponent),
@@ -110,18 +115,12 @@ export function Cell({
     [rowIndex, columnIndex]
   );
 
-  const _onCellKeyPress = useCallback(withCellId(onCellKeyPress), [(withCellId, onCellKeyPress)]);
-  const _onCellHover = useCallback(withCellId(onCellHover), [(withCellId, onCellHover)]);
-  const _onCellSelect = useCallback(withCellId(onCellSelect), [(withCellId, onCellSelect)]);
   const _onCellChange = useCallback(withCellId(onCellChange), [(withCellId, onCellChange)]);
   const _onCellAccept = useCallback(withCellId(onCellAccept), [(withCellId, onCellAccept)]);
   const _onCellReset = useCallback(withCellId(onCellReset), [(withCellId, onCellReset)]);
 
-  // return <div>cell</div>;
-  // return rcount.current;
   return (
     <>
-     {/* <CellStyles> */}
       {/* <RightClickWrapper
         items={[
           { uid: 'clearCell', label: 'Clear', onClick: () => console.log('Clear') },
@@ -134,47 +133,62 @@ export function Cell({
         //TODO: How do we make this generic?
         popupRoot="root"
       /> */}
-      <DataTableCellHoverWrap
-        className={cellClassName}
-        style={cellStyle}
-        // handleHover={_onCellHover}
-        disabled={disabled}
-      />
-      <CellNavigationCellWrap
-        cellWrapNavBtnRef={cellWrapNavBtnRef}
-        classNames={classNames}
-        onClick={_onCellSelect}
-        onKeyDown={_onCellKeyPress}
-        columnIndex={columnIndex}
-        rowIndex={rowIndex}
-      />
       {/* TODO: Fix info button */}
       {/* <CellInfoBtn
           styles={rowStyles ? rowStyles[rowIndex] : {}}
           message={invalidRowsMessages && invalidRowsMessages[rowIndex]}
         /> */}
-      <div style={{ height: '100%', width: '100%' }} className={isDisabled ? 'disabled' : ''}>
-        {/* {JSON.stringify(cellData)} */}
-        <CellComponent
-          isDisabled={disabled}
-          rowId={rowId}
-          rowIndex={rowIndex}
-          classNames={classNames}
-          focused={!disabled && isFocused}
-          editMode={!disabled && editMode}
-          columnId={headingId}
-          cellData={cellData}
-          rowData={rowData}
-          columnData={headingData}
-          // TODO: rename as onChange
-          updateData={_onCellChange}
-          acceptValue={_onCellAccept}
-          resetValue={_onCellReset}
-          componentMap={componentMap}
-        />
+      <CellNavigationCellWrap columnIndex={columnIndex} rowIndex={rowIndex} />
+      <div
+        style={{ zIndex: isFocused ? 999 : 'inherit', ...cellStyle }}
+        className={isDisabled ? 'cellWrap disabled' : 'cellWrap'}
+        ref={(el) => {
+          cellWrapRef.current = el;
+        }}
+      >
+        {isFocused && editMode ? (
+          <ActiveCell
+            cellWrapRef={cellWrapRef.current}
+            isFocused={isFocused}
+            position={cellPosition}
+          >
+            <CellComponent
+              isDisabled={disabled}
+              rowId={rowId}
+              rowIndex={rowIndex}
+              classNames={classNames}
+              focused={!disabled && isFocused}
+              editMode={!disabled && editMode}
+              columnId={headingId}
+              cellData={cellData}
+              rowData={rowData}
+              columnData={headingData}
+              updateData={_onCellChange}
+              acceptValue={_onCellAccept}
+              resetValue={_onCellReset}
+              componentMap={componentMap}
+            />
+          </ActiveCell>
+        ) : (
+          <CellComponent
+            isDisabled={disabled}
+            rowId={rowId}
+            rowIndex={rowIndex}
+            classNames={classNames}
+            focused={!disabled && isFocused}
+            editMode={!disabled && editMode}
+            columnId={headingId}
+            cellData={cellData}
+            rowData={rowData}
+            columnData={headingData}
+            // TODO: rename as onChange
+            updateData={_onCellChange}
+            acceptValue={_onCellAccept}
+            resetValue={_onCellReset}
+            componentMap={componentMap}
+          />
+        )}
       </div>
-      {/* </RightClickWrapper> */}
-    {/* </CellStyles> */}
     </>
   );
 }
@@ -183,35 +197,9 @@ Cell.propTypes = {
   columnIndex: PropTypes.number.isRequired,
   rowIndex: PropTypes.number.isRequired,
   style: PropTypes.shape({}),
-  headingsData: PropTypes.arrayOf(
-    PropTypes.shape({
-      uid: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  // tableState: PropTypes.shape({
-  //   tableData: PropTypes.arrayOf(
-  //     PropTypes.shape({
-  //       uid: PropTypes.string.isRequired,
-  //     })
-  //   ).isRequired,
-  //   currentFocusedRow: PropTypes.number,
-  //   currentFocusedColumn: PropTypes.number,
-  //   navigationMode: PropTypes.bool.isRequired,
-  //   editMode: PropTypes.bool.isRequired,
-  //   invalidRowsMessages: PropTypes.arrayOf(
-  //     PropTypes.shape({
-  //       text: PropTypes.string,
-  //     })
-  //   ),
-  // }).isRequired,
-  // methods: PropTypes.shape({
-  //   onCellKeyPress: PropTypes.func.isRequired,
-  //   onCellChange: PropTypes.func.isRequired,
-  //   onCellAccept: PropTypes.func.isRequired,
-  //   onCellReset: PropTypes.func.isRequired,
-  //   onCellSelect: PropTypes.func.isRequired,
-  //   onCellHover: PropTypes.func.isRequired,
-  // }).isRequired,
+  headingData: PropTypes.shape({
+    uid: PropTypes.string.isRequired,
+  }).isRequired,
   className: PropTypes.string,
   componentMap: PropTypes.objectOf(PropTypes.elementType).isRequired,
   disabled: PropTypes.bool,

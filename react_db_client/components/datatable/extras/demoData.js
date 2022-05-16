@@ -1,6 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo } from 'react';
-import { comparisons, filterTypes, FilterObjectClass } from '@react_db_client/constants.client-types';
+import {
+  comparisons,
+  filterTypes,
+  FilterObjectClass,
+} from '@react_db_client/constants.client-types';
 
 export const demoFilterString = new FilterObjectClass({
   uid: 'demoFilterString',
@@ -131,6 +135,11 @@ export const demoTableData = {
     select: 'a',
     hiddenDemoNumber: 3,
     hiddenDemo: 'Hide me',
+    objref: {
+      _id: 1,
+      label: 'Ref A',
+      uid: 'a',
+    },
   },
   ab: {
     // Note string "4" here to check we can pass string numbers without issues
@@ -393,6 +402,11 @@ export const demoHeadingsData = [
     expression: '$customfield + 1',
     expressionReversed: '$customfield=$_ - 1',
     evaluateType: 'number',
+  },
+  {
+    uid: 'objref',
+    label: 'Object Ref',
+    type: filterTypes.reference,
   },
 ];
 export const CustomField = ({ acceptValue, cellData, editMode, focused }) => {
