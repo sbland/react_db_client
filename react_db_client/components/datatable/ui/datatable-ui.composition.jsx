@@ -96,7 +96,7 @@ export const DataTableUiNavigation = () => {
           <DataTableContext.Provider value={dataTableDefaultConfig}>
             <TableStateContext.Provider value={tableState}>
               <TableMethodsContext.Provider value={_methods}>
-                <DataTableUiWithConfig {...defaultProps} tableState={tableState} />
+                <DataTableUi {...defaultProps} tableState={tableState} />
               </TableMethodsContext.Provider>
             </TableStateContext.Provider>
           </DataTableContext.Provider>
