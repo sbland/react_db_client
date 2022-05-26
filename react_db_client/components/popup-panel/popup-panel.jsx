@@ -6,9 +6,14 @@ import './style.scss';
 
 
 const getRoot = (inputRoot) => {
-  if (!inputRoot) throw Error("Must supply input root");
-  if (typeof inputRoot == 'string') return document.getElementById(inputRoot);
-  if (typeof inputRoot == 'object') return inputRoot;
+  let root = null;
+  if (typeof inputRoot == 'object') root = inputRoot;
+  if (typeof inputRoot == 'string') root = document.getElementById(inputRoot);
+  if(!root){
+    root = document.createElement("div");
+    root.setAttribute("id", inputRoot || "_root")
+  }
+  return root;
 };
 
 let popupCount = 1;
@@ -90,7 +95,7 @@ PopupPanel.defaultProps = {
 };
 
 // Uses React HOC pattern
-export const PopupPanelConnector = (Component, root, alwaysOpen, closeProp = 'handleClose', propsOverrides = {}) => {
+export const PopupPanelConnector = (Component, root, alwaysOpen, closeProp = 'handleClose',propsOverrides = {}) => {
   return (props) => {
     const propsMerged = {...props, ...propsOverrides}
     const { className, isOpen, title, id } = propsMerged;
@@ -102,7 +107,7 @@ export const PopupPanelConnector = (Component, root, alwaysOpen, closeProp = 'ha
         title={title}
         popupRoot={root}
         className={className}
-        id={id}
+        id={id || root}
       >
         <Component {...props} />
       </PopupPanel>
