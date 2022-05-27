@@ -5,7 +5,7 @@ import { SearchAndSelect } from '@samnbuk/react_db_client.components.search-and-
 import { AreYouSureBtn } from '@samnbuk/react_db_client.components.are-you-sure-btn';
 import { ItemEditor as _ItemEditor } from '@samnbuk/react_db_client.components.item-editor';
 import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
-import { Emoji } from '@samnbuk/react_db_client.components.emoji';
+import { Emoji } from '@react_db_client/components.emoji';
 import { generateUid } from '@samnbuk/react_db_client.helpers.generate-uid';
 
 

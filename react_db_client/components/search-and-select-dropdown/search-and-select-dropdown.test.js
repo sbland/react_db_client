@@ -11,7 +11,7 @@ import {
   comparisons,
 } from '@react_db_client/constants.client-types';
 import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
-import { CustomSelectDropdown } from '@samnbuk/react_db_client.components.custom-select-dropdown';
+import { CustomSelectDropdown } from '@react_db_client/components.custom-select-dropdown';
 
 import { SearchAndSelectDropdown } from './search-and-select-dropdown';
 import { demoResultData } from './demo-data';
@@ -22,7 +22,7 @@ jest.useFakeTimers();
 jest.mock('@react_db_client/async-hooks.use-async-request', () => ({
   useAsyncRequest: jest.fn(),
 }));
-jest.mock('@samnbuk/react_db_client.components.custom-select-dropdown', () =>
+jest.mock('@react_db_client/components.custom-select-dropdown', () =>
   MockReactC('CustomSelectDropdown', ['CustomSelectDropdown'])
 );
 jest.mock('./loading-icon', () => MockReactC('LoadingIcon', ['LoadingIcon']));

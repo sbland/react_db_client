@@ -19,7 +19,7 @@ import {
 import {
   CustomSelectDropdown,
   DropdownItem,
-} from '@samnbuk/react_db_client.components.custom-select-dropdown';
+} from '@react_db_client/components.custom-select-dropdown';
 import { act } from 'react-dom/test-utils';
 
 const DEMO_TABLE_DATA = Object.values(demoTableData);

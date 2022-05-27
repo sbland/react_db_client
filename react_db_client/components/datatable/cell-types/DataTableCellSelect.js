@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CustomSelectDropdown } from '@samnbuk/react_db_client.components.custom-select-dropdown';
+import { CustomSelectDropdown } from '@react_db_client/components.custom-select-dropdown';
 import { DefaultCellInnerStyle } from './style';
 import { useCallback } from 'react';
 

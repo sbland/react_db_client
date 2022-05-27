@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { SearchAndSelectDropdown } from '@samnbuk/react_db_client.components.search-and-select-dropdown';
+import { SearchAndSelectDropdown } from '@react_db_client/components.search-and-select-dropdown';
 import {ToggleBox, ToggleBoxRadioGroup} from '@samnbuk/react_db_client.components.form.form-components.toggle-box';
 
 export const FieldSelect = ({

@@ -129,12 +129,12 @@
     "{generator/*}": {
       "teambit.harmony/aspect": {}
     },
-    "{components/column-manager},{components/popup-panel},{constants/client-types}": {
+    "{components/column-manager},{components/popup-panel},{constants/client-types},{components/emoji},{components/search-and-select-dropdown},{components/custom-select-dropdown}": {
       "teambit.react/react": {},
       "teambit.pkg/pkg": {
         "packageManagerPublishArgs": [
-          "--access public",
-          "--otp=$NPM_OTP"
+          "--access public"
+          // "--otp=039502@react_db_client/components.emoji"
         ],
         "packageJson": {
           "name": "@{scope}/{name}",
@@ -151,8 +151,8 @@
       "teambit.react/react": {},
       "teambit.pkg/pkg": {
         "packageManagerPublishArgs": [
-          "--access public",
-          "--otp=$NPM_OTP"
+          "--access public"
+          // "--otp=039502@react_db_client/components.emoji"
         ],
         "packageJson": {
           "name": "@{scope}/{name}",
@@ -168,8 +168,8 @@
       "teambit.react/react": {},
       "teambit.pkg/pkg": {
         "packageManagerPublishArgs": [
-          "--access public",
-          "--otp=$NPM_OTP"
+          "--access public"
+          // "--otp=039502@react_db_client/components.emoji"
         ],
         "packageJson": {
           "name": "@{scope}/{name}",
@@ -185,8 +185,8 @@
       "teambit.react/react": {},
       "teambit.pkg/pkg": {
         "packageManagerPublishArgs": [
-          "--access public",
-          "--otp=$NPM_OTP"
+          "--access public"
+          // "--otp=039502@react_db_client/components.emoji"
         ],
         "packageJson": {
           "name": "@{scope}/{name}",
@@ -202,8 +202,8 @@
     //   "teambit.react/react": {},
     //   "teambit.pkg/pkg": {
     //     "packageManagerPublishArgs": [
-    //       "--access public",
-    //       "--otp=$NPM_OTP"
+    //       "--access public"
+          // "--otp=039502@react_db_client/components.emoji"
     //     ],
     //     "packageJson": {
     //       "name": "@{scope}/{name}",
@@ -222,8 +222,8 @@
     // //   "teambit.react/react": {},
     // //   "teambit.pkg/pkg": {
     // //     "packageManagerPublishArgs": [
-    // //       "--access public",
-    // //       "--otp=$NPM_OTP"
+    // //       "--access public"
+    // // "--otp=039502@react_db_client/components.emoji"
     // //     ],
     // //     "packageJson": {
     // //       "name": "@{scope}/{name}",

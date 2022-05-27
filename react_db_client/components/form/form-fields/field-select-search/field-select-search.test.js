@@ -4,13 +4,13 @@ import { mount, shallow } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import { MockReactC } from '@samnbuk/react_db_client.testing.utils';
 
-import { SearchAndSelectDropdown } from '@samnbuk/react_db_client.components.search-and-select-dropdown';
+import { SearchAndSelectDropdown } from '@react_db_client/components.search-and-select-dropdown';
 
 import { FieldSelectSearch } from './field-select-search';
 import * as compositions from './field-select-search.composition';
 import { defaultVal } from './demo-data';
 
-jest.mock('@samnbuk/react_db_client.components.search-and-select-dropdown', () =>
+jest.mock('@react_db_client/components.search-and-select-dropdown', () =>
   MockReactC('SearchAndSelectDropdown', ['SearchAndSelectDropdown'])
 );
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { DataTableCellSelect } from './DataTableCellSelect';
-import { CustomSelectDropdown } from '@samnbuk/react_db_client.components.custom-select-dropdown';
+import { CustomSelectDropdown } from '@react_db_client/components.custom-select-dropdown';
 
 const updateData = jest.fn();
 const acceptValue = jest.fn();

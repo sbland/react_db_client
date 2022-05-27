@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Emoji } from '@samnbuk/react_db_client.components.emoji';
+import { Emoji } from '@react_db_client/components.emoji';
 // import '../_dataTable.scss';
 // import { RightClickWrapper } from '@samnbuk/react_db_client.components.popup-menu';
 import { DataTableCellReadOnly } from '@samnbuk/react_db_client.components.datatable.cell-types';

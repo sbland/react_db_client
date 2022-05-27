@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Emoji } from '@samnbuk/react_db_client.components.emoji';
+import { Emoji } from '@react_db_client/components.emoji';
 
 import './multiSelectDropdown.scss';
 
