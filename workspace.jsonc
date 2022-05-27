@@ -62,16 +62,16 @@
         "@types/styled-components": "5.1.25",
         "@typescript-eslint/eslint-plugin": "4.29.3",
         "classnames": "2.3.1",
-        "enzyme": "3.11.0",
-        "enzyme-adapter-react-16": "1.15.6",
-        "enzyme-to-json": "3.6.2",
+        "eslint-config-prettier": "8.5.0",
         "eslint-import-resolver-node": "0.3.6",
         "eslint-plugin-import": "2.22.1",
         "eslint-plugin-jest": "24.4.0",
         "eslint-plugin-jsx-a11y": "6.4.1",
         "eslint-plugin-mdx": "1.15.0",
         "eslint-plugin-react": "7.25.1",
+        "eslint-plugin-react-hooks": "4.5.0",
         "react-base-table": "1.13.0",
+        "react-data-grid": "7.0.0-beta.12",
         "react-is": "^16.x.x",
         "react-json-view": "1.21.3",
         "react-router-dom": "^5.0.1",
@@ -92,7 +92,10 @@
         "lodash": "^4.17.11",
         "prop-types": "^15.6.1",
         "react": "16.14.0",
-        "react-dom": "16.14.0"
+        "react-dom": "16.14.0",
+        "enzyme": "3.11.0",
+        "enzyme-adapter-react-16": "1.15.6",
+        "enzyme-to-json": "3.6.2"
       }
     },
     "packageManagerArgs": [],
@@ -129,7 +132,62 @@
     "{components/column-manager},{components/popup-panel},{constants/client-types}": {
       "teambit.react/react": {},
       "teambit.pkg/pkg": {
-        "packageManagerPublishArgs": ["--access public", "--otp=$NPM_OTP"],
+        "packageManagerPublishArgs": [
+          "--access public",
+          "--otp=$NPM_OTP"
+        ],
+        "packageJson": {
+          "name": "@{scope}/{name}",
+          "private": false,
+          "publishConfig": {
+            "scope": "@saminuk",
+            "registry": "https://registry.npmjs.org/"
+          }
+        }
+      }
+    },
+
+    "{constants/**}": {
+      "teambit.react/react": {},
+      "teambit.pkg/pkg": {
+        "packageManagerPublishArgs": [
+          "--access public",
+          "--otp=$NPM_OTP"
+        ],
+        "packageJson": {
+          "name": "@{scope}/{name}",
+          "private": false,
+          "publishConfig": {
+            "scope": "@saminuk",
+            "registry": "https://registry.npmjs.org/"
+          }
+        }
+      }
+    },
+    "{async-hooks/**}": {
+      "teambit.react/react": {},
+      "teambit.pkg/pkg": {
+        "packageManagerPublishArgs": [
+          "--access public",
+          "--otp=$NPM_OTP"
+        ],
+        "packageJson": {
+          "name": "@{scope}/{name}",
+          "private": false,
+          "publishConfig": {
+            "scope": "@saminuk",
+            "registry": "https://registry.npmjs.org/"
+          }
+        }
+      }
+    },
+    "{hooks/**}": {
+      "teambit.react/react": {},
+      "teambit.pkg/pkg": {
+        "packageManagerPublishArgs": [
+          "--access public",
+          "--otp=$NPM_OTP"
+        ],
         "packageJson": {
           "name": "@{scope}/{name}",
           "private": false,
@@ -140,5 +198,42 @@
         }
       }
     }
+    // "{helpers/**}": {
+    //   "teambit.react/react": {},
+    //   "teambit.pkg/pkg": {
+    //     "packageManagerPublishArgs": [
+    //       "--access public",
+    //       "--otp=$NPM_OTP"
+    //     ],
+    //     "packageJson": {
+    //       "name": "@{scope}/{name}",
+    //       "private": false,
+    //       "publishConfig": {
+    //         "scope": "@saminuk",
+    //         "registry": "https://registry.npmjs.org/"
+    //       }
+    //     }
+    //   }
+    // }
+
+
+
+    // // "{constants/**/*},{components/**/*},{async-hooks/**/*},{helpers/**/*},{hooks/**/*}": {
+    // //   "teambit.react/react": {},
+    // //   "teambit.pkg/pkg": {
+    // //     "packageManagerPublishArgs": [
+    // //       "--access public",
+    // //       "--otp=$NPM_OTP"
+    // //     ],
+    // //     "packageJson": {
+    // //       "name": "@{scope}/{name}",
+    // //       "private": false,
+    // //       "publishConfig": {
+    // //         "scope": "@saminuk",
+    // //         "registry": "https://registry.npmjs.org/"
+    // //       }
+    // //     }
+    // //   }
+    // // }
   }
 }

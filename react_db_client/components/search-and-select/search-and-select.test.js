@@ -9,11 +9,11 @@ import {
   FilterObjectClass,
   filterTypes,
   comparisons,
-} from '@samnbuk/react_db_client.constants.client-types';
-import { useAsyncRequest } from '@samnbuk/react_db_client.async-hooks.use-async-request';
+} from '@react_db_client/constants.client-types';
+import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
 import { StyledSelectList } from '@samnbuk/react_db_client.components.styled-select-list';
 
-import { demoFiltersData, demoFieldsData } from '@samnbuk/react_db_client.constants.demo-data';
+import { demoFiltersData, demoFieldsData } from '@react_db_client/constants.demo-data';
 import { SearchAndSelect } from './search-and-select';
 import { demoResultData, demoHeadingsData } from './demo-data';
 import { useSelectionManager } from './logic';
@@ -21,7 +21,7 @@ import { useSelectionManager } from './logic';
 const DEFAULT_SORT_BY = 'uid';
 // TODO: Mock styled select list
 
-jest.mock('@samnbuk/react_db_client.async-hooks.use-async-request', () => ({
+jest.mock('@react_db_client/async-hooks.use-async-request', () => ({
   useAsyncRequest: jest.fn(),
 }));
 

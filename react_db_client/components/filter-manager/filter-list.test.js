@@ -8,7 +8,7 @@ import {
     comparisons,
     FilterObjectClass,
     filterTypes,
-  } from '@samnbuk/react_db_client.constants.client-types';
+  } from '@react_db_client/constants.client-types';
 
 import { FiltersList } from './FiltersList';
 import { demoFiltersData, demoFieldsData } from './demoData';

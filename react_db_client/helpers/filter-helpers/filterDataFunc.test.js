@@ -4,7 +4,7 @@ import {
   filterTypes,
   FilterObjectClass,
   comparisons,
-} from '@samnbuk/react_db_client.constants.client-types';
+} from '@react_db_client/constants.client-types';
 
 describe('Filter Data Func', () => {
   test('should filter data', () => {

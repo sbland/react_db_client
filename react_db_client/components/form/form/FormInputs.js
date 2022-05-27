@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { filterTypes } from '@react_db_client/constants.client-types';
 
-import '@samnbuk/react_db_client.constants.style';
+import '@react_db_client/constants.style';
 import { FormField as DefaultFormField } from './FormField';
 import './_form.scss';
 

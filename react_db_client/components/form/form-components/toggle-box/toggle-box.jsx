@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Emoji } from '@samnbuk/react_db_client.components.emoji';
-import '@samnbuk/react_db_client.constants.style';
+import '@react_db_client/constants.style';
 
 export const ToggleBox = ({ stateIn, id, text, onChange, width, disabled }) => {
   const [state, setState] = useState(stateIn);

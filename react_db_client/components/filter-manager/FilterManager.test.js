@@ -9,7 +9,7 @@ import {
   FilterObjectClass,
   filterTypes,
   filterTypesDefaults,
-} from '@samnbuk/react_db_client.constants.client-types';
+} from '@react_db_client/constants.client-types';
 
 import { AddFilterButton } from './add-filter-button';
 import { FilterPanel } from './filter-manager';

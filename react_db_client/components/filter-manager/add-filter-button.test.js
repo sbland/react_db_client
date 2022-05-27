@@ -7,7 +7,7 @@ import {
   comparisons,
   FilterObjectClass,
   filterTypes,
-} from '@samnbuk/react_db_client.constants.client-types';
+} from '@react_db_client/constants.client-types';
 
 import { AddFilterButton } from './add-filter-button';
 import { demoFieldsData } from './demoData';

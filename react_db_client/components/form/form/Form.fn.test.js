@@ -3,7 +3,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import { SearchAndSelectDropdown } from '@samnbuk/react_db_client.components.search-and-select-dropdown';
-import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
+import { filterTypes } from '@react_db_client/constants.client-types';
 import { demoHeadingsData, demoFormData } from './DemoData';
 
 import { Form } from './form';

@@ -19,9 +19,9 @@ import {
 import {
   ColumnWidthManager,
   useColumnManager,
-} from '@samnbuk/react_db_client.components.column-manager';
+} from '@react_db_client/components.column-manager';
 
-import '@samnbuk/react_db_client.constants.style';
+import '@react_db_client/constants.style';
 import './style.scss';
 // import './_dataTable_condensed.scss';
 

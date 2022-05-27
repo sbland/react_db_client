@@ -2,12 +2,12 @@
 import '@samnbuk/react_db_client.helpers.enzyme-setup';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { useAsyncObjectManager } from './use-async-object-manager';
-import { useAsyncRequest } from '@samnbuk/react_db_client.async-hooks.use-async-request';
+import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
 import { updateDict } from './helpers';
 
 Date.now = jest.fn().mockImplementation(() => 0);
 
-jest.mock('@samnbuk/react_db_client.async-hooks.use-async-request', () => ({
+jest.mock('@react_db_client/async-hooks.use-async-request', () => ({
   __esModule: true, // this property makes it work
   useAsyncRequest: jest.fn(),
 }));

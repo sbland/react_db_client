@@ -3,7 +3,7 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { MockReactC } from '@samnbuk/react_db_client.helpers.testing';
 import { SearchAndSelect } from '@samnbuk/react_db_client.components.search-and-select';
-import { FilterObjectSimpleClass } from '@samnbuk/react_db_client.constants.client-types';
+import { FilterObjectSimpleClass } from '@react_db_client/constants.client-types';
 // import { searchFilesFunction } from './logic';
 
 import { FileManager } from './file-manager';
