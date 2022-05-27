@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import '@samnbuk/react_db_client.constants.style';
+import '@react_db_client/constants.style';
 
 export const ToggleBoxRadioGroup = ({
     selected: selectedIn,

@@ -1,6 +1,6 @@
 import React, { useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { useColumnManager } from '@samnbuk/react_db_client.components.column-manager';
+import { useColumnManager } from '@react_db_client/components.column-manager';
 import { ListItem } from './list-item';
 
 import styles from './StyledSelectList.module.scss';

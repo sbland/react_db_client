@@ -2,7 +2,7 @@ import {
   comparisons,
   filterTypes,
   FilterObjectClass,
-} from '@samnbuk/react_db_client.constants.client-types';
+} from '@react_db_client/constants.client-types';
 
 export const demoFilterString = new FilterObjectClass({
   uid: 'demoFilterString',

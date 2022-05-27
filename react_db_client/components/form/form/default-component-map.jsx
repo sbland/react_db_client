@@ -1,5 +1,5 @@
 import React from 'react';
-import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
+import { filterTypes } from '@react_db_client/constants.client-types';
 
 import { FieldText } from '@samnbuk/react_db_client.components.form.form-fields.field-text';
 import { FieldTextArea } from '@samnbuk/react_db_client.components.form.form-fields.field-text-area';

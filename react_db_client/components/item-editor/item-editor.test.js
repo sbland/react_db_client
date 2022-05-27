@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import '@samnbuk/react_db_client.helpers.enzyme-setup';
+import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
 import { mount } from 'enzyme';
 import { BasicItemEditor } from './item-editor.composition';

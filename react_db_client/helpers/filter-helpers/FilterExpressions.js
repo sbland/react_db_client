@@ -1,4 +1,4 @@
-import { comparisons } from '@samnbuk/react_db_client.constants.client-types';
+import { comparisons } from '@react_db_client/constants.client-types';
 
 const stringContains = (val, searchTerm) => {
   return (val && val.search(new RegExp(searchTerm))) !== -1;

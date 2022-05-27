@@ -1,8 +1,8 @@
-import '@samnbuk/react_db_client.helpers.enzyme-setup';
+import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
-import { MockReactC } from '@samnbuk/react_db_client.helpers.testing';
+import { MockReactC } from '@samnbuk/react_db_client.testing.utils';
 
 import { CustomSelectDropdown } from './custom-select-dropdown';
 import { DropDownItem } from './drop-down-item';

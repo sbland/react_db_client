@@ -1,8 +1,8 @@
-import '@samnbuk/react_db_client.helpers.enzyme-setup';
+import '@samnbuk/react_db_client.testing.enzyme-setup';
 
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
+import { filterTypes } from '@react_db_client/constants.client-types';
 
 import { FieldReadOnly } from './field-read-only';
 import * as compositions from './field-read-only.composition';

@@ -1,4 +1,4 @@
-import '@samnbuk/react_db_client.helpers.enzyme-setup';
+import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
 import { mount } from 'enzyme';
 

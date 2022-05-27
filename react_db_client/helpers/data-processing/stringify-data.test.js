@@ -1,4 +1,4 @@
-import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
+import { filterTypes } from '@react_db_client/constants.client-types';
 
 import { sanitizeCellData, stringifyData, formatValue } from './stringify-data';
 

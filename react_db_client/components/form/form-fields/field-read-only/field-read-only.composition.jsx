@@ -1,6 +1,6 @@
 import React from 'react';
 import { FieldReadOnly } from './field-read-only';
-import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
+import { filterTypes } from '@react_db_client/constants.client-types';
 
 export const BasicFieldReadOnly = () => (
   <FieldReadOnly

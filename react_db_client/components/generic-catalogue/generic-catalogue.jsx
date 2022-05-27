@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { SearchAndSelect } from '@samnbuk/react_db_client.components.search-and-select';
 import { AreYouSureBtn } from '@samnbuk/react_db_client.components.are-you-sure-btn';
 import { ItemEditor as _ItemEditor } from '@samnbuk/react_db_client.components.item-editor';
-import { useAsyncRequest } from '@samnbuk/react_db_client.async-hooks.use-async-request';
+import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
 import { Emoji } from '@samnbuk/react_db_client.components.emoji';
 import { generateUid } from '@samnbuk/react_db_client.helpers.generate-uid';
 

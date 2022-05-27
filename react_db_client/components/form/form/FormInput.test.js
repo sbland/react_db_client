@@ -1,11 +1,11 @@
-import '@samnbuk/react_db_client.helpers.enzyme-setup';
+import '@samnbuk/react_db_client.testing.enzyme-setup';
 // test('should work', () => {
 //     //
 // })
 
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import { MockReactC } from '@samnbuk/react_db_client.helpers.testing';
+import { MockReactC } from '@samnbuk/react_db_client.testing.utils';
 
 import { FormInputs } from './FormInputs';
 import { demoHeadingsData, demoFormData } from './DemoData';

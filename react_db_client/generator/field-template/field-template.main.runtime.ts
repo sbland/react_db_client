@@ -112,7 +112,7 @@ export const Basic${context.namePascalCase}  = () => (
             // test file
             {
               relativePath: `${context.name}.test.js`,
-              content: `import '@samnbuk/react_db_client.helpers.enzyme-setup';
+              content: `import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 

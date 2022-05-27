@@ -1,0 +1,163 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataTableTotals Unit tests Showing Totals should show totals for columns with showTotals set to true 1`] = `
+"<DataTableDataCell rowId=\\"_totals\\" rowIndex={-1} rowData={{...}} classNames=\\"\\" columnId=\\"count\\" cellData={0} columnData={{...}} customFieldComponents={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} focused={false} editMode={false} isDisabled={false}>
+  <div style={{...}}>
+    <CellRightClickWrapper readOnly={false} clearCell={[Function: clearCell]} setAsDefault={[Function: setAsDefault]}>
+      <RightClickWrapper items={{...}}>
+        <div style={{...}} className=\\"popupMenu_righClickWrap false\\" onContextMenu={[Function: handleContextMenu]}>
+          <DataTableCellNumber rowId=\\"_totals\\" rowIndex={-1} rowData={{...}} classNames=\\"\\" columnId=\\"count\\" cellData={0} columnData={{...}} customFieldComponents={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} focused={false} editMode={false} isDisabled={false}>
+            <div className=\\"dataTableCellData dataTableCellData-number\\">
+              <div className=\\"dataTableCellData_text\\">
+                0
+              </div>
+              <input style={{...}} className=\\"cellInput-number\\" autoFocus={true} onFocus={[Function: onFocus]} type=\\"number\\" max={10} min={2} onChange={[Function: handleInputChange]} value=\\"\\" step={1} onBlur={[Function: onBlur]} onKeyDown={[Function: onKeyPress]} />
+            </div>
+          </DataTableCellNumber>
+        </div>
+        <PopupMenu isOpenOverride={false} onCloseCallback={[Function: onCloseCallback]} items={{...}} position={{...}} />
+      </RightClickWrapper>
+    </CellRightClickWrapper>
+  </div>
+</DataTableDataCell>
+
+
+<DataTableDataCell rowId=\\"_totals\\" rowIndex={-1} rowData={{...}} classNames=\\"\\" columnId=\\"def\\" cellData={0} columnData={{...}} customFieldComponents={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} focused={false} editMode={false} isDisabled={false}>
+  <div style={{...}}>
+    <CellRightClickWrapper readOnly={false} clearCell={[Function: clearCell]} setAsDefault={[Function: setAsDefault]}>
+      <RightClickWrapper items={{...}}>
+        <div style={{...}} className=\\"popupMenu_righClickWrap false\\" onContextMenu={[Function: handleContextMenu]}>
+          <DataTableCellNumber rowId=\\"_totals\\" rowIndex={-1} rowData={{...}} classNames=\\"\\" columnId=\\"def\\" cellData={0} columnData={{...}} customFieldComponents={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} focused={false} editMode={false} isDisabled={false}>
+            <div className=\\"dataTableCellData dataTableCellData-number\\">
+              <div className=\\"dataTableCellData_text\\">
+                0
+              </div>
+              <input style={{...}} className=\\"cellInput-number\\" autoFocus={true} onFocus={[Function: onFocus]} type=\\"number\\" max={10} min={1} onChange={[Function: handleInputChange]} value=\\"\\" step={0.01} onBlur={[Function: onBlur]} onKeyDown={[Function: onKeyPress]} />
+            </div>
+          </DataTableCellNumber>
+        </div>
+        <PopupMenu isOpenOverride={false} onCloseCallback={[Function: onCloseCallback]} items={{...}} position={{...}} />
+      </RightClickWrapper>
+    </CellRightClickWrapper>
+  </div>
+</DataTableDataCell>
+
+
+<DataTableDataCell rowId=\\"_totals\\" rowIndex={-1} rowData={{...}} classNames=\\"\\" columnId=\\"expression\\" cellData={0} columnData={{...}} customFieldComponents={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} focused={false} editMode={false} isDisabled={false}>
+  <div style={{...}}>
+    <CellRightClickWrapper readOnly={false} clearCell={[Function: clearCell]} setAsDefault={[Function: setAsDefault]}>
+      <RightClickWrapper items={{...}}>
+        <div style={{...}} className=\\"popupMenu_righClickWrap false\\" onContextMenu={[Function: handleContextMenu]}>
+          <DataTableCellNumber rowId=\\"_totals\\" rowIndex={-1} rowData={{...}} classNames=\\"\\" columnId=\\"expression\\" cellData={0} columnData={{...}} customFieldComponents={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} focused={false} editMode={false} isDisabled={false}>
+            <div className=\\"dataTableCellData dataTableCellData-number\\">
+              <div className=\\"dataTableCellData_text\\">
+                0
+              </div>
+              <input style={{...}} className=\\"cellInput-number\\" autoFocus={true} onFocus={[Function: onFocus]} type=\\"number\\" max={[undefined]} min={[undefined]} onChange={[Function: handleInputChange]} value=\\"\\" step={0.01} onBlur={[Function: onBlur]} onKeyDown={[Function: onKeyPress]} />
+            </div>
+          </DataTableCellNumber>
+        </div>
+        <PopupMenu isOpenOverride={false} onCloseCallback={[Function: onCloseCallback]} items={{...}} position={{...}} />
+      </RightClickWrapper>
+    </CellRightClickWrapper>
+  </div>
+</DataTableDataCell>
+
+
+<DataTableDataCell rowId=\\"_totals\\" rowIndex={-1} rowData={{...}} classNames=\\"\\" columnId=\\"customfield\\" cellData={0} columnData={{...}} customFieldComponents={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} focused={false} editMode={false} isDisabled={false}>
+  <div style={{...}}>
+    <CellRightClickWrapper readOnly={false} clearCell={[Function: clearCell]} setAsDefault={[Function: setAsDefault]}>
+      <RightClickWrapper items={{...}}>
+        <div onContextMenu={[Function: handleContextMenu]}>
+          Invalid Cell Type 
+          custom
+        </div>
+        <PopupMenu isOpenOverride={false} onCloseCallback={[Function: onCloseCallback]} items={{...}} position={{...}} />
+      </RightClickWrapper>
+    </CellRightClickWrapper>
+  </div>
+</DataTableDataCell>
+
+
+<DataTableDataCell rowId=\\"_totals\\" rowIndex={-1} rowData={{...}} classNames=\\"\\" columnId=\\"customfieldeval\\" cellData={0} columnData={{...}} customFieldComponents={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} focused={false} editMode={false} isDisabled={false}>
+  <div style={{...}}>
+    <CellRightClickWrapper readOnly={false} clearCell={[Function: clearCell]} setAsDefault={[Function: setAsDefault]}>
+      <RightClickWrapper items={{...}}>
+        <div onContextMenu={[Function: handleContextMenu]}>
+          Invalid Cell Type 
+          customeval
+        </div>
+        <PopupMenu isOpenOverride={false} onCloseCallback={[Function: onCloseCallback]} items={{...}} position={{...}} />
+      </RightClickWrapper>
+    </CellRightClickWrapper>
+  </div>
+</DataTableDataCell>"
+`;
+
+exports[`DataTableTotals shallow renders Matches Snapshot 1`] = `
+"<div className=\\"dataTable_totalsOutsideWrap\\">
+  <div className=\\"dataTable_totalsInsideWrap\\" style={{...}}>
+    <DataTableCellHoverWrap className=\\"dataTableTotals\\" columnWidth={10} style={{...}} handleHover={[Function: handleHover]} disabled={false} />
+    <DataTableCellHoverWrap columnWidth={10} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <div />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <div />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <div />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <DataTableDataCell rowId=\\"_totals\\" rowIndex={-1} rowData={{...}} classNames=\\"\\" columnId=\\"count\\" cellData={0} columnData={{...}} customFieldComponents={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} focused={false} editMode={false} isDisabled={false} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <DataTableDataCell rowId=\\"_totals\\" rowIndex={-1} rowData={{...}} classNames=\\"\\" columnId=\\"def\\" cellData={0} columnData={{...}} customFieldComponents={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} focused={false} editMode={false} isDisabled={false} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <div />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <div />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <div />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <div />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <div />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <div />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <DataTableDataCell rowId=\\"_totals\\" rowIndex={-1} rowData={{...}} classNames=\\"\\" columnId=\\"expression\\" cellData={0} columnData={{...}} customFieldComponents={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} focused={false} editMode={false} isDisabled={false} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <div />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <div />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <div />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <div />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <div />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <div />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <DataTableDataCell rowId=\\"_totals\\" rowIndex={-1} rowData={{...}} classNames=\\"\\" columnId=\\"customfield\\" cellData={0} columnData={{...}} customFieldComponents={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} focused={false} editMode={false} isDisabled={false} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={100} className=\\"dataTableTotals\\" style={{...}} handleHover={[Function: handleHover]} disabled={false}>
+      <DataTableDataCell rowId=\\"_totals\\" rowIndex={-1} rowData={{...}} classNames=\\"\\" columnId=\\"customfieldeval\\" cellData={0} columnData={{...}} customFieldComponents={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} focused={false} editMode={false} isDisabled={false} />
+    </DataTableCellHoverWrap>
+  </div>
+</div>"
+`;

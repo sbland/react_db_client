@@ -1,4 +1,4 @@
-import '@samnbuk/react_db_client.helpers.enzyme-setup';
+import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { AreYouSureBtn } from './are-you-sure-btn';
@@ -44,7 +44,7 @@ describe('AreYouSureBtn', () => {
       test('should call confirm id when we click accept button in are you sure panel', () => {
         clickBtn(component);
         let areYouSurePanel = component.find(PopupPanel);
-        const areYouSureAcceptBtn = areYouSurePanel.find('.areYouSureAccept');
+        const areYouSureAcceptBtn = areYouSurePanel.find('.areYouSure_acceptBtn');
         areYouSureAcceptBtn.simulate('click');
         areYouSurePanel = component.find(PopupPanel);
         expect(areYouSurePanel.props().isOpen).toEqual(false);

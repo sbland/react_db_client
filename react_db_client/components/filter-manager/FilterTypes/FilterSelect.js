@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   comparisons,
   FilterObjectClass,
-} from '@samnbuk/react_db_client.constants.client-types';
+} from '@react_db_client/constants.client-types';
 
 const FilterSelect = ({ filter, updateFilter, fieldData, multiple }) => {
   const updateOperator = (e) => {

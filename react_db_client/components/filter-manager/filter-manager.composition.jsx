@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { FilterObjectClass, filterTypes } from '@samnbuk/react_db_client.constants.client-types';
+import { FilterObjectClass, filterTypes } from '@react_db_client/constants.client-types';
 
 import { FilterPanel } from './filter-manager';
 import { demoFiltersData, demoFieldsData } from './demoData';

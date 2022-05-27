@@ -1,4 +1,4 @@
-import '@samnbuk/react_db_client.helpers.enzyme-setup';
+import '@samnbuk/react_db_client.testing.enzyme-setup';
 import { renderHook } from '@testing-library/react-hooks';
 import { demoHeadingsData } from './demoData';
 import { useColumnManager } from './column-manager-hook';

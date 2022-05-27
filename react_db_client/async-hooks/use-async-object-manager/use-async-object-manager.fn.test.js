@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import '@samnbuk/react_db_client.helpers.enzyme-setup';
+import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { mount } from 'enzyme';

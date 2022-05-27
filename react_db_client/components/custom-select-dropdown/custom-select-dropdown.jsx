@@ -36,12 +36,16 @@ export const CustomSelectDropdown = ({
 
   useEffect(() => {
     // Bind the event listener
-    document.addEventListener('mousedown', handleClickOutside);
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
     return () => {
       // Unbind the event listener on clean up
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  });
+  }, [isOpen]);
 
   const handleItemKeyDown = (e) => {
     if (e.key === 'ArrowDown' && currentItemFocus < options.length - 1) {
@@ -105,4 +109,3 @@ CustomSelectDropdown.propTypes = {
   firstItemRef: PropTypes.object.isRequired,
   goBackToSearchField: PropTypes.func.isRequired,
 };
-

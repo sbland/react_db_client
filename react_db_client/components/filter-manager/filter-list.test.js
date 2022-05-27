@@ -1,4 +1,4 @@
-import '@samnbuk/react_db_client.helpers.enzyme-setup';
+import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
 // import renderer from 'react-test-renderer';
 import { mount } from 'enzyme';
@@ -8,7 +8,7 @@ import {
     comparisons,
     FilterObjectClass,
     filterTypes,
-  } from '@samnbuk/react_db_client.constants.client-types';
+  } from '@react_db_client/constants.client-types';
 
 import { FiltersList } from './FiltersList';
 import { demoFiltersData, demoFieldsData } from './demoData';

@@ -1,4 +1,4 @@
-import { filterTypes } from '@samnbuk/react_db_client.constants.client-types';
+import { filterTypes } from '@react_db_client/constants.client-types';
 import { switchF, tryF } from '@samnbuk/react_db_client.helpers.func-tools';
 
 /**
@@ -123,7 +123,7 @@ export const stringifyImage = (data, _metaData) => data;
  * @param {objectOf} customParsers dict containing custom parsers
  * @returns parsed item
  */
-export const stringifyData = (item, metaData, customParsers) => {
+export const stringifyData = (item, metaData, customParsers={}, strict=true) => {
   const parser = switchF(
     metaData.type,
     {
@@ -146,7 +146,8 @@ export const stringifyData = (item, metaData, customParsers) => {
       }, {}),
     },
     () => {
-      throw Error(`Missing parser for ${metaData.uid} of type ${metaData.type}`);
+      if (strict)throw Error(`Missing parser for ${metaData.uid} of type ${metaData.type}`);
+      return (d) => d;
     }
   );
 
