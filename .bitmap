@@ -369,5 +369,17 @@
         "mainFile": "index.js",
         "rootDir": "react_db_client/hooks/use-auto-hide-panel-hook"
     },
+    "testing/enzyme-setup": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/testing/enzyme-setup"
+    },
+    "testing/utils": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.js",
+        "rootDir": "react_db_client/testing/utils"
+    },
     "$schema-version": "14.9.0"
 }

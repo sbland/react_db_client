@@ -1,7 +1,7 @@
-import '@samnbuk/react_db_client.helpers.enzyme-setup';
+import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import { MockReactC } from '@samnbuk/react_db_client.helpers.testing';
+import { MockReactC } from '@samnbuk/react_db_client.testing.utils';
 import { SearchAndSelect } from '@samnbuk/react_db_client.components.search-and-select';
 import { FilterObjectSimpleClass } from '@react_db_client/constants.client-types';
 // import { searchFilesFunction } from './logic';

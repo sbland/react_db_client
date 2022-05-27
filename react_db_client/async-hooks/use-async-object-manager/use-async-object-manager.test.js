@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import '@samnbuk/react_db_client.helpers.enzyme-setup';
+import '@samnbuk/react_db_client.testing.enzyme-setup';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { useAsyncObjectManager } from './use-async-object-manager';
 import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';

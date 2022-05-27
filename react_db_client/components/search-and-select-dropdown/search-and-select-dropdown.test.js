@@ -1,10 +1,10 @@
-import '@samnbuk/react_db_client.helpers.enzyme-setup';
+import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import toJson from 'enzyme-to-json';
 import { createSerializer } from 'enzyme-to-json';
-import { MockEs6, MockReactC } from '@samnbuk/react_db_client.helpers.testing';
+import { MockEs6, MockReactC } from '@samnbuk/react_db_client.testing.utils';
 import {
   FilterObjectClass,
   filterTypes,
