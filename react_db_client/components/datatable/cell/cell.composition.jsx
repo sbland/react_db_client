@@ -5,7 +5,7 @@ import {
 } from '@samnbuk/react_db_client.components.datatable.config';
 import { VariableSizeGrid as Grid } from 'react-window';
 import ReactJson from 'react-json-view';
-import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps';
+import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
 import { Cell } from './cell';
 import { ThemeProvider } from 'styled-components';
 import {

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { filterTypes } from '@react_db_client/constants.client-types';
-import { switchF } from '@samnbuk/react_db_client.helpers.func-tools';
+import { switchF } from '@react_db_client/helpers.func-tools';
 
 import { FieldReadOnly } from '@samnbuk/react_db_client.components.form.form-fields.field-read-only';
 import { FieldLabel } from './field-label';

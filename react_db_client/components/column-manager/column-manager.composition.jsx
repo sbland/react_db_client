@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps';
+import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
 import { ColumnWidthManager } from './column-width-manager';
 import { useColumnManager } from './column-manager-hook';
 

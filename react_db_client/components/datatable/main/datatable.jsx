@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import { FilterObjectClass } from '@react_db_client/constants.client-types';
 import { useColumnVisabilityManager } from '@react_db_client/components.column-manager';
-import { wrapWithErrorBoundary } from '@samnbuk/react_db_client.helpers.error-handling';
+import { wrapWithErrorBoundary } from '@react_db_client/helpers.error-handling';
 import { SelectionPreview } from '@samnbuk/react_db_client.components.selection-preview';
 
 import {

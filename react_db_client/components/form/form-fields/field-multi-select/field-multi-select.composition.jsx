@@ -1,5 +1,5 @@
 import React from 'react';
-import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps';
+import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
 
 import { FieldMultiSelect } from './field-multi-select';
 import { demoOptions } from './demo-data';

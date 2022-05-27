@@ -84,7 +84,7 @@ import { ${context.namePascalCase} } from './${context.name}';
             {
               relativePath: `${context.name}.composition.jsx`,
               content: `import React from 'react';
-import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps';
+import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
 import { ${context.namePascalCase} } from './${context.name}';
 import { defaultVal } from './demo-data';
 

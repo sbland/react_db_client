@@ -14,7 +14,7 @@ import {
   DataTableContext,
   dataTableDefaultConfig,
 } from '@samnbuk/react_db_client.components.datatable.config';
-import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps';
+import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
 
 import { useHandleTableState } from '@samnbuk/react_db_client.components.datatable.state';
 import { DataTableUi } from './DataTableUi';

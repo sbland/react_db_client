@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { stringifyData } from '@samnbuk/react_db_client.helpers.data-processing';
+import { stringifyData } from '@react_db_client/helpers.data-processing';
 
 import styles from './StyledSelectList.module.scss'
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   CompositionWrapDefault,
   WrapFieldComponent,
-} from '@samnbuk/react_db_client.helpers.composition-wraps';
+} from '@react_db_client/helpers.composition-wraps';
 import { FieldTextArea } from './field-text-area';
 import { defaultVal } from './demo-data';
 

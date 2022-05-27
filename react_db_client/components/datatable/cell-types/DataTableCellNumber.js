@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { validateValue, formatValue } from '@samnbuk/react_db_client.helpers.data-processing';
+import { validateValue, formatValue } from '@react_db_client/helpers.data-processing';
 import { DefaultCellInnerStyle } from './style';
 
 /**

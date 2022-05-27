@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { switchF } from '@samnbuk/react_db_client.helpers.func-tools';
+import { switchF } from '@react_db_client/helpers.func-tools';
 import {
   filterTypes,
   FilterObjectClass,

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
-import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps';
+import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { SearchAndSelectDropdown } from './search-and-select-dropdown';

@@ -12,7 +12,7 @@ import {
   useColumnManager,
 } from '@react_db_client/components.column-manager';
 
-import { CompositionWrapDefault } from '@samnbuk/react_db_client.helpers.composition-wraps';
+import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
 
 import {
   demoHeadingsData,

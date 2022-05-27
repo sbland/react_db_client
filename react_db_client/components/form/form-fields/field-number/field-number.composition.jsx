@@ -1,5 +1,5 @@
 import React from 'react';
-import { CompositionWrapDefault, WrapFieldComponent } from '@samnbuk/react_db_client.helpers.composition-wraps';
+import { CompositionWrapDefault, WrapFieldComponent } from '@react_db_client/helpers.composition-wraps';
 
 import { FieldNumber } from './field-number';
 import { defaultProps } from './default-val';

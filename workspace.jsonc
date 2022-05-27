@@ -197,24 +197,24 @@
           }
         }
       }
-    }
-    // "{helpers/**}": {
-    //   "teambit.react/react": {},
-    //   "teambit.pkg/pkg": {
-    //     "packageManagerPublishArgs": [
-    //       "--access public"
+    },
+    "{helpers/**}": {
+      "teambit.react/react": {},
+      "teambit.pkg/pkg": {
+        "packageManagerPublishArgs": [
+          "--access public"
           // "--otp=039502@react_db_client/components.emoji"
-    //     ],
-    //     "packageJson": {
-    //       "name": "@{scope}/{name}",
-    //       "private": false,
-    //       "publishConfig": {
-    //         "scope": "@saminuk",
-    //         "registry": "https://registry.npmjs.org/"
-    //       }
-    //     }
-    //   }
-    // }
+        ],
+        "packageJson": {
+          "name": "@{scope}/{name}",
+          "private": false,
+          "publishConfig": {
+            "scope": "@saminuk",
+            "registry": "https://registry.npmjs.org/"
+          }
+        }
+      }
+    }
 
 
 

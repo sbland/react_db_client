@@ -6,7 +6,7 @@ import { AreYouSureBtn } from '@samnbuk/react_db_client.components.are-you-sure-
 import { ItemEditor as _ItemEditor } from '@samnbuk/react_db_client.components.item-editor';
 import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
 import { Emoji } from '@react_db_client/components.emoji';
-import { generateUid } from '@samnbuk/react_db_client.helpers.generate-uid';
+import { generateUid } from '@react_db_client/helpers.generate-uid';
 
 
 /**

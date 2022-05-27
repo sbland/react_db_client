@@ -1,5 +1,5 @@
 import { filterTypes } from '@react_db_client/constants.client-types';
-import { switchF, tryF } from '@samnbuk/react_db_client.helpers.func-tools';
+import { switchF, tryF } from '@react_db_client/helpers.func-tools';
 
 /**
  * Format a number with decimal place

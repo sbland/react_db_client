@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import merge from 'lodash/merge';
 import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
-import { generateUid } from '@samnbuk/react_db_client.helpers.generate-uid';
+import { generateUid } from '@react_db_client/helpers.generate-uid';
 import { updateDict } from './helpers';
 
 /**
