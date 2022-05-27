@@ -270,7 +270,7 @@
     "constants/client-types": {
         "scope": "samnbuk.react_db_client",
         "version": "0.1.0",
-        "mainFile": "index.js",
+        "mainFile": "index.ts",
         "rootDir": "react_db_client/constants/client-types"
     },
     "constants/demo-data": {

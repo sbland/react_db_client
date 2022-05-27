@@ -125,6 +125,20 @@
     },
     "{generator/*}": {
       "teambit.harmony/aspect": {}
+    },
+    "{components/column-manager},{components/popup-panel},{constants/client-types}": {
+      "teambit.react/react": {},
+      "teambit.pkg/pkg": {
+        "packageManagerPublishArgs": ["--access public", "--otp=$NPM_OTP"],
+        "packageJson": {
+          "name": "@{scope}/{name}",
+          "private": false,
+          "publishConfig": {
+            "scope": "@saminuk",
+            "registry": "https://registry.npmjs.org/"
+          }
+        }
+      }
     }
   }
 }
