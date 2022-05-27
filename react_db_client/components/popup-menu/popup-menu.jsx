@@ -4,30 +4,33 @@ import ReactDOM from 'react-dom';
 
 import './style.scss';
 
-
 const getRoot = (inputRoot) => {
-  if (!inputRoot) throw Error("Must supply input root");
-  if (typeof inputRoot == 'string') return document.getElementById(inputRoot);
-  if (typeof inputRoot == 'object') return inputRoot;
+  let root = null;
+  if (typeof inputRoot == 'object') root = inputRoot;
+  if (typeof inputRoot == 'string') root = document.getElementById(inputRoot);
+  if (!root) {
+    root = document.createElement('div');
+    root.setAttribute('id', inputRoot || '_root');
+  }
+  return root;
 };
 
-const PopupMenuItems = ({ items }) => items.map((item) => (
-  <li className="popupMenu_menuItem" key={item.uid}>
-    <button
-      type="button"
-      className="button-reset"
-      onClick={item.onClick}
-    >
-      {item.label}
-    </button>
-  </li>
-));
+const PopupMenuItems = ({ items }) =>
+  items.map((item) => (
+    <li className="popupMenu_menuItem" key={item.uid}>
+      <button type="button" className="button-reset" onClick={item.onClick}>
+        {item.label}
+      </button>
+    </li>
+  ));
 
 PopupMenuItems.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape({
-    uid: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-  })).isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      uid: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
 
 /**
@@ -39,13 +42,7 @@ PopupMenuItems.propTypes = {
  * }
  * @returns
  */
-export const PopupMenu = ({
-  isOpenOverride,
-  onCloseCallback,
-  position,
-  items,
-  popupRoot,
-}) => {
+export const PopupMenu = ({ isOpenOverride, onCloseCallback, position, items, popupRoot }) => {
   const [isOpen, setIsOpen] = useState(isOpenOverride);
 
   const _popupRoot = getRoot(popupRoot);
@@ -64,23 +61,21 @@ export const PopupMenu = ({
 
   if (isOpen) {
     return ReactDOM.createPortal(
-      (
-        <div className="popupMenuWrap">
-          <div
-            className="popupMenu"
-            style={{
-              transform: `translate(${position.x}px, ${position.y}px)`,
-            }}
-          >
-            <ul className="popupMenu_list">
-              <PopupMenuItems items={items} />
-            </ul>
-          </div>
-          {/* eslint-disable-next-line max-len */}
-          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-          <div className="popupMenu_overlay" onClick={handleClose} onContextMenu={handleClose} />
+      <div className="popupMenuWrap">
+        <div
+          className="popupMenu"
+          style={{
+            transform: `translate(${position.x}px, ${position.y}px)`,
+          }}
+        >
+          <ul className="popupMenu_list">
+            <PopupMenuItems items={items} />
+          </ul>
         </div>
-      ),
+        {/* eslint-disable-next-line max-len */}
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+        <div className="popupMenu_overlay" onClick={handleClose} onContextMenu={handleClose} />
+      </div>,
       _popupRoot
     );
   }
@@ -94,11 +89,13 @@ PopupMenu.propTypes = {
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
   }).isRequired,
-  items: PropTypes.arrayOf(PropTypes.shape({
-    uid: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-  })).isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      uid: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      onClick: PropTypes.func.isRequired,
+    })
+  ).isRequired,
   popupRoot: PropTypes.any,
 };
 
@@ -117,29 +114,27 @@ export const RightClickWrapper = ({ children, items, popupRoot }) => {
 
   return (
     <>
-      {
-        (children?.type === 'div')
-          ? React.cloneElement(children, { onContextMenu: handleContextMenu })
-          // : React.cloneElement(children, { ref: childRef }, [
-          //   <div
-          //     className="popupMenu_rightClickWrapper"
-          //     onContextMenu={handleContextMenu}
-          //     style={{
-          //       width: '100%',
-          //       height: '100%',
-          //     }}
-          //   />,
-          // ])
-          : (
-            <div
-              style={{ width: '100%', height: '100%' }}
-              className={`popupMenu_righClickWrap ${(isOpen) && 'active'}`}
-              onContextMenu={handleContextMenu}
-            >
-              {children}
-            </div>
-          )
-      }
+      {children?.type === 'div' ? (
+        React.cloneElement(children, { onContextMenu: handleContextMenu })
+      ) : (
+        // : React.cloneElement(children, { ref: childRef }, [
+        //   <div
+        //     className="popupMenu_rightClickWrapper"
+        //     onContextMenu={handleContextMenu}
+        //     style={{
+        //       width: '100%',
+        //       height: '100%',
+        //     }}
+        //   />,
+        // ])
+        <div
+          style={{ width: '100%', height: '100%' }}
+          className={`popupMenu_righClickWrap ${isOpen && 'active'}`}
+          onContextMenu={handleContextMenu}
+        >
+          {children}
+        </div>
+      )}
       <PopupMenu
         isOpenOverride={isOpen}
         onCloseCallback={() => setIsOpen(false)}
@@ -153,13 +148,12 @@ export const RightClickWrapper = ({ children, items, popupRoot }) => {
 
 RightClickWrapper.propTypes = {
   children: PropTypes.node.isRequired,
-  items: PropTypes.arrayOf(PropTypes.shape({
-    uid: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-  })).isRequired,
-  popupRoot: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-  ])
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      uid: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      onClick: PropTypes.func.isRequired,
+    })
+  ).isRequired,
+  popupRoot: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 };

@@ -2,8 +2,8 @@
  *
  */
 
-import React, { useState, useCallback, useEffect } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useCallback, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 export type HeadingObject = {
   label?: string;
@@ -16,7 +16,6 @@ export type UseColumnManagerProps = {
   extraWidth: number;
   minWidth: number;
   maxWidth: number;
-  btnColumnBtnCount: number;
   autoWidth: boolean;
   containerRef?: React.RefObject<HTMLElement> | null;
 };
@@ -31,7 +30,6 @@ export const useColumnManager = ({
   extraWidth = 10,
   minWidth = 30,
   maxWidth = 2000,
-  btnColumnBtnCount = 0,
   autoWidth = false,
   containerRef = null,
 }: UseColumnManagerProps) => {
@@ -41,39 +39,27 @@ export const useColumnManager = ({
     (itemData: HeadingObject) => {
       if (autoWidth) {
         // We assume a container width of 1080 if the container hasn't yet loaded
-        const containerWidth = containerRef?.current
-          ? containerRef.current.clientWidth
-          : 1080;
+        const containerWidth = containerRef?.current ? containerRef.current.clientWidth : 1080;
         return containerWidth / headingsDataList.length;
       }
       if (itemData.columnWidth) return itemData.columnWidth * unit + extraWidth;
       if (itemData.label) return itemData.label.length * unit + extraWidth;
       return defaultColumnWidth;
     },
-    [
-      defaultColumnWidth,
-      extraWidth,
-      unit,
-      containerRef,
-      autoWidth,
-      headingsDataList,
-    ]
+    [defaultColumnWidth, extraWidth, unit, containerRef, autoWidth, headingsDataList]
   );
 
   const resetColumnWidths = useCallback(
-    (cols: HeadingObject[]) =>
-      (btnColumnBtnCount > 0 ? [btnColumnBtnCount * 40] : []).concat([
-        ...cols
-          .map((item) => getColumnWidth(item))
-          .map((width) => (width > minWidth ? width : minWidth))
-          .map((width) => (width < maxWidth ? width : maxWidth)),
-      ]),
-    [getColumnWidth, btnColumnBtnCount, maxWidth, minWidth]
+    (cols: HeadingObject[]) => [
+      ...cols
+        .map((item) => getColumnWidth(item))
+        .map((width) => (width > minWidth ? width : minWidth))
+        .map((width) => (width < maxWidth ? width : maxWidth)),
+    ],
+    [getColumnWidth, maxWidth, minWidth]
   );
   // -- Column widths state
-  const [columnWidths, setColumnWidths] = useState(() =>
-    resetColumnWidths(headingsDataList)
-  );
+  const [columnWidths, setColumnWidths] = useState(() => resetColumnWidths(headingsDataList));
 
   useEffect(() => {
     if (headingsDataList.length !== columnCount) {
@@ -81,8 +67,10 @@ export const useColumnManager = ({
       setColumnWidths(resetColumnWidths(headingsDataList));
     }
   }, [headingsDataList, resetColumnWidths, columnCount]);
-  const tableWidth =
-    columnWidths.reduce((a, b) => a + b) + columnWidths.length - 1;
+  const tableWidth = React.useMemo(
+    () => columnWidths.reduce((a, b) => a + b) + columnWidths.length - 1,
+    [columnWidths]
+  );
 
   return {
     columnWidths,
