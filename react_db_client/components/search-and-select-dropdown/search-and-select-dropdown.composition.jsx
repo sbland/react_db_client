@@ -6,7 +6,6 @@ import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wra
 import { SearchAndSelectDropdown } from './search-and-select-dropdown';
 import { demoResultData } from './demo-data';
 
-
 const defaultProps = {
   searchFunction: async () =>
     new Promise((resolve) => setTimeout(() => resolve(demoResultData), 500)),
@@ -40,7 +39,7 @@ export const DemoData = () => {
         />
       </div>
       <CompositionWrapDefault height="4rem" width="8rem">
-        <SearchAndSelectDropdown {...props} />
+        <SearchAndSelectDropdown {...props} style={{ background: 'red' }} />
       </CompositionWrapDefault>
     </div>
   );

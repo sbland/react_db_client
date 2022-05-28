@@ -12,9 +12,11 @@ import { LoadingIcon } from './loading-icon';
 
 import './style.scss';
 
-export interface ISearchAndSelectDropdownProps<Item> {
+export interface ISearchAndSelectDropdownProps<Item> extends React.HTMLProps<HTMLInputElement> {
+
   searchFunction: () => Promise<Item[]>;
   handleSelect: (id: string, selectedData: Item) => void;
+  debug?: boolean;
   intitialValue?: string | Item;
   searchFieldTargetField?: string;
   labelField?: string;
@@ -23,24 +25,33 @@ export interface ISearchAndSelectDropdownProps<Item> {
   allowEmptySearch?: boolean;
   searchDelay?: number;
   valid?: boolean;
+  searchFieldRef?: React.RefObject<HTMLInputElement> | null;
 }
 
 /**
  * Search and Select Dropdown Component
  * Dropdown selection with async data load
  */
-export const SearchAndSelectDropdown = <Item,>({
-  searchFunction,
-  handleSelect,
-  intitialValue,
-  searchFieldTargetField,
-  labelField,
-  className,
-  searchFieldPlaceholder,
-  allowEmptySearch,
-  searchDelay,
-  valid,
-}: ISearchAndSelectDropdownProps<Item>) => {
+export const SearchAndSelectDropdown = <Item,>(
+  props: ISearchAndSelectDropdownProps<Item>,
+) => {
+  const {
+    searchFunction,
+    handleSelect,
+    intitialValue,
+    debug,
+    searchFieldTargetField,
+    labelField,
+    className,
+    searchFieldPlaceholder,
+    allowEmptySearch,
+    searchDelay,
+    valid,
+    style,
+    searchFieldRef: searchFieldRefFromParent,
+    ...additionalProps
+  } = props;
+  // console.log(additionalProps);
   // TODO: Provide default search function
   const [searchValue, setSearchValue] = useState<string>(() =>
     !intitialValue || typeof intitialValue == 'string'
@@ -52,10 +63,10 @@ export const SearchAndSelectDropdown = <Item,>({
   const [showResults, setShowResults] = useState(false);
   const [hasSelected, setHasSelected] = useState(false);
   const firstItemRef = useRef(null);
-  const searchFieldRef = useRef(null);
+  const searchFieldRef = useRef<HTMLInputElement>(null);
+  const _searchFieldRef =  searchFieldRefFromParent || searchFieldRef;
   const searchTimeout = useRef(null);
-
-  const goBackToSearchField = () => searchFieldRef.current.select();
+  const goBackToSearchField = () => _searchFieldRef.current.select();
   const [results, setResults] = useState([]);
 
   const searchCallback = useCallback((resultsNew) => {
@@ -229,7 +240,6 @@ export const SearchAndSelectDropdown = <Item,>({
     setIsFocused(true);
     setHasSelected(false);
   };
-
   return (
     <div className={classNames}>
       <div className="searchFieldWrap">
@@ -243,8 +253,9 @@ export const SearchAndSelectDropdown = <Item,>({
           onFocus={handleEnterSearchField}
           onBlur={() => setIsFocused(false)}
           onKeyDown={handleInputKeyDown}
-          ref={searchFieldRef}
+          ref={_searchFieldRef}
           onClick={handleInputClick}
+          {...additionalProps}
         />
         {!loading && (
           <button type="button" className="dropdownBtn" onClick={handleClickDropdownBtn}>
@@ -267,40 +278,42 @@ export const SearchAndSelectDropdown = <Item,>({
   );
 };
 
-SearchAndSelectDropdown.propTypes = {
-  /* Async function to call when searching
-   * Signature: async (searchText) => {}
-   */
-  searchFunction: PropTypes.func.isRequired,
-  /* Function called when item is selected
-   * Signature: (selectedId, selectedData) => {}
-   */
-  handleSelect: PropTypes.func.isRequired,
-  /* Initial search field value */
-  intitialValue: PropTypes.string,
-  /* the target field that the search string applies to */
-  searchFieldTargetField: PropTypes.string,
-  /* The field in the returned data to use as the label */
-  labelField: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)])
-    .isRequired,
-  /* Additional classnames */
-  className: PropTypes.string,
-  /* Search field placeholder */
-  searchFieldPlaceholder: PropTypes.string,
-  /* Call search even when input is empty */
-  allowEmptySearch: PropTypes.bool,
-  /* Delay between input and search call */
-  searchDelay: PropTypes.number,
-  /* Input is valid */
-  valid: PropTypes.bool,
-};
+// TODO: prop types causing issue with ...rest
 
-SearchAndSelectDropdown.defaultProps = {
-  initialValue: '',
-  searchFieldTargetField: 'label',
-  className: '',
-  searchFieldPlaceholder: 'search...',
-  allowEmptySearch: false,
-  searchDelay: 500,
-  valid: true,
-};
+// SearchAndSelectDropdown.propTypes = {
+//   /* Async function to call when searching
+//    * Signature: async (searchText) => {}
+//    */
+//   searchFunction: PropTypes.func.isRequired,
+//   /* Function called when item is selected
+//    * Signature: (selectedId, selectedData) => {}
+//    */
+//   handleSelect: PropTypes.func.isRequired,
+//   /* Initial search field value */
+//   intitialValue: PropTypes.string.isRequried,
+//   /* the target field that the search string applies to */
+//   searchFieldTargetField: PropTypes.string,
+//   /* The field in the returned data to use as the label */
+//   labelField: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)])
+//     .isRequired,
+//   /* Additional classnames */
+//   className: PropTypes.string,
+//   /* Search field placeholder */
+//   searchFieldPlaceholder: PropTypes.string,
+//   /* Call search even when input is empty */
+//   allowEmptySearch: PropTypes.bool,
+//   /* Delay between input and search call */
+//   searchDelay: PropTypes.number,
+//   /* Input is valid */
+//   valid: PropTypes.bool,
+// };
+
+// SearchAndSelectDropdown.defaultProps = {
+//   // initialValue: '',
+//   searchFieldTargetField: 'label',
+//   className: '',
+//   searchFieldPlaceholder: 'search...',
+//   allowEmptySearch: false,
+//   searchDelay: 500,
+//   valid: true,
+// };

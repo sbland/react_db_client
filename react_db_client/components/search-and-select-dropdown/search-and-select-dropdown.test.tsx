@@ -2,6 +2,7 @@ import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { act } from 'react-dom/test-utils';
+import ReactDOMServer from 'react-dom/server';
 import { MockEs6, MockReactC } from '@samnbuk/react_db_client.testing.utils';
 import {
   FilterObjectClass,
@@ -10,7 +11,10 @@ import {
 } from '@react_db_client/constants.client-types';
 import { CustomSelectDropdown } from '@react_db_client/components.custom-select-dropdown';
 
-import { SearchAndSelectDropdown } from './search-and-select-dropdown';
+import {
+  SearchAndSelectDropdown,
+  ISearchAndSelectDropdownProps,
+} from './search-and-select-dropdown';
 import { demoResultData } from './demo-data';
 import { LoadingIcon } from './loading-icon';
 
@@ -35,18 +39,17 @@ const searchFunction = jest
 
 const handleSelect = jest.fn();
 
-const returnFieldOnSelect = 'name';
 const labelField = 'label';
+
+type Item = Partial<typeof demoResultData[0]>;
 const defaultProps = {
   searchFunction,
   handleSelect,
   labelField,
   debug: true,
   searchFieldTargetField: 'label',
-  allowMultiple: false,
-  selectionOverride: null,
-  returnFieldOnSelect,
-};
+  searchFieldPlaceholder: "helloworld"
+} as ISearchAndSelectDropdownProps<Item>;
 /* Helpers*/
 
 const focusOnSearchInput = async (c) => {
@@ -79,7 +82,7 @@ describe('SearchAndSelectDropdown', () => {
     searchFunction.mockClear();
   });
   test('Renders', () => {
-    shallow(<SearchAndSelectDropdown {...defaultProps} />);
+    shallow(<SearchAndSelectDropdown {...(defaultProps as ISearchAndSelectDropdownProps<Item>)} />);
   });
   describe('shallow renders', () => {
     test('Matches Snapshot', () => {
@@ -194,7 +197,7 @@ describe('SearchAndSelectDropdown', () => {
     describe('Dropdown Btn', () => {
       beforeEach(async () => {
         component = mount(
-          <SearchAndSelectDropdown<string> {...defaultProps} intitialValue="" allowEmptySearch />
+          <SearchAndSelectDropdown {...defaultProps} intitialValue="" allowEmptySearch />
         );
         await runOnlyPendingTimers();
       });
@@ -209,8 +212,8 @@ describe('SearchAndSelectDropdown', () => {
       });
     });
     describe.skip('Selection', () => {
-        // TODO: Failing because stuck loading
-        const selectedItem = demoResultData[0];
+      // TODO: Failing because stuck loading
+      const selectedItem = demoResultData[0];
       const searchVal = 'searchVal';
       beforeEach(async () => {
         await focusOnSearchInput(component);
@@ -247,6 +250,25 @@ describe('SearchAndSelectDropdown', () => {
         component.update();
         searchField = component.find('.searchField');
         expect(searchField.props().value).toEqual(selectedItem.label);
+      });
+    });
+    describe('Using Forward Ref', () => {
+      const searchVal = 'abc';
+      let componentWithRef;
+      let forwardedRef = React.createRef<HTMLInputElement>();
+      beforeEach(async () => {
+        componentWithRef = mount(
+          <SearchAndSelectDropdown {...defaultProps} searchFieldRef={forwardedRef} />
+        );
+
+        await focusOnSearchInput(component);
+        await modifySearchInput(component, searchVal);
+        await runOnlyPendingTimers();
+        // setLoaded(component, demoResultData);
+      });
+      test('should have passed ref', async () => {
+        const searchInput = componentWithRef.find('.searchField');
+        expect(searchInput.getElement().ref.current).toEqual(forwardedRef.current);
       });
     });
   });
