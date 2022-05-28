@@ -119,7 +119,7 @@
     },
     "components/form/form": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.9",
+        "version": "0.2.10",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form"
     },
@@ -173,7 +173,7 @@
     },
     "components/form/form-fields/field-object-ref": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.9",
+        "version": "0.2.10",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-object-ref"
     },
@@ -185,13 +185,13 @@
     },
     "components/form/form-fields/field-select": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.9",
+        "version": "0.2.10",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-select"
     },
     "components/form/form-fields/field-select-search": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.9",
+        "version": "0.2.10",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-select-search"
     },
@@ -209,13 +209,13 @@
     },
     "components/generic-catalogue": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.9",
+        "version": "0.2.10",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/generic-catalogue"
     },
     "components/item-editor": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.9",
+        "version": "0.2.10",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/item-editor"
     },
@@ -251,7 +251,7 @@
     },
     "components/search-and-select-dropdown": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.9",
+        "version": "0.2.10",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/search-and-select-dropdown"
     },
@@ -362,6 +362,12 @@
         "version": "0.2.2",
         "mainFile": "index.js",
         "rootDir": "react_db_client/hooks/use-auto-hide-panel-hook"
+    },
+    "hooks/use-combined-ref": {
+        "scope": "",
+        "version": "0.0.1",
+        "mainFile": "index.ts",
+        "rootDir": "react_db_client/hooks/use-combined-ref"
     },
     "testing/enzyme-setup": {
         "scope": "samnbuk.react_db_client",

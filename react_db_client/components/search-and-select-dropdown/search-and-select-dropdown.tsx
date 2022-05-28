@@ -11,9 +11,9 @@ import { CustomSelectDropdown } from '@react_db_client/components.custom-select-
 import { LoadingIcon } from './loading-icon';
 
 import './style.scss';
+import { useCombinedRefs } from '@react_db_client/hooks.use-combined-ref';
 
 export interface ISearchAndSelectDropdownProps<Item> extends React.HTMLProps<HTMLInputElement> {
-
   searchFunction: () => Promise<Item[]>;
   handleSelect: (id: string, selectedData: Item) => void;
   debug?: boolean;
@@ -32,9 +32,7 @@ export interface ISearchAndSelectDropdownProps<Item> extends React.HTMLProps<HTM
  * Search and Select Dropdown Component
  * Dropdown selection with async data load
  */
-export const SearchAndSelectDropdown = <Item,>(
-  props: ISearchAndSelectDropdownProps<Item>,
-) => {
+export const SearchAndSelectDropdown = <Item,>(props: ISearchAndSelectDropdownProps<Item>) => {
   const {
     searchFunction,
     handleSelect,
@@ -64,9 +62,9 @@ export const SearchAndSelectDropdown = <Item,>(
   const [hasSelected, setHasSelected] = useState(false);
   const firstItemRef = useRef(null);
   const searchFieldRef = useRef<HTMLInputElement>(null);
-  const _searchFieldRef =  searchFieldRefFromParent || searchFieldRef;
+  const searchFieldRefsCombined = useCombinedRefs(searchFieldRefFromParent, searchFieldRef);
   const searchTimeout = useRef(null);
-  const goBackToSearchField = () => _searchFieldRef.current.select();
+  const goBackToSearchField = () => searchFieldRefsCombined.current && searchFieldRefsCombined.current.select();
   const [results, setResults] = useState([]);
 
   const searchCallback = useCallback((resultsNew) => {
@@ -253,7 +251,7 @@ export const SearchAndSelectDropdown = <Item,>(
           onFocus={handleEnterSearchField}
           onBlur={() => setIsFocused(false)}
           onKeyDown={handleInputKeyDown}
-          ref={_searchFieldRef}
+          ref={searchFieldRefsCombined}
           onClick={handleInputClick}
           {...additionalProps}
         />
