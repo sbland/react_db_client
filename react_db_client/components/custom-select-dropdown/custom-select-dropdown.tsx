@@ -4,14 +4,28 @@ import PropTypes from 'prop-types';
 import './customSelectDropdown.scss';
 import { DropDownItem } from './drop-down-item';
 
-export const CustomSelectDropdown = ({
+export interface Option {
+  uid: string;
+  label: string;
+}
+
+export interface ICustomSelectDropdownProps {
+  options: Option[];
+  handleSelect: (uid: string) => void;
+  isOpen: boolean;
+  handleClose: () => void;
+  firstItemRef: React.MutableRefObject<HTMLElement>;
+  goBackToSearchField: () => void;
+}
+
+export const CustomSelectDropdown: React.FC<ICustomSelectDropdownProps> = ({
   options,
   handleSelect,
   isOpen,
   handleClose,
   firstItemRef,
-  goBackToSearchField = () => {},
-}) => {
+  goBackToSearchField = () => null,
+}: ICustomSelectDropdownProps) => {
   const menuRef = useRef(null);
   const itemRefs = useRef([]);
   const [currentItemFocus, setCurrentItemFocus] = useState(0);
@@ -78,8 +92,8 @@ export const CustomSelectDropdown = ({
         if (i === 0) firstItemRef.current = el;
       }}
       handleKeyDown={(e) => handleItemKeyDown(e)}
-      onFocus={() => setCurrentItemFocus(i)}
-      isFocused={i === currentItemFocus}
+      // onFocus={() => setCurrentItemFocus(i)}
+      // isFocused={i === currentItemFocus}
     />
   ));
   // const mapOptions = <div>OPTIONS</div>

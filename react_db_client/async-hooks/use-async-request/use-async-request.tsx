@@ -9,6 +9,24 @@ const ENV = process.env.NODE_ENV;
 
 const demoCallFn = async () => 'DEMO RESPONSE';
 
+export type ICallback<ResponseType, Args> = (response: ResponseType, args: Args) => any;
+export type ICallFn<Args> = (args: Args) => Promise<any>;
+
+export interface IUseAsyncRequestProps<ResponseType, Args> {
+  args: Args;
+  callFn: ICallFn<Args>;
+  cleanupFunc?: () => void;
+  callOnInit?: boolean;
+  debug?: boolean;
+  callback?: ICallback<ResponseType, Args>;
+  errorCallback?: (AsyncRequestError) => void;
+}
+
+export interface IFnArgs<ResponseType, Args> {
+  args: Args;
+  callback: ICallback<ResponseType, Args>;
+}
+
 /**
  * Async React request hook
  *
@@ -28,15 +46,15 @@ const demoCallFn = async () => 'DEMO RESPONSE';
  *   - error {string} - error returned by callfn
  * }
  */
-export const useAsyncRequest = ({
-  args: argsInitial = [], // TODO: Rename to defaultArgs
+export const useAsyncRequest = <ResponseType, Args extends any[]>({
+  args: argsInitial = [] as Args, // TODO: Rename to defaultArgs
   callFn = demoCallFn,
-  cleanupFunc = () => {},
+  cleanupFunc = () => null,
   callOnInit = true,
   debug = false,
-  callback: callbackIn = () => {},
-  errorCallback: errorCallbackIn = () => {},
-}) => {
+  callback: callbackIn = (response: ResponseType, args: Args) => null as any,
+  errorCallback: errorCallbackIn = () => null,
+}: IUseAsyncRequestProps<ResponseType, Args>) => {
   // const [latestCallId, setLatestCallId] = useState(0);
   const [resultState, setResultState] = useState({
     isLoading: false,
@@ -46,21 +64,24 @@ export const useAsyncRequest = ({
     error: null,
     callCount: 0,
   });
-  const [args, setArgs] = useState(() => ({
+  const [args, setArgs] = useState<IFnArgs<ResponseType, Args>>(() => ({
     args: argsInitial,
     callback: callbackIn,
   }));
   const [allowLoad, setAllowLoad] = useState(callOnInit);
   const [forceLoad, setForceLoad] = useState(true);
 
-  const reload = useCallback((argsUpdated, callbackOverride) => {
-    setArgs((prev) => ({
-      args: argsUpdated || prev.args,
-      callback: callbackOverride || prev.callback,
-    }));
-    setAllowLoad(true);
-    setForceLoad(true);
-  }, []);
+  const reload = useCallback(
+    (argsUpdated: Args, callbackOverride?: ICallback<ResponseType, Args>) => {
+      setArgs((prev) => ({
+        args: argsUpdated || prev.args,
+        callback: callbackOverride || prev.callback,
+      }));
+      setAllowLoad(true);
+      setForceLoad(true);
+    },
+    []
+  );
 
   // Call callback in use effect
   useEffect(() => {
@@ -76,7 +97,8 @@ export const useAsyncRequest = ({
       const newCallId = resultState.latestLoadingId + 1;
       if (!callFn) throw Error('Missing call fn');
       try {
-        callFn(...args.args)
+        callFn
+          .apply(null, ...args.args)
           .then((responseData) => {
             setResultState((prev) => {
               // check we are only returning the data from the most recent call

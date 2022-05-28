@@ -5,18 +5,31 @@ import {
   filterTypes,
   comparisons,
 } from '@react_db_client/constants.client-types';
-import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-object-manager';
+import { AsyncRequestError, useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
 import { CustomSelectDropdown } from '@react_db_client/components.custom-select-dropdown';
 
 import { LoadingIcon } from './loading-icon';
 
 import './style.scss';
 
+export interface ISearchAndSelectDropdownProps<Item> {
+  searchFunction: () => Promise<Item[]>;
+  handleSelect: (id: string, selectedData: Item) => void;
+  intitialValue?: string | Item;
+  searchFieldTargetField?: string;
+  labelField?: string;
+  className?: string;
+  searchFieldPlaceholder?: string;
+  allowEmptySearch?: boolean;
+  searchDelay?: number;
+  valid?: boolean;
+}
+
 /**
  * Search and Select Dropdown Component
  * Dropdown selection with async data load
  */
-export const SearchAndSelectDropdown = ({
+export const SearchAndSelectDropdown = <Item,>({
   searchFunction,
   handleSelect,
   intitialValue,
@@ -27,9 +40,11 @@ export const SearchAndSelectDropdown = ({
   allowEmptySearch,
   searchDelay,
   valid,
-}) => {
+}: ISearchAndSelectDropdownProps<Item>) => {
   // TODO: Provide default search function
-  const [searchValue, setSearchValue] = useState(() => intitialValue);
+  const [searchValue, setSearchValue] = useState<string>(() =>
+    typeof intitialValue == 'string' ? intitialValue : intitialValue[searchFieldTargetField]
+  );
   const [isFocused, setIsFocused] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
@@ -46,11 +61,11 @@ export const SearchAndSelectDropdown = ({
     setLoading(false);
   }, []);
 
-  const searchErrorCallback = useCallback((error) => {
+  const searchErrorCallback = useCallback((error: AsyncRequestError) => {
     setResults([]);
     setLoading(false);
     // TODO: Handle errors
-  }, [])
+  }, []);
 
   const { reload } = useAsyncRequest({
     args: [],
