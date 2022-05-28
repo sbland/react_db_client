@@ -43,7 +43,9 @@ export const SearchAndSelectDropdown = <Item,>({
 }: ISearchAndSelectDropdownProps<Item>) => {
   // TODO: Provide default search function
   const [searchValue, setSearchValue] = useState<string>(() =>
-    typeof intitialValue == 'string' ? intitialValue : intitialValue[searchFieldTargetField]
+    !intitialValue || typeof intitialValue == 'string'
+      ? intitialValue
+      : intitialValue[searchFieldTargetField]
   );
   const [isFocused, setIsFocused] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -156,18 +158,23 @@ export const SearchAndSelectDropdown = <Item,>({
       : [];
   }, [labelField, results]);
 
-  const handleListItemSelect = (selectedId) => {
-    if (!loading) {
-      const selectedData = results.find((r) => r.uid == selectedId);
-      if (!selectedData) throw Error('Selected item not found');
-      setIsFocused(false);
-      setShowResults(false);
-      setSearchValue(selectedData[labelField]);
-      goBackToSearchField();
-      setHasSelected(true);
-      handleSelect(selectedId, selectedData);
-    }
-  };
+  const handleListItemSelect = React.useCallback(
+    (selectedId) => {
+      if (!loading) {
+        const selectedData = results.find((r) => r.uid == selectedId);
+        if (!selectedData) throw Error('Selected item not found');
+        setIsFocused(false);
+        setShowResults(false);
+        setSearchValue(selectedData[labelField]);
+        goBackToSearchField();
+        setHasSelected(true);
+        handleSelect(selectedId, selectedData);
+      } else {
+        console.log('loading');
+      }
+    },
+    [loading, results, goBackToSearchField, handleSelect]
+  );
 
   const handleCancel = () => {
     setShowResults(false);
