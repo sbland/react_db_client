@@ -26,6 +26,24 @@ export interface IFnArgs<ResponseType, Args> {
   args: Args;
   callback: ICallback<ResponseType, Args>;
 }
+export interface IResultState {
+  isLoading: boolean;
+  latestLoadingId: number;
+  resultsData?: any;
+  hasLoaded: boolean;
+  error: string;
+  callCount: number;
+}
+export interface IReturnHookType<ResponseType, Args> {
+  resultState: IResultState;
+  response: ResponseType;
+  reload: (Args) => void;
+  call: (Args) => void;
+  loading: boolean;
+  hasLoaded: boolean;
+  error: AsyncRequestError;
+  callCount: number;
+}
 
 /**
  * Async React request hook
@@ -54,7 +72,7 @@ export const useAsyncRequest = <ResponseType, Args extends any[]>({
   debug = false,
   callback: callbackIn = (response: ResponseType, args: Args) => null as any,
   errorCallback: errorCallbackIn = () => null,
-}: IUseAsyncRequestProps<ResponseType, Args>) => {
+}: IUseAsyncRequestProps<ResponseType, Args>): IReturnHookType<ResponseType, Args> => {
   // const [latestCallId, setLatestCallId] = useState(0);
   const [resultState, setResultState] = useState({
     isLoading: false,
