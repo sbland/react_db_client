@@ -34,7 +34,7 @@ export interface IResultState {
   error: string;
   callCount: number;
 }
-export interface IReturnHookType<ResponseType, Args> {
+export interface IUseAsyncRequestReturn<ResponseType, Args> {
   resultState: IResultState;
   response: ResponseType;
   reload: (Args) => void;
@@ -72,7 +72,7 @@ export const useAsyncRequest = <ResponseType, Args extends any[]>({
   debug = false,
   callback: callbackIn = (response: ResponseType, args: Args) => null as any,
   errorCallback: errorCallbackIn = () => null,
-}: IUseAsyncRequestProps<ResponseType, Args>): IReturnHookType<ResponseType, Args> => {
+}: IUseAsyncRequestProps<ResponseType, Args>): IUseAsyncRequestReturn<ResponseType, Args> => {
   // const [latestCallId, setLatestCallId] = useState(0);
   const [resultState, setResultState] = useState({
     isLoading: false,
