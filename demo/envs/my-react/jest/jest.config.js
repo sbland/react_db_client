@@ -10,4 +10,5 @@ const reactJestConfig = require('@teambit/react/jest/jest.config');
 module.exports = {
   ...reactJestConfig,
   setupFilesAfterEnv: ['<rootDir>/demo/senvs/my-react/jest/etupTests.js'],
+  timers: "fake",
 };
