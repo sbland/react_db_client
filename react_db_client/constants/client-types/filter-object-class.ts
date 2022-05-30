@@ -27,6 +27,17 @@ const getDefaultValue = (fieldType) => {
   }
 };
 
+export interface FilterObjectClassConstructorArgs {
+  uid?: string;
+  field?: string;
+  label?: string;
+  value?: null|string;
+  operator?: Comparisons;
+  type?: FilterType|string;
+  filterOptionId?: string;
+  isCustomType?: boolean;
+}
+
 export class FilterObjectClass {
   uid: string;
   field: string;
