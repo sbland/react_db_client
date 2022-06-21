@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+import { render } from '@testing-library/react';
 
 export function MockReactC(name, namedExports = [], namedDefinedExports = {}) {
   function MockedComponent(props) {
@@ -72,3 +73,15 @@ export const sleep = (delay) =>
       res();
     }, delay);
   });
+
+const CustomTestWrapper = ({ children }) => {
+  return <>{children}</>;
+};
+
+const customRender = (ui, options = {}) => render(ui, { wrapper: CustomTestWrapper, ...options });
+
+// re-export everything
+export * from '@testing-library/react';
+
+// override render method
+export { customRender as render };
