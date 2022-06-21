@@ -15,6 +15,7 @@ export function CompositionWrapDefault({
   const [heightActive, setHeightActive] = useState(height == null ? 'auto' : height);
   const [widthActive, setWidthActive] = useState(width == null ? 'auto' : width);
   const [allowOverflow, setAllowOverflow] = useState(false);
+  const [padding, setPadding] = useState(0);
 
   const styleOuter = {
     outline: '1px solid red',
@@ -27,12 +28,13 @@ export function CompositionWrapDefault({
   const styleInner = {
     outline: '1px solid green',
     margin: 0,
-    padding: 0,
+    padding,
     width: '100%',
     height: '100%',
     overflow: allowOverflow ? 'visible' : 'hidden',
     display: horizontal ? 'flex' : 'block',
     position: 'relative',
+    boxSizing: 'border-box',
   };
 
   const btnStyle = (isOn) => ({
@@ -47,6 +49,9 @@ export function CompositionWrapDefault({
       <button onClick={() => setWidthActive(setDim(-5))}>-5 Width</button>
       <button style={btnStyle(allowOverflow)} onClick={() => setAllowOverflow((prev) => !prev)}>
         Overflow
+      </button>
+      <button style={btnStyle(padding)} onClick={() => setPadding((prev) => prev ? 0 : 10)}>
+        Padding
       </button>
 
       <div style={styleOuter}>
