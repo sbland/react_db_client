@@ -1,7 +1,7 @@
 /**
  * this is the main configuration file of your bit workspace.
  * for full documentation, please see: https://harmony-docs.bit.dev/workspace/configurations
- **/{
+ **/ {
   "$schema": "https://static.bit.dev/teambit/schemas/schema.json",
   /**
    * main configuration of the Bit workspace.
@@ -59,17 +59,10 @@
         "@teambit/eslint-config-bit-react": "~0.0.367",
         "@teambit/harmony": "0.2.11",
         "@teambit/react.templates.themes.theme": "0.0.4",
+        "@testing-library/user-event": "14.2.0",
         "@types/styled-components": "5.1.25",
-        "@typescript-eslint/eslint-plugin": "4.29.3",
         "classnames": "2.3.1",
-        "eslint-config-prettier": "8.5.0",
-        "eslint-import-resolver-node": "0.3.6",
-        "eslint-plugin-import": "2.22.1",
-        "eslint-plugin-jest": "24.4.0",
-        "eslint-plugin-jsx-a11y": "6.4.1",
-        "eslint-plugin-mdx": "1.15.0",
-        "eslint-plugin-react": "7.25.1",
-        "eslint-plugin-react-hooks": "4.5.0",
+        "mathjs": "10.6.1",
         "react-base-table": "1.13.0",
         "react-data-grid": "7.0.0-beta.12",
         "react-is": "^16.x.x",
@@ -89,19 +82,34 @@
       "peerDependencies": {
         "@testing-library/react": "12.0.0",
         "@testing-library/react-hooks": "^7.0.2",
+        "enzyme": "3.11.0",
+        "enzyme-adapter-react-16": "1.15.6",
+        "prettier": "2.6.2",
+        "enzyme-to-json": "3.6.2",
         "lodash": "^4.17.11",
         "prop-types": "^15.6.1",
         "react": "16.14.0",
         "react-dom": "16.14.0",
-        "enzyme": "3.11.0",
-        "enzyme-adapter-react-16": "1.15.6",
-        "enzyme-to-json": "3.6.2"
+        "eslint": "^7.32.0",
+        "eslint-config-airbnb": "19.0.4",
+        "eslint-config-airbnb-base": "15.0.0",
+        "eslint-config-prettier": "8.5.0",
+        "eslint-config-prettier-react": "0.0.24",
+        "eslint-import-resolver-node": "0.3.6",
+        "eslint-plugin-html": "6.2.0",
+        "eslint-plugin-import": "^2.25.3",
+        "eslint-plugin-jest": "24.4.0",
+        "eslint-plugin-jsx-a11y": "^6.5.1",
+        "eslint-plugin-mdx": "1.15.0",
+        "eslint-plugin-prettier": "4.0.0",
+        "eslint-plugin-react": "^7.28.0",
+        "eslint-plugin-react-hooks": "^4.3.0",
+        "@typescript-eslint/eslint-plugin": "5.27.0",
+        "@typescript-eslint/parser": "5.27.0"
       }
     },
     "packageManagerArgs": [],
-    "devFilePatterns": [
-      "**/*.spec.ts"
-    ],
+    "devFilePatterns": ["**/*.spec.ts"],
     "strictPeerDependencies": true,
     "installFromBitDevRegistry": true,
     "savePrefix": ""
@@ -146,7 +154,6 @@
         }
       }
     },
-
     "{constants/**}": {
       "teambit.react/react": {},
       "teambit.pkg/pkg": {
@@ -215,9 +222,6 @@
         }
       }
     }
-
-
-
     // // "{constants/**/*},{components/**/*},{async-hooks/**/*},{helpers/**/*},{hooks/**/*}": {
     // //   "teambit.react/react": {},
     // //   "teambit.pkg/pkg": {
