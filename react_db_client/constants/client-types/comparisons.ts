@@ -26,4 +26,4 @@ export const comparisons = {
   ...dateComparisons,
 } as const;
 
-export type Comparisons = typeof comparisons[keyof typeof comparisons];
+export type EComparisons = typeof comparisons[keyof typeof comparisons];

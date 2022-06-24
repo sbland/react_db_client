@@ -1,16 +1,16 @@
 /* eslint-disable max-classes-per-file */
 import { FilterType, filterTypes } from './filter-types';
-import { Comparisons, comparisons } from './comparisons';
+import { comparisons, EComparisons } from './comparisons';
 
 const getDefaultComparison = (fieldType) => {
   switch (fieldType) {
     case filterTypes.bool:
-      return comparisons.equals;
+      return comparisons.equals as EComparisons;
     case filterTypes.text:
     case filterTypes.textLong:
-      return comparisons.contains;
+      return comparisons.contains as EComparisons;
     default:
-      return comparisons.equals;
+      return comparisons.equals as EComparisons;
   }
 };
 
@@ -27,25 +27,25 @@ const getDefaultValue = (fieldType) => {
   }
 };
 
-export interface FilterObjectClassConstructorArgs {
+export interface IFilterObjectClassConstructorArgs {
   uid?: string;
-  field?: string;
-  label?: string;
+  field?: string | null;
+  label?: string | null;
   value?: null | string;
-  operator?: Comparisons;
+  operator?: EComparisons | null;
   type?: FilterType | string;
-  filterOptionId?: string;
+  filterOptionId?: string | null;
   isCustomType?: boolean;
 }
 
 export class FilterObjectClass {
   uid: string;
   field: string | null;
-  value: null | string;
-  label: string;
-  operator: Comparisons;
+  value: string | number | boolean | null;
+  label: string | null;
+  operator: EComparisons;
   type: FilterType | string;
-  filterOptionId: string;
+  filterOptionId: string | null;
   constructor({
     uid = `filter_${Date.now()}`,
     field = null,
