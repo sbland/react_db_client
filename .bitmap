@@ -41,19 +41,19 @@
     },
     "components/datatable/cell": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.9",
+        "version": "0.1.10",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/cell"
     },
     "components/datatable/cell-types": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.9",
+        "version": "0.1.10",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/cell-types"
     },
     "components/datatable/components": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.9",
+        "version": "0.1.10",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/components"
     },
@@ -77,7 +77,7 @@
     },
     "components/datatable/main": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.10",
+        "version": "0.1.11",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/main"
     },
@@ -89,7 +89,7 @@
     },
     "components/datatable/ui": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.9",
+        "version": "0.1.10",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/ui"
     },
@@ -209,7 +209,7 @@
     },
     "components/generic-catalogue": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.16",
+        "version": "0.2.17",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/generic-catalogue"
     },
@@ -239,7 +239,7 @@
     },
     "components/popup-panel": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.2",
+        "version": "0.2.3",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/popup-panel"
     },

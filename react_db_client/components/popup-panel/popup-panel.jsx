@@ -4,14 +4,14 @@ import ReactDOM from 'react-dom';
 
 import './style.scss';
 
-
 const getRoot = (inputRoot) => {
   let root = null;
   if (typeof inputRoot == 'object') root = inputRoot;
   if (typeof inputRoot == 'string') root = document.getElementById(inputRoot);
-  if(!root){
-    root = document.createElement("div");
-    root.setAttribute("id", inputRoot || "_root")
+  if (!root) {
+    root = document.createElement('div');
+    root.setAttribute('id', inputRoot || '_root');
+    document.body.appendChild(root);
   }
   return root;
 };
@@ -38,7 +38,7 @@ export const PopupPanel = ({
   popupRoot,
 }) => {
   const [z] = useState(popupCount);
-  const _popupRoot = getRoot(popupRoot);
+  const _popupRoot = getRoot(popupRoot || id);
 
   useEffect(() => {
     popupCount += 1;
@@ -95,9 +95,15 @@ PopupPanel.defaultProps = {
 };
 
 // Uses React HOC pattern
-export const PopupPanelConnector = (Component, root, alwaysOpen, closeProp = 'handleClose',propsOverrides = {}) => {
+export const PopupPanelConnector = (
+  Component,
+  root,
+  alwaysOpen,
+  closeProp = 'handleClose',
+  propsOverrides = {}
+) => {
   return (props) => {
-    const propsMerged = {...props, ...propsOverrides}
+    const propsMerged = { ...props, ...propsOverrides };
     const { className, isOpen, title, id } = propsMerged;
     const handleClose = props[closeProp];
     return (
