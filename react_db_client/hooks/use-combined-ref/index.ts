@@ -3,9 +3,9 @@ import React from 'react';
 /* https://codesandbox.io/s/react-hook-form-custom-checkbox-yncp5 */
 
 export function useCombinedRefs<El>(
-  ...refs: (React.MutableRefObject<El> | React.RefCallback<El>)[]
+  ...refs: (React.MutableRefObject<El> | React.RefCallback<El> | null | undefined)[]
 ) {
-  const targetRef = React.useRef<El>();
+  const targetRef = React.useRef<El | null>(null);
 
   React.useEffect(() => {
     refs.forEach((ref) => {
@@ -13,7 +13,10 @@ export function useCombinedRefs<El>(
       if (typeof ref === 'function') {
         ref(targetRef.current);
       } else {
-        ref.current = targetRef.current;
+        // TODO: Does this still work?
+        if (targetRef.current) {
+          ref.current = targetRef.current;
+        }
       }
     });
   }, [refs]);
