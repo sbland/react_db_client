@@ -5,7 +5,7 @@ import './customSelectDropdown.scss';
 import { DropDownItem } from './drop-down-item';
 
 export interface Option {
-  uid: string;
+  uid: string | number;
   label: string;
 }
 
