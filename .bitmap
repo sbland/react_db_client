@@ -364,13 +364,13 @@
         "rootDir": "react_db_client/hooks/use-auto-hide-panel-hook"
     },
     "hooks/use-combined-ref": {
-        "scope": "",
+        "scope": "samnbuk.react_db_client",
         "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/hooks/use-combined-ref"
     },
     "react-extended": {
-        "scope": "",
+        "scope": "samnbuk.react_db_client",
         "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/envs/react-extended"
