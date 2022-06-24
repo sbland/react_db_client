@@ -19,7 +19,6 @@ export enum DateComparisons {
 
 
 export const Comparisons = {
-  equals: '=',
   ...StringComparisons,
   ...NumberComparisons,
   ...DateComparisons,
@@ -44,8 +43,12 @@ export const dateComparisons = {
   before: 'before',
 };
 
-export const comparisons = {
+export const generalComparisons = {
   equals: '=',
+}
+
+export const comparisons = {
+  ...generalComparisons,
   ...stringComparisons,
   ...numberComparisons,
   ...dateComparisons,
