@@ -31,20 +31,20 @@ export interface FilterObjectClassConstructorArgs {
   uid?: string;
   field?: string;
   label?: string;
-  value?: null|string;
+  value?: null | string;
   operator?: Comparisons;
-  type?: FilterType|string;
+  type?: FilterType | string;
   filterOptionId?: string;
   isCustomType?: boolean;
 }
 
 export class FilterObjectClass {
   uid: string;
-  field: string;
-  value: null|string;
+  field: string | null;
+  value: null | string;
   label: string;
   operator: Comparisons;
-  type: FilterType|string;
+  type: FilterType | string;
   filterOptionId: string;
   constructor({
     uid = `filter_${Date.now()}`,
@@ -65,8 +65,7 @@ export class FilterObjectClass {
       throw Error(`Invalid operator ${operator}`);
     this.uid = uid;
     this.field = field;
-    this.value =
-      value != null && value !== undefined ? value : getDefaultValue(type);
+    this.value = value != null && value !== undefined ? value : getDefaultValue(type);
     this.label = label || field;
     this.operator = operator || getDefaultComparison(type);
     this.type = type;
