@@ -31,7 +31,7 @@ export interface IFilterObjectClassConstructorArgs {
   uid?: string;
   field?: string | null;
   label?: string | null;
-  value?: null | string;
+  value?: null | string | number | boolean;
   operator?: EComparisons | null;
   type?: FilterType | string;
   filterOptionId?: string | null;
@@ -55,12 +55,13 @@ export class FilterObjectClass {
     type = filterTypes.text,
     filterOptionId = null,
     isCustomType = false,
-  } = {}) {
+  }: IFilterObjectClassConstructorArgs = {}) {
     /* validate input */
     if (!(type in filterTypes) && !isCustomType)
       console.warn(`Invalid Filter Type ${type} must set isCustomType`);
     if (!field && !uid) throw Error('Must have field or UID');
     // if (value == null) throw Error('Must have value');
+    if (!label && !field) throw Error('Must have field or label');
     if (operator && Object.values(comparisons).indexOf(operator) === -1)
       throw Error(`Invalid operator ${operator}`);
     this.uid = uid;
