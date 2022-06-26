@@ -49,7 +49,7 @@ export class ReactExtendedMain {
         transformers: [
           (config) => {
             // NOTE: Plugins must be added manually currently.
-            if (config.raw.config.overrideConfig)
+            if (config?.raw?.config?.overrideConfig)
               config.raw.config.overrideConfig.plugins = ['react-hooks'];
             // config.addExtends(['prettier']);
             config.setRule('react-hooks/rules-of-hooks', 'error');
