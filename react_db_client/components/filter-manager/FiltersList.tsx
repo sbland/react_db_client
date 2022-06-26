@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { switchF } from '@react_db_client/helpers.func-tools';
-import {
-  filterTypes,
-  FilterObjectClass,
-} from '@react_db_client/constants.client-types';
+import { filterTypes, FilterObjectClass } from '@react_db_client/constants.client-types';
 
 import FilterDate from './FilterTypes/FilterDate';
 import FilterBool from './FilterTypes/FilterBool';
@@ -12,6 +9,7 @@ import FilterSelect from './FilterTypes/FilterSelect';
 import FilterString from './FilterTypes/FilterString';
 import FilterNumber from './FilterTypes/FilterNumber';
 import FilterObject from './FilterTypes/FilterObject';
+import { FilterId, IField } from './lib';
 
 /**
  * Update the target field fot a filter row
@@ -20,13 +18,7 @@ import FilterObject from './FilterTypes/FilterObject';
  * @param {object} fieldsData data on each field type
  * @param {func} updateFilter function to pass new filter data
  */
-const updateFieldTarget = (
-  index,
-  fieldId,
-  fieldsData,
-  updateFilter,
-  customFilters
-) => {
+const updateFieldTarget = (index, fieldId, fieldsData, updateFilter, customFilters) => {
   if (!fieldsData[fieldId]) throw Error('Missing Field Data');
   const { uid, field, type } = fieldsData[fieldId];
   const newFilter = new FilterObjectClass({
@@ -39,6 +31,15 @@ const updateFieldTarget = (
   updateFilter(index, newFilter);
 };
 
+export interface IFilterListProps {
+  filterData: FilterObjectClass[];
+  deleteFilter: (filterId: FilterId) => {};
+  updateFilter: (filterId: FilterId, newFilterData: FilterObjectClass) => {};
+  fieldsData: { [key: string]: IField };
+  customFilters: { [key: string]: () => {} };
+  customFiltersComponents: { [key: string]: React.FC };
+}
+
 // Map the filters to UI
 export const FiltersList = ({
   filterData,
@@ -47,15 +48,9 @@ export const FiltersList = ({
   fieldsData,
   customFilters,
   customFiltersComponents,
-}) => {
+}: IFilterListProps) => {
   const updateFieldTargetFn = (index, newFieldId) =>
-    updateFieldTarget(
-      index,
-      newFieldId,
-      fieldsData,
-      updateFilter,
-      customFilters
-    );
+    updateFieldTarget(index, newFieldId, fieldsData, updateFilter, customFilters);
   // for each filter create a row
   const mapFilters =
     filterData &&
@@ -93,16 +88,13 @@ export const FiltersList = ({
           [filterTypes.button]: () => <FilterString {...args} />,
           [filterTypes.selectSearch]: () => <FilterString {...args} />,
           [filterTypes.dict]: () => <FilterObject {...args} />,
-          ...Object.entries(customFiltersComponents).reduce(
-            (acc, [key, Field]) => {
-              acc[key] = () => <Field {...args} />;
-              return acc;
-            },
-            {}
-          ),
+          ...Object.entries(customFiltersComponents).reduce((acc, [key, Field]) => {
+            acc[key] = () => <Field {...args} />;
+            return acc;
+          }, {}),
         },
         () => (
-          <div key={type || filter} className="invalidFilter">
+          <div key={type || filter.asString()} className="invalidFilter">
             Invalid Filter
             {' - '}
             {filter.uid}
@@ -113,11 +105,7 @@ export const FiltersList = ({
       );
 
       return (
-        <li
-          className="filterPanel_filterItem"
-          key={filter.uid}
-          id={filter.uid}
-        >
+        <li className="filterPanel_filterItem" key={filter.uid} id={filter.uid}>
           {/* Delete filter button */}
           <button
             type="button"

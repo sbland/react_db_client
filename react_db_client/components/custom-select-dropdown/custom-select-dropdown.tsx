@@ -14,7 +14,7 @@ export interface ICustomSelectDropdownProps {
   handleSelect: (uid: string) => void;
   isOpen: boolean;
   handleClose: () => void;
-  firstItemRef: React.MutableRefObject<HTMLElement>;
+  firstItemRef: React.MutableRefObject<HTMLElement | null>;
   goBackToSearchField: () => void;
 }
 
@@ -26,8 +26,8 @@ export const CustomSelectDropdown: React.FC<ICustomSelectDropdownProps> = ({
   firstItemRef,
   goBackToSearchField = () => null,
 }: ICustomSelectDropdownProps) => {
-  const menuRef = useRef(null);
-  const itemRefs = useRef([]);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<HTMLElement[]>([]);
   const [currentItemFocus, setCurrentItemFocus] = useState(0);
 
   useEffect(() => {

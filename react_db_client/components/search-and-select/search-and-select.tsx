@@ -16,6 +16,43 @@ import { SelectionPreview } from '@samnbuk/react_db_client.components.selection-
 import { useSelectionManager } from './logic';
 import './_searchAndSelect.scss';
 
+export interface IHeading{
+  uid: string;
+  label: string;
+}
+
+export type CustomeParser = (value: any) => any;
+
+export interface ISearchAndSelectProps<ResultType> {
+  initialFilters: FilterObjectClass[],
+  availableFilters: {[key: string]: FilterObjectClass},
+  searchFunction: () => Promise<ResultType[]>,
+  headings: IHeading[],
+  previewHeadings: IHeading[],
+  handleSelect: () => {},
+  selectionOverride: unknown,
+  autoUpdate: boolean,
+  allowFilters: boolean,
+  allowMultiple: boolean,
+  returnFieldOnSelect: string,
+  showSearchField: boolean,
+  searchFieldTargetField: string,
+  acceptSelectionBtnText: string,
+  showRefreshBtn: boolean,
+  limitResultHeight: number,
+  sortBy: string,
+  reverseSort: boolean,
+  reloadKey: unknown,
+  loadOnInit: boolean,
+  noEmptySearch: boolean,
+  liveUpdate: boolean,
+  autoWidth: boolean,
+  customParsers: {[key: string]: CustomeParser},
+  labelField: string,
+  allowSelectionPreview: boolean,
+  autoPreview: any,
+}
+
 /**
  * Search and Select Component
  * Allows searching using a set of filters then selecting a result and returning to parent component
@@ -41,7 +78,7 @@ import './_searchAndSelect.scss';
  * }
  * @returns
  */
-export const SearchAndSelect = ({
+export const SearchAndSelect = <ResultType,>({
   initialFilters,
   availableFilters, // same as field data
   searchFunction,
@@ -70,7 +107,7 @@ export const SearchAndSelect = ({
   labelField,
   allowSelectionPreview,
   autoPreview,
-}) => {
+}: ISearchAndSelectProps<ResultType>) => {
   const [showPreview, setShowPreview] = useState(autoPreview);
   const [shouldReload, setShouldReload] = useState(loadOnInit);
   const [singleLoad, setSingleLoad] = useState(false);
@@ -85,7 +122,7 @@ export const SearchAndSelect = ({
     loading,
     // hasLoaded,
     error,
-  } = useAsyncRequest({
+  } = useAsyncRequest<ResponseType[],any[]>({
     args: [],
     callFn: searchFunction,
     callOnInit: false,
@@ -295,7 +332,7 @@ export const SearchAndSelect = ({
           {loading && (
             <div
               className={`sas_loadingWrap ${loading ? '' : 'hidden'}`}
-              style={{ hidden: loading }}
+              style={{ display: loading ? 'initial' : 'none' }}
             >
               Loading results...
             </div>

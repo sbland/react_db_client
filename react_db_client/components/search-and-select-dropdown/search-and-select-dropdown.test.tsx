@@ -14,6 +14,7 @@ import { CustomSelectDropdown } from '@react_db_client/components.custom-select-
 import {
   SearchAndSelectDropdown,
   ISearchAndSelectDropdownProps,
+  IItem,
 } from './search-and-select-dropdown';
 import { demoResultData } from './demo-data';
 import { LoadingIcon } from './loading-icon';
@@ -41,15 +42,17 @@ const handleSelect = jest.fn();
 
 const labelField = 'label';
 
-type Item = Partial<typeof demoResultData[0]>;
+// type Item = Partial<typeof demoResultData[0]> & IItem;
+
 const defaultProps = {
   searchFunction,
   handleSelect,
+  initialValue: '',
   labelField,
   debug: true,
   searchFieldTargetField: 'label',
   searchFieldPlaceholder: "helloworld"
-} as ISearchAndSelectDropdownProps<Item>;
+} as ISearchAndSelectDropdownProps<IItem>;
 /* Helpers*/
 
 const focusOnSearchInput = async (c) => {
@@ -82,7 +85,7 @@ describe('SearchAndSelectDropdown', () => {
     searchFunction.mockClear();
   });
   test('Renders', () => {
-    shallow(<SearchAndSelectDropdown {...(defaultProps as ISearchAndSelectDropdownProps<Item>)} />);
+    shallow(<SearchAndSelectDropdown {...(defaultProps as ISearchAndSelectDropdownProps<IItem>)} />);
   });
   describe('shallow renders', () => {
     test('Matches Snapshot', () => {
@@ -162,7 +165,7 @@ describe('SearchAndSelectDropdown', () => {
 
       test('should set search field to input value', () => {
         component = mount(
-          <SearchAndSelectDropdown {...defaultProps} intitialValue={demoResultData[0].label} />
+          <SearchAndSelectDropdown {...defaultProps} initialValue={demoResultData[0].label} />
         );
         const searchField = component.find('.searchField');
         expect(searchField.props().value).toEqual(demoResultData[0].label);
@@ -171,7 +174,7 @@ describe('SearchAndSelectDropdown', () => {
     describe('Allow empty search', () => {
       beforeEach(async () => {
         component = mount(
-          <SearchAndSelectDropdown {...defaultProps} intitialValue="" allowEmptySearch />
+          <SearchAndSelectDropdown {...defaultProps} initialValue="" allowEmptySearch />
         );
         await runOnlyPendingTimers();
       });
@@ -197,7 +200,7 @@ describe('SearchAndSelectDropdown', () => {
     describe('Dropdown Btn', () => {
       beforeEach(async () => {
         component = mount(
-          <SearchAndSelectDropdown {...defaultProps} intitialValue="" allowEmptySearch />
+          <SearchAndSelectDropdown {...defaultProps} initialValue="" allowEmptySearch />
         );
         await runOnlyPendingTimers();
       });

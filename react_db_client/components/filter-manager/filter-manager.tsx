@@ -6,6 +6,21 @@ import { useAutoHidePanel } from '@react_db_client/hooks.use-auto-hide-panel-hoo
 import { FiltersList } from './FiltersList';
 import { AddFilterButton } from './add-filter-button';
 import './_filterManager.scss';
+import { IField, FilterId } from './lib';
+
+export interface IFilterPanelProps {
+  filterData: FilterObjectClass[];
+  addFilter: (FilterObjectClass) => {};
+  deleteFilter: (filterId: FilterId) => {};
+  updateFilter: (filterId: FilterId, newFilterData: FilterObjectClass) => {};
+  clearFilters: () => {};
+  showPanelOverride: () => {};
+  fieldsData: { [key: string]: IField };
+  floating: boolean;
+  autoOpenPanel: boolean;
+  customFilters: { [key: string]: () => {} };
+  customFiltersComponents: { [key: string]: React.FC };
+}
 
 /**
  * Filter Manager Panel React Component
@@ -34,8 +49,8 @@ export const FilterPanel = ({
   autoOpenPanel,
   customFilters,
   customFiltersComponents,
-}) => {
-  const menuRef = useRef(null);
+}: IFilterPanelProps) => {
+  const menuRef = useRef<HTMLDivElement>(null);
   const [showPanel, setShowPanel] = useAutoHidePanel(menuRef, floating, showPanelOverride);
   // Auto show panel if values change
   useEffect(() => {

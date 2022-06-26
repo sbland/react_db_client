@@ -73,6 +73,15 @@ export class FilterObjectClass {
     this.filterOptionId = filterOptionId || field;
     Object.freeze(this);
   }
+
+  asString(){
+    return [
+      this.uid,
+      this.label,
+      this.value,
+      this.operator,
+    ].join('-')
+  }
 }
 
 export class FilterObjectSimpleClass extends FilterObjectClass {

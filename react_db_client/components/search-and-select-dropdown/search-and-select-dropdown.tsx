@@ -17,7 +17,7 @@ export interface ISearchAndSelectDropdownProps<Item> extends React.HTMLProps<HTM
   searchFunction: () => Promise<Item[]>;
   handleSelect: (id: string, selectedData: Item) => void;
   debug?: boolean;
-  intitialValue?: string | Item;
+  initialValue?: string | Item;
   searchFieldTargetField?: string;
   labelField?: string;
   className?: string;
@@ -25,52 +25,58 @@ export interface ISearchAndSelectDropdownProps<Item> extends React.HTMLProps<HTM
   allowEmptySearch?: boolean;
   searchDelay?: number;
   valid?: boolean;
-  searchFieldRef?: React.RefObject<HTMLInputElement> | null;
+  searchFieldRef?: React.MutableRefObject<HTMLInputElement | null> | null;
+}
+
+export interface IItem {
+  uid: string | number;
 }
 
 /**
  * Search and Select Dropdown Component
  * Dropdown selection with async data load
  */
-export const SearchAndSelectDropdown = <Item,>(props: ISearchAndSelectDropdownProps<Item>) => {
+export const SearchAndSelectDropdown = <Item extends IItem>(
+  props: ISearchAndSelectDropdownProps<Item>
+) => {
   const {
     searchFunction,
     handleSelect,
-    intitialValue,
+    initialValue,
     debug,
-    searchFieldTargetField,
-    labelField,
+    searchFieldTargetField = 'field',
+    labelField = 'label',
     className,
     searchFieldPlaceholder,
     allowEmptySearch,
     searchDelay,
-    valid,
+    valid = true,
     style,
     searchFieldRef: searchFieldRefFromParent,
     ...additionalProps
   } = props;
   // console.log(additionalProps);
   // TODO: Provide default search function
-  const [searchValue, setSearchValue] = useState<string>(null);
+  const [searchValue, setSearchValue] = useState<string | null>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [hasSelected, setHasSelected] = useState(false);
-  const firstItemRef = useRef(null);
+  const firstItemRef = useRef<HTMLElement | null>(null);
   const searchFieldRef = useRef<HTMLInputElement>(null);
   const searchFieldRefsCombined = useCombinedRefs(searchFieldRefFromParent, searchFieldRef);
-  const searchTimeout = useRef(null);
+  const searchTimeout = useRef(null) as React.MutableRefObject<NodeJS.Timeout | null>;
   const goBackToSearchField = () =>
     searchFieldRefsCombined.current && searchFieldRefsCombined.current.select();
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<Item[]>([]);
 
   React.useEffect(() => {
     setSearchValue(
-      intitialValue === null || intitialValue === undefined || typeof intitialValue !== 'object'
-        ? intitialValue
-        : intitialValue[searchFieldTargetField]
+      initialValue === null || initialValue === undefined || typeof initialValue !== 'object'
+        ? initialValue
+        : initialValue[searchFieldTargetField]
     );
-  }, [intitialValue, searchFieldTargetField]);
+  }, [initialValue, searchFieldTargetField]);
 
   const searchCallback = useCallback((resultsNew) => {
     setResults(resultsNew);
@@ -110,7 +116,9 @@ export const SearchAndSelectDropdown = <Item,>(props: ISearchAndSelectDropdownPr
       operator: comparisons.contains,
       type: filterTypes.text,
     });
-    clearTimeout(searchTimeout.current);
+    if (searchTimeout.current) {
+      clearTimeout(searchTimeout.current as NodeJS.Timeout);
+    }
     const args = searchValue ? [searchFilter] : [];
     searchTimeout.current = setTimeout(() => reload([args]), searchDelay);
   }, [searchFieldTargetField, searchValue, searchDelay, searchTimeout]);
@@ -143,7 +151,7 @@ export const SearchAndSelectDropdown = <Item,>(props: ISearchAndSelectDropdownPr
       search();
     }
     return () => {
-      clearTimeout(searchTimeout.current);
+      clearTimeout((searchTimeout.current as NodeJS.Timeout) || undefined);
     };
   }, [
     searchValue,
@@ -210,7 +218,7 @@ export const SearchAndSelectDropdown = <Item,>(props: ISearchAndSelectDropdownPr
       if (mappedResults && mappedResults.length > 0) {
         e.preventDefault();
         if (showResults && !loading) {
-          firstItemRef.current.focus();
+          firstItemRef.current?.focus();
         } else {
           setShowResults(true);
         }
@@ -218,7 +226,7 @@ export const SearchAndSelectDropdown = <Item,>(props: ISearchAndSelectDropdownPr
     }
   };
 
-  const classNames = [className, 'sas_drop_wrap', valid ? '' : 'invalid']
+  const classNames = [className, 'sas_drop_wrap ', valid ? '' : 'invalid']
     .filter((a) => a)
     .join(' ');
 
@@ -293,7 +301,7 @@ SearchAndSelectDropdown.propTypes = {
    */
   handleSelect: PropTypes.func.isRequired,
   /* Initial search field value */
-  intitialValue: PropTypes.string.isRequried,
+  initialValue: PropTypes.string.isRequired,
   /* the target field that the search string applies to */
   searchFieldTargetField: PropTypes.string,
   /* The field in the returned data to use as the label */
@@ -312,7 +320,6 @@ SearchAndSelectDropdown.propTypes = {
 };
 
 SearchAndSelectDropdown.defaultProps = {
-  // initialValue: '',
   searchFieldTargetField: 'label',
   className: '',
   searchFieldPlaceholder: 'search...',
