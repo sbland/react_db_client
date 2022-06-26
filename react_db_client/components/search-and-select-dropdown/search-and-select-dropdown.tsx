@@ -65,7 +65,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
   const firstItemRef = useRef<HTMLElement | null>(null);
   const searchFieldRef = useRef<HTMLInputElement>(null);
   const searchFieldRefsCombined = useCombinedRefs(searchFieldRefFromParent, searchFieldRef);
-  const searchTimeout = useRef(null) as React.MutableRefObject<NodeJS.Timeout | null>;
+  const searchTimeout: React.MutableRefObject<ReturnType<typeof setTimeout> | null> = useRef(null);
   const goBackToSearchField = () =>
     searchFieldRefsCombined.current && searchFieldRefsCombined.current.select();
   const [results, setResults] = useState<Item[]>([]);
@@ -120,7 +120,10 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
       clearTimeout(searchTimeout.current as NodeJS.Timeout);
     }
     const args = searchValue ? [searchFilter] : [];
-    searchTimeout.current = setTimeout(() => reload([args]), searchDelay);
+    searchTimeout.current = setTimeout(
+      () => reload([args]),
+      searchDelay
+    ) as unknown as NodeJS.Timeout;
   }, [searchFieldTargetField, searchValue, searchDelay, searchTimeout]);
 
   useEffect(() => {
