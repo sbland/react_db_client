@@ -6,18 +6,20 @@ import { DefaultCellInnerStyle } from './style';
 export const DataTableCellToggle = ({
   cellData,
   // updateData,  //Update data not needed for toggle
+  columnData,
   acceptValue,
   editMode,
   focused,
 }) => {
   useEffect(() => {
     if (editMode && focused) {
+      console.log("toggle")
       acceptValue(!cellData);
     }
   }, [editMode, focused, cellData, acceptValue]);
   return (
     <DefaultCellInnerStyle className="dataTableCellData dataTableCellData-text">
-      <ToggleBox stateIn={cellData} onChange={acceptValue} />
+      <ToggleBox id={columnData.uid} stateIn={cellData} onChange={acceptValue} />
     </DefaultCellInnerStyle>
   );
 };

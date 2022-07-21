@@ -220,8 +220,6 @@ $filterPanelsZindex: 5;
   align-items: center;
   justify-content: center;
 
-  height: 100%;
-  width: 100%;
 
   font-size: $cellFontSize;
   line-height: $cellFontSize;
@@ -271,13 +269,6 @@ $filterPanelsZindex: 5;
   }
 }
 
-.dataTableCellData_text {
-  font-size: $cellFontSize;
-  white-space: nowrap;
-  line-height: $cellFontSize;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
 
 .dataTableCellData-textLong {
   * {

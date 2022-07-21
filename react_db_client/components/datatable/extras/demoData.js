@@ -128,6 +128,7 @@ export const demoTableData = {
     uid: 'a',
     natid: '100a',
     name: 'Foo',
+    description: 'A really really really long description that needs to fit into a little box!',
     count: 3,
     multiplier: 2,
     toggle: true,
@@ -450,3 +451,31 @@ export const customFilter = (value, expression, targetValue, item) => {
 //     </div>
 //   );
 // };
+
+export const DEMO_TABLE_DATA = Array(2)
+  .fill(0)
+  .reduce((acc, _) => [...acc, ...Object.values(demoTableData)], [])
+  .map((row, i) => ({ ...row, uid: i }));
+
+export const DEMO_TABLE_DATA_LARGE = Array(1000)
+  .fill(0)
+  .reduce((acc, _) => [...acc, ...Object.values(demoTableData)], [])
+  .map((row, i) => ({ ...row, uid: i }));
+
+export const DEMO_HEADINGS = demoHeadingsData;
+
+export const DEMO_HEADINGS_GRID = [
+  { uid: 'a', label: 'a', type: 'text' },
+  { uid: 'b', label: 'b', type: 'text' },
+  { uid: 'c', label: 'c', type: 'number' },
+  { uid: 'd', label: 'd', type: 'text' },
+  { uid: 'e', label: 'e', type: 'text' },
+];
+
+const exampleRow = (i) =>
+  DEMO_HEADINGS_GRID.reduce((acc, c) => ({ ...acc, [c.uid]: `${c.uid}${i}` }), {});
+
+export const DEMO_TABLE_DATA_GRID = (count) =>
+  Array(count)
+    .fill(0)
+    .map((_, i) => ({ uid: i, ...exampleRow(i) }));

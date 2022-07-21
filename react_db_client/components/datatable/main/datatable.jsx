@@ -1,31 +1,53 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import ReactDOM from 'react-dom';
-import cloneDeep from 'lodash/cloneDeep';
-import PropTypes from 'prop-types';
-
-import { FilterObjectClass } from '@react_db_client/constants.client-types';
-import { useColumnVisabilityManager } from '@react_db_client/components.column-manager';
-import { wrapWithErrorBoundary } from '@react_db_client/helpers.error-handling';
-import { SelectionPreview } from '@samnbuk/react_db_client.components.selection-preview';
-
+import React from 'react';
 import {
-  // DataTableConfigConnector,
-  // DataTableContext,
-  // useDataManager,
-  // useConditionalStylingManager,
-  // useSelectionManager,
-} from '@samnbuk/react_db_client.components.datatable.logic';
+  TableStateContext,
+  useHandleTableState,
+} from '@samnbuk/react_db_client.components.datatable.state';
+import { DataTableContext } from '@samnbuk/react_db_client.components.datatable.config';
+import { DataTableUi } from '@samnbuk/react_db_client.components.datatable.ui';
+
+// import { useColumnVisabilityManager } from '@react_db_client/components.column-manager';
+// import { wrapWithErrorBoundary } from '@react_db_client/helpers.error-handling';
+// import { SelectionPreview } from '@samnbuk/react_db_client.components.selection-preview';
+
+// import // DataTableConfigConnector,
+// DataTableContext,
+// useDataManager,
+// useConditionalStylingManager,
+// useSelectionManager,
+// '@samnbuk/react_db_client.components.datatable.logic';
 // import {
 //   DataTableTopMenu,
 //   DataTableBottomMenu,
 // } from '@samnbuk/react_db_client.components.datatable.components';
 
-import { RowErrors } from '@samnbuk/react_db_client.components.datatable.extras';
-// import DataTableUi from './DataTableUi';
+// import { RowErrors } from '@samnbuk/react_db_client.components.datatable.extras';
 
-export const Datatable = ({}) => (
-  <div>PLACEHOLDER</div>
-)
+export const DataTable = ({
+  data: initialData,
+  headings: columns,
+  config,
+  componentMap,
+  ...additionalProps
+}) => {
+  const tableState = useHandleTableState({
+    columns,
+    initialData,
+  });
+
+  return (
+    <DataTableContext.Provider value={{ ...config }}>
+      <TableStateContext.Provider value={tableState}>
+        <DataTableUi
+          componentMap={componentMap}
+          headingsData={columns}
+          currentSelectionIds={[]}
+          {...additionalProps}
+        />
+      </TableStateContext.Provider>
+    </DataTableContext.Provider>
+  );
+};
 
 // export const DataTableWrapperFunc = ({
 //   data,

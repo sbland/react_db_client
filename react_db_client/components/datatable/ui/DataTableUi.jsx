@@ -1,6 +1,8 @@
 /* A datatable that does not do any data management.
 Should be used alongside the DataManager hook */
 
+// TODO: https://reactjs.org/docs/hooks-faq.html#what-can-i-do-if-my-effect-dependencies-change-too-often
+
 import React, { useContext, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -13,7 +15,7 @@ import {
   DataTableConfigConnector,
   DataTableContext,
 } from '@samnbuk/react_db_client.components.datatable.config';
-
+import { TableStateContext } from '@samnbuk/react_db_client.components.datatable.state';
 import { Cell, CellSimple } from '@samnbuk/react_db_client.components.datatable.cell';
 
 // TODO: Bring in old headings functionality
@@ -57,7 +59,7 @@ export const Styles = styled.div`
     .table_body_row,
     .tr {
       margin-right: -20px;
-      overflow: hidden;
+      overflow: visible;
       display: flex;
       flex-shrink: 0;
     }
@@ -75,14 +77,11 @@ export const Styles = styled.div`
       display: none; /* for Chrome, Safari, and Opera */
     }
 
-    .navigationButton,
-    .dataTableCell_wrap,
-    .dataTableCellData {
+    .dataTableCell_wrap{
       width: 100%;
       height: 100%;
     }
 
-    .navigationButton,
     .dataTableCell_wrap {
       position: absolute;
     }
@@ -115,18 +114,18 @@ function TableHeadings({ headerRef, columns, tableWidth, headerHeight, cellStyle
   );
 }
 
-function TableRowWrap(tableWidth, columnWidths, componentMap, columns) {
-  const TableRow = ({ data, index, style, isScrolling }) => {
-    const rowData = data[index];
-    // const CellComponent = React.useMemo(() => (isScrolling ? () => index : Cell), [isScrolling]);
-    const CellComponent = isScrolling ? CellSimple : Cell;
-    // const CellComponent = React.useMemo(() => (isScrolling ? CellSimple : Cell), [isScrolling]);
+function TableRowWrap(tableWidth, columnWidths, componentMap, columns, speedUpScrolling) {
+  const TableRow = ({ index, style, isScrolling }) => {
+    // const rowData = data[index];
+    const CellComponent = isScrolling && speedUpScrolling ? CellSimple : Cell;
+
     return (
-      <div className="tr" style={{ ...style, width: tableWidth + 100 }} key={index}>
+      <div className="tr" role="tr" style={{ ...style, width: tableWidth + 100 }} key={index}>
         {columns.map((column, columnIndex) => {
           return (
             <div
               className="td"
+              role="td"
               key={`${index}-${columnIndex}`}
               style={{ width: columnWidths[columnIndex] }}
             >
@@ -136,7 +135,7 @@ function TableRowWrap(tableWidth, columnWidths, componentMap, columns) {
                 componentMap={componentMap}
                 // headingsData={columns}
                 headingData={column}
-                rowData={rowData}
+                // rowData={rowData}
               />
             </div>
           );
@@ -153,7 +152,6 @@ function TableRowWrap(tableWidth, columnWidths, componentMap, columns) {
  */
 export const DataTableUi = ({
   headingsData,
-  tableState,
   rowStyles, // per row style overrides
   currentSelectionIds,
   componentMap,
@@ -168,8 +166,7 @@ export const DataTableUi = ({
     /* Check inputs */
     if (!componentMap) throw Error('Must supply component Map');
   }, [componentMap]);
-
-  const { tableData } = tableState;
+  const { rowCount } = useContext(TableStateContext);
 
   const {
     minWidth,
@@ -182,6 +179,7 @@ export const DataTableUi = ({
     allowAddRow,
     showHeadings,
     allowColumnResize,
+    speedUpScrolling,
     allowCellFocus,
   } = useContext(DataTableContext);
 
@@ -213,11 +211,9 @@ export const DataTableUi = ({
   });
 
   const RenderRow = React.useCallback(
-    TableRowWrap(tableWidth, columnWidths, componentMap, headingsData),
-    [tableWidth, columnWidths, componentMap, headingsData]
+    TableRowWrap(tableWidth, columnWidths, componentMap, headingsData, speedUpScrolling),
+    [tableWidth, columnWidths, componentMap, headingsData, speedUpScrolling]
   );
-
-  const rowCount = tableData.length;
 
   // TODO: Implement edit panel opening
   // eslint-disable-next-line no-unused-vars
@@ -277,12 +273,12 @@ export const DataTableUi = ({
                 width="100%"
                 outerRef={innerBodyRef}
                 useIsScrolling
-                itemData={tableData}
-                overscanCount={3}
+                // itemData={tableData}
+                overscanCount={2}
               >
                 {RenderRow}
               </FixedSizeList>
-              {showTotals && (
+              {/* {showTotals && (
                 <TableHeadings
                   headerRef={totalsRef}
                   columns={headingsData}
@@ -295,7 +291,7 @@ export const DataTableUi = ({
                     width: columnWidths[columnIndex],
                   })}
                 />
-              )}
+              )} */}
             </div>
           )}
         </AutoSizer>
@@ -344,6 +340,7 @@ DataTableUi.propTypes = {
       text: PropTypes.string,
     })
   ),
+  speedUpScrolling: PropTypes.bool,
 };
 
 DataTableUi.defaultProps = {
@@ -383,6 +380,7 @@ DataTableUi.defaultProps = {
   maxTableWidth: 2000,
   disabled: false,
   invalidRowsMessages: [],
+  speedUpScrolling: false,
 };
 
 export const DataTableUiWithConfig = DataTableConfigConnector({})(DataTableUi);

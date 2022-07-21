@@ -6,6 +6,8 @@ export const lightTheme = {
   cellBorder: `1px solid ${grey10}`,
   primaryColor,
   secondaryColor,
+  cellPadding: '4px',
+  cellBackground: 'white',
   typography: {
     fontSize1: '1.5rem',
     fontSize2: '1.2rem',

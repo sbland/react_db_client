@@ -3,39 +3,37 @@ import PropTypes from 'prop-types';
 import { DefaultCellInnerStyle } from './style';
 
 export const DataTableCellButton = ({
+  cellData,
   columnData: { action, uid, btnLabel },
   rowData,
   rowId,
-  cellData,
   editMode,
   focused,
-  resetValue, // called to end edit mode
+  acceptValue,
 }) => {
   const actionFunc = useMemo(() => {
     const a = action
       ? () => action(rowId, cellData, rowData)
       : () => console.warn('Button has no action');
     return () => {
-      resetValue();
+      acceptValue(cellData);
       a();
     };
-  }, [rowId, cellData, action, rowData, resetValue]);
+  }, [rowId, cellData, action, rowData, acceptValue]);
 
   useEffect(() => {
     if (editMode && focused) {
       actionFunc();
-      resetValue();
+      acceptValue(cellData);
     }
-  }, [editMode, focused, actionFunc, resetValue]);
+  }, [editMode, focused, actionFunc, acceptValue]);
 
-  const className = [
-    'dataTableCellData',
-    'dataTableCellData-button',
-    `${uid}_cellBtn`,
-  ].join(' ')
+  const className = ['dataTableCellData', 'dataTableCellData-button', `${uid}_cellBtn`].join(' ');
 
-  const cellDataLabel = btnLabel ||
-    cellData && typeof cellData === 'object' ? cellData.label || cellData.name : cellData;
+  const cellDataLabel =
+    btnLabel || (cellData && typeof cellData === 'object')
+      ? cellData.label || cellData.name
+      : cellData;
 
   return (
     <DefaultCellInnerStyle className={className}>

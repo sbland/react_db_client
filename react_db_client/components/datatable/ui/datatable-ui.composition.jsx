@@ -7,7 +7,6 @@ import {
 import { ThemeProvider } from 'styled-components';
 import { defaultComponentMap } from '@samnbuk/react_db_client.components.datatable.cell-types';
 import {
-  TableMethodsContext,
   TableStateContext,
 } from '@samnbuk/react_db_client.components.datatable.state';
 import {
@@ -15,10 +14,9 @@ import {
   dataTableDefaultConfig,
 } from '@samnbuk/react_db_client.components.datatable.config';
 import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
-
+import { lightTheme } from '@samnbuk/react_db_client.components.datatable.style';
 import { useHandleTableState } from '@samnbuk/react_db_client.components.datatable.state';
 import { DataTableUi } from './DataTableUi';
-import { lightTheme } from './theme';
 
 const DEMO_TABLE_DATA = Array(1000)
   .fill(0)
@@ -96,7 +94,7 @@ export const DataTableUiNavigation = () => {
           <DataTableContext.Provider value={dataTableDefaultConfig}>
             <TableStateContext.Provider value={tableState}>
               <TableMethodsContext.Provider value={_methods}>
-                <DataTableUi {...defaultProps} tableState={tableState} />
+                <DataTableUi {...defaultProps} />
               </TableMethodsContext.Provider>
             </TableStateContext.Provider>
           </DataTableContext.Provider>
@@ -105,6 +103,7 @@ export const DataTableUiNavigation = () => {
     </>
   );
 };
+
 export const DataTableUiNavigationSimple = () => {
   const { methods, tableState } = useHandleTableState({
     columns: demoHeadingsDataSimple,
@@ -122,11 +121,7 @@ export const DataTableUiNavigationSimple = () => {
           <DataTableContext.Provider value={dataTableDefaultConfig}>
             <TableStateContext.Provider value={tableState}>
               <TableMethodsContext.Provider value={methods}>
-                <DataTableUi
-                  {...defaultProps}
-                  headingsData={demoHeadingsDataSimple}
-                  tableState={tableState}
-                />
+                <DataTableUi {...defaultProps} headingsData={demoHeadingsDataSimple} />
               </TableMethodsContext.Provider>
             </TableStateContext.Provider>
           </DataTableContext.Provider>

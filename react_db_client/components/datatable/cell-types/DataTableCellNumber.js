@@ -1,7 +1,10 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { validateValue, formatValue } from '@react_db_client/helpers.data-processing';
-import { DefaultCellInnerStyle } from './style';
+import {
+  DefaultCellInnerStyle,
+  DefaultInputStyle,
+  } from './style';
 
 /**
  * Data Cell Number
@@ -23,7 +26,6 @@ export const DataTableCellNumber = ({
   editMode,
 }) => {
   const ref = useRef(null);
-  // const [ignoreNextBlur, setIgnoreNextBlur] = useState(false);
 
   // get row data max for this cell
   const minApplied = min != null ? min : rowData[`${uid}-min`];
@@ -31,7 +33,6 @@ export const DataTableCellNumber = ({
 
   useEffect(() => {
     if (focused && editMode) {
-      // setIgnoreNextBlur(false)
       ref.current.select();
     }
   }, [focused, ref, editMode]);
@@ -50,7 +51,6 @@ export const DataTableCellNumber = ({
   };
 
   const onKeyPress = (e) => {
-    // setIgnoreNextBlur(true);
     if (e.key === 'Enter' || e.key === 'Tab') {
       e.preventDefault();
       acceptValueLocal();
@@ -62,9 +62,7 @@ export const DataTableCellNumber = ({
   };
 
   const onBlur = () => {
-    // if (!ignoreNextBlur) acceptValueLocal();
     acceptValueLocal();
-    // setIgnoreNextBlur(false);
   };
 
   const formatedValue = Number(cellData) && formatValue(Number(cellData), step);
@@ -74,23 +72,24 @@ export const DataTableCellNumber = ({
     <DefaultCellInnerStyle className="dataTableCellData dataTableCellData-number">
       {(!editMode || !focused) && (
         <span className="dataTableCellData_number">
-          {formatedValue}
+          {formatedValue.toString()}
         </span>
       )}
-      <input
+
+      <DefaultInputStyle
         style={{
           display: showEditor ? 'block' : 'none',
         }}
         className="cellInput-number"
         // eslint-disable-next-line jsx-a11y/no-autofocus
-        autoFocus
+        autoFocus={focused}
         ref={ref}
-        onFocus={() => {}}
+        // onFocus={() => {}}
         type="number"
         max={maxApplied}
         min={minApplied}
         onChange={handleInputChange}
-        value={formatedValue || ''}
+        value={formatedValue.toString() || ''}
         step={step}
         onBlur={onBlur}
         onKeyDown={onKeyPress}

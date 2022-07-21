@@ -1,6 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { DefaultCellInnerStyle } from './style';
+import {
+  DefaultCellInnerStyle,
+  DefaultInputStyle,
+  DefaultTextAreaStyle,
+  Text,
+  FocusedText,
+  FocusedTextLong,
+} from './style';
 
 export const DataTableCellText = ({
   columnData: { type },
@@ -13,8 +20,6 @@ export const DataTableCellText = ({
 }) => {
   const refText = useRef(null);
   const refArea = useRef(null);
-  // const [ignoreNextBlur, setIgnoreNextBlur] = useState(false);
-
   const handleInputChange = (e) => {
     updateData(e.target.value);
   };
@@ -35,6 +40,7 @@ export const DataTableCellText = ({
   };
 
   const rejectValue = () => {
+    console.log('RESETTING');
     resetValue();
   };
 
@@ -52,6 +58,7 @@ export const DataTableCellText = ({
 
   const onBlur = () => {
     // if (!ignoreNextBlur) acceptValueLocal();
+    console.log('obblur');
     acceptValueLocal();
     // setIgnoreNextBlur(false);
   };
@@ -62,84 +69,50 @@ export const DataTableCellText = ({
 
   const showTextEditor = focused && editMode && type === 'text';
   const showTextAreaEditor = focused && editMode && type === 'textLong';
+
   return (
-    <DefaultCellInnerStyle className={`dataTableCellData ${classNames}`}>
-      <input
-        style={{
-          display: showTextEditor ? 'block' : 'none',
-          height: '100%',
-          width: '100%',
-        }}
-        className="cellInput-text"
-        ref={refText}
-        type="text"
-        onChange={handleInputChange}
-        value={cellData || ''}
-        onBlur={onBlur}
-        onKeyDown={onKeyPress}
-      />
-      {/* <input
-        style={{
-          display: showTextAreaEditor ? 'block' : 'none',
-        }}
-        className="cellInput-textarea"
-        ref={refArea}
-        type="text"
-        onChange={handleInputChange}
-        value={cellData || ''}
-        onBlur={acceptValueLocal}
-        onKeyDown={onKeyPress}
-      /> */}
-      {/* // Disabled text area as does not fit well */}
-      <textarea
-        style={{
-          display: showTextAreaEditor ? 'block' : 'none',
-          position: 'absolute',
-          width: '100%',
-          minHeight: '5rem',
-          minWidth: '20rem',
-          left: 0,
-          top: 0,
-          whiteSpace: 'normal',
-          resize: 'none',
-          zIndex: 10,
-          overflow: 'hidden',
-        }}
-        className="cellInput-textarea"
-        ref={refArea}
-        type="text"
-        onChange={handleInputChange}
-        value={cellData || ''}
-        onBlur={onBlur}
-        onKeyDown={onKeyPress}
-        wrap="hard"
-        rows="10"
-        cols="20"
-      />
-      {(!editMode || !focused) && (
-        <span className={`dataTableCellData_text ${classNames}`}>{cellData}</span>
+    <DefaultCellInnerStyle className={`dataTableCellData ${classNames}`} focused={focused}>
+      {type === 'text' && (
+        <DefaultInputStyle
+          style={{
+            display: showTextEditor ? 'block' : 'none',
+          }}
+          className="cellInput-text"
+          ref={refText}
+          type="text"
+          onChange={handleInputChange}
+          value={cellData || ''}
+          onBlur={onBlur}
+          onKeyDown={onKeyPress}
+        />
       )}
-      {/* TODO: Make text resize to fit content on focus */}
-      {focused && !editMode && (
-        <div
+      {type === 'textLong' && (
+        <DefaultTextAreaStyle
           style={{
             display: showTextAreaEditor ? 'block' : 'none',
-            position: 'absolute',
-            width: 'auto',
-            minHeight: '5rem',
-            minWidth: '20rem',
-            maxWidth: '30rem',
-            left: 0,
-            top: 0,
-            whiteSpace: 'normal',
-            resize: 'none',
-            zIndex: 10,
-            overflow: 'hidden',
           }}
-          className={`dataTableCellData_text focusedtextCell ${classNames}`}
-        >
+          role="input"
+          className="cellInput-textarea"
+          ref={refArea}
+          type="text"
+          onChange={handleInputChange}
+          value={cellData || ''}
+          onBlur={onBlur}
+          onKeyDown={onKeyPress}
+          wrap="hard"
+          rows="10"
+          cols="20"
+        />
+      )}
+      {!focused && <Text className={`dataTableCellData_text ${classNames}`}>{cellData}</Text>}
+      {!editMode && focused && type === 'text' && (
+        <FocusedText className={`dataTableCellData_text ${classNames}`}>{cellData}</FocusedText>
+      )}
+      {/* Make text resize to fit content on focus */}
+      {!editMode && focused && type === 'textLong' && (
+        <FocusedTextLong className={`dataTableCellData_text focusedtextCell ${classNames}`}>
           {cellData}
-        </div>
+        </FocusedTextLong>
       )}
     </DefaultCellInnerStyle>
   );

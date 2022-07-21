@@ -35,6 +35,7 @@ export const dataTableDefaultConfig = {
   allowCellFocus: true,
   allowSelectionPreview: false,
   autoShowPreview: false,
+  speedUpScrolling: false,
 };
 
 export const DataTableContext = React.createContext(dataTableDefaultConfig);
@@ -78,6 +79,7 @@ export const DataTableConfigConnector = (defaults) => (Component) => {
       hasBtnsColumn: PropTypes.bool,
       autoSaveOnNewRow: PropTypes.bool,
       allowCellFocus: PropTypes.bool,
+      speedUpScrolling: PropTypes.bool,
     }),
   };
   DataTableConfigManager.defaultProps = {

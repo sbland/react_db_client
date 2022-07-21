@@ -1,16 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  TableMethodsContext,
-  TableStateContext,
-} from '@samnbuk/react_db_client.components.datatable.state';
+import { TableStateContext } from '@samnbuk/react_db_client.components.datatable.state';
+import { NavigationButtonStyle } from './styles';
+
 
 export const CellNavigationCellWrap = ({ classNames, columnIndex, rowIndex }) => {
-  /* Interaction Methods */
-  const { onCellKeyPress, onCellSelect } = React.useContext(TableMethodsContext);
-  const { navigationMode, editMode, currentFocusedRow, currentFocusedColumn } =
-    React.useContext(TableStateContext);
+  const {
+    onCellKeyPress,
+    onCellSelect,
+    navigationMode,
+    editMode,
+    currentFocusedRow,
+    currentFocusedColumn,
+  } = React.useContext(TableStateContext);
   const cellWrapNavBtnRef = React.useRef(null);
   const isFocused = currentFocusedColumn === columnIndex && currentFocusedRow === rowIndex;
 
@@ -21,9 +24,10 @@ export const CellNavigationCellWrap = ({ classNames, columnIndex, rowIndex }) =>
   );
 
   const _onCellKeyPress = React.useCallback(withCellId(onCellKeyPress), [
-    (withCellId, onCellKeyPress),
+    withCellId,
+    onCellKeyPress,
   ]);
-  const _onCellSelect = React.useCallback(withCellId(onCellSelect), [(withCellId, onCellSelect)]);
+  const _onCellSelect = React.useCallback(withCellId(onCellSelect), [withCellId, onCellSelect]);
 
   /* Update cell Focus State */
   React.useEffect(() => {
@@ -38,17 +42,71 @@ export const CellNavigationCellWrap = ({ classNames, columnIndex, rowIndex }) =>
   }, [cellWrapNavBtnRef, isFocused, editMode, navigationMode]);
 
   return (
-    <div
+    // <button
+    //   type="button"
+    //   className="button-one"
+    //   onClick={onCellSelect}
+    // >
+
+    // </button>
+    <NavigationButtonStyle
       ref={cellWrapNavBtnRef}
       type="button"
       className={`${classNames} navigationButton cellWrapBtn button-reset`}
       onClick={_onCellSelect}
+      aria-label="navigation"
       onKeyDown={_onCellKeyPress}
-      role="presentation"
+      role="navigation"
+      // role="presentation"
       tabIndex={`${columnIndex + rowIndex * 10}`}
+      data-testid="navigationCell"
     />
   );
 };
+
+// export const CellNavigationCellWrap = ({ classNames, columnIndex, rowIndex }) => {
+//   /* Interaction Methods */
+//   const { onCellKeyPress, onCellSelect } = React.useContext(TableMethodsContext);
+//   const { navigationMode, editMode, currentFocusedRow, currentFocusedColumn } =
+//     React.useContext(TableStateContext);
+//   const cellWrapNavBtnRef = React.useRef(null);
+//   const isFocused = currentFocusedColumn === columnIndex && currentFocusedRow === rowIndex;
+
+//   // TODO: This is not always e.
+//   const withCellId = React.useCallback(
+//     (fn) => (e) => fn(e, rowIndex, columnIndex),
+//     [rowIndex, columnIndex]
+//   );
+
+//   const _onCellKeyPress = React.useCallback(withCellId(onCellKeyPress), [
+//     (withCellId, onCellKeyPress),
+//   ]);
+//   const _onCellSelect = React.useCallback(withCellId(onCellSelect), [withCellId, onCellSelect]);
+
+//   /* Update cell Focus State */
+//   React.useEffect(() => {
+//     // If cell is focused set focus to navBtn
+//     const shouldFocus =
+//       !editMode && navigationMode && isFocused && cellWrapNavBtnRef && cellWrapNavBtnRef.current
+//         ? true
+//         : false;
+//     if (shouldFocus) {
+//       cellWrapNavBtnRef.current.focus();
+//     }
+//   }, [cellWrapNavBtnRef, isFocused, editMode, navigationMode]);
+
+//   return (
+//     <div
+//       ref={cellWrapNavBtnRef}
+//       type="button"
+//       className={`${classNames} navigationButton cellWrapBtn button-reset`}
+//       onClick={_onCellSelect}
+//       onKeyDown={_onCellKeyPress}
+//       role="presentation"
+//       tabIndex={`${columnIndex + rowIndex * 10}`}
+//     />
+//   );
+// };
 
 CellNavigationCellWrap.propTypes = {
   classNames: PropTypes.string,
@@ -57,8 +115,8 @@ CellNavigationCellWrap.propTypes = {
 };
 
 CellNavigationCellWrap.defaultProps = {
-  classNames: "",
-}
+  classNames: '',
+};
 
 /* ====================== */
 // import React, { useCallback, useContext } from 'react';

@@ -1,7 +1,6 @@
 import { evaluate } from 'mathjs';
-import comparisons from '../../../GenericConstants/comparisons';
-import filterTypes from '../../../GenericConstants/filterTypes';
-import { RowErrors } from '../errorTypes';
+import { comparisons, filterTypes } from '@react_db_client/constants.client-types';
+import { RowErrors } from '@samnbuk/react_db_client.components.datatable.extras';
 
 const generateRowUid = () => `row_${Date.now()}`;
 
