@@ -1,6 +1,6 @@
 import React from 'react';
 // import { PopupPanel } from '@react_db_client/components.popup-panel';
-import { ItemEditor } from '@samnbuk/react_db_client.components.item-editor';
+import { ItemEditor } from '@react_db_client/components.item-editor';
 import { GenericCatalogue } from './generic-catalogue';
 import { PopupPanel, PopupPanelConnector } from '@react_db_client/components.popup-panel';
 

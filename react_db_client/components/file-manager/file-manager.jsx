@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { FileUploader } from '@samnbuk/react_db_client.components.file-uploader';
-import { SearchAndSelect } from '@samnbuk/react_db_client.components.search-and-select';
+import { FileUploader } from '@react_db_client/components.file-uploader';
+import { SearchAndSelect } from '@react_db_client/components.search-and-select';
 import { searchFilesFunction, searchResultHeadings } from './logic';
 
 export const FileManager = ({

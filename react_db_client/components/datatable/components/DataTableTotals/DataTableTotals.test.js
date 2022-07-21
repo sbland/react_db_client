@@ -1,12 +1,12 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 
-import { demoHeadingsData } from '@samnbuk/react_db_client.components.datatable.extras';
+import { demoHeadingsData } from '@react_db_client/components.datatable.extras';
 import { DataTableTotals } from './DataTableTotals';
 import {
   DataTableCellHoverWrap,
   DataTableDataCell,
-} from '@samnbuk/react_db_client.components.datatable.cell';
+} from '@react_db_client/components.datatable.cell';
 
 const defaultProps = {
   headingsDataList: demoHeadingsData,

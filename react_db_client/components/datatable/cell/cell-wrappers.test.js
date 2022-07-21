@@ -1,8 +1,8 @@
 import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
 import { mount } from 'enzyme';
-import { DataTableCellText } from '@samnbuk/react_db_client.components.datatable.cell-types';
-import { RightClickWrapper } from '@samnbuk/react_db_client.components.popup-menu';
+import { DataTableCellText } from '@react_db_client/components.datatable.cell-types';
+import { RightClickWrapper } from '@react_db_client/components.popup-menu';
 import { DataTableDataCell } from './cell-wrappers';
 
 

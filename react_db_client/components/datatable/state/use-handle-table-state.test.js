@@ -2,7 +2,7 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import {
   demoTableData,
   demoHeadingsData,
-} from '@samnbuk/react_db_client.components.datatable.extras';
+} from '@react_db_client/components.datatable.extras';
 import { useHandleTableState } from './use-handle-table-state';
 
 const DEMO_TABLE_DATA = Array(3)

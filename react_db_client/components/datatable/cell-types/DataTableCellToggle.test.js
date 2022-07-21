@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { DataTableCellToggle } from './DataTableCellToggle';
-import { ToggleBox } from '@samnbuk/react_db_client.components.form.form-components.toggle-box';
+import { ToggleBox } from '@react_db_client/components.form.form-components.toggle-box';
 
 
 describe('DataTableCellType - text', () => {

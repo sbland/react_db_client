@@ -1,7 +1,7 @@
 /**
  * this is the main configuration file of your bit workspace.
  * for full documentation, please see: https://harmony-docs.bit.dev/workspace/configurations
- **/ {
+ **/{
   "$schema": "https://static.bit.dev/teambit/schemas/schema.json",
   /**
    * main configuration of the Bit workspace.
@@ -109,7 +109,9 @@
       }
     },
     "packageManagerArgs": [],
-    "devFilePatterns": ["**/*.spec.ts"],
+    "devFilePatterns": [
+      "**/*.spec.ts"
+    ],
     "strictPeerDependencies": true,
     "installFromBitDevRegistry": true,
     "savePrefix": ""
@@ -137,7 +139,7 @@
     "{generator/*}": {
       "teambit.harmony/aspect": {}
     },
-    "{components/column-manager},{components/popup-panel},{constants/client-types},{components/emoji},{components/search-and-select-dropdown},{components/custom-select-dropdown}": {
+    "{components/**}": {
       "teambit.react/react": {},
       "teambit.pkg/pkg": {
         "packageManagerPublishArgs": [

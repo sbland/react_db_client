@@ -7,11 +7,11 @@ import {
   filterTypes,
   comparisons,
 } from '@react_db_client/constants.client-types';
-import { StyledSelectList } from '@samnbuk/react_db_client.components.styled-select-list';
-import { FilterPanel } from '@samnbuk/react_db_client.components.filter-manager';
+import { StyledSelectList } from '@react_db_client/components.styled-select-list';
+import { FilterPanel } from '@react_db_client/components.filter-manager';
 import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
 import { Emoji } from '@react_db_client/components.emoji';
-import { SelectionPreview } from '@samnbuk/react_db_client.components.selection-preview';
+import { SelectionPreview } from '@react_db_client/components.selection-preview';
 
 import { useSelectionManager } from './logic';
 import './_searchAndSelect.scss';

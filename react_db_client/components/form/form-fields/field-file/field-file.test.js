@@ -3,7 +3,7 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import { FieldFile } from './field-file';
-import { ItemList } from '@samnbuk/react_db_client.components.item-list';
+import { ItemList } from '@react_db_client/components.item-list';
 import * as compositions from './field-file.composition';
 import { DEMO_FILES_DATA } from './demo-data';
 

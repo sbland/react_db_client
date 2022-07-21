@@ -2,7 +2,7 @@ import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { MockReactC } from '@samnbuk/react_db_client.testing.utils';
-import { SearchAndSelect } from '@samnbuk/react_db_client.components.search-and-select';
+import { SearchAndSelect } from '@react_db_client/components.search-and-select';
 import { FilterObjectSimpleClass } from '@react_db_client/constants.client-types';
 // import { searchFilesFunction } from './logic';
 
@@ -10,10 +10,10 @@ import { FileManager } from './file-manager';
 import * as compositions from './file-manager.composition';
 import { demoSearchResults } from './demo-data';
 
-jest.mock('@samnbuk/react_db_client.components.search-and-select', () =>
+jest.mock('@react_db_client/components.search-and-select', () =>
   MockReactC('SearchAndSelect', ['SearchAndSelect'])
 );
-jest.mock('@samnbuk/react_db_client.components.file-uploader', () =>
+jest.mock('@react_db_client/components.file-uploader', () =>
   MockReactC('FileUploader', ['FileUploader'])
 );
 // jest.mock('./logic', () => ({

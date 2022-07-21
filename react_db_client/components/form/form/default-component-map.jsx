@@ -1,17 +1,17 @@
 import React from 'react';
 import { filterTypes } from '@react_db_client/constants.client-types';
 
-import { FieldText } from '@samnbuk/react_db_client.components.form.form-fields.field-text';
-import { FieldTextArea } from '@samnbuk/react_db_client.components.form.form-fields.field-text-area';
-import { FieldBool } from '@samnbuk/react_db_client.components.form.form-fields.field-bool';
-import { FieldDate } from '@samnbuk/react_db_client.components.form.form-fields.field-date';
-import { FieldNumber } from '@samnbuk/react_db_client.components.form.form-fields.field-number';
-import { FieldObjectRef } from '@samnbuk/react_db_client.components.form.form-fields.field-object-ref';
-import { FieldMultiSelect } from '@samnbuk/react_db_client.components.form.form-fields.field-multi-select';
-import { FieldSelect } from '@samnbuk/react_db_client.components.form.form-fields.field-select';
-import { FieldSelectSearch } from '@samnbuk/react_db_client.components.form.form-fields.field-select-search';
-import { FieldFile } from '@samnbuk/react_db_client.components.form.form-fields.field-file';
-import { FieldReadOnly } from '@samnbuk/react_db_client.components.form.form-fields.field-read-only';
+import { FieldText } from '@react_db_client/components.form.form-fields.field-text';
+import { FieldTextArea } from '@react_db_client/components.form.form-fields.field-text-area';
+import { FieldBool } from '@react_db_client/components.form.form-fields.field-bool';
+import { FieldDate } from '@react_db_client/components.form.form-fields.field-date';
+import { FieldNumber } from '@react_db_client/components.form.form-fields.field-number';
+import { FieldObjectRef } from '@react_db_client/components.form.form-fields.field-object-ref';
+import { FieldMultiSelect } from '@react_db_client/components.form.form-fields.field-multi-select';
+import { FieldSelect } from '@react_db_client/components.form.form-fields.field-select';
+import { FieldSelectSearch } from '@react_db_client/components.form.form-fields.field-select-search';
+import { FieldFile } from '@react_db_client/components.form.form-fields.field-file';
+import { FieldReadOnly } from '@react_db_client/components.form.form-fields.field-read-only';
 
 const readOnlyWrap = (Component) => (props) =>
   props.readOnly ? <FieldReadOnly {...props} /> : <Component {...props} />;

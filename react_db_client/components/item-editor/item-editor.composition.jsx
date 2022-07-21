@@ -1,7 +1,7 @@
 import React from 'react';
 import { ItemEditor } from './item-editor';
 import { demoParams, demoData } from './demo-data';
-import { defaultComponentMap } from '@samnbuk/react_db_client.components.form.form';
+import { defaultComponentMap } from '@react_db_client/components.form.form';
 
 const asyncGetDocuments = async () => {
   throw Error('Not Implemented');

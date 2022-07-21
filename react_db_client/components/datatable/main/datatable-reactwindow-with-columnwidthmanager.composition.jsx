@@ -4,8 +4,8 @@ import useScrollSync from 'react-scroll-sync-hook';
 import styled from 'styled-components';
 import { useTable, useBlockLayout } from 'react-table';
 import { FixedSizeList } from 'react-window';
-import { RightClickWrapper } from '@samnbuk/react_db_client.components.popup-menu';
-import { DataTableCellSelect } from '@samnbuk/react_db_client.components.datatable.cell-types';
+import { RightClickWrapper } from '@react_db_client/components.popup-menu';
+import { DataTableCellSelect } from '@react_db_client/components.datatable.cell-types';
 
 import {
   ColumnWidthManager,
@@ -17,7 +17,7 @@ import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wra
 import {
   demoHeadingsData,
   demoTableData,
-} from '@samnbuk/react_db_client.components.datatable.extras';
+} from '@react_db_client/components.datatable.extras';
 
 const columns = demoHeadingsData;
 

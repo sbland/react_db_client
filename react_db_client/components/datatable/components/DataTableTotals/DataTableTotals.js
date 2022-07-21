@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { headingDataShape } from '@samnbuk/react_db_client.components.datatable.extras';
-import { DataTableContext } from '@samnbuk/react_db_client.components.datatable.logic';
+import { headingDataShape } from '@react_db_client/components.datatable.extras';
+import { DataTableContext } from '@react_db_client/components.datatable.logic';
 import { formatValue } from '@react_db_client/helpers.data-processing';
 import {
   DataTableCellHoverWrap,
   DataTableDataCell,
-} from '@samnbuk/react_db_client.components.datatable.cell-types';
+} from '@react_db_client/components.datatable.cell-types';
 
 export const DataTableTotals = ({
   className,

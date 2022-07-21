@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Emoji } from '@react_db_client/components.emoji';
 // import '../_dataTable.scss';
-// import { RightClickWrapper } from '@samnbuk/react_db_client.components.popup-menu';
-import { DataTableCellReadOnly } from '@samnbuk/react_db_client.components.datatable.cell-types';
+// import { RightClickWrapper } from '@react_db_client/components.popup-menu';
+import { DataTableCellReadOnly } from '@react_db_client/components.datatable.cell-types';
 
 /**
  * Data Table cell wrap that handles cell hovering

@@ -7,9 +7,9 @@ import { filterTypes } from '@react_db_client/constants.client-types';
 import { demoHeadingsData, demoFormData } from './DemoData';
 
 import { Form } from './form';
-import { FieldText } from '@samnbuk/react_db_client.components.form.form-fields.field-text';
-import { FieldReadOnly } from '@samnbuk/react_db_client.components.form.form-fields.field-read-only';
-import { FieldObjectRef } from '@samnbuk/react_db_client.components.form.form-fields.field-object-ref';
+import { FieldText } from '@react_db_client/components.form.form-fields.field-text';
+import { FieldReadOnly } from '@react_db_client/components.form.form-fields.field-read-only';
+import { FieldObjectRef } from '@react_db_client/components.form.form-fields.field-object-ref';
 import { FormInputs } from './FormInputs';
 import { FieldLabel } from './field-label';
 import { FormField } from './FormField';

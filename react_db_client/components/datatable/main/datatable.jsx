@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { FilterObjectClass } from '@react_db_client/constants.client-types';
 import { useColumnVisabilityManager } from '@react_db_client/components.column-manager';
 import { wrapWithErrorBoundary } from '@react_db_client/helpers.error-handling';
-import { SelectionPreview } from '@samnbuk/react_db_client.components.selection-preview';
+import { SelectionPreview } from '@react_db_client/components.selection-preview';
 
 import {
   // DataTableConfigConnector,
@@ -14,13 +14,13 @@ import {
   // useDataManager,
   // useConditionalStylingManager,
   // useSelectionManager,
-} from '@samnbuk/react_db_client.components.datatable.logic';
+} from '@react_db_client/components.datatable.logic';
 // import {
 //   DataTableTopMenu,
 //   DataTableBottomMenu,
-// } from '@samnbuk/react_db_client.components.datatable.components';
+// } from '@react_db_client/components.datatable.components';
 
-import { RowErrors } from '@samnbuk/react_db_client.components.datatable.extras';
+import { RowErrors } from '@react_db_client/components.datatable.extras';
 // import DataTableUi from './DataTableUi';
 
 export const Datatable = ({}) => (

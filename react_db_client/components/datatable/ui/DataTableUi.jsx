@@ -7,20 +7,20 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import { useScrollSyncWrap } from 'react-scroll-sync-hook';
 import styled from 'styled-components';
 import { FixedSizeList } from 'react-window';
-import { DataTableCellReadOnly } from '@samnbuk/react_db_client.components.datatable.cell-types';
+import { DataTableCellReadOnly } from '@react_db_client/components.datatable.cell-types';
 import { ColumnWidthManager, useColumnManager } from '@react_db_client/components.column-manager';
 import {
   DataTableConfigConnector,
   DataTableContext,
-} from '@samnbuk/react_db_client.components.datatable.config';
+} from '@react_db_client/components.datatable.config';
 
-import { Cell, CellSimple } from '@samnbuk/react_db_client.components.datatable.cell';
+import { Cell, CellSimple } from '@react_db_client/components.datatable.cell';
 
 // TODO: Bring in old headings functionality
 import {
   DataTableHeadings,
   DataTableTotals,
-} from '@samnbuk/react_db_client.components.datatable.components';
+} from '@react_db_client/components.datatable.components';
 
 const defaultComponent = () => (props) => <DataTableCellReadOnly {...props} />;
 export const Styles = styled.div`

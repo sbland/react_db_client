@@ -1,8 +1,8 @@
-import { defaultComponentMap } from '@samnbuk/react_db_client.components.datatable.cell-types';
+import { defaultComponentMap } from '@react_db_client/components.datatable.cell-types';
 import {
   demoHeadingsData,
   demoTableData,
-} from '@samnbuk/react_db_client.components.datatable.extras';
+} from '@react_db_client/components.datatable.extras';
 
 const DEMO_TABLE_DATA = Object.values(demoTableData);
 

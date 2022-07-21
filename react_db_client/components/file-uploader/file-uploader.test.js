@@ -4,7 +4,7 @@ import { mount, shallow } from 'enzyme';
 
 import { FileUploader } from './file-uploader';
 import * as compositions from './file-uploader.composition';
-import { StyledSelectList } from '@samnbuk/react_db_client.components.styled-select-list';
+import { StyledSelectList } from '@react_db_client/components.styled-select-list';
 
 const asyncUpload = jest.fn();
 const onUpload = jest.fn();

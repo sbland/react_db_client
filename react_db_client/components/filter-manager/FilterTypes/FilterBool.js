@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { comparisons, FilterObjectClass } from '@react_db_client/constants.client-types';
 
-import { ToggleBox } from '@samnbuk/react_db_client.components.form.form-components.toggle-box';
+import { ToggleBox } from '@react_db_client/components.form.form-components.toggle-box';
 
 const FilterBool = ({ filter, updateFilter }) => {
   const updateOperator = (e) => {

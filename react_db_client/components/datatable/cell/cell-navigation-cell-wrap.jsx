@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {
   TableMethodsContext,
   TableStateContext,
-} from '@samnbuk/react_db_client.components.datatable.state';
+} from '@react_db_client/components.datatable.state';
 
 export const CellNavigationCellWrap = ({ classNames, columnIndex, rowIndex }) => {
   /* Interaction Methods */
@@ -66,7 +66,7 @@ CellNavigationCellWrap.defaultProps = {
 // import {
 //   TableMethodsContext,
 //   TableStateContext,
-// } from '@samnbuk/react_db_client.components.datatable.state';
+// } from '@react_db_client/components.datatable.state';
 
 // export const CellNavigationCellWrap = ({
 //   cellWrapNavBtnRef,

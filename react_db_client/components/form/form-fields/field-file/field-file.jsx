@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { FileManager } from '@samnbuk/react_db_client.components.file-manager';
-import { ItemList } from '@samnbuk/react_db_client.components.item-list';
+import { FileManager } from '@react_db_client/components.file-manager';
+import { ItemList } from '@react_db_client/components.item-list';
 
 
 /**

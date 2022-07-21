@@ -2,14 +2,14 @@ import React, { useCallback, useContext, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { switchF } from '@react_db_client/helpers.func-tools';
-import { RowStyleContext } from '@samnbuk/react_db_client.components.datatable.logic';
+import { RowStyleContext } from '@react_db_client/components.datatable.logic';
 import { CellNavigationCellWrap } from './cell-navigation-cell-wrap';
 // import { CellInfoBtn } from './cell-info-btn';
 import styled from 'styled-components';
 import {
   TableMethodsContext,
   TableStateContext,
-} from '@samnbuk/react_db_client.components.datatable.state';
+} from '@react_db_client/components.datatable.state';
 
 export const CellStyles = styled.div`
   width: 100%;

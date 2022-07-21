@@ -1,7 +1,7 @@
 // import React, { useState } from 'react';
 // import PropTypes from 'prop-types';
 // import { Emoji } from '@react_db_client/components.emoji';
-// import { headingDataShape } from '@samnbuk/react_db_client.components.datatable.extras';
+// import { headingDataShape } from '@react_db_client/components.datatable.extras';
 // import { DataTableCellHoverWrap, DataTableCell } from './DataTableCell/DataTableCell';
 
 // export const DataTableNewRow = ({

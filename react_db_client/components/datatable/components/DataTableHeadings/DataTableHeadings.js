@@ -1,12 +1,12 @@
 import React, { useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { headingDataShape } from '@samnbuk/react_db_client.components.datatable.extras';
+import { headingDataShape } from '@react_db_client/components.datatable.extras';
 import { Emoji } from '@react_db_client/components.emoji';
-import { DataTableContext } from '@samnbuk/react_db_client.components.datatable.logic';
+import { DataTableContext } from '@react_db_client/components.datatable.logic';
 import { FilterObjectClass } from '@react_db_client/constants.client-types';
 import { useAutoHidePanel } from '@react_db_client/hooks.use-auto-hide-panel-hook';
 
-import { DataTableCellHoverWrap } from '@samnbuk/react_db_client.components.datatable.cell';
+import { DataTableCellHoverWrap } from '@react_db_client/components.datatable.cell';
 
 export const DataTableHeadingMenu = ({
   handleAddFilter,

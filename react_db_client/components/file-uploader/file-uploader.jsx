@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState, useMemo } from 'react';
-import { StyledSelectList } from '@samnbuk/react_db_client.components.styled-select-list';
+import { StyledSelectList } from '@react_db_client/components.styled-select-list';
 import { filterTypes } from '@react_db_client/constants.client-types';
 // import ItemList from '../ItemList/ItemList';
 

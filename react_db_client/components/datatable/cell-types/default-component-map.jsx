@@ -9,7 +9,7 @@ import {
   DataTableCellSelect,
   DataTableCellToggle,
   DataTableCellReadOnly,
-} from '@samnbuk/react_db_client.components.datatable.cell-types';
+} from '@react_db_client/components.datatable.cell-types';
 
 // TODO: Implement readonlywrap
 // const readOnlyWrap = (Component) => (props) =>

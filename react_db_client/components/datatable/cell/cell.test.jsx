@@ -4,17 +4,17 @@ import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { sleep } from '@samnbuk/react_db_client.testing.utils';
 import { Cell } from './cell';
-import { defaultComponentMap } from '@samnbuk/react_db_client.components.datatable.cell-types';
+import { defaultComponentMap } from '@react_db_client/components.datatable.cell-types';
 import { DataTableDataCell } from './cell-wrappers';
-import { DataTableCellText } from '@samnbuk/react_db_client.components.datatable.cell-types';
+import { DataTableCellText } from '@react_db_client/components.datatable.cell-types';
 import {
   demoHeadingsData,
   demoTableData,
-} from '@samnbuk/react_db_client.components.datatable.extras';
+} from '@react_db_client/components.datatable.extras';
 import {
   DataTableContext,
   dataTableDefaultConfig,
-} from '@samnbuk/react_db_client.components.datatable.logic';
+} from '@react_db_client/components.datatable.logic';
 
 import {
   CustomSelectDropdown,

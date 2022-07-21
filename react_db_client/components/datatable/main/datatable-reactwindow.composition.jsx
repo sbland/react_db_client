@@ -10,7 +10,7 @@ import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wra
 import {
   demoHeadingsData,
   demoTableData,
-} from '@samnbuk/react_db_client.components.datatable.extras';
+} from '@react_db_client/components.datatable.extras';
 
 const columns = demoHeadingsData;
 

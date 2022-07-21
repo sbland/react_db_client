@@ -9,13 +9,13 @@ import {
   DataTableConfigConnector,
   DataTableContext,
   RowStyleContext,
-} from '@samnbuk/react_db_client.components.datatable.logic';
+} from '@react_db_client/components.datatable.logic';
 
 import {
   Cell,
   DataTableHeadings,
   DataTableTotals,
-} from '@samnbuk/react_db_client.components.datatable.components';
+} from '@react_db_client/components.datatable.components';
 import {
   ColumnWidthManager,
   useColumnManager,

@@ -2,8 +2,8 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { DataTableHeadings } from './DataTableHeadings';
 
-import { demoHeadingsData } from '@samnbuk/react_db_client.components.datatable.extras';
-import { DataTableContext, dataTableDefaultConfig } from '@samnbuk/react_db_client.components.datatable.logic';
+import { demoHeadingsData } from '@react_db_client/components.datatable.extras';
+import { DataTableContext, dataTableDefaultConfig } from '@react_db_client/components.datatable.logic';
 
 describe('DataTableHeading', () => {
   it('Renders', () => {

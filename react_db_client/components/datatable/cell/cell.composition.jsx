@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import {
   DataTableContext,
   dataTableDefaultConfig,
-} from '@samnbuk/react_db_client.components.datatable.config';
+} from '@react_db_client/components.datatable.config';
 import { VariableSizeGrid as Grid } from 'react-window';
 import ReactJson from 'react-json-view';
 import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
@@ -11,12 +11,12 @@ import { ThemeProvider } from 'styled-components';
 import {
   demoHeadingsData,
   demoTableData,
-} from '@samnbuk/react_db_client.components.datatable.extras';
+} from '@react_db_client/components.datatable.extras';
 import {
   TableMethodsContext,
   TableStateContext,
-} from '@samnbuk/react_db_client.components.datatable.state';
-import { useHandleTableState } from '@samnbuk/react_db_client.components.datatable.state';
+} from '@react_db_client/components.datatable.state';
+import { useHandleTableState } from '@react_db_client/components.datatable.state';
 
 import { defaultProps, placeholderMethods } from './demo-props';
 

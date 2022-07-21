@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { ToggleBox } from '@samnbuk/react_db_client.components.form.form-components.toggle-box';
+import { ToggleBox } from '@react_db_client/components.form.form-components.toggle-box';
 import { DefaultCellInnerStyle } from './style';
 
 export const DataTableCellToggle = ({

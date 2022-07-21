@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MultiSelectDropdown } from '@samnbuk/react_db_client.components.form.form-components.multi-select-dropdown';
-import { BubbleSelector } from '@samnbuk/react_db_client.components.form.form-components.bubble-selector';
+import { MultiSelectDropdown } from '@react_db_client/components.form.form-components.multi-select-dropdown';
+import { BubbleSelector } from '@react_db_client/components.form.form-components.bubble-selector';
 
 export const FieldMultiSelect = ({
   uid,

@@ -11,7 +11,7 @@ import {
   comparisons,
 } from '@react_db_client/constants.client-types';
 import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
-import { StyledSelectList } from '@samnbuk/react_db_client.components.styled-select-list';
+import { StyledSelectList } from '@react_db_client/components.styled-select-list';
 
 import { demoFiltersData, demoFieldsData } from '@react_db_client/constants.demo-data';
 import { SearchAndSelect } from './search-and-select';
@@ -29,7 +29,7 @@ jest.mock('./logic', () => ({
   useSelectionManager: jest.fn(),
 }));
 
-jest.mock('@samnbuk/react_db_client.components.styled-select-list', () =>
+jest.mock('@react_db_client/components.styled-select-list', () =>
   MockReactC('StyledSelectList', ['StyledSelectList'])
 );
 

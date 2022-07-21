@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { useAsyncObjectManager } from '@react_db_client/async-hooks.use-async-object-manager';
-import { Form, FormField } from '@samnbuk/react_db_client.components.form.form';
+import { Form, FormField } from '@react_db_client/components.form.form';
 import { mapFields } from './field-mapper';
 
 /**
