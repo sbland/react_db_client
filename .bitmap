@@ -23,7 +23,7 @@
     },
     "components/are-you-sure-btn": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.1",
+        "version": "0.2.2",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/are-you-sure-btn"
     },
@@ -41,25 +41,25 @@
     },
     "components/datatable/cell": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.20",
+        "version": "0.1.21",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/cell"
     },
     "components/datatable/cell-types": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.20",
+        "version": "0.1.21",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/cell-types"
     },
     "components/datatable/components": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.20",
+        "version": "0.1.21",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/components"
     },
     "components/datatable/config": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/config"
     },
@@ -77,19 +77,19 @@
     },
     "components/datatable/main": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.21",
+        "version": "0.1.22",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/main"
     },
     "components/datatable/state": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.0.19",
+        "version": "0.0.20",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/state"
     },
     "components/datatable/ui": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.20",
+        "version": "0.1.21",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/ui"
     },
@@ -209,7 +209,7 @@
     },
     "components/generic-catalogue": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.29",
+        "version": "0.2.30",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/generic-catalogue"
     },
