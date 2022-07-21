@@ -1,7 +1,10 @@
-import comparisons from '../../../GenericConstants/comparisons';
-import filterTypes from '../../../GenericConstants/filterTypes';
+import { comparisons, filterTypes } from '@react_db_client/constants.client-types';
 
-import { demoTableData, demoHeadingsData } from '../demoData';
+import {
+  demoTableData,
+  demoHeadingsData,
+} from '@samnbuk/react_db_client.components.datatable.extras';
+
 import {
   evaluateExpressionColumns,
   generateNewRowData,
