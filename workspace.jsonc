@@ -135,7 +135,7 @@
     "{content/**}": {
       "teambit.mdx/mdx": {}
     },
-    "{envs/**}, {extensions/**}": {
+    "{envs/**}, {extensions/**},{react-extended}": {
       "teambit.harmony/aspect": {}
     },
     "{styles/**}, {constants/**}": {
