@@ -12,6 +12,7 @@ export const FieldMultiSelect = ({
   required,
   asDropdown,
   selectType,
+  ...additionalProps
 }) => {
   if (asDropdown && selectType === 'dropdown') {
     return (
@@ -21,6 +22,7 @@ export const FieldMultiSelect = ({
           updateActiveSelection={(newVal) => updateFormData(uid, newVal)}
           options={options}
           required={required}
+          {...additionalProps}
         />
         {unit && <span>{unit}</span>}
       </>
@@ -34,6 +36,7 @@ export const FieldMultiSelect = ({
           updateActiveSelection={(newVal) => updateFormData(uid, newVal)}
           options={options}
           isSorted
+          {...additionalProps}
         />
         {unit && <span>{unit}</span>}
       </>
@@ -46,6 +49,7 @@ export const FieldMultiSelect = ({
           activeSelection={value || []}
           updateActiveSelection={(newVal) => updateFormData(uid, newVal)}
           options={options}
+          {...additionalProps}
         />
         {unit && <span>{unit}</span>}
       </>

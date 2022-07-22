@@ -31,7 +31,9 @@ export const BubbleSelector = ({
   updateActiveSelection,
   options,
   isSorted,
+  groupSelected,
   allowManualInput,
+  allowSelectAll,
 }) => {
   const [showUnselected, setShowUnselected] = useState(false);
   const [manualInput, setManualInput] = useState('');
@@ -52,6 +54,10 @@ export const BubbleSelector = ({
       .filter((opt) => copyOfActiveSelection.indexOf(opt) !== -1);
     updateActiveSelection(sortedList, action, uid);
   };
+
+  const handleSelectAll = () => {
+    updateActiveSelection(options.map((o) => o.uid))
+  }
 
   const selectedItems = activeSelection.map(
     (sel) => options.filter((opt) => opt.uid === sel)[0] || { uid: sel, label: sel }
@@ -114,7 +120,7 @@ export const BubbleSelector = ({
           }}
         />
       )}
-      {isSorted && (
+      {groupSelected && (
         <>
           <ul className="bubbleSelector_list selected">{mapSelectedItems}</ul>
           {showUnselected && (
@@ -134,7 +140,12 @@ export const BubbleSelector = ({
           )}
         </>
       )}
-      {!isSorted && <ul className="bubbleSelector_list">{mapAllItems}</ul>}
+      {!groupSelected && <ul className="bubbleSelector_list">{mapAllItems}</ul>}
+      {allowSelectAll && (
+        <button type="button" className="button-two" onClick={handleSelectAll}>
+          Select All
+        </button>
+      )}
     </div>
   );
 };
@@ -149,11 +160,15 @@ BubbleSelector.propTypes = {
   ).isRequired,
   updateActiveSelection: PropTypes.func.isRequired,
   isSorted: PropTypes.bool,
+  groupSelected: PropTypes.bool,
   allowManualInput: PropTypes.bool,
+  allowSelectAll: PropTypes.bool,
 };
 
 BubbleSelector.defaultProps = {
   activeSelection: [],
   isSorted: false,
+  groupSelected: false,
   allowManualInput: false,
+  allowSelectAll: false,
 };
