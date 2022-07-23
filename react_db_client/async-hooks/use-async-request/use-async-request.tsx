@@ -116,7 +116,7 @@ export const useAsyncRequest = <ResponseType, Args extends any[]>({
       if (!callFn) throw Error('Missing call fn');
       try {
         callFn
-          .apply(null, ...args.args)
+          .apply(null, args.args)
           .then((responseData) => {
             setResultState((prev) => {
               // check we are only returning the data from the most recent call
