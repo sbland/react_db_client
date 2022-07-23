@@ -34,8 +34,9 @@ export const BubbleSelector = ({
   groupSelected,
   allowManualInput,
   allowSelectAll,
+  hideUnselected,
 }) => {
-  const [showUnselected, setShowUnselected] = useState(false);
+  const [showUnselected, setShowUnselected] = useState(!hideUnselected);
   const [manualInput, setManualInput] = useState('');
 
   const handleSelect = (uid) => {
@@ -56,17 +57,21 @@ export const BubbleSelector = ({
   };
 
   const handleSelectAll = () => {
-    updateActiveSelection(options.map((o) => o.uid))
-  }
+    updateActiveSelection(options.map((o) => o.uid));
+  };
 
   const selectedItems = activeSelection.map(
     (sel) => options.filter((opt) => opt.uid === sel)[0] || { uid: sel, label: sel }
   );
-  // console.log(selectedItems);
-  // const selectedItems = options.filter((opt) => (activeSelection.indexOf(opt.uid) !== -1));
   const unselectedItems = options.filter((opt) => activeSelection.indexOf(opt.uid) === -1);
 
-  const allItems = selectedItems.concat(unselectedItems);
+  const additionalItems = selectedItems.filter(
+    (opt) => options.map((o) => o.uid).indexOf(opt.uid) === -1
+  );
+
+  const allItems = groupSelected
+    ? selectedItems.concat(unselectedItems)
+    : [...options, ...additionalItems];
 
   const sortFn = isSorted ? (a, b) => a.label.toUpperCase() > b.label.toUpperCase() : () => false;
 
@@ -126,9 +131,15 @@ export const BubbleSelector = ({
           {showUnselected && (
             <>
               <ul className="bubbleSelector_list unselected">{mapUnselectedItems}</ul>
-              <button type="button" className="button-one" onClick={() => setShowUnselected(false)}>
-                -
-              </button>
+              {hideUnselected && (
+                <button
+                  type="button"
+                  className="button-one"
+                  onClick={() => setShowUnselected(false)}
+                >
+                  -
+                </button>
+              )}
             </>
           )}
           {!showUnselected && (
@@ -140,7 +151,7 @@ export const BubbleSelector = ({
           )}
         </>
       )}
-      {!groupSelected && <ul className="bubbleSelector_list">{mapAllItems}</ul>}
+      {!groupSelected && <ul className="bubbleSelector_list notGrouped">{mapAllItems}</ul>}
       {allowSelectAll && (
         <button type="button" className="button-two" onClick={handleSelectAll}>
           Select All
@@ -163,6 +174,7 @@ BubbleSelector.propTypes = {
   groupSelected: PropTypes.bool,
   allowManualInput: PropTypes.bool,
   allowSelectAll: PropTypes.bool,
+  hideUnselected: PropTypes.bool,
 };
 
 BubbleSelector.defaultProps = {
@@ -171,4 +183,5 @@ BubbleSelector.defaultProps = {
   groupSelected: false,
   allowManualInput: false,
   allowSelectAll: false,
+  hideUnselected: false,
 };

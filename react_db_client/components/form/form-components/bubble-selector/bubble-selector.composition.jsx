@@ -19,6 +19,25 @@ export const BasicBubbleSelector = () => {
   );
 };
 
+
+export const BasicBubbleSelectorGrouped = () => {
+  const [activeSelection, setActiveSelection] = useState(['a', 'b', 'e']);
+  return (
+    <BubbleSelector
+      activeSelection={activeSelection}
+      options={[
+        { uid: 'a', label: 'a' },
+        { uid: 'b', label: 'b' },
+        { uid: 'c', label: 'c' },
+        { uid: 'd', label: 'd' },
+      ]}
+      updateActiveSelection={setActiveSelection}
+      groupSelected
+      hideUnselected
+    />
+  );
+};
+
 export const BubbleSelectorManualInput = () => {
   const [activeSelection, setActiveSelection] = useState(['a', 'b', 'e']);
   return (
