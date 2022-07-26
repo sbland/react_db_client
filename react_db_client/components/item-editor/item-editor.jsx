@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { useAsyncObjectManager } from '@react_db_client/async-hooks.use-async-object-manager';
@@ -47,7 +47,10 @@ export const ItemEditor = ({
     saveErrorCallback,
   });
 
-  const mappedFields = mapFields(params, overridenFields, uid, collection);
+  const mappedFields = useMemo(
+    () => mapFields(params, overridenFields, uid, collection),
+    [params, overridenFields, uid, collection]
+  );
 
   const handleUpdate = useCallback(
     (field, value) => {
@@ -81,7 +84,7 @@ export const ItemEditor = ({
         <Form
           formDataInitial={data}
           headings={mappedFields}
-          onSubmit={() => saveData()}
+          onSubmit={saveData}
           onChange={handleOnChange}
           showEndBtns
           submitBtnText="Save Item"

@@ -73,7 +73,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
   React.useEffect(() => {
     setSearchValue(
       initialValue === null || initialValue === undefined || typeof initialValue !== 'object'
-        ? initialValue
+        ? initialValue || ''
         : initialValue[searchFieldTargetField]
     );
   }, [initialValue, searchFieldTargetField]);
@@ -304,7 +304,7 @@ SearchAndSelectDropdown.propTypes = {
    */
   handleSelect: PropTypes.func.isRequired,
   /* Initial search field value */
-  initialValue: PropTypes.string.isRequired,
+  initialValue: PropTypes.string,
   /* the target field that the search string applies to */
   searchFieldTargetField: PropTypes.string,
   /* The field in the returned data to use as the label */
@@ -329,4 +329,5 @@ SearchAndSelectDropdown.defaultProps = {
   allowEmptySearch: false,
   searchDelay: 500,
   valid: true,
+  initialValue: null,
 };

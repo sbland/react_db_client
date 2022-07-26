@@ -46,9 +46,9 @@ export const useAsyncObjectManager = ({
   populate = 'all',
   loadOnInit = true,
   reloadOnSave = false,
-  onSavedCallback: onSavedCallbackIn = () => {} /* Returns a message string */,
-  saveErrorCallback = () => {} /* Returns a AsyncRequestError */,
-  onDeleteCallback = () => {},
+  onSavedCallback: onSavedCallbackIn /* Returns a message string */,
+  saveErrorCallback /* Returns a AsyncRequestError */,
+  onDeleteCallback,
   asyncGetDocument,
   asyncPutDocument,
   asyncPostDocument,
@@ -57,6 +57,7 @@ export const useAsyncObjectManager = ({
   const [isNew, setIsNew] = useState(!activeUid || isNewIn);
   const [uid] = useState(isNew || !activeUid ? generateUid(collection) : activeUid);
   const [editData, setEditData] = useState({});
+  const [editDataKey, setEditDataKey] = useState(0);
   const [unsavedChanges, setUnsavedChanges] = useState(false); // TODO: Implement this
   const [resetToData, setResetToData] = useState({});
   const loadArgs = useMemo(
@@ -66,10 +67,11 @@ export const useAsyncObjectManager = ({
 
   const [loadedData, setLoadedData] = useState(null);
 
-  const loadedDataCallback = (newLoadedData) => {
+  const loadedDataCallback = useCallback((newLoadedData) => {
     setLoadedData(newLoadedData);
     setEditData({});
-  };
+    setEditDataKey((prev) => prev + 1);
+  }, []);
 
   const {
     call: loadAsync,
@@ -88,7 +90,7 @@ export const useAsyncObjectManager = ({
   const combinedData = useMemo(() => {
     const _combinedData = merge(loadedData, inputAdditionalData, { uid }, editData);
     return _combinedData;
-  }, [loadedData, inputAdditionalData, uid, editData]);
+  }, [loadedData, inputAdditionalData, uid, editData, editDataKey]);
 
   /* Handle Saving Data */
   const onSavedCallback = useCallback(
@@ -104,10 +106,10 @@ export const useAsyncObjectManager = ({
       if (reloadOnSave) {
         loadAsync(loadArgs, (loadedResponse) => {
           loadedDataCallback(loadedResponse);
-          onSavedCallbackIn(uid, response, combinedData);
+          if (onSavedCallbackIn) onSavedCallbackIn(uid, response, combinedData);
         });
       } else {
-        onSavedCallbackIn(uid, response, combinedData);
+        if (onSavedCallbackIn) onSavedCallbackIn(uid, response, combinedData);
       }
     },
     [
@@ -115,6 +117,7 @@ export const useAsyncObjectManager = ({
       combinedData,
       onSavedCallbackIn,
       editData,
+      editDataKey,
       inputAdditionalData,
       loadedData,
       reloadOnSave,
@@ -155,7 +158,7 @@ export const useAsyncObjectManager = ({
 
   useEffect(() => {
     if (deleteResponse && deleteResponse.ok) {
-      onDeleteCallback(uid, deleteResponse);
+      if (onDeleteCallback) onDeleteCallback(uid, deleteResponse);
     }
   }, [deleteResponse, onDeleteCallback, uid]);
 
@@ -163,6 +166,7 @@ export const useAsyncObjectManager = ({
   const updateData = useCallback((newData) => {
     setUnsavedChanges(true);
     setEditData((prev) => ({ ...prev, ...newData }));
+    setEditDataKey((prev) => prev + 1);
   }, []);
 
   const updateFormData = useCallback(
@@ -180,6 +184,7 @@ export const useAsyncObjectManager = ({
       setEditData((prev) => {
         return updateDict(prev, saveAsyncInner)(field, value, save, nested);
       });
+      setEditDataKey((prev) => prev + 1);
     },
     [collection, uid, inputAdditionalData, loadedData, saveAsync]
   );
@@ -189,6 +194,7 @@ export const useAsyncObjectManager = ({
   const deleteObject = useCallback(() => deleteAsync(), [deleteAsync]);
   const resetData = useCallback(() => {
     setEditData(resetToData);
+    setEditDataKey((prev) => prev + 1);
   }, [resetToData]);
   const saveData = useCallback(() => {
     saveAsync([collection, uid, combinedData]);

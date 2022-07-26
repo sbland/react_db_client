@@ -4,7 +4,7 @@ import { shallow, mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import toJson from 'enzyme-to-json';
 import { createSerializer } from 'enzyme-to-json';
-import { MockReactC } from '@samnbuk/react_db_client.testing.utils';
+import { MockReactC } from '@react_db_client/testing.utils';
 import {
   FilterObjectClass,
   filterTypes,

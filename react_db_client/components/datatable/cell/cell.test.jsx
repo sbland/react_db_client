@@ -2,7 +2,7 @@ import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
 import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import { sleep } from '@samnbuk/react_db_client.testing.utils';
+import { sleep } from '@react_db_client/testing.utils';
 import { Cell } from './cell';
 import { defaultComponentMap } from '@react_db_client/components.datatable.cell-types';
 import { DataTableDataCell } from './cell-wrappers';

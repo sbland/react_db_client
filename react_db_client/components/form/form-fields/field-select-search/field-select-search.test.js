@@ -2,7 +2,7 @@ import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { act } from 'react-dom/test-utils';
-import { MockReactC } from '@samnbuk/react_db_client.testing.utils';
+import { MockReactC } from '@react_db_client/testing.utils';
 
 import { SearchAndSelectDropdown } from '@react_db_client/components.search-and-select-dropdown';
 

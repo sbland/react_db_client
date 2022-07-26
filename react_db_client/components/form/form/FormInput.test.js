@@ -5,7 +5,7 @@ import '@samnbuk/react_db_client.testing.enzyme-setup';
 
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import { MockReactC } from '@samnbuk/react_db_client.testing.utils';
+import { MockReactC } from '@react_db_client/testing.utils';
 
 import { FormInputs } from './FormInputs';
 import { demoHeadingsData, demoFormData } from './DemoData';

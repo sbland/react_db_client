@@ -12,7 +12,7 @@ integrated into bit but at the moment the best way to do this is import the foll
 at the to of the file:
 
 ``` js
-import '@samnbuk/react_db_client.testing.enzyme-setup';
+import '@react_db_client/testing.enzyme-setup';
 ```
 
 To test a single component run `bit test <component_id>`. The `component_id` is

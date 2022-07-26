@@ -21,7 +21,7 @@ describe('BubbleSelector', () => {
   it('Matches Snapshot', () => {
     const component = shallow(
       <BubbleSelector
-        activeSelection={['a', 'b']}
+        activeSelection={['a', 'c']}
         options={[
           { uid: 'a', label: 'a' },
           { uid: 'b', label: 'b' },
@@ -29,6 +29,23 @@ describe('BubbleSelector', () => {
           { uid: 'd', label: 'd' },
         ]}
         updateActiveSelection={() => {}}
+      />
+    );
+    const tree = component.debug();
+    expect(tree).toMatchSnapshot();
+  });
+  it('Matches Snapshot - group selected', () => {
+    const component = shallow(
+      <BubbleSelector
+        activeSelection={['a', 'c']}
+        options={[
+          { uid: 'a', label: 'a' },
+          { uid: 'b', label: 'b' },
+          { uid: 'c', label: 'c' },
+          { uid: 'd', label: 'd' },
+        ]}
+        updateActiveSelection={() => {}}
+        groupSelected
       />
     );
     const tree = component.debug();

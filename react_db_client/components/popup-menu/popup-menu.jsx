@@ -1,19 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
+import { getRoot } from '@react_db_client/helpers.get-root';
 
 import './style.scss';
 
-const getRoot = (inputRoot) => {
-  let root = null;
-  if (typeof inputRoot == 'object') root = inputRoot;
-  if (typeof inputRoot == 'string') root = document.getElementById(inputRoot);
-  if (!root) {
-    root = document.createElement('div');
-    root.setAttribute('id', inputRoot || '_root');
-  }
-  return root;
-};
 
 const PopupMenuItems = ({ items }) =>
   items.map((item) => (
