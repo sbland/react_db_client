@@ -7,6 +7,7 @@ const asyncGetDocuments = async () => {
   throw Error('Not Implemented');
 };
 const fileServerUrl = '';
+const onSubmitCallback= () => {};
 
 export const BasicItemEditor = () => (
   <div className="productEditor_FormWrap sectionWrapper">
@@ -14,7 +15,7 @@ export const BasicItemEditor = () => (
       id="demo-id"
       inputUid="abc"
       isNew={false}
-      onSubmitCallback={() => {}}
+      onSubmitCallback={onSubmitCallback}
       additionalData={{}}
       params={demoParams}
       collection="democollection"
