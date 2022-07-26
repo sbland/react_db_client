@@ -13,7 +13,7 @@ export type ICallback<ResponseType, Args> = (response: ResponseType, args: Args)
 export type ICallFn<Args> = (args: Args) => Promise<any>;
 
 export interface IUseAsyncRequestProps<ResponseType, Args> {
-  args: Args;
+  args: Args | null;
   callFn: ICallFn<Args>;
   cleanupFunc?: () => void;
   callOnInit?: boolean;
@@ -31,17 +31,17 @@ export interface IResultState {
   latestLoadingId: number;
   resultsData?: any;
   hasLoaded: boolean;
-  error: string;
+  error?: null | string;
   callCount: number;
 }
 export interface IUseAsyncRequestReturn<ResponseType, Args> {
   resultState: IResultState;
-  response: ResponseType;
+  response: null | ResponseType;
   reload: (Args) => void;
   call: (Args) => void;
   loading: boolean;
   hasLoaded: boolean;
-  error: AsyncRequestError;
+  error?: null | AsyncRequestError;
   callCount: number;
 }
 
@@ -65,13 +65,14 @@ export interface IUseAsyncRequestReturn<ResponseType, Args> {
  * }
  */
 export const useAsyncRequest = <ResponseType, Args extends any[]>({
-  args: argsInitial = [] as Args, // TODO: Rename to defaultArgs
-  callFn = demoCallFn,
+  args: argsInitial, // TODO: Rename to defaultArgs
+  callFn,
   cleanupFunc = () => null,
   callOnInit = true,
   debug = false,
-  callback: callbackIn = (response: ResponseType, args: Args) => null as any,
-  errorCallback: errorCallbackIn = () => null,
+  //callback = (response: ResponseType, args: Args) => null as any
+  callback: callbackIn,
+  errorCallback: errorCallbackIn,
 }: IUseAsyncRequestProps<ResponseType, Args>): IUseAsyncRequestReturn<ResponseType, Args> => {
   // const [latestCallId, setLatestCallId] = useState(0);
   const [resultState, setResultState] = useState({
@@ -82,19 +83,21 @@ export const useAsyncRequest = <ResponseType, Args extends any[]>({
     error: null,
     callCount: 0,
   });
-  const [args, setArgs] = useState<IFnArgs<ResponseType, Args>>(() => ({
-    args: argsInitial,
-    callback: callbackIn,
-  }));
+  const [args, setArgs] = useState<Args>(argsInitial || ([] as Args));
+
+  const [callback, setCallback] = useState<null | ICallback<ResponseType, Args>>(() => callbackIn);
+
   const [allowLoad, setAllowLoad] = useState(callOnInit);
   const [forceLoad, setForceLoad] = useState(true);
 
+  useEffect(() => {
+    setCallback(() => callbackIn);
+  }, [callbackIn]);
+
   const reload = useCallback(
     (argsUpdated: Args, callbackOverride?: ICallback<ResponseType, Args>) => {
-      setArgs((prev) => ({
-        args: argsUpdated || prev.args,
-        callback: callbackOverride || prev.callback,
-      }));
+      setArgs((prev) => argsUpdated || prev);
+      setCallback((prev) => callbackOverride || prev);
       setAllowLoad(true);
       setForceLoad(true);
     },
@@ -116,7 +119,7 @@ export const useAsyncRequest = <ResponseType, Args extends any[]>({
       if (!callFn) throw Error('Missing call fn');
       try {
         callFn
-          .apply(null, args.args)
+          .apply(null, args || [])
           .then((responseData) => {
             setResultState((prev) => {
               // check we are only returning the data from the most recent call
@@ -133,12 +136,9 @@ export const useAsyncRequest = <ResponseType, Args extends any[]>({
               }
               return prev;
             });
-
-            if (args.callback) args.callback(responseData, args.args);
-            setArgs(() => ({
-              args: argsInitial,
-              callback: callbackIn,
-            }));
+            if (callback) callback(responseData, args);
+            setArgs(() => argsInitial || ([] as Args));
+            setCallback(() => callbackIn);
           })
           .catch((e) => {
             if (ENV === 'development' || debug) {
@@ -160,7 +160,7 @@ export const useAsyncRequest = <ResponseType, Args extends any[]>({
             });
             // TODO: This filtering should be performed outside this component!
             const errorMessage = e.name === 'ApiError' ? e.message : 'Unknown Error';
-            errorCallbackIn(new AsyncRequestError(errorMessage, e));
+            if (errorCallbackIn) errorCallbackIn(new AsyncRequestError(errorMessage, e));
           });
       } catch (error) {
         console.error('Async Call function failed');
@@ -172,6 +172,7 @@ export const useAsyncRequest = <ResponseType, Args extends any[]>({
     forceLoad,
     allowLoad,
     args,
+    callback,
     resultState,
     callFn,
     cleanupFunc,
