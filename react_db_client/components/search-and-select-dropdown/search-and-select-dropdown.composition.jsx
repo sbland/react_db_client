@@ -86,3 +86,20 @@ export const DemoDataAllowEmptyInstant = () => {
     </div>
   );
 };
+
+
+
+export const DemoDataSetInitial = () => {
+  const props = { ...defaultProps };
+  return (
+    <div>
+      <SearchAndSelectDropdown
+        {...props}
+        initialValue="hello"
+        allowEmptySearch
+        searchFunction={async () => demoResultData}
+        searchDelay={0}
+      />
+    </div>
+  );
+};

@@ -82,9 +82,8 @@ export const FieldObjectRef = ({
       <SearchAndSelectDropdown
         searchFunction={searchFn(asyncGetDocuments, collection, '_id', labelField)}
         handleSelect={handleSelect}
-        selectionOverride={valueChecked}
+        initialValue={valueChecked}
         allowMultiple={multiple}
-        returnFieldOnSelect="_id"
         searchFieldTargetField={labelField}
         labelField={labelField}
         className="formFieldInput"

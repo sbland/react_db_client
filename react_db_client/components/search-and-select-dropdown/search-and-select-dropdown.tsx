@@ -24,6 +24,7 @@ export interface ISearchAndSelectDropdownProps<Item> extends React.HTMLProps<HTM
   searchFieldPlaceholder?: string;
   allowEmptySearch?: boolean;
   searchDelay?: number;
+  allowMultiple?: boolean;
   valid?: boolean;
   searchFieldRef?: React.MutableRefObject<HTMLInputElement | null> | null;
 }
@@ -31,6 +32,8 @@ export interface ISearchAndSelectDropdownProps<Item> extends React.HTMLProps<HTM
 export interface IItem {
   uid: string | number;
 }
+
+// TODO: Provide default search function
 
 /**
  * Search and Select Dropdown Component
@@ -50,13 +53,13 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
     searchFieldPlaceholder,
     allowEmptySearch,
     searchDelay,
+    allowMultiple,
     valid = true,
     style,
     searchFieldRef: searchFieldRefFromParent,
     ...additionalProps
   } = props;
-  // console.log(additionalProps);
-  // TODO: Provide default search function
+  if (allowMultiple) throw Error('Multiple Selection Is Not Implemented');
   const [searchValue, setSearchValue] = useState<string | null>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -287,6 +290,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
         handleClose={handleDropdownClose}
         firstItemRef={firstItemRef}
         goBackToSearchField={goBackToSearchField}
+        position="relative"
       />
     </div>
   );
@@ -304,7 +308,12 @@ SearchAndSelectDropdown.propTypes = {
    */
   handleSelect: PropTypes.func.isRequired,
   /* Initial search field value */
-  initialValue: PropTypes.string,
+  initialValue: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({
+      // TODO: Define initial value shape requirements
+    }),
+  ]),
   /* the target field that the search string applies to */
   searchFieldTargetField: PropTypes.string,
   /* The field in the returned data to use as the label */
@@ -320,6 +329,8 @@ SearchAndSelectDropdown.propTypes = {
   searchDelay: PropTypes.number,
   /* Input is valid */
   valid: PropTypes.bool,
+  /* If true allows multiple selection */
+  allowMultiple: PropTypes.bool,
 };
 
 SearchAndSelectDropdown.defaultProps = {
@@ -330,4 +341,5 @@ SearchAndSelectDropdown.defaultProps = {
   searchDelay: 500,
   valid: true,
   initialValue: null,
+  allowMultiple: false,
 };

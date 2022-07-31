@@ -5,7 +5,9 @@ $listItemHeight: $unit * 1.5;
 $minDropdownListWidth: $unit * 8;
 
 .selectDropdown {
-  position: relative;
+  // position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   min-width: $minDropdownListWidth;
 }
@@ -60,6 +62,7 @@ $minDropdownListWidth: $unit * 8;
     border-top: none;
     overflow: auto;
     pointer-events: all;
+    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.1);
   }
 }
 

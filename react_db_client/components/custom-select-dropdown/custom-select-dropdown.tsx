@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 import './customSelectDropdown.scss';
@@ -16,6 +17,9 @@ export interface ICustomSelectDropdownProps {
   handleClose: () => void;
   firstItemRef: React.MutableRefObject<HTMLElement | null>;
   goBackToSearchField: () => void;
+  containerRef?: HTMLElement | null;
+  position?: 'absolute' | 'relative';
+  absolutePosition?: { left: number; top: number };
 }
 
 export const CustomSelectDropdown: React.FC<ICustomSelectDropdownProps> = ({
@@ -25,6 +29,9 @@ export const CustomSelectDropdown: React.FC<ICustomSelectDropdownProps> = ({
   handleClose,
   firstItemRef,
   goBackToSearchField = () => null,
+  containerRef = null,
+  position = 'relative',
+  absolutePosition = null,
 }: ICustomSelectDropdownProps) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<HTMLElement[]>([]);
@@ -101,13 +108,18 @@ export const CustomSelectDropdown: React.FC<ICustomSelectDropdownProps> = ({
   const listDropdownClass = isOpen ? 'selectDropdown_list open' : 'selectDropdown_list';
   const menuDropdownClass = isOpen ? 'selectDropdown_menu open' : 'selectDropdown_menu';
 
-  return (
-    <div className="selectDropdown">
+  const render = (
+    <div
+      className="selectDropdown"
+      style={{ position, left: absolutePosition?.left | 0, top: absolutePosition?.top | 0 }}
+    >
       <div className={menuDropdownClass} ref={menuRef}>
         {isOpen && <ul className={listDropdownClass}>{mapOptions}</ul>}
       </div>
     </div>
   );
+  if (containerRef) return ReactDOM.createPortal(render, containerRef);
+  return render;
 };
 
 CustomSelectDropdown.propTypes = {
@@ -122,4 +134,9 @@ CustomSelectDropdown.propTypes = {
   handleClose: PropTypes.func.isRequired,
   firstItemRef: PropTypes.object.isRequired,
   goBackToSearchField: PropTypes.func.isRequired,
+  containerRef: PropTypes.any,
+};
+
+CustomSelectDropdown.defaultProps = {
+  containerRef: null,
 };

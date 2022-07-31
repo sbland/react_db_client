@@ -63,6 +63,7 @@ export const DataTableCellSelect = ({
         firstItemRef={{ current: {} }}
         handleClose={() => rejectValue()}
         goBackToSearchField={() => rejectValue()}
+        position="absolute"
       />
     </DefaultCellInnerStyle>
   );

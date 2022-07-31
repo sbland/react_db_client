@@ -2,7 +2,10 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { SearchAndSelectDropdown } from '@react_db_client/components.search-and-select-dropdown';
-import {ToggleBox, ToggleBoxRadioGroup} from '@react_db_client/components.form.form-components.toggle-box';
+import {
+  ToggleBox,
+  ToggleBoxRadioGroup,
+} from '@react_db_client/components.form.form-components.toggle-box';
 
 export const FieldSelect = ({
   uid,
@@ -25,13 +28,10 @@ export const FieldSelect = ({
       return (
         <>
           <SearchAndSelectDropdown
-            // TODO: Implement search function
             searchFunction={searchFunction}
             handleSelect={(newVal) => updateFormData(uid, newVal)}
-            // TODO: Options should not be undefined!
-            selectionOverride={selection}
+            initialValue={selection}
             allowMultiple={multiple}
-            returnFieldOnSelect="uid"
             searchFieldTargetField={labelField}
             labelField={labelField}
             className="formFieldInput"
