@@ -1,0 +1,303 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataTableRows shallow renders Matches Snapshot 1`] = `
+"<div className=\\"dataTable_rowsOutsideWrap \\" style={{...}}>
+  <div className=\\"dataTable_rowsInsideWrap \\" style={{...}}>
+    <DataTableCellHoverWrap columnWidth={10}>
+      <button type=\\"button\\" className=\\"deleteRowBtn\\" onClick={[Function: onClick]}>
+        <Emoji emoj=\\"🗑️\\" label=\\"Delete\\" />
+      </button>
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"a\\" rowIndex={0} columnId=\\"uid\\" cellData=\\"a\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"a\\" rowIndex={0} columnId=\\"name\\" cellData=\\"Foo\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"a\\" rowIndex={0} columnId=\\"description\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"a\\" rowIndex={0} columnId=\\"count\\" cellData={3} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"a\\" rowIndex={0} columnId=\\"def\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"a\\" rowIndex={0} columnId=\\"multiplier\\" cellData={2} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"a\\" rowIndex={0} columnId=\\"readOnly\\" cellData=\\"Can\\\\'t touch me\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"a\\" rowIndex={0} columnId=\\"hiddenDemo\\" cellData=\\"Hide me\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"a\\" rowIndex={0} columnId=\\"hiddenDemoNumber\\" cellData={3} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"a\\" rowIndex={0} columnId=\\"toggle\\" cellData={true} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"a\\" rowIndex={0} columnId=\\"toggleR\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"a\\" rowIndex={0} columnId=\\"expression\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"a\\" rowIndex={0} columnId=\\"validated\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"a\\" rowIndex={0} columnId=\\"invalid\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"a\\" rowIndex={0} columnId=\\"invalidb\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"a\\" rowIndex={0} columnId=\\"select\\" cellData=\\"a\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"a\\" rowIndex={0} columnId=\\"internalRoom\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={[undefined]} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"a\\" rowIndex={0} columnId=\\"longHeading\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10}>
+      <button type=\\"button\\" className=\\"deleteRowBtn\\" onClick={[Function: onClick]}>
+        <Emoji emoj=\\"🗑️\\" label=\\"Delete\\" />
+      </button>
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"ab\\" rowIndex={1} columnId=\\"uid\\" cellData=\\"ab\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"ab\\" rowIndex={1} columnId=\\"name\\" cellData=\\"Foobar\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"ab\\" rowIndex={1} columnId=\\"description\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"ab\\" rowIndex={1} columnId=\\"count\\" cellData=\\"99\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"ab\\" rowIndex={1} columnId=\\"def\\" cellData={3} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"ab\\" rowIndex={1} columnId=\\"multiplier\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"ab\\" rowIndex={1} columnId=\\"readOnly\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"ab\\" rowIndex={1} columnId=\\"hiddenDemo\\" cellData=\\"Hide me\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"ab\\" rowIndex={1} columnId=\\"hiddenDemoNumber\\" cellData={3} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"ab\\" rowIndex={1} columnId=\\"toggle\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"ab\\" rowIndex={1} columnId=\\"toggleR\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"ab\\" rowIndex={1} columnId=\\"expression\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"ab\\" rowIndex={1} columnId=\\"validated\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"ab\\" rowIndex={1} columnId=\\"invalid\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"ab\\" rowIndex={1} columnId=\\"invalidb\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"ab\\" rowIndex={1} columnId=\\"select\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"ab\\" rowIndex={1} columnId=\\"internalRoom\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={[undefined]} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"ab\\" rowIndex={1} columnId=\\"longHeading\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10}>
+      <button type=\\"button\\" className=\\"deleteRowBtn\\" onClick={[Function: onClick]}>
+        <Emoji emoj=\\"🗑️\\" label=\\"Delete\\" />
+      </button>
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"b\\" rowIndex={2} columnId=\\"uid\\" cellData=\\"b\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"b\\" rowIndex={2} columnId=\\"name\\" cellData=\\"Bar\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"b\\" rowIndex={2} columnId=\\"description\\" cellData=\\"A really really really long description that needs to fit into a little box!\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"b\\" rowIndex={2} columnId=\\"count\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"b\\" rowIndex={2} columnId=\\"def\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"b\\" rowIndex={2} columnId=\\"multiplier\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"b\\" rowIndex={2} columnId=\\"readOnly\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"b\\" rowIndex={2} columnId=\\"hiddenDemo\\" cellData=\\"Hide me\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"b\\" rowIndex={2} columnId=\\"hiddenDemoNumber\\" cellData={3} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"b\\" rowIndex={2} columnId=\\"toggle\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"b\\" rowIndex={2} columnId=\\"toggleR\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"b\\" rowIndex={2} columnId=\\"expression\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"b\\" rowIndex={2} columnId=\\"validated\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"b\\" rowIndex={2} columnId=\\"invalid\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"b\\" rowIndex={2} columnId=\\"invalidb\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"b\\" rowIndex={2} columnId=\\"select\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"b\\" rowIndex={2} columnId=\\"internalRoom\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={[undefined]} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"b\\" rowIndex={2} columnId=\\"longHeading\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10}>
+      <button type=\\"button\\" className=\\"deleteRowBtn\\" onClick={[Function: onClick]}>
+        <Emoji emoj=\\"🗑️\\" label=\\"Delete\\" />
+      </button>
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"c\\" rowIndex={3} columnId=\\"uid\\" cellData=\\"c\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"c\\" rowIndex={3} columnId=\\"name\\" cellData=\\"C\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"c\\" rowIndex={3} columnId=\\"description\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"c\\" rowIndex={3} columnId=\\"count\\" cellData={3} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"c\\" rowIndex={3} columnId=\\"def\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"c\\" rowIndex={3} columnId=\\"multiplier\\" cellData={3} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"c\\" rowIndex={3} columnId=\\"readOnly\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"c\\" rowIndex={3} columnId=\\"hiddenDemo\\" cellData=\\"Hide me\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"c\\" rowIndex={3} columnId=\\"hiddenDemoNumber\\" cellData={3} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"c\\" rowIndex={3} columnId=\\"toggle\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"c\\" rowIndex={3} columnId=\\"toggleR\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"c\\" rowIndex={3} columnId=\\"expression\\" cellData={9} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"c\\" rowIndex={3} columnId=\\"validated\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"c\\" rowIndex={3} columnId=\\"invalid\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"c\\" rowIndex={3} columnId=\\"invalidb\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"c\\" rowIndex={3} columnId=\\"select\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"c\\" rowIndex={3} columnId=\\"internalRoom\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            oddRow\\\\n          \\" columnWidth={[undefined]} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"c\\" rowIndex={3} columnId=\\"longHeading\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap columnWidth={10}>
+      <button type=\\"button\\" className=\\"deleteRowBtn\\" onClick={[Function: onClick]}>
+        <Emoji emoj=\\"🗑️\\" label=\\"Delete\\" />
+      </button>
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"d\\" rowIndex={4} columnId=\\"uid\\" cellData=\\"d\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"d\\" rowIndex={4} columnId=\\"name\\" cellData=\\"\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"d\\" rowIndex={4} columnId=\\"description\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"d\\" rowIndex={4} columnId=\\"count\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"d\\" rowIndex={4} columnId=\\"def\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"d\\" rowIndex={4} columnId=\\"multiplier\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"d\\" rowIndex={4} columnId=\\"readOnly\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"d\\" rowIndex={4} columnId=\\"hiddenDemo\\" cellData=\\"Hide me\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"d\\" rowIndex={4} columnId=\\"hiddenDemoNumber\\" cellData={3} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"d\\" rowIndex={4} columnId=\\"toggle\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"d\\" rowIndex={4} columnId=\\"toggleR\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"d\\" rowIndex={4} columnId=\\"expression\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"d\\" rowIndex={4} columnId=\\"validated\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"d\\" rowIndex={4} columnId=\\"invalid\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"d\\" rowIndex={4} columnId=\\"invalidb\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"d\\" rowIndex={4} columnId=\\"select\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={10} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"d\\" rowIndex={4} columnId=\\"internalRoom\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"\\\\n            \\\\n            \\\\n          \\" columnWidth={[undefined]} handleHover={[Function: handleHover]}>
+      <DataTableCell rowId=\\"d\\" rowIndex={4} columnId=\\"longHeading\\" cellData={[undefined]} rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} />
+    </DataTableCellHoverWrap>
+  </div>
+</div>"
+`;

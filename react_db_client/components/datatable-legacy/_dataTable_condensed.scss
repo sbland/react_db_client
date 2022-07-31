@@ -1,0 +1,92 @@
+
+$unit: 1rem;
+$white: #ffffff;
+$grey-20: #dddddd;
+$grey-10: #eeeeee;
+$grey-80: #333333;
+$textColour: #354866;
+$white-off: rgb(250, 250, 250);
+$font-size: $unit;
+$font-size-1: $font-size * 0.7;
+$font-size-2: $font-size * 0.8;
+$primaryColour: rgb(204, 144, 53);
+$defaultBoxShadow: 1px 1px 20px 10px rgba(100, 100, 100, 0.1);
+
+
+.dataTableWrap {
+  &.condensed {
+    $border-thickness: 0.5px;
+    $tableBorderRadius: ($unit * 0.2);
+    .dataTableWrap {
+      padding: ($unit * 0.2);
+      border-radius: $tableBorderRadius * 0.5;
+      min-height: $unit * 15;
+    }
+
+    .dataTable {
+    }
+
+    .dataTableCell_wrap {
+      min-width: ($unit & 10);
+      outline-width: $border-thickness;
+      padding: $border-thickness;
+
+      border-top-width: $border-thickness;
+      border-bottom-width: $border-thickness;
+
+      &.oddRow {
+        border-left-width: $border-thickness;
+        border-right-width: $border-thickness;
+      }
+
+      &.hover {
+        background: $grey-20;
+        border-top-width: $border-thickness;
+        border-bottom-width: $border-thickness;
+      }
+    }
+
+    .dataTableCellData {
+      input {
+        padding: 0.3rem;
+      }
+    }
+
+    .dataTableCellData {
+      button {
+      }
+    }
+
+    .dataTableTotals {
+      border-top-width: 10px;
+    }
+
+    .dataTableHeading_wrap {
+      margin-bottom: $unit;
+    }
+
+    .dataTableHeading {
+      max-height: ($unit * 2.4);
+
+      .heading {
+        font-size: $font-size-2;
+        line-height: ($unit * 1.2);
+        font-weight: 800;
+      }
+    }
+
+    .dataTableHeading_menuBtnWrap {
+      min-width: ($unit * 10);
+      border-radius: 2px;
+
+      // top: $unit * 2;
+      button {
+        padding: ($unit * 0.3) ($unit * 0.8);
+        border-bottom-width: $border-thickness;
+      }
+    }
+
+    .dataTableCell_btn {
+    }
+  }
+}

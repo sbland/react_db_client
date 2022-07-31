@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataTableDataCell Matches Snapshot 1`] = `
+"<DataTableDataCell columnData={{...}} updateData={[Function: updateData]} rowId=\\"row1\\" columnId=\\"col1\\" cellData=\\"a\\" rowData={{...}} customFieldComponents={{...}}>
+  <div style={{...}}>
+    <CellRightClickWrapper readOnly={false} clearCell={[Function: clearCell]} setAsDefault={[Function: setAsDefault]}>
+      <RightClickWrapper items={{...}}>
+        <div className=\\"rightClickWrapper\\">
+          <DataTableCellText columnData={{...}} updateData={[Function: updateData]} rowId=\\"row1\\" columnId=\\"col1\\" cellData=\\"a\\" rowData={{...}} customFieldComponents={{...}}>
+            <div className=\\"dataTableCellData dataTableCellData-text\\">
+              <input style={{...}} className=\\"cellInput-text\\" type=\\"text\\" onChange={[Function: handleInputChange]} value=\\"a\\" onBlur={[Function: onBlur]} onKeyDown={[Function: onKeyPress]} />
+              <textarea style={{...}} className=\\"cellInput-textarea\\" type=\\"text\\" onChange={[Function: handleInputChange]} value=\\"a\\" onBlur={[Function: onBlur]} onKeyDown={[Function: onKeyPress]} wrap=\\"hard\\" rows=\\"10\\" cols=\\"20\\" />
+              <div className=\\"dataTableCellData_text dataTableCellData-text\\">
+                a
+              </div>
+            </div>
+          </DataTableCellText>
+        </div>
+      </RightClickWrapper>
+    </CellRightClickWrapper>
+  </div>
+</DataTableDataCell>"
+`;
+
+exports[`DatatableCell Btns cell Matches Snapshot 1`] = `
+"<Cell columnIndex={1} rowIndex={1} style={{...}} data={{...}}>
+  <DataTableCellHoverWrap className=\\"\\" style={{...}} handleHover={[Function: handleCellHoverMouse]} disabled={false} columnWidth={100}>
+    <div className=\\"dataTableCell_wrap  \\" onFocus={[Function: onFocus]} onMouseEnter={[Function: onMouseEnter]} onMouseLeave={[Function: onMouseLeave]} onBlur={[Function: onBlur]} style={{...}}>
+      <div type=\\"button\\" className=\\" notFocused row_index_1 column_index_1 column_id_uid navigationButton cellWrapBtn button-reset\\" onClick={[Function: onClick]} style={{...}} onKeyDown={[Function: onKeyDown]} role=\\"presentation\\" tabIndex=\\"11\\">
+        <DataTableDataCell isDisabled={[undefined]} rowId=\\"ab\\" rowIndex={1} classNames=\\" notFocused row_index_1 column_index_1 column_id_uid\\" focused={false} editMode={false} columnId=\\"uid\\" cellData=\\"ab\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} cellDataBtnRef={{...}} customFieldComponents={{...}}>
+          <div style={{...}}>
+            <CellRightClickWrapper readOnly={false} clearCell={[Function: clearCell]} setAsDefault={[Function: setAsDefault]}>
+              <RightClickWrapper items={{...}}>
+                <div className=\\"rightClickWrapper\\">
+                  <DataTableCellButton isDisabled={[undefined]} rowId=\\"ab\\" rowIndex={1} classNames=\\" notFocused row_index_1 column_index_1 column_id_uid\\" focused={false} editMode={false} columnId=\\"uid\\" cellData=\\"ab\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} cellDataBtnRef={{...}} customFieldComponents={{...}}>
+                    <div className=\\"dataTableCellData dataTableCellData-button uid_cellBtn\\">
+                      <button type=\\"button\\" onClick={[Function: onClick]}>
+                        ab
+                      </button>
+                    </div>
+                  </DataTableCellButton>
+                </div>
+              </RightClickWrapper>
+            </CellRightClickWrapper>
+          </div>
+        </DataTableDataCell>
+      </div>
+    </div>
+  </DataTableCellHoverWrap>
+</Cell>"
+`;
+
+exports[`DatatableCell Data cell Matches Snapshot 1`] = `
+"<Cell columnIndex={2} rowIndex={1} style={{...}} data={{...}}>
+  <DataTableCellHoverWrap className=\\"\\" style={{...}} handleHover={[Function: handleCellHoverMouse]} disabled={false} columnWidth={100}>
+    <div className=\\"dataTableCell_wrap  \\" onFocus={[Function: onFocus]} onMouseEnter={[Function: onMouseEnter]} onMouseLeave={[Function: onMouseLeave]} onBlur={[Function: onBlur]} style={{...}}>
+      <div type=\\"button\\" className=\\" notFocused row_index_1 column_index_2 column_id_name navigationButton cellWrapBtn button-reset\\" onClick={[Function: onClick]} style={{...}} onKeyDown={[Function: onKeyDown]} role=\\"presentation\\" tabIndex=\\"12\\">
+        <DataTableDataCell isDisabled={[undefined]} rowId=\\"ab\\" rowIndex={1} classNames=\\" notFocused row_index_1 column_index_2 column_id_name\\" focused={false} editMode={false} columnId=\\"name\\" cellData=\\"Foobar\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} cellDataBtnRef={{...}} customFieldComponents={{...}}>
+          <div style={{...}}>
+            <CellRightClickWrapper readOnly={false} clearCell={[Function: clearCell]} setAsDefault={[Function: setAsDefault]}>
+              <RightClickWrapper items={{...}}>
+                <div className=\\"rightClickWrapper\\">
+                  <DataTableCellText isDisabled={[undefined]} rowId=\\"ab\\" rowIndex={1} classNames=\\" notFocused row_index_1 column_index_2 column_id_name\\" focused={false} editMode={false} columnId=\\"name\\" cellData=\\"Foobar\\" rowData={{...}} columnData={{...}} updateData={[Function: updateData]} acceptValue={[Function: acceptValue]} resetValue={[Function: resetValue]} cellDataBtnRef={{...}} customFieldComponents={{...}}>
+                    <div className=\\"dataTableCellData dataTableCellData-text\\">
+                      <input style={{...}} className=\\"cellInput-text\\" type=\\"text\\" onChange={[Function: handleInputChange]} value=\\"Foobar\\" onBlur={[Function: onBlur]} onKeyDown={[Function: onKeyPress]} />
+                      <textarea style={{...}} className=\\"cellInput-textarea\\" type=\\"text\\" onChange={[Function: handleInputChange]} value=\\"Foobar\\" onBlur={[Function: onBlur]} onKeyDown={[Function: onKeyPress]} wrap=\\"hard\\" rows=\\"10\\" cols=\\"20\\" />
+                      <div className=\\"dataTableCellData_text dataTableCellData-text\\">
+                        Foobar
+                      </div>
+                    </div>
+                  </DataTableCellText>
+                </div>
+              </RightClickWrapper>
+            </CellRightClickWrapper>
+          </div>
+        </DataTableDataCell>
+      </div>
+    </div>
+  </DataTableCellHoverWrap>
+</Cell>"
+`;

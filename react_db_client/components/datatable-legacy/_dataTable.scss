@@ -1,0 +1,414 @@
+$unit: 1rem;
+$grey-10: #eeeeee;
+$grey-20: #dddddd;
+$grey-80: #333333;
+$white: #ffffff;
+$white-off: rgb(250, 250, 250);
+$textColour: #354866;
+$font-size: $unit;
+$font-size-1: $font-size * 0.7;
+$font-size-2: $font-size * 0.8;
+$primaryColour: rgb(204, 144, 53);
+$defaultBoxShadow: 1px 1px 20px 10px rgba(100, 100, 100, 0.1);
+
+
+$tableBorderRadius: ($unit * 0.2);
+$headingsHeight: $unit * 2.2;
+// $rowsWrapHeight: // set in js
+$tableMaxHeight: 61vh;
+$totalsBarHeight: 2rem;
+$cellHeight: $unit * 1.5;
+$cellMinWidth: ($unit * 10);
+$cellBorder: 1px $grey-10 solid;
+$cellBorderHover: 1px $grey-10 solid;
+$cellHeight: $unit * 1.8;
+$cellHeightInner: $unit * 1.2;
+$cellPadding: ($unit * 0.1);
+$cellFontSize: $font-size-1;
+$cellLineHeight: $unit * 1.1;
+$headingsZindex: 4;
+$resizerZindex: 3;
+$filterPanelsZindex: 5;
+
+.dataTableWrap {
+  width: 100%;
+  overflow-x: auto;
+  background: $white-off;
+  padding: ($unit * 0.5);
+  border-radius: $tableBorderRadius;
+  min-height: $unit * 15;
+}
+
+.dataTable {
+  position: relative;
+  overflow: auto;
+  padding: 2px;
+  // &::before {
+  //   content: "";
+  //   display: block;
+  //   position: sticky;
+  //   top: $headingsHeight + $unit;
+  //   right: 0;
+  //   left: 0;
+  //   // height: 9999px;
+  //   pointer-events: none;
+  //   z-index: 50;
+  //   box-shadow: inset 0 0 10px rgba(100, 100, 100, 0.2);
+  //   -moz-box-shadow: inset 0 0 10px rgba(100, 100, 100, 0.2);
+  //   -webkit-box-shadow: inset 0 0 10px rgba(100, 100, 100, 0.2);
+  //   border-top: 1px $grey-20 solid;
+  // }
+}
+
+.dataTable_rowsInsideWrap,
+.dataTable_headingsInsideWrap,
+.dataTable_totalsInsideWrap,
+.dataTable_newRowInsideWrap {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  box-shadow: 0 0.1rem 5px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dataTable_headingsOutsideWrap {
+  margin-bottom: $unit;
+  max-height: $headingsHeight;
+  // position: relative;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: $headingsZindex;
+}
+
+.dataTable_totalsOutsideWrap {
+  position: -webkit-sticky;
+  position: sticky;
+  // top: 74vh;
+  bottom: 0;
+  height: $totalsBarHeight;
+  z-index: $headingsZindex;
+  // box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dataTable_rowsOutsideWrap {
+  // width: 9999px; // We set this to fix overflow-x: visible overflow issue
+  margin-bottom: $totalsBarHeight;
+  &:not(.dataTable_rowsOutsideWrap-limitHeight) {
+    height: 100%;
+    overflow: visible;
+  }
+  &.dataTable_rowsOutsideWrap-limitHeight {
+    overflow: visible;
+    // height: $rowsWrapHeight;
+    // overflow: hidden;
+    // overflow-y: scroll;
+    // overflow-x: visable; // does not work see width fix above
+    position: relative;
+  }
+  // &::after {
+  //   content: "";
+  //   display: block;
+  //   position: absolute;
+  //   top: $headingsHeight + $unit;
+  //   right: 0;
+  //   left: 0;
+  //   // height: 9999px;
+  //   height: 100%;
+  //   pointer-events: none;
+  //   z-index: 5;
+  //   box-shadow: inset 0 0 10px rgba(100, 100, 100, 0.2);
+  //   -moz-box-shadow: inset 0 0 10px rgba(100, 100, 100, 0.2);
+  //   -webkit-box-shadow: inset 0 0 10px rgba(100, 100, 100, 0.2);
+  //   border-top: 1px $grey-20 solid;
+  // }
+}
+
+.dataTable_totalsInsideWrap {
+  // border-top-style: double;
+  border-top-width: 10px;
+  border-top-color: $grey-20;
+}
+
+.dataTableHeading_cellWrap {
+  // margin-bottom: $unit;
+  overflow: visible;
+  z-index: 1;
+  background: $white;
+  .focusedCell {
+    border: 2px solid red;
+  }
+}
+
+.dataTableHeading {
+  display: flex;
+  align-items: center;
+  max-height: $headingsHeight;
+  overflow: hidden;
+
+  .heading {
+    height: 100%;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    color: $textColour;
+    font-size: $font-size-1;
+    line-height: ($unit * 1);
+    white-space: pre-line;
+    text-overflow: ellipsis;
+    font-weight: 600;
+  }
+}
+
+.dataTableHeading_menuWrap {
+  position: absolute;
+  right: 0;
+}
+
+.dataTableHeading_menuBtnWrap {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 0;
+  // left: 0;
+  min-width: ($unit * 10);
+  z-index: 0;
+  // padding: $unit * 0.3;
+
+  background: $grey-80;
+  box-shadow: 1px 1px 3px 3px rgba(100, 100, 100, 0.25);
+  border-radius: 2px;
+
+  // top: $unit * 2;
+  button {
+    color: $white-off;
+    padding: ($unit * 0.3) ($unit * 0.8);
+    border-bottom: 1px white solid;
+    text-align: left;
+  }
+}
+
+/* Cells */
+.dataTableCell_wrap {
+  background: $white;
+  outline: 1px $grey-10 solid;
+  padding: $cellPadding;
+
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  border-bottom: $cellBorder;
+
+  &.oddRow {
+    background: $grey-10;
+
+    border-left-color: $white;
+    border-right-color: $white;
+  }
+
+  &.hover {
+    background: $grey-20;
+    border-top: $cellBorderHover;
+    border-bottom: $cellBorderHover;
+  }
+}
+
+.dataTableCellData {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+  width: 100%;
+
+  font-size: $cellFontSize;
+  line-height: $cellFontSize;
+
+  form {
+    width: 100%;
+
+    select {
+      width: 100%;
+    }
+  }
+}
+
+.dataTableCellData {
+  input {
+    height: $cellHeightInner;
+    width: 100%;
+    padding: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.dataTableCellData {
+  button {
+    height: $cellHeightInner;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: $cellLineHeight;
+    border-radius: 10rem;
+  }
+}
+
+.dataTableCellData {
+  .toggleBoxWrap {
+    width: 50%;
+  }
+}
+
+.dataTableCellData {
+  p {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.dataTableCellData_text {
+  font-size: $cellFontSize;
+  white-space: nowrap;
+  line-height: $cellFontSize;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.dataTableCellData-textLong {
+  * {
+    font-size: $cellFontSize;
+    white-space: nowrap;
+    line-height: $cellFontSize;
+    text-overflow: ellipsis;
+  }
+  button {
+    font-size: $cellFontSize;
+    white-space: nowrap;
+    line-height: $cellFontSize;
+    text-overflow: ellipsis;
+  }
+}
+
+.dataTableCellInput {
+  font-size: $font-size-1;
+  white-space: normal;
+  line-height: $font-size-1;
+  width: 100%;
+  height: 100%;
+}
+
+.dataTableCell_btn {
+  border: none;
+  // outline: none;
+  background: transparent;
+}
+
+.dataTableCell_confirmBtnWrap {
+  display: flex;
+}
+
+// RESIZE ELEMENTS
+
+.DataTable_columnWidthManager {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  cursor: crosshair;
+}
+
+.dataTable_columnResizeHandle {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 100%;
+  z-index: $resizerZindex;
+
+  border-bottom: 1px $primaryColour solid;
+  border-top: 1px $primaryColour solid;
+
+  &:hover {
+    cursor: e-resize;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    background: $primaryColour;
+    height: 100%;
+    z-index: $resizerZindex;
+    left: 4px;
+  }
+}
+
+.dataTable_columnResizeCanvas {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 11;
+  border: 1px $primaryColour solid;
+  border-radius: $tableBorderRadius;
+  overflow: hidden;
+}
+
+/* Options Bar */
+
+.dataTableWrap_optionsBar {
+  display: flex;
+  margin-bottom: $unit * 0.2;
+  position: relative;
+}
+
+.hiddenPanel_hiddenList {
+  display: flex;
+  list-style: none;
+  overflow: auto;
+  flex-wrap: wrap;
+
+  li {
+    margin: ($unit * 0.5);
+  }
+}
+
+.filterPanel_filterListWrap,
+.hiddenPanel_hiddenList {
+  position: absolute;
+  padding: $unit;
+  background: $white;
+  box-shadow: $defaultBoxShadow;
+
+  min-width: 30%;
+  max-width: 80%;
+  border: 1px $primaryColour solid;
+  z-index: $filterPanelsZindex;
+
+  .filterPanel_filterWrap {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $unit;
+  }
+}
+
+/* Print Media */
+
+.dataTable {
+  .filterBtn {
+    @media print {
+      display: none;
+    }
+  }
+}
+
+.disabled {
+  cursor: wait;
+  * {
+    pointer-events: none;
+    cursor: wait;
+  }
+}

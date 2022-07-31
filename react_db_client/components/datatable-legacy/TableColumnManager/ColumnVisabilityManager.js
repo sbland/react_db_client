@@ -2,29 +2,17 @@
  *
  */
 
-import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
-export type HeadingObject = {
-  uid: string,
-  label?: string;
-  columnWidth?: number;
-  hidden?: boolean;
-};
+const getVisableColumns = (headingsDataList) => headingsDataList.filter((d) => !d.hidden);
 
-const getVisableColumns = (headingsDataList: HeadingObject[]) =>
-  headingsDataList.filter((d) => !d.hidden);
-
-const getHiddenColumnIds = (headingsDataList: HeadingObject[]) =>
+const getHiddenColumnIds = (headingsDataList) =>
   headingsDataList.filter((d) => d.hidden).map((d) => d.uid);
 
-export const useColumnVisabilityManager = (headingsDataList: HeadingObject[]) => {
-  const [hiddenColumnIds, setHiddenColumnIds] = useState(
-    () => getHiddenColumnIds(headingsDataList)
-  );
-  const [visableColumns, setVisableColumns] = useState(
-    () => getVisableColumns(headingsDataList)
-  );
+const useColumnVisabilityManager = (headingsDataList) => {
+  const [hiddenColumnIds, setHiddenColumnIds] = useState(() => getHiddenColumnIds(headingsDataList));
+  const [visableColumns, setVisableColumns] = useState(() => getVisableColumns(headingsDataList));
 
   useEffect(() => {
     // TODO: This is refreshing the visible columns
@@ -33,7 +21,7 @@ export const useColumnVisabilityManager = (headingsDataList: HeadingObject[]) =>
     // setHiddenColumnIds(getHiddenColumnIds(headingsDataList));
   }, [headingsDataList]);
 
-  const handleHideColumn = (columnId: string) => {
+  const handleHideColumn = (columnId) => {
     const indexOfHidden = hiddenColumnIds.indexOf(columnId);
     const alreadyHidden = indexOfHidden !== -1;
     const newHiddenList = [...hiddenColumnIds];
@@ -45,12 +33,12 @@ export const useColumnVisabilityManager = (headingsDataList: HeadingObject[]) =>
       newHiddenList.push(columnId);
       newHiddenList.sort();
     }
-    const newVisableColumns = headingsDataList.filter(
-      (d) => newHiddenList.indexOf(d.uid) === -1
-    );
+    const newVisableColumns = headingsDataList.filter((d) => newHiddenList.indexOf(d.uid) === -1);
+    // console.info(newVisableColumns)
     setVisableColumns(newVisableColumns);
     setHiddenColumnIds(newHiddenList);
   };
+
   return {
     handleHideColumn,
     visableColumns,
@@ -67,3 +55,5 @@ useColumnVisabilityManager.propTypes = {
     })
   ).isRequired,
 };
+
+export default useColumnVisabilityManager;

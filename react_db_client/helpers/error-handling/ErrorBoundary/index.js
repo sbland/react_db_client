@@ -1,1 +1,2 @@
-export {ErrorBoundary} from './ErrorBoundary';
+export { ErrorBoundary, wrapWithErrorBoundary } from './ErrorBoundary';
+

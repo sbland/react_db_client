@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataTableCellType - text Render should match snapshot 1`] = `
+"<DataTableCellSelect columnData={{...}} cellData=\\"a\\" updateData={[Function: mockConstructor] { _isMockFunction: true, getMockImplementation: [Function (anonymous)], mock: Object [Object: null prototype] { calls: [], instances: [], invocationCallOrder: [], results: [] }, mockClear: [Function (anonymous)], mockReset: [Function (anonymous)], mockRestore: [Function (anonymous)], mockReturnValueOnce: [Function (anonymous)], mockResolvedValueOnce: [Function (anonymous)], mockRejectedValueOnce: [Function (anonymous)], mockReturnValue: [Function (anonymous)], mockResolvedValue: [Function (anonymous)], mockRejectedValue: [Function (anonymous)], mockImplementationOnce: [Function (anonymous)], mockImplementation: [Function (anonymous)], mockReturnThis: [Function (anonymous)], mockName: [Function (anonymous)], getMockName: [Function (anonymous)] }} acceptValue={[Function: mockConstructor] { _isMockFunction: true, getMockImplementation: [Function (anonymous)], mock: Object [Object: null prototype] { calls: [], instances: [], invocationCallOrder: [], results: [] }, mockClear: [Function (anonymous)], mockReset: [Function (anonymous)], mockRestore: [Function (anonymous)], mockReturnValueOnce: [Function (anonymous)], mockResolvedValueOnce: [Function (anonymous)], mockRejectedValueOnce: [Function (anonymous)], mockReturnValue: [Function (anonymous)], mockResolvedValue: [Function (anonymous)], mockRejectedValue: [Function (anonymous)], mockImplementationOnce: [Function (anonymous)], mockImplementation: [Function (anonymous)], mockReturnThis: [Function (anonymous)], mockName: [Function (anonymous)], getMockName: [Function (anonymous)] }} resetValue={[Function: mockConstructor] { _isMockFunction: true, getMockImplementation: [Function (anonymous)], mock: Object [Object: null prototype] { calls: [], instances: [], invocationCallOrder: [], results: [] }, mockClear: [Function (anonymous)], mockReset: [Function (anonymous)], mockRestore: [Function (anonymous)], mockReturnValueOnce: [Function (anonymous)], mockResolvedValueOnce: [Function (anonymous)], mockRejectedValueOnce: [Function (anonymous)], mockReturnValue: [Function (anonymous)], mockResolvedValue: [Function (anonymous)], mockRejectedValue: [Function (anonymous)], mockImplementationOnce: [Function (anonymous)], mockImplementation: [Function (anonymous)], mockReturnThis: [Function (anonymous)], mockName: [Function (anonymous)], getMockName: [Function (anonymous)] }} rowData={{...}} editMode={false} focused={false}>
+  <div className=\\"dataTableCellData dataTableCellData-select\\">
+    <div className=\\"displayCellData dataTableCellData_text\\" style={{...}}>
+      A
+    </div>
+    <CustomSelectDropdown options={{...}} handleSelect={[Function: acceptValueLocal]} isOpen={false} firstItemRef={{...}} handleClose={[Function: handleClose]} goBackToSearchField={[Function: goBackToSearchField]}>
+      <div className=\\"selectDropdown\\">
+        <div className=\\"selectDropdown_menu\\" />
+      </div>
+    </CustomSelectDropdown>
+  </div>
+</DataTableCellSelect>"
+`;

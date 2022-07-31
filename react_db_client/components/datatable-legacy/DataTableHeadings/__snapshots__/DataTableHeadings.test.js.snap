@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataTableHeading Matches Snapshot 1`] = `
+"<div className=\\"dataTable_headingsOutsideWrap\\">
+  <div className=\\"dataTable_headingsInsideWrap\\" style={{...}}>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={100} style={{...}} handleHover={[Function: handleHover]} disabled={false} />
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"UID\\" />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"Name\\" />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"description\\" />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"Count\\" />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"Def\\" />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"Multiplier\\" />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"Read Only\\" />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"Hidden\\" />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"Hidden Number\\" />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"Toggle\\" />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"ToggleR\\" />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"Expression\\" />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"Is Validated\\" />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"Invalid\\" />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"InvalidB\\" />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"Select\\" />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"Internal Room\\" />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"Long Heading which is really really long\\" />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"Custom\\" />
+    </DataTableCellHoverWrap>
+    <DataTableCellHoverWrap className=\\"dataTableHeading_cellWrap\\" columnWidth={110} handleHover={[Function: handleHover]} style={{...}} disabled={false}>
+      <DataTableHeading title=\\"Custom Eval\\" />
+    </DataTableCellHoverWrap>
+  </div>
+</div>"
+`;
