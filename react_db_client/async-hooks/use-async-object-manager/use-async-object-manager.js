@@ -219,6 +219,7 @@ export const useAsyncObjectManager = ({
     callCount,
     hasLoaded,
     unsavedChanges,
+    isNew,
   };
 };
 

@@ -11,7 +11,7 @@
 {
     "async-hooks/use-async-object-manager": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.12",
+        "version": "0.2.13",
         "mainFile": "index.js",
         "rootDir": "react_db_client/async-hooks/use-async-object-manager"
     },
@@ -29,7 +29,7 @@
     },
     "components/column-manager": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.12",
+        "version": "0.2.13",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/column-manager"
     },
@@ -41,25 +41,25 @@
     },
     "components/datatable-legacy": {
         "scope": "",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable-legacy"
     },
     "components/datatable/cell": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.38",
+        "version": "0.1.39",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/cell"
     },
     "components/datatable/cell-types": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.37",
+        "version": "0.1.38",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/cell-types"
     },
     "components/datatable/components": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.38",
+        "version": "0.1.39",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/components"
     },
@@ -83,7 +83,7 @@
     },
     "components/datatable/main": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.39",
+        "version": "0.1.40",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/main"
     },
@@ -95,7 +95,7 @@
     },
     "components/datatable/ui": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.38",
+        "version": "0.1.39",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/ui"
     },
@@ -107,13 +107,13 @@
     },
     "components/file-manager": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.30",
+        "version": "0.2.31",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/file-manager"
     },
     "components/file-uploader": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.13",
+        "version": "0.2.14",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/file-uploader"
     },
@@ -125,7 +125,7 @@
     },
     "components/form/form": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.50",
+        "version": "0.2.51",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form"
     },
@@ -161,7 +161,7 @@
     },
     "components/form/form-fields/field-file": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.30",
+        "version": "0.2.31",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/form/form-fields/field-file"
     },
@@ -215,13 +215,13 @@
     },
     "components/generic-catalogue": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.54",
+        "version": "0.2.55",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/generic-catalogue"
     },
     "components/item-editor": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.51",
+        "version": "0.2.52",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/item-editor"
     },
@@ -251,7 +251,7 @@
     },
     "components/search-and-select": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.30",
+        "version": "0.2.31",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/search-and-select"
     },
@@ -269,7 +269,7 @@
     },
     "components/styled-select-list": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.13",
+        "version": "0.2.14",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/styled-select-list"
     },
