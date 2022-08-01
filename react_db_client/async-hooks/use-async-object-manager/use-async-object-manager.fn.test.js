@@ -146,29 +146,29 @@ describe('useAsyncObjectManager', () => {
       await waitForNextUpdate();
 
       /* put document is called */
-      expect(asyncPutDocument).toHaveBeenCalledWith(defaultArgs.collection, defaultArgs.activeUid, {
+      const combinedData = {
         ...loadedData,
         ...defaultArgs.inputAdditionalData,
         uid: defaultArgs.activeUid,
         [editField]: editValue,
-      });
+      };
+      expect(asyncPutDocument).toHaveBeenCalledWith(
+        defaultArgs.collection,
+        defaultArgs.activeUid,
+        combinedData
+      );
 
       /* On save callback called */
       expect(onSavedCallback).toHaveBeenCalledWith(
         defaultArgs.activeUid,
         { ok: true },
-        { uid: defaultArgs.activeUid }
+        combinedData
       );
       expect(onSavedCallback).toHaveBeenCalledTimes(1);
 
       expect(asyncGetDocument).not.toHaveBeenCalled();
-      /* Final data should be the reloaded data with all other changes claered */
-      expect(result.current.data).toEqual({
-        ...loadedData,
-        ...defaultArgs.inputAdditionalData,
-        uid: defaultArgs.activeUid,
-        [editField]: editValue,
-      });
+      /* Final data should be the reloaded data with all other changes cleared */
+      expect(result.current.data).toEqual(combinedData);
     });
     test('should update form data and save then reload', async () => {
       const { result, waitForNextUpdate } = renderHook(() =>
@@ -195,18 +195,23 @@ describe('useAsyncObjectManager', () => {
       await waitForNextUpdate();
 
       // /* put document is called */
-      expect(asyncPutDocument).toHaveBeenCalledWith(defaultArgs.collection, defaultArgs.activeUid, {
+      const combinedData = {
         ...loadedData,
         ...defaultArgs.inputAdditionalData,
         uid: defaultArgs.activeUid,
         [editField]: editValue,
-      });
+      };
+      expect(asyncPutDocument).toHaveBeenCalledWith(
+        defaultArgs.collection,
+        defaultArgs.activeUid,
+        combinedData
+      );
 
       /* On save callback called */
       expect(onSavedCallback).toHaveBeenCalledWith(
         defaultArgs.activeUid,
         { ok: true },
-        { uid: defaultArgs.activeUid }
+        combinedData
       );
       expect(onSavedCallback).toHaveBeenCalledTimes(1);
 

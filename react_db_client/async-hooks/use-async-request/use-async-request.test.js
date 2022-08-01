@@ -127,10 +127,12 @@ describe('Data loader hook', () => {
       await delayedPromise();
       return demoData[i];
     });
+
     const { result, waitForNextUpdate } = renderHook(() =>
       useAsyncRequest({ args, callOnInit: false, callFn: mockLoadFn })
     );
 
+    /* We call reload 3 times with 3 different values */
     act(() => {
       result.current.reload([0]);
     });
@@ -140,7 +142,7 @@ describe('Data loader hook', () => {
     act(() => {
       result.current.reload([2]);
     });
-
+    // await waitForNextUpdate();
     expect(result.current.loading).toEqual(true);
 
     expect(mockLoadFn).toHaveBeenCalledTimes(3);
@@ -168,14 +170,15 @@ describe('Data loader hook', () => {
     act(() => {
       r[1]();
     });
-    await waitForNextUpdate();
+    // // await waitForNextUpdate();
     expect(result.current.response).toEqual(demoData[2]);
     expect(result.current.loading).toEqual(false);
 
-    /* Reloading the function clears everything back to the loading state */
+    // /* Reloading the function clears everything back to the loading state */
     act(() => {
       result.current.reload([0]);
     });
+    await waitForNextUpdate();
     expect(result.current.loading).toEqual(true);
     expect(result.current.response).toEqual(null);
   });

@@ -73,6 +73,8 @@ export const useAsyncObjectManager = ({
     setEditDataKey((prev) => prev + 1);
   }, []);
 
+  const loadDataErrorCallback = useCallback((err) => {}, []);
+
   const {
     call: loadAsync,
     loading: loadingData,
@@ -85,6 +87,7 @@ export const useAsyncObjectManager = ({
     callFn: asyncGetDocument,
     callOnInit: loadOnInit && !isNew,
     callback: loadedDataCallback,
+    errorCallback: loadDataErrorCallback,
   });
 
   const combinedData = useMemo(() => {
@@ -126,27 +129,37 @@ export const useAsyncObjectManager = ({
     ]
   );
 
+
+  const saveFn = useMemo(
+    () => (isNew ? asyncPostDocument : asyncPutDocument),
+    [asyncPutDocument, asyncPostDocument, isNew]
+  );
+
   const {
     response: saveResponse,
     call: saveAsync,
     loading: savingData,
   } = useAsyncRequest({
     id: 'saveAsync',
-    callFn: isNew ? asyncPostDocument : asyncPutDocument,
+    callFn: saveFn,
     callOnInit: false,
     callback: onSavedCallback,
     errorCallback: saveErrorCallback,
   });
 
   /* Handle Deleting Data */
+  const deleteFn = useMemo(() => (isNew ? async () => {} : asyncDeleteDocument), [isNew, asyncDeleteDocument]);
+  const deleteArgs = useMemo(() => [collection, uid], [collection, uid]);
+
   const {
     response: deleteResponse,
     call: deleteAsync,
     loading: deletingData,
   } = useAsyncRequest({
     id: 'deleteAsync',
-    args: [collection, uid],
-    callFn: isNew ? () => {} : asyncDeleteDocument,
+    args: deleteArgs,
+    callFn: deleteFn,
+    callback: onDeleteCallback,
     callOnInit: false,
   });
 

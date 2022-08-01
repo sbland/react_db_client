@@ -8,7 +8,6 @@ import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request'
 import { Emoji } from '@react_db_client/components.emoji';
 import { generateUid } from '@react_db_client/helpers.generate-uid';
 
-
 /**
  * Generic catalogue wrapper for searching and editing documents from the api
  * @param id
@@ -82,6 +81,7 @@ export const GenericCatalogue = ({
   asyncDeleteDocument,
   asyncCopyDocument,
   componentMap,
+  closePopupOnItemSave,
 }) => {
   const [showEditor, setShowEditor] = useState(false);
   const [selectedUid, setSelectedUid] = useState(null);
@@ -102,17 +102,22 @@ export const GenericCatalogue = ({
     }
   }, [handleDelete, selectedUid, errorCallback, collection, itemName]);
 
-  /* Handle Duplicate */
-  const { call: copyItem } = useAsyncRequest({
-    args: [],
-    callFn: asyncCopyDocument,
-    callOnInit: false,
-    callback: (_, [, , , toUid]) => {
+  const duplicateCallback = useCallback(
+    (_, [, , , toUid]) => {
       setReloadDataKey((prev) => prev + 1);
       notificationDispatch(`Successfully Copied ${itemName}`);
       setSelectedUid(toUid);
       setShowEditor(true);
     },
+    [notificationDispatch, itemName]
+  );
+
+  /* Handle Duplicate */
+  const { call: copyItem } = useAsyncRequest({
+    args: [],
+    callFn: asyncCopyDocument,
+    callOnInit: false,
+    callback: duplicateCallback,
   });
 
   const handleDuplicate = (uid) => {
@@ -149,7 +154,7 @@ export const GenericCatalogue = ({
     (uid) => {
       notificationDispatch(`${itemName} saved`);
       setSelectedUid(uid);
-      setShowEditor(false);
+      if (closePopupOnItemSave) setShowEditor(false);
       setReloadDataKey((prev) => prev + 1);
     },
     [itemName]
@@ -280,7 +285,8 @@ GenericCatalogue.propTypes = {
   asyncPostDocument: PropTypes.func.isRequired,
   asyncDeleteDocument: PropTypes.func.isRequired,
   componentMap: PropTypes.objectOf(PropTypes.elementType),
-  onError: PropTypes.func,
+  errorCallback: PropTypes.func,
+  closePopupOnItemSave: PropTypes.bool,
 };
 
 GenericCatalogue.defaultProps = {
@@ -293,5 +299,6 @@ GenericCatalogue.defaultProps = {
   PopupPanel: () => {},
   notificationDispatch: alert,
   componentMap: {},
-  onError: () => {},
+  errorCallback: () => {},
+  closePopupOnItemSave: false,
 };

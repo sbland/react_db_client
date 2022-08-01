@@ -14,7 +14,7 @@ jest.mock('@react_db_client/async-hooks.use-async-request', () => ({
 
 const loadData = jest.fn();
 // The default return values of the async hook
-const loadedData = { loaded: 'data', nested: { hello: 'world'} };
+const loadedData = { loaded: 'data', nested: { hello: 'world' } };
 const asyncHookReturnLoad_default = {
   call: loadData,
   loading: false,
@@ -50,6 +50,7 @@ const asyncPutDocument = jest.fn().mockImplementation(async () => {});
 const asyncPostDocument = jest.fn().mockImplementation(async () => {});
 const asyncDeleteDocument = jest.fn().mockImplementation(async () => {});
 const onSavedCallback = jest.fn();
+const saveErrorCallback = jest.fn();
 
 const defaultArgs = {
   activeUid: 'demouid',
@@ -60,6 +61,7 @@ const defaultArgs = {
   populate: 'all',
   loadOnInit: true,
   onSavedCallback,
+  saveErrorCallback,
   asyncGetDocument,
   asyncPutDocument,
   asyncPostDocument,
@@ -127,7 +129,7 @@ describe('useAsyncObjectManager', () => {
   test('should initialize correct async request hooks', async () => {
     renderHook(() => useAsyncObjectManager(defaultArgs));
     expect(useAsyncRequest).toHaveBeenCalledTimes(3);
-    expect(useAsyncRequest.mock.calls).toEqual([
+    expect(useAsyncRequest.mock.calls[0]).toEqual(
       // 1st call for load
       [
         {
@@ -141,8 +143,12 @@ describe('useAsyncObjectManager', () => {
           callback: expect.any(Function),
           callFn: asyncGetDocument,
           callOnInit: true,
+          errorCallback: expect.any(Function),
+          callback: expect.any(Function),
         },
-      ],
+      ]
+    );
+    expect(useAsyncRequest.mock.calls[1]).toEqual(
       // second call for save
       [
         {
@@ -150,18 +156,18 @@ describe('useAsyncObjectManager', () => {
           callFn: asyncPutDocument,
           callOnInit: false,
           callback: expect.any(Function),
-          errorCallback: expect.any(Function),
+          errorCallback: saveErrorCallback,
         },
-      ],
-      // third call for delete
-      [
-        {
-          id: 'deleteAsync',
-          args: [defaultArgs.collection, defaultArgs.activeUid],
-          callFn: asyncDeleteDocument,
-          callOnInit: false,
-        },
-      ],
+      ]
+    );
+    // third call for delete
+    expect(useAsyncRequest.mock.calls[2]).toEqual([
+      {
+        id: 'deleteAsync',
+        args: [defaultArgs.collection, defaultArgs.activeUid],
+        callFn: asyncDeleteDocument,
+        callOnInit: false,
+      },
     ]);
   });
 
@@ -180,6 +186,7 @@ describe('useAsyncObjectManager', () => {
         ],
         callback: expect.any(Function),
         callFn: asyncGetDocument,
+        errorCallback: expect.any(Function),
         callOnInit: false,
       },
     ]);
