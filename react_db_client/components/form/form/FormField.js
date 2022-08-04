@@ -40,7 +40,7 @@ export const FormField = (propsIn) => {
 
   const showLabel = [filterTypes.bool, filterTypes.toggle].indexOf(type) === -1 || heading.readOnly; // we do not need a label for a toggle box
   return (
-    <div className={rowClassname} key={uid}>
+    <div className={rowClassname} key={uid} data-testid={`${type}-${uid}`}>
       <FieldLabel
         uid={uid}
         label={label}

@@ -1,15 +1,16 @@
 import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
+import { render, screen } from '@testing-library/react';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import { SearchAndSelectDropdown } from '@react_db_client/components.search-and-select-dropdown';
 import { filterTypes } from '@react_db_client/constants.client-types';
-import { demoHeadingsData, demoFormData } from './DemoData';
-
-import { Form } from './form';
 import { FieldText } from '@react_db_client/components.form.form-fields.field-text';
 import { FieldReadOnly } from '@react_db_client/components.form.form-fields.field-read-only';
 import { FieldObjectRef } from '@react_db_client/components.form.form-fields.field-object-ref';
+
+import { demoHeadingsData, demoFormData } from './DemoData';
+import { Form } from './form';
 import { FormInputs } from './FormInputs';
 import { FieldLabel } from './field-label';
 import { FormField } from './FormField';
@@ -83,10 +84,11 @@ describe('Form - Functional Tests', () => {
         expect(onChange).toHaveBeenCalledWith(demoHeadingsData[6].uid, newValue, newFormData);
       });
       test('allow modifiying inputs', () => {
-        const formField = () => component
-          .find(FormField)
-          .filterWhere((f) => f.props().heading?.type === filterTypes.text)
-          .first();
+        const formField = () =>
+          component
+            .find(FormField)
+            .filterWhere((f) => f.props().heading?.type === filterTypes.text)
+            .first();
         // const formField = component.find(FormField).first();
         const { uid } = formField().props().heading;
         const inputField = () => formField().find('input');
@@ -156,4 +158,20 @@ describe('Form - Functional Tests', () => {
       });
     });
   });
+});
+
+const ariaSelectableFilterTypes = [filterTypes.text, filterTypes.textLong, filterTypes.number];
+
+describe('Form Integrated Tests ', () => {
+  ariaSelectableFilterTypes.map((t) =>
+    test(`should be able to access a form input using its aria label- ${t}`, () => {
+      render(<Form {...defaultProps} />);
+      const targetHeading = demoHeadingsData.find((h) => h.type === t);
+      if (!targetHeading) throw Error(`Missing example heading for type: ${t}`);
+      const expectedFormLabel = `${(targetHeading.required && '*') || ''}${targetHeading.label}:`;
+      const input = screen.getByLabelText(expectedFormLabel);
+      expect(input).toBeInTheDocument();
+      expect(input.value).toEqual(demoFormData[targetHeading.uid] || '');
+    })
+  );
 });

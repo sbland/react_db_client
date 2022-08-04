@@ -1,18 +1,27 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
-export const FieldText = ({ uid, unit, updateFormData, value, special, useArea, required }) => {
+export const FieldText = ({
+  uid,
+  unit,
+  updateFormData,
+  value,
+  special,
+  useArea,
+  required,
+}) => {
   const ref = useRef(null);
-
   return (
     <>
       {useArea && (
         <textarea
           value={value || ''}
-          id={uid}
+          id={`${uid}-input`}
           name={uid}
+          aria-labelledby={`${uid}-label`}
           onChange={(e) => updateFormData(uid, e.target.value)}
           required={required}
+          role="presentation"
         />
       )}
       {!useArea && (
@@ -22,9 +31,11 @@ export const FieldText = ({ uid, unit, updateFormData, value, special, useArea, 
           role="presentation"
           type={special || 'text'}
           ref={ref}
+          id={`${uid}-input`}
           onFocus={() => {
             ref.current.select();
           }}
+          aria-labelledby={`${uid}-label`}
           value={value || ''}
           // id={uid}  // disabled as entering 'id' caused autofill issues
           // name={uid} // disabled as entering 'name' caused autofill issues
@@ -32,7 +43,7 @@ export const FieldText = ({ uid, unit, updateFormData, value, special, useArea, 
           required={required}
         />
       )}
-      {unit && <span>{unit}</span>}
+      {unit ? <span>{unit}</span> : <span></span>}
     </>
   );
 };

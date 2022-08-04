@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const FieldLabel = ({ uid, label, inputClassName, hasChanged, required, hasLabel }) => (
-  <label className={inputClassName} id={uid}>
+  <label className={inputClassName} id={`${uid}-label`} htmlFor={`${uid}-input`}>
     {required && '*'}
     {hasLabel && (
       <>

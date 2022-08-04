@@ -29,7 +29,7 @@ export const demoHeadingsData = [
   },
   {
     uid: 'number-capped',
-    label: 'Number',
+    label: 'Number Capped',
     type: filterTypes.number,
     min: 3,
     max: 8,
@@ -96,6 +96,18 @@ export const demoHeadingsData = [
     ],
   },
   {
+    uid: 'selectSearchMulti',
+    label: 'Select Search Multi',
+    type: filterTypes.selectSearch,
+    multiple: true,
+    searchFieldTargetField: 'label',
+    allowEmptySearch: true,
+    searchFn: async () => [
+      { uid: 'rep1', label: 'Rep 1' },
+      { uid: 'rep2', label: 'Rep 2' },
+    ],
+  },
+  {
     uid: 'multiSelect',
     label: 'Multi Select',
     type: filterTypes.selectMulti,
@@ -144,6 +156,16 @@ export const demoHeadingsData = [
       { uid: 'embeddedtog3', label: 'Embedded Tog3', type: filterTypes.bool },
     ],
   },
+  {
+    uid: 'dict',
+    label: 'Dictionary Field',
+    type: filterTypes.dict,
+  },
+  {
+    uid: 'video',
+    label: 'Video     Field',
+    type: filterTypes.video,
+  }
 ];
 
 export const demoFormData = {

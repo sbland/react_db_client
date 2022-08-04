@@ -35,7 +35,6 @@ export const FieldNumber = ({
     else if (value !== '' && value > max) updateFormData(uid, max);
   };
 
-
   const onChange = (e) => updateFormData(uid, e.target.value);
 
   return (
@@ -52,6 +51,8 @@ export const FieldNumber = ({
         onBlur={onBlur}
         onChange={onChange}
         required={required}
+        aria-labelledby={`${uid}-label`}
+        id={`${uid}-input`}
       />
       {unit && <span>{unit}</span>}
     </>

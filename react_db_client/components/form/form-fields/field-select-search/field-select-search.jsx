@@ -1,6 +1,18 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { SearchAndSelectDropdown } from '@react_db_client/components.search-and-select-dropdown';
+
+export const ShowMultiSelection = ({ values, labelField, onSelect }) => {
+  return (
+    <div>
+      {values?.map((v) => (
+        <button onClick={() => onSelect(v)} key={v.uid || v}>
+          {v[labelField] || v.uid || v}
+        </button>
+      ))}
+    </div>
+  );
+};
 
 export const FieldSelectSearch = ({
   uid,
@@ -16,26 +28,49 @@ export const FieldSelectSearch = ({
   allowEmptySearch,
   className,
 }) => {
-  // TODO: Handle multiple selection
-  if (multiple) throw Error('Multiple not implemented');
+  const valueIn = useMemo(() => (multiple ? '' : value), [multiple, value]);
+
+  const handleSelect = useCallback(
+    (_, data) => {
+      let newVal = returnFieldOnSelect ? data[returnFieldOnSelect] : data;
+      if (multiple) {
+        if (Array.isArray(value)) {
+          const newValueArray = value.concat(data);
+          newVal = newValueArray;
+        } else {
+          newVal = [data];
+        }
+      }
+      updateFormData(uid, newVal);
+    },
+    [multiple, updateFormData, returnFieldOnSelect]
+  );
+
+  const clickSelectedItem = useCallback((selectedItem) => {
+    if (Array.isArray(value)) {
+      const newValueArray = value.filter((v) => (v.uid != null || v.uid !== selectedItem.uid) && v !== selectedItem);
+      updateFormData(uid, newValueArray);
+    } else {
+      updateFormData(uid, []);
+    }
+  }, []);
+
   return (
     <>
       <SearchAndSelectDropdown
         searchFunction={searchFn}
-        initialValue={value}
-        handleSelect={(newVal, data) => updateFormData(uid, data[returnFieldOnSelect])}
-        // selectionOverride={value}
-        // allowMultiple={multiple}
-        // returnFieldOnSelect={returnFieldOnSelect}
+        initialValue={valueIn}
+        handleSelect={handleSelect}
         searchFieldTargetField={searchFieldTargetField}
         labelField={labelField}
         className={className}
         allowEmptySearch={allowEmptySearch}
-        searchFieldPlaceholder={`${value}`}
-        // onChange={(e) => updateFormData(uid, e.target.value)}
+        searchFieldPlaceholder={`${value || 'search...'}`}
         required={required}
       />
-      {unit && <span>{unit}</span>}
+      {multiple && (
+        <ShowMultiSelection onSelect={clickSelectedItem} labelField={labelField} values={value} />
+      )}
     </>
   );
 };
@@ -43,7 +78,18 @@ export const FieldSelectSearch = ({
 FieldSelectSearch.propTypes = {
   uid: PropTypes.string.isRequired,
   unit: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.shape({ uid: PropTypes.string }),
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+        PropTypes.shape({ uid: PropTypes.string }),
+      ])
+    ),
+  ]),
   // defaultVal: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   updateFormData: PropTypes.func.isRequired,
   multiple: PropTypes.bool,

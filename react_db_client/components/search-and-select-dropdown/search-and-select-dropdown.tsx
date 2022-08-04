@@ -298,6 +298,15 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
 
 // TODO: prop types causing issue with ...rest
 
+const ValueTypes = PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.number,
+  PropTypes.shape({
+    uid: PropTypes.string,
+    // TODO: Define initial value shape requirements
+  }),
+]);
+
 SearchAndSelectDropdown.propTypes = {
   /* Async function to call when searching
    * Signature: async (searchText) => {}
@@ -308,12 +317,7 @@ SearchAndSelectDropdown.propTypes = {
    */
   handleSelect: PropTypes.func.isRequired,
   /* Initial search field value */
-  initialValue: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.shape({
-      // TODO: Define initial value shape requirements
-    }),
-  ]),
+  initialValue: PropTypes.oneOfType([ValueTypes, PropTypes.arrayOf(ValueTypes)]),
   /* the target field that the search string applies to */
   searchFieldTargetField: PropTypes.string,
   /* The field in the returned data to use as the label */

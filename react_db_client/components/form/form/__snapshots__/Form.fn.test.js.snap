@@ -11,7 +11,7 @@ exports[`Form - Functional Tests Functional tests Passing data to fields should 
 
 exports[`Form - Functional Tests Functional tests Passing data to fields should pass headings data to field label 1`] = `
 "<FieldLabel uid=\\"uid\\" label=\\"UID\\" inputClassName=\\"form_label\\" hasChanged={false} required={false} hasLabel={true}>
-  <label className=\\"form_label\\" id=\\"uid\\">
+  <label className=\\"form_label\\" id=\\"uid-label\\" htmlFor=\\"uid-input\\">
     UID
     :
      

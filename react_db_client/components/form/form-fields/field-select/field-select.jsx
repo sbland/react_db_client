@@ -40,6 +40,8 @@ export const FieldSelect = ({
             required={required}
             searchDelay={0}
             allowEmptySearch
+            aria-labelledby={`${uid}-label`}
+            id={`${uid}-input`}
           />
           {unit && <span>{unit}</span>}
         </>

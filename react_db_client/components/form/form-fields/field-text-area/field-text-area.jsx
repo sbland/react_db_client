@@ -59,13 +59,14 @@ export const FieldTextArea = ({
             ...styleOverrides,
           }}
           value={value || ''}
-          id={uid}
+          id={`${uid}-input`}
           name={uid}
           onFocus={() => {
             ref.current.select();
           }}
           onChange={(e) => manageInputChange(e.target.value)}
           required={required}
+          aria-labelledby={`${uid}-label`}
           ref={ref}
         />
       </div>

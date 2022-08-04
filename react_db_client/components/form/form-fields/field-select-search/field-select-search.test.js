@@ -6,7 +6,7 @@ import { MockReactC } from '@react_db_client/testing.utils';
 
 import { SearchAndSelectDropdown } from '@react_db_client/components.search-and-select-dropdown';
 
-import { FieldSelectSearch } from './field-select-search';
+import { FieldSelectSearch, ShowMultiSelection } from './field-select-search';
 import * as compositions from './field-select-search.composition';
 import { defaultVal } from './demo-data';
 
@@ -55,33 +55,67 @@ describe('field-select-search', () => {
   });
 
   describe('Unit Tests', () => {
-    let component;
-    beforeEach(() => {
-      component = mount(<FieldSelectSearch {...defaultProps} />);
-    });
-    describe('Searching', () => {
-      /* Searching handled by search and select dropdown. */
-      test('should call search function', () => {
-        const searchAndSelectDropdown = component.find(SearchAndSelectDropdown);
-        const searchText = "searchText";
-        act(() => {
-          searchAndSelectDropdown.props().searchFunction(searchText);
+    describe('Default', () => {
+      let component;
+      beforeEach(() => {
+        component = mount(<FieldSelectSearch {...defaultProps} />);
+      });
+      describe('Searching', () => {
+        /* Searching handled by search and select dropdown. */
+        test('should call search function', () => {
+          const searchAndSelectDropdown = component.find(SearchAndSelectDropdown);
+          const searchText = 'searchText';
+          act(() => {
+            searchAndSelectDropdown.props().searchFunction(searchText);
+          });
+          expect(searchFn).toHaveBeenCalledWith(searchText);
         });
-        expect(searchFn).toHaveBeenCalledWith(searchText);
+      });
+      describe('shows a search select field', () => {
+        test('should show search and select component', () => {
+          expect(component.find(SearchAndSelectDropdown)).toBeTruthy();
+        });
+      });
+      describe('handles select', () => {
+        test('should call update fn when search component returns selection', () => {
+          const searchComponent = component.find(SearchAndSelectDropdown);
+          const selectedId = 'demoid';
+          const selectedData = { uid: selectedId };
+          searchComponent.props().handleSelect(selectedId, selectedData);
+          expect(updateFormData).toHaveBeenCalledWith(defaultProps.uid, selectedId);
+        });
       });
     });
-    describe('shows a search select field', () => {
-      test('should show search and select component', () => {
-        expect(component.find(SearchAndSelectDropdown)).toBeTruthy();
-      });
-    });
-    describe('handles select', () => {
-      test('should call update fn when search component returns selection', () => {
+
+    describe('Multiple', () => {
+      const firstSelection = { uid: 'demoid1', label: 'Demo Label 1' };
+      const secondSelection = { uid: 'demoid2', label: 'Demo Label 2' };
+
+      test('Display search field', () => {
+        const component = mount(<FieldSelectSearch {...defaultProps} multiple value={null} />);
         const searchComponent = component.find(SearchAndSelectDropdown);
-        const selectedId = 'demoid';
-        const selectedData = { uid: selectedId };
-        searchComponent.props().handleSelect(selectedId, selectedData);
-        expect(updateFormData).toHaveBeenCalledWith(defaultProps.uid, selectedId);
+        searchComponent.props().handleSelect(firstSelection.uid, firstSelection);
+        expect(updateFormData).toHaveBeenCalledWith(defaultProps.uid, [firstSelection]);
+      });
+
+      test('Display current selection labels', () => {
+        const component = mount(
+          <FieldSelectSearch {...defaultProps} multiple value={[firstSelection]} />
+        );
+        const showMultiSelection = component.find(ShowMultiSelection);
+        expect(showMultiSelection.props().values).toEqual([firstSelection]);
+      });
+
+      test('Can remove from selection', () => {
+        const component = mount(
+          <FieldSelectSearch {...defaultProps} multiple value={[firstSelection, secondSelection]} />
+        );
+        const showMultiSelection = component.find(ShowMultiSelection);
+        const firstSelectionButton = showMultiSelection.find('button').at(0);
+        act(() => {
+          firstSelectionButton.simulate('click');
+        });
+        expect(updateFormData).toHaveBeenCalledWith(defaultProps.uid, [secondSelection]);
       });
     });
   });
