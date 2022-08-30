@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { switchF } from '@react_db_client/helpers.func-tools';
-import { filterTypes, FilterObjectClass } from '@react_db_client/constants.client-types';
+import {
+  EComparisons,
+  FilterObjectClass,
+  filterTypesComparisons,
+  comparisonMetaData,
+} from '@react_db_client/constants.client-types';
 
-import FilterDate from './FilterTypes/FilterDate';
-import FilterBool from './FilterTypes/FilterBool';
-import FilterSelect from './FilterTypes/FilterSelect';
-import FilterString from './FilterTypes/FilterString';
-import FilterNumber from './FilterTypes/FilterNumber';
-import FilterObject from './FilterTypes/FilterObject';
 import { FilterId, IField } from './lib';
+import { useGetFilterComponents } from './useGetFilterComponents';
 
 /**
  * Update the target field fot a filter row
@@ -51,58 +50,32 @@ export const FiltersList = ({
 }: IFilterListProps) => {
   const updateFieldTargetFn = (index, newFieldId) =>
     updateFieldTarget(index, newFieldId, fieldsData, updateFilter, customFilters);
+
   // for each filter create a row
+  const filterElements = useGetFilterComponents({
+    filterData,
+    fieldsData,
+    updateFilter,
+    customFiltersComponents,
+  });
+
   const mapFilters =
     filterData &&
     Array.isArray(filterData) &&
     filterData.map((filter, i) => {
-      // get filter type from the field type
+      const filterTypeComponent = filterElements[i];
       const { field: fieldId, type } = filter;
-      const fieldData = fieldsData[fieldId];
-
-      const args = {
-        key: filter.uid,
-        filter,
-        updateFilter: (newFilter) => updateFilter(i, newFilter),
-        fieldData,
+      const { validComparisons = null } = fieldId !== null ? fieldsData[fieldId] : {};
+      const comparisonOptions: EComparisons[] =
+        validComparisons != null ? validComparisons : filterTypesComparisons[type];
+      // TODO: Handle field data is null
+      const updateOperator = (e) => {
+        const newFilterData = new FilterObjectClass({
+          ...filter,
+          operator: e.target.value,
+        });
+        updateFilter(i, newFilterData);
       };
-
-      const filterTypeComponent = switchF(
-        type,
-        {
-          [filterTypes.uid]: () => <FilterString {...args} />,
-          [filterTypes.textLong]: () => <FilterString {...args} />,
-          [filterTypes.text]: () => <FilterString {...args} />,
-          [filterTypes.number]: () => <FilterNumber {...args} />,
-          [filterTypes.date]: () => <FilterDate {...args} />,
-          [filterTypes.bool]: () => <FilterBool {...args} />,
-          [filterTypes.toggle]: () => <FilterBool {...args} />,
-          [filterTypes.selectMulti]: () => <FilterSelect {...args} />,
-          [filterTypes.select]: () => <FilterSelect {...args} />,
-          [filterTypes.embedded]: () => <FilterString {...args} />,
-          // TODO:  Image filters may need to be an object search
-          [filterTypes.image]: () => <FilterString {...args} />,
-          [filterTypes.file]: () => <FilterString {...args} />,
-          [filterTypes.fileMultiple]: () => <FilterString {...args} />,
-          [filterTypes.reference]: () => <FilterString {...args} />,
-          [filterTypes.button]: () => <FilterString {...args} />,
-          [filterTypes.selectSearch]: () => <FilterString {...args} />,
-          [filterTypes.dict]: () => <FilterObject {...args} />,
-          ...Object.entries(customFiltersComponents).reduce((acc, [key, Field]) => {
-            acc[key] = () => <Field {...args} />;
-            return acc;
-          }, {}),
-        },
-        () => (
-          <div key={type || filter.asString()} className="invalidFilter">
-            Invalid Filter
-            {' - '}
-            {filter.uid}
-            {' - '}
-            {type}
-          </div>
-        )
-      );
 
       return (
         <li className="filterPanel_filterItem" key={filter.uid} id={filter.uid}>
@@ -127,6 +100,17 @@ export const FiltersList = ({
                   {opt.label}
                 </option>
               ))}
+          </select>
+          <select
+            value={filter.operator}
+            onChange={updateOperator}
+            className="filterOperatorSelect"
+          >
+            {comparisonOptions.map((c) => (
+              <option key={c} value={c}>
+                {comparisonMetaData[c]?.label || 'MISSING COMPARISON LABEL!'}
+              </option>
+            ))}
           </select>
           {/* Filter input */}
           {filterTypeComponent}

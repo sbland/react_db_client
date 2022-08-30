@@ -4,26 +4,28 @@
  * @param {object} obj // Cases
  * @param {function} default // default
  */
-export const switchF = (c, options, def) => {
+export const switchF = <KeyType extends string | number | symbol>(
+  c: KeyType,
+  options: Record<KeyType, React.FC>,
+  def: () => React.ReactNode
+) => {
   const activeCaseList = Object.keys(options)
     .filter((key) => {
       if (Array.isArray(key)) {
         return key.indexOf(c) >= 0;
       }
-      if (typeof key === 'function') {
-        return key(c);
-      }
+      // if (typeof key === 'function') {
+      //   return key(c);
+      // }
       return key === c;
     })
     .map((key) => options[key]);
   if (activeCaseList.length === 0 && def) return def();
   const activeCase = activeCaseList[0];
   if (typeof activeCase === 'function') return activeCase();
-  if (typeof activeCase === 'string' && options[activeCase])
-    return options[activeCase]();
+  if (typeof activeCase === 'string' && options[activeCase]) return options[activeCase]();
   throw Error('switch F Failed!');
 };
-
 
 /**
  * Alternate switch that allows lambda patterns as keys
@@ -36,7 +38,11 @@ export const switchF = (c, options, def) => {
  * @param {function} def
  * @returns
  */
-export const switchFLam = (c, options, def) => {
+export const switchFLam = <KeyType extends string | number | symbol | Function>(
+  c: KeyType,
+  options: [KeyType, () => React.ReactNode][],
+  def: () => React.ReactNode
+) => {
   const choice = options.find(([key]) => {
     if (Array.isArray(key)) {
       return key.indexOf(c) >= 0;

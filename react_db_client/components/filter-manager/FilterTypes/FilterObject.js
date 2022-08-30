@@ -1,19 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  comparisons,
-  FilterObjectClass,
-} from '@react_db_client/constants.client-types';
+import { FilterObjectClass } from '@react_db_client/constants.client-types';
 
 const FilterObject = ({ filter, updateFilter }) => {
-  const updateOperator = (e) => {
-    const newFilterData = new FilterObjectClass({
-      ...filter,
-      operator: e.target.value,
-    });
-    updateFilter(newFilterData);
-  };
-
   const updateValue = (e) => {
     const newFilterData = new FilterObjectClass({
       ...filter,
@@ -22,24 +11,7 @@ const FilterObject = ({ filter, updateFilter }) => {
     updateFilter(newFilterData);
   };
 
-  return (
-    <>
-      <select
-        value={filter.operator}
-        onChange={updateOperator}
-        className="filterOperatorSelect"
-      >
-        <option value={comparisons.contains}>contains</option>
-        <option value={comparisons.equals}>is exactly</option>
-      </select>
-      <input
-        type="text"
-        className="filterInput"
-        value={filter.value}
-        onChange={updateValue}
-      />
-    </>
-  );
+  return <input type="text" className="filterInput" value={filter.value} onChange={updateValue} />;
 };
 
 FilterObject.propTypes = {

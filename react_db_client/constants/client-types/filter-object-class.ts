@@ -1,5 +1,5 @@
 /* eslint-disable max-classes-per-file */
-import { FilterType, filterTypes } from './filter-types';
+import { EFilterType, filterTypes } from './filter-types';
 import { comparisons, EComparisons } from './comparisons';
 
 const getDefaultComparison = (fieldType) => {
@@ -33,7 +33,7 @@ export interface IFilterObjectClassConstructorArgs {
   label?: string | null;
   value?: null | string | number | boolean;
   operator?: EComparisons | null;
-  type?: FilterType | string;
+  type?: EFilterType | string;
   filterOptionId?: string | null;
   isCustomType?: boolean;
 }
@@ -44,7 +44,7 @@ export class FilterObjectClass {
   value: string | number | boolean | null;
   label: string | null;
   operator: EComparisons;
-  type: FilterType | string;
+  type: EFilterType | string;
   filterOptionId: string | null;
   constructor({
     uid = `filter_${Date.now()}`,
