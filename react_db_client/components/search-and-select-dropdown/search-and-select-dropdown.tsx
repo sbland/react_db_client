@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   FilterObjectClass,
   filterTypes,
-  comparisons,
+  EComparisons,
 } from '@react_db_client/constants.client-types';
 import { AsyncRequestError, useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
 import { CustomSelectDropdown } from '@react_db_client/components.custom-select-dropdown';
@@ -116,7 +116,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
       uid: 'search',
       field: searchFieldTargetField,
       value: searchValue,
-      operator: comparisons.contains,
+      operator: EComparisons.CONTAINS,
       type: filterTypes.text,
     });
     if (searchTimeout.current) {

@@ -97,27 +97,28 @@ export const comparisonMetaData: Record<EComparisons, IComparison> = {
 };
 
 export const stringComparisons = {
-  equals: '=',
-  contains: 'contains',
-  regex: 'regex',
-  empty: 'empty',
+  equals: EComparisons.EQUALS,
+  contains: EComparisons.CONTAINS,
+  regex: EComparisons.REGEX,
+  empty: EComparisons.EMPTY,
 } as const;
 
 export const numberComparisons = {
-  greaterThan: '>',
-  lesserThan: '<',
+  greaterThan: EComparisons.GREATER_THAN,
+  lesserThan: EComparisons.LESS_THAN,
 } as const;
 
 export const dateComparisons = {
-  after: 'after',
-  before: 'before',
+  after: EComparisons.AFTER,
+  before: EComparisons.BEFORE,
 } as const;
 
 export const generalComparisons = {
-  equals: '=',
+  equals: EComparisons.EQUALS,
 };
 
-export const comparisons = {
+// NOTE: Kept for legacy use
+export const comparisons: Record<string, EComparisons> = {
   ...generalComparisons,
   ...stringComparisons,
   ...numberComparisons,
