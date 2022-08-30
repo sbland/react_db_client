@@ -1,19 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  comparisons,
-  FilterObjectClass,
-} from '@react_db_client/constants.client-types';
+import { FilterObjectClass } from '@react_db_client/constants.client-types';
 
 const FilterSelect = ({ filter, updateFilter, fieldData, multiple }) => {
-  const updateOperator = (e) => {
-    const newFilterData = new FilterObjectClass({
-      ...filter,
-      operator: e.target.value,
-    });
-    updateFilter(newFilterData);
-  };
-
   const updateValue = (e) => {
     const newFilterData = new FilterObjectClass({
       ...filter,
@@ -24,29 +13,15 @@ const FilterSelect = ({ filter, updateFilter, fieldData, multiple }) => {
 
   const { options } = fieldData;
   return (
-    <>
-      <select
-        value={filter.operator}
-        onChange={updateOperator}
-        className="filterOperatorSelect"
-      >
-        <option value={comparisons.contains}>contains</option>
-        <option value={comparisons.equals}>is exactly</option>
-      </select>
-      <select
-        multiple={multiple}
-        value={filter.value || ''}
-        onChange={updateValue}
-      >
-        {!multiple && <option> </option>}
-        {options &&
-          options.map((opt) => (
-            <option key={opt.uid} value={opt.uid}>
-              {opt.label}
-            </option>
-          ))}
-      </select>
-    </>
+    <select multiple={multiple} value={filter.value || ''} onChange={updateValue}>
+      {!multiple && <option> </option>}
+      {options &&
+        options.map((opt) => (
+          <option key={opt.uid} value={opt.uid}>
+            {opt.label}
+          </option>
+        ))}
+    </select>
   );
 };
 

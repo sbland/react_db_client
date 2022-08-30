@@ -1,13 +1,5 @@
-export { filterTypes, filterTypesDefaults } from './filter-types';
+export * from './filter-types';
 
-export {
-  comparisons,
-  stringComparisons,
-  numberComparisons,
-  dateComparisons,
-} from './comparisons';
+export * from './comparisons';
 
-export {
-  FilterObjectSimpleClass,
-  FilterObjectClass,
-} from './filter-object-class';
+export { FilterObjectSimpleClass, FilterObjectClass } from './filter-object-class';
