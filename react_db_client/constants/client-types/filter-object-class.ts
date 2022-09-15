@@ -23,7 +23,7 @@ const getDefaultValue = (fieldType) => {
       return 0;
     case filterTypes.text:
     default:
-      return '';
+      return undefined;
   }
 };
 
@@ -38,10 +38,10 @@ export interface IFilterObjectClassConstructorArgs {
   isCustomType?: boolean;
 }
 
-export class FilterObjectClass {
+export class FilterObjectClass<VType = any> {
   uid: string;
   field: string | null;
-  value: string | number | boolean | null;
+  value: VType;
   label: string | null;
   operator: EComparisons;
   type: EFilterType | string;
@@ -50,7 +50,7 @@ export class FilterObjectClass {
     uid = `filter_${Date.now()}`,
     field = null,
     label = null,
-    value = null,
+    value = undefined,
     operator = null,
     type = filterTypes.text,
     filterOptionId = null,
@@ -66,7 +66,7 @@ export class FilterObjectClass {
       throw Error(`Invalid operator ${operator}`);
     this.uid = uid;
     this.field = field;
-    this.value = value != null && value !== undefined ? value : getDefaultValue(type);
+    this.value = (value != null && value !== undefined ? value : getDefaultValue(type)) as unknown as VType;
     this.label = label || field;
     this.operator = operator || getDefaultComparison(type);
     this.type = type;
@@ -74,13 +74,8 @@ export class FilterObjectClass {
     Object.freeze(this);
   }
 
-  asString(){
-    return [
-      this.uid,
-      this.label,
-      this.value,
-      this.operator,
-    ].join('-')
+  asString() {
+    return [this.uid, this.label, this.value, this.operator].join('-');
   }
 }
 

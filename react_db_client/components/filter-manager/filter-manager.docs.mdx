@@ -3,20 +3,37 @@ description: 'A FilterManager component.'
 labels: ['filter']
 ---
 
-import { FilterManager } from './filter-manager';
+import { FilterPanel } from './filter-manager';
+import { demoFiltersData, demoFieldsData, allTypeFilters, allTypeFieldsData } from './demoData';
 
-## React Component for rendering text
+## React Component for handling filters.
 
-A basic div that renders some text
+A react component for handling filters. Includes hooks and render components.
 
 ### Component usage
 ```js
-<FilterManager text="hello from FilterManager" />
+  <FilterPanel
+    filterData={allTypeFilters}
+    addFilter={() => {}}
+    deleteFilter={() => {}}
+    updateFilter={() => {}}
+    clearFilters={() => {}}
+    showPanelOverride
+    fieldsData={allTypeFieldsData}
+  />
 ```
 
 ### Using props to customize the text
 
 Modify the text to see it change live:
 ```js live
-<FilterManager text="hello from FilterManager" />
+  <FilterPanel
+    filterData={allTypeFilters}
+    addFilter={() => {}}
+    deleteFilter={() => {}}
+    updateFilter={() => {}}
+    clearFilters={() => {}}
+    showPanelOverride
+    fieldsData={allTypeFieldsData}
+  />
 ```

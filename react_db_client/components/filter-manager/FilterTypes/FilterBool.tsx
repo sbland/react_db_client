@@ -1,27 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FilterObjectClass } from '@react_db_client/constants.client-types';
+import { ToggleBox } from '@react_db_client/components.form.form-components.toggle-box';
 
-const FilterObject = ({ filter, updateFilter }) => {
+import { IFilterComponentProps } from '../lib';
+
+const FilterBool = ({ filter, updateFilter }: IFilterComponentProps) => {
   const updateValue = (e) => {
     const newFilterData = new FilterObjectClass({
       ...filter,
-      value: e.target.value || '',
+      value: e,
     });
     updateFilter(newFilterData);
   };
 
-  return <input type="text" className="filterInput" value={filter.value} onChange={updateValue} />;
+  return (
+    <ToggleBox
+      id={filter.uid}
+      stateIn={filter.value}
+      text={filter.value ? 'True' : 'False'}
+      onChange={updateValue}
+    />
+  );
 };
 
-FilterObject.propTypes = {
+FilterBool.propTypes = {
   filter: PropTypes.shape({
     uid: PropTypes.string.isRequired,
     field: PropTypes.string.isRequired,
     operator: PropTypes.string,
-    value: PropTypes.string,
+    value: PropTypes.bool,
   }).isRequired,
   updateFilter: PropTypes.func.isRequired,
 };
 
-export default FilterObject;
+export default FilterBool;

@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FilterObjectClass } from '@react_db_client/constants.client-types';
+import { IFilterComponentProps } from '../lib';
 
-const FilterDate = ({ filter, updateFilter }) => {
+const FilterDate = ({ filter, updateFilter }: IFilterComponentProps) => {
   const updateValue = (e) => {
     const newFilterData = new FilterObjectClass({
       ...filter,

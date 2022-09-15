@@ -2,7 +2,9 @@ import {
   comparisons,
   filterTypes,
   FilterObjectClass,
+  EFilterType,
 } from '@react_db_client/constants.client-types';
+import { IField } from './lib';
 
 export const demoFilterString = new FilterObjectClass({
   uid: 'demoFilterString',
@@ -88,3 +90,30 @@ export const demoFiltersData = [
   // demoFilterExpression,
   demoFilterSelect,
 ];
+
+export const exampleOptions = [
+  { uid: 'foo', label: 'Foo' },
+  { uid: 'bar', label: 'Bar' },
+];
+
+const selectionTypes = [EFilterType.select, EFilterType.selectMulti];
+
+export const allTypeFieldsData = Object.keys(filterTypes)
+  .map((key) => ({
+    uid: key,
+    label: key,
+    type: key,
+    options: selectionTypes.indexOf(key as EFilterType) !== -1 ? exampleOptions : undefined,
+  }))
+  .reduce((acc, v) => ({ ...acc, [v.uid]: v }), {}) as Record<EFilterType, IField>;
+
+export const allTypeFilters: FilterObjectClass[] = Object.values(allTypeFieldsData).map(
+  (field) =>
+    new FilterObjectClass({
+      ...field,
+      field: field.uid,
+      value: undefined,
+      // expression: null,
+      type: field.type,
+    })
+);

@@ -10,33 +10,14 @@ import {
 import { FilterId, IField } from './lib';
 import { useGetFilterComponents } from './useGetFilterComponents';
 
-/**
- * Update the target field fot a filter row
- * @param {number} index
- * @param {string} fieldId the uid of the new field
- * @param {object} fieldsData data on each field type
- * @param {func} updateFilter function to pass new filter data
- */
-const updateFieldTarget = (index, fieldId, fieldsData, updateFilter, customFilters) => {
-  if (!fieldsData[fieldId]) throw Error('Missing Field Data');
-  const { uid, field, type } = fieldsData[fieldId];
-  const newFilter = new FilterObjectClass({
-    ...fieldsData[fieldId],
-    field: field || uid,
-    filterOptionId: uid,
-    type,
-    isCustomType: Object.keys(customFilters).indexOf(type) >= 0,
-  });
-  updateFilter(index, newFilter);
-};
-
 export interface IFilterListProps {
   filterData: FilterObjectClass[];
-  deleteFilter: (filterId: FilterId) => {};
-  updateFilter: (filterId: FilterId, newFilterData: FilterObjectClass) => {};
+  deleteFilter: (filterId: FilterId) => void;
+  updateFilter: (filterId: FilterId, newFilterData: FilterObjectClass) => void;
   fieldsData: { [key: string]: IField };
-  customFilters: { [key: string]: () => {} };
   customFiltersComponents: { [key: string]: React.FC };
+  updateFieldTarget: (filterId: FilterId, fieldId: string | number) => void;
+  updateOperator: (filterId: FilterId, newOperator: EComparisons) => void;
 }
 
 // Map the filters to UI
@@ -45,12 +26,10 @@ export const FiltersList = ({
   deleteFilter,
   updateFilter,
   fieldsData,
-  customFilters,
   customFiltersComponents,
+  updateFieldTarget,
+  updateOperator,
 }: IFilterListProps) => {
-  const updateFieldTargetFn = (index, newFieldId) =>
-    updateFieldTarget(index, newFieldId, fieldsData, updateFilter, customFilters);
-
   // for each filter create a row
   const filterElements = useGetFilterComponents({
     filterData,
@@ -68,14 +47,6 @@ export const FiltersList = ({
       const { validComparisons = null } = fieldId !== null ? fieldsData[fieldId] : {};
       const comparisonOptions: EComparisons[] =
         validComparisons != null ? validComparisons : filterTypesComparisons[type];
-      // TODO: Handle field data is null
-      const updateOperator = (e) => {
-        const newFilterData = new FilterObjectClass({
-          ...filter,
-          operator: e.target.value,
-        });
-        updateFilter(i, newFilterData);
-      };
 
       return (
         <li className="filterPanel_filterItem" key={filter.uid} id={filter.uid}>
@@ -90,7 +61,7 @@ export const FiltersList = ({
           {/* Target field select */}
           <select
             value={filter.filterOptionId || ''}
-            onChange={(e) => updateFieldTargetFn(i, e.target.value)}
+            onChange={(e) => updateFieldTarget(i, e.target.value)}
             className="filterItem_filterFieldSelect"
           >
             {Object.values(fieldsData)
@@ -103,7 +74,7 @@ export const FiltersList = ({
           </select>
           <select
             value={filter.operator}
-            onChange={updateOperator}
+            onChange={(e) => updateOperator(i, e.target.value as EComparisons)}
             className="filterOperatorSelect"
           >
             {comparisonOptions.map((c) => (
@@ -131,7 +102,7 @@ FiltersList.propTypes = {
       uid: PropTypes.string.isRequired,
       field: PropTypes.string.isRequired,
       operator: PropTypes.string,
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)]),
     })
   ).isRequired,
   deleteFilter: PropTypes.func.isRequired,

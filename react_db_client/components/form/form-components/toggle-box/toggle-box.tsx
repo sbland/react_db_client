@@ -3,14 +3,23 @@ import PropTypes from 'prop-types';
 import { Emoji } from '@react_db_client/components.emoji';
 import '@react_db_client/constants.style';
 
-export const ToggleBox = ({ stateIn, id, text, onChange, width, disabled }) => {
+export interface IToggleBoxProps {
+  stateIn?: boolean;
+  id: string;
+  text?: string;
+  onChange: (newVal: boolean, id: string) => void;
+  width?: number;
+  disabled?: boolean;
+}
+
+export const ToggleBox = ({ stateIn, id, text, onChange, width, disabled }: IToggleBoxProps) => {
   const [state, setState] = useState(stateIn);
   const handleClick = () => {
     if (disabled) return;
     if (onChange) {
       onChange(!state, id);
     } else {
-      setState(!state, id);
+      setState(!state);
     }
   };
 

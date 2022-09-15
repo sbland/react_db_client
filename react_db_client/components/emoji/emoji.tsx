@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 
 import './_emoji.scss';
 
-export const Emoji = ({ emoj, label, className }) => (
+export interface IEmojiProps{
+  emoj: string;
+  label: string;
+  className?: string;
+}
+
+export const Emoji = ({ emoj, label, className }: IEmojiProps) => (
   <span className={`emoji ${className}`} role="img" aria-label={label}>
     {emoj || ''}
   </span>

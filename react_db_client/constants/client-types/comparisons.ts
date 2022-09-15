@@ -1,7 +1,3 @@
-export interface foo {
-
-}
-
 export enum EComparisons {
   EQUALS = '=',
   IS = '=',

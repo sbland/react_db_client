@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FilterObjectClass } from '@react_db_client/constants.client-types';
+import { IFilterComponentProps } from '../lib';
 
-const FilterSelect = ({ filter, updateFilter, fieldData, multiple }) => {
+const FilterSelect = ({ filter, updateFilter, fieldData }: IFilterComponentProps) => {
   const updateValue = (e) => {
     const newFilterData = new FilterObjectClass({
       ...filter,
@@ -11,7 +12,8 @@ const FilterSelect = ({ filter, updateFilter, fieldData, multiple }) => {
     updateFilter(newFilterData);
   };
 
-  const { options } = fieldData;
+  const { options, multiple } = fieldData;
+
   return (
     <select multiple={multiple} value={filter.value || ''} onChange={updateValue}>
       {!multiple && <option> </option>}
