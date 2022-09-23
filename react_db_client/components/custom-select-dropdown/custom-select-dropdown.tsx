@@ -19,7 +19,7 @@ export interface ICustomSelectDropdownProps {
   goBackToSearchField: () => void;
   containerRef?: HTMLElement | null;
   position?: 'absolute' | 'relative';
-  absolutePosition?: { left: number; top: number };
+  absolutePosition?: { left: number; top: number } | null;
 }
 
 export const CustomSelectDropdown: React.FC<ICustomSelectDropdownProps> = ({
@@ -46,14 +46,6 @@ export const CustomSelectDropdown: React.FC<ICustomSelectDropdownProps> = ({
       handleClose();
     }
   }
-
-  // TODO: Disabled as catches user input
-  // useEffect(() => {
-  //   if (isOpen) {
-  //     // focus on first item when dropdown opened
-  //     if (itemRefs.current[0]) itemRefs.current[0].focus();
-  //   }
-  // }, [isOpen]);
 
   useEffect(() => {
     // Bind the event listener
@@ -85,6 +77,10 @@ export const CustomSelectDropdown: React.FC<ICustomSelectDropdownProps> = ({
       setCurrentItemFocus(0);
     }
     if (e.key === 'Escape') goBackToSearchField();
+    if (e.key === "Tab") {
+      e.preventDefault();
+      goBackToSearchField();
+    }
   };
 
   const mapOptions = options.map((opt, i) => (

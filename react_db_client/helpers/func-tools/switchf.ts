@@ -4,10 +4,10 @@
  * @param {object} obj // Cases
  * @param {function} default // default
  */
-export const switchF = <KeyType extends string | number | symbol>(
+export const switchF = <KeyType extends string | number | symbol, OutputType>(
   c: KeyType,
-  options: Record<KeyType, React.FC>,
-  def: () => React.ReactNode
+  options: Record<KeyType, OutputType>,
+  def: () => OutputType
 ) => {
   const activeCaseList = Object.keys(options)
     .filter((key) => {
@@ -38,10 +38,10 @@ export const switchF = <KeyType extends string | number | symbol>(
  * @param {function} def
  * @returns
  */
-export const switchFLam = <KeyType extends string | number | symbol | Function>(
+export const switchFLam = <KeyType extends string | number | symbol | Function, OutputType>(
   c: KeyType,
-  options: [KeyType, () => React.ReactNode][],
-  def: () => React.ReactNode
+  options: [KeyType, () => OutputType][],
+  def: () => OutputType
 ) => {
   const choice = options.find(([key]) => {
     if (Array.isArray(key)) {

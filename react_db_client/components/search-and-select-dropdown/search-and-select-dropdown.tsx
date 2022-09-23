@@ -12,6 +12,7 @@ import { LoadingIcon } from './loading-icon';
 
 import './style.scss';
 import { useCombinedRefs } from '@react_db_client/hooks.use-combined-ref';
+import { useLayoutEffect } from 'react';
 
 export interface ISearchAndSelectDropdownProps<Item> extends React.HTMLProps<HTMLInputElement> {
   searchFunction: () => Promise<Item[]>;
@@ -23,6 +24,7 @@ export interface ISearchAndSelectDropdownProps<Item> extends React.HTMLProps<HTM
   className?: string;
   searchFieldPlaceholder?: string;
   allowEmptySearch?: boolean;
+  autoFocusOnFirstItem?: boolean;
   searchDelay?: number;
   allowMultiple?: boolean;
   valid?: boolean;
@@ -54,6 +56,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
     allowEmptySearch,
     searchDelay,
     allowMultiple,
+    autoFocusOnFirstItem,
     valid = true,
     style,
     searchFieldRef: searchFieldRefFromParent,
@@ -64,14 +67,16 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
   const [isFocused, setIsFocused] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
-  const [hasSelected, setHasSelected] = useState(false);
+  const [waitForInput, setWaitForInput] = useState(false);
   const firstItemRef = useRef<HTMLElement | null>(null);
   const searchFieldRef = useRef<HTMLInputElement>(null);
   const searchFieldRefsCombined = useCombinedRefs(searchFieldRefFromParent, searchFieldRef);
   const searchTimeout: React.MutableRefObject<ReturnType<typeof setTimeout> | null> = useRef(null);
-  const goBackToSearchField = () =>
-    searchFieldRefsCombined.current && searchFieldRefsCombined.current.select();
+
   const [results, setResults] = useState<Item[]>([]);
+  const isTypingTypingRef: React.MutableRefObject<ReturnType<typeof setTimeout> | null> =
+    React.useRef(null);
+  const [isTyping, setIsTyping] = React.useState(false);
 
   React.useEffect(() => {
     setSearchValue(
@@ -103,10 +108,22 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
   const onSearchFieldChange = (e) => {
     setSearchValue(e.target.value);
     setResults([]);
+    setIsTyping(true);
     setShowResults(false);
     setLoading(true);
-    setHasSelected(false);
+    setWaitForInput(false);
   };
+
+  useEffect(() => {
+    if (isTyping) {
+      isTypingTypingRef.current = setTimeout(() => {
+        setIsTyping(false);
+      }, 100);
+    }
+    return () => {
+      if (isTypingTypingRef?.current) clearTimeout(isTypingTypingRef.current);
+    };
+  }, [isTyping]);
 
   const search = useCallback(() => {
     setResults([]);
@@ -147,13 +164,25 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
 
   useEffect(() => {
     /* Show results if focused */
-    if (!hasSelected && isFocused && (searchValue || allowEmptySearch) && results?.length > 0)
+    if (
+      !isTyping &&
+      !waitForInput &&
+      isFocused &&
+      (searchValue || allowEmptySearch) &&
+      results?.length > 0
+    )
       setShowResults(true);
-  }, [isFocused, searchValue, allowEmptySearch, results, hasSelected]);
+  }, [isTyping, isFocused, searchValue, allowEmptySearch, results, waitForInput]);
+
+  useLayoutEffect(() => {
+    if (autoFocusOnFirstItem && mappedResults && firstItemRef?.current) {
+      firstItemRef.current.focus();
+    }
+  }, [autoFocusOnFirstItem, showResults]);
 
   useEffect(() => {
     /* Repeat search when focused */
-    if (!hasSelected && (searchValue || allowEmptySearch) && isFocused) {
+    if (!waitForInput && (searchValue || allowEmptySearch) && isFocused) {
       search();
     }
     return () => {
@@ -166,7 +195,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
     allowEmptySearch,
     isFocused,
     searchDelay,
-    hasSelected,
+    waitForInput,
   ]);
 
   const mappedResults = useMemo(() => {
@@ -186,6 +215,12 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
       : [];
   }, [labelField, results]);
 
+  const goBackToSearchField = () => {
+    setWaitForInput(true);
+    searchFieldRefsCombined.current && searchFieldRefsCombined.current.select();
+    setShowResults(false);
+  };
+
   const handleListItemSelect = React.useCallback(
     (selectedId) => {
       if (!loading) {
@@ -195,7 +230,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
         setShowResults(false);
         setSearchValue(selectedData[labelField]);
         goBackToSearchField();
-        setHasSelected(true);
+        setWaitForInput(true);
         handleSelect(selectedId, selectedData);
       } else {
         console.log('loading');
@@ -208,7 +243,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
     setShowResults(false);
     setIsFocused(false);
     setLoading(false);
-    setHasSelected(false);
+    setWaitForInput(false);
   };
 
   const handleInputKeyDown = (e) => {
@@ -243,9 +278,9 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
   const handleClickDropdownBtn = () => {
     if (showResults) setShowResults(false);
     else {
-      setHasSelected(false);
-      setIsFocused(true);
       goBackToSearchField();
+      setWaitForInput(false);
+      setIsFocused(true);
     }
   };
 
@@ -255,7 +290,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
 
   const handleInputClick = () => {
     setIsFocused(true);
-    setHasSelected(false);
+    setWaitForInput(false);
   };
   return (
     <div className={classNames}>
@@ -264,6 +299,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
           className="searchField"
           style={{ flexGrow: 1 }}
           type="text"
+          // aria-label="Search input for selection dropdown"
           placeholder={searchFieldPlaceholder}
           value={searchValue || ''}
           onChange={onSearchFieldChange}
@@ -275,7 +311,13 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
           {...additionalProps}
         />
         {!loading && (
-          <button type="button" className="dropdownBtn" onClick={handleClickDropdownBtn}>
+          <button
+            type="button"
+            name="Show Results"
+            aria-label="Show Results"
+            className="dropdownBtn"
+            onClick={handleClickDropdownBtn}
+          >
             \/
           </button>
         )}

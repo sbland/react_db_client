@@ -38,8 +38,9 @@ export const DemoData = () => {
           value={searchDelay}
         />
       </div>
+      <label htmlFor='searchInput'>Search Dropdown Example</label>
       <CompositionWrapDefault height="4rem" width="8rem">
-        <SearchAndSelectDropdown {...props} style={{ background: 'red' }} />
+        <SearchAndSelectDropdown {...props} id="searchInput" style={{ background: 'red' }} />
       </CompositionWrapDefault>
     </div>
   );

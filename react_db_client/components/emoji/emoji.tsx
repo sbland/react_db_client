@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './_emoji.scss';
+import './_emoji.css';
 
 export interface IEmojiProps{
   emoj: string;

@@ -3,7 +3,7 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import ReactDOMServer from 'react-dom/server';
-import { MockEs6, MockReactC } from '@react_db_client/testing.utils';
+import { MockReactC } from '@react_db_client/testing.utils';
 import {
   FilterObjectClass,
   filterTypes,
@@ -27,9 +27,9 @@ const runOnlyPendingTimers = async () =>
     jest.runOnlyPendingTimers();
   });
 
-jest.mock('@react_db_client/components.custom-select-dropdown', () =>
-  MockReactC('CustomSelectDropdown', ['CustomSelectDropdown'])
-);
+// jest.mock('@react_db_client/components.custom-select-dropdown', () =>
+//   MockReactC('CustomSelectDropdown', ['CustomSelectDropdown'])
+// );
 jest.mock('./loading-icon', () => MockReactC('LoadingIcon', ['LoadingIcon']));
 
 const searchFunction = jest

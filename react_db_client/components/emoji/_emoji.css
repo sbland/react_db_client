@@ -1,0 +1,7 @@
+button,
+.emoji {
+  display: block;
+  margin: 0.2rem;
+  font-size: 0.8rem;
+  line-height: 0.8rem;
+}
