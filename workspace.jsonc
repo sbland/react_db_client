@@ -57,9 +57,9 @@
         "@teambit/documenter.theme.theme-compositions": "4.1.1",
         "@teambit/documenter.ui.copy-box": "4.1.1",
         "@teambit/eslint-config-bit-react": "~0.0.367",
-        "@teambit/harmony": "0.2.11",
+        "@teambit/harmony": "0.3.3",
         "@teambit/react.templates.themes.theme": "0.0.4",
-        "@testing-library/user-event": "14.2.0",
+        "@testing-library/user-event": "^14.4.0",
         "@types/styled-components": "5.1.25",
         "classnames": "2.3.1",
         "mathjs": "10.6.1",
@@ -113,9 +113,11 @@
         "typescript": ">=2.8.0"
       }
     },
+    "linkCoreAspects": true,
     "packageManagerArgs": [],
     "devFilePatterns": [
-      "**/*.spec.ts"
+      "**/*.spec.ts",
+      "**/*.test.ts"
     ],
     "strictPeerDependencies": true,
     "installFromBitDevRegistry": true,

@@ -16,7 +16,7 @@ import { SelectionPreview } from '@react_db_client/components.selection-preview'
 import { useSelectionManager } from './logic';
 import './_searchAndSelect.scss';
 
-export interface IHeading{
+export interface IHeading {
   uid: string;
   label: string;
 }
@@ -24,33 +24,33 @@ export interface IHeading{
 export type CustomeParser = (value: any) => any;
 
 export interface ISearchAndSelectProps<ResultType> {
-  initialFilters: FilterObjectClass[],
-  availableFilters: {[key: string]: FilterObjectClass},
-  searchFunction: () => Promise<ResultType[]>,
-  headings: IHeading[],
-  previewHeadings: IHeading[],
-  handleSelect: () => {},
-  selectionOverride: unknown,
-  autoUpdate: boolean,
-  allowFilters: boolean,
-  allowMultiple: boolean,
-  returnFieldOnSelect: string,
-  showSearchField: boolean,
-  searchFieldTargetField: string,
-  acceptSelectionBtnText: string,
-  showRefreshBtn: boolean,
-  limitResultHeight: number,
-  sortBy: string,
-  reverseSort: boolean,
-  reloadKey: unknown,
-  loadOnInit: boolean,
-  noEmptySearch: boolean,
-  liveUpdate: boolean,
-  autoWidth: boolean,
-  customParsers: {[key: string]: CustomeParser},
-  labelField: string,
-  allowSelectionPreview: boolean,
-  autoPreview: any,
+  initialFilters: FilterObjectClass[];
+  availableFilters: { [key: string]: FilterObjectClass };
+  searchFunction: (filter?: FilterObjectClass[]) => Promise<ResultType[]>;
+  headings: IHeading[];
+  previewHeadings: IHeading[];
+  handleSelect: () => {};
+  selectionOverride: unknown;
+  autoUpdate: boolean;
+  allowFilters: boolean;
+  allowMultiple: boolean;
+  returnFieldOnSelect: string;
+  showSearchField: boolean;
+  searchFieldTargetField: string;
+  acceptSelectionBtnText: string;
+  showRefreshBtn: boolean;
+  limitResultHeight: number;
+  sortBy: string;
+  reverseSort: boolean;
+  reloadKey?: null | number;
+  loadOnInit: boolean;
+  noEmptySearch: boolean;
+  liveUpdate: boolean;
+  autoWidth: boolean;
+  customParsers: { [key: string]: CustomeParser };
+  labelField: string;
+  allowSelectionPreview: boolean;
+  autoPreview: any;
 }
 
 /**
@@ -122,7 +122,7 @@ export const SearchAndSelect = <ResultType,>({
     loading,
     // hasLoaded,
     error,
-  } = useAsyncRequest<ResponseType[],any[]>({
+  } = useAsyncRequest<ResponseType[], any[]>({
     args: [],
     callFn: searchFunction,
     callOnInit: false,
@@ -181,7 +181,7 @@ export const SearchAndSelect = <ResultType,>({
 
   useEffect(() => {
     // TODO: Test this
-    if (reloadKey > 0) setShouldReload(true);
+    if (reloadKey && reloadKey > 0) setShouldReload(true);
   }, [reloadKey]);
 
   const handleSearchFieldInput = (e) => {

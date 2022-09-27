@@ -15,7 +15,7 @@ import { useCombinedRefs } from '@react_db_client/hooks.use-combined-ref';
 import { useLayoutEffect } from 'react';
 
 export interface ISearchAndSelectDropdownProps<Item> extends React.HTMLProps<HTMLInputElement> {
-  searchFunction: () => Promise<Item[]>;
+  searchFunction: (filters?: FilterObjectClass[]) => Promise<Item[]>;
   handleSelect: (id: string, selectedData: Item) => void;
   debug?: boolean;
   initialValue?: string | Item;
