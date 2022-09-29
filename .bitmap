@@ -255,6 +255,12 @@
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/popup-panel"
     },
+    "components/popup-panel-v2": {
+        "scope": "",
+        "version": "0.0.7",
+        "mainFile": "index.ts",
+        "rootDir": "react_db_client/components/popup-panel-v2"
+    },
     "components/search-and-select": {
         "scope": "samnbuk.react_db_client",
         "version": "0.2.44",
@@ -359,7 +365,7 @@
     },
     "helpers/html-helpers": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.0.4",
+        "version": "0.0.5",
         "mainFile": "index.js",
         "rootDir": "react_db_client/helpers/html-helpers"
     },
