@@ -6,10 +6,11 @@
  */
 export const switchF = <KeyType extends string | number | symbol, OutputType>(
   c: KeyType,
-  options: Record<KeyType, OutputType>,
-  def: () => OutputType
-) => {
-  const activeCaseList = Object.keys(options)
+  options: Record<KeyType, string | (() => OutputType)>,
+  def: null | (() => OutputType) = null
+): OutputType => {
+  const activeCaseList: (string | (() => OutputType))[] = Object.keys(options)
+    .map((k) => k as KeyType)
     .filter((key) => {
       if (Array.isArray(key)) {
         return key.indexOf(c) >= 0;
@@ -23,7 +24,8 @@ export const switchF = <KeyType extends string | number | symbol, OutputType>(
   if (activeCaseList.length === 0 && def) return def();
   const activeCase = activeCaseList[0];
   if (typeof activeCase === 'function') return activeCase();
-  if (typeof activeCase === 'string' && options[activeCase]) return options[activeCase]();
+  if (typeof activeCase === 'string' && options[activeCase as string])
+    return options[activeCase as string]();
   throw Error('switch F Failed!');
 };
 
@@ -40,7 +42,7 @@ export const switchF = <KeyType extends string | number | symbol, OutputType>(
  */
 export const switchFLam = <KeyType extends string | number | symbol | Function, OutputType>(
   c: KeyType,
-  options: [KeyType, () => OutputType][],
+  options: [KeyType, KeyType | (() => OutputType)][],
   def: () => OutputType
 ) => {
   const choice = options.find(([key]) => {
