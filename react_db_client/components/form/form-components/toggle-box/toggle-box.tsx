@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Emoji } from '@react_db_client/components.emoji';
-import '@react_db_client/constants.style';
 
 export interface IToggleBoxProps {
   stateIn?: boolean;

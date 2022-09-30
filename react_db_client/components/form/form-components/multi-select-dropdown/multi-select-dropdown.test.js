@@ -1,7 +1,8 @@
 import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import { MultiSelectDropdown, MultiSelectDropdownItem } from './multi-select-dropdown';
+import { MultiSelectDropdown } from './multi-select-dropdown';
+import { MultiSelectDropdownItem } from './multi-select-dropdown-item';
 import * as compositions from './multi-select-dropdown.composition';
 
 describe('MultiSelectDropdown', () => {

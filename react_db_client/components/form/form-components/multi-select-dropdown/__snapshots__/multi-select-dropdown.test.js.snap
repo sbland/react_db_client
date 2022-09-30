@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MultiSelectDropdown Matches Snapshot 1`] = `
-"<div className=\\"multiSelectDropdown\\">
+"<styled.div className=\\"multiSelectDropdown\\">
   <button className=\\"filterBtn\\" type=\\"button\\" onClick={[Function: onClick]}>
     <Emoji emoj=\\"🔽\\" label=\\"DropDownMenu\\" className=\\"\\" />
   </button>
@@ -9,5 +9,5 @@ exports[`MultiSelectDropdown Matches Snapshot 1`] = `
     <MultiSelectDropdownItem uid=\\"a\\" label=\\"a\\" handleSelect={[Function: handleSelect]} isSelected={true} />
     <MultiSelectDropdownItem uid=\\"b\\" label=\\"b\\" handleSelect={[Function: handleSelect]} isSelected={true} />
   </ul>
-</div>"
+</styled.div>"
 `;
