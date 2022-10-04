@@ -10,7 +10,7 @@ export interface MultiSelectDropdown {
   activeSelection: (string | number)[];
   updateActiveSelection: (newItem: (string | number)[]) => void;
   options: IOpt[];
-  selectButtonProps: React.ComponentProps<'button'>; //React.HTMLProps<HTMLButtonElement>;
+  selectButtonProps?: React.ComponentProps<'button'>; //React.HTMLProps<HTMLButtonElement>;
 }
 
 export const MultiSelectDropdown = ({

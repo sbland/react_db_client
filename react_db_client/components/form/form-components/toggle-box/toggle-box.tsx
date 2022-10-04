@@ -9,9 +9,18 @@ export interface IToggleBoxProps {
   onChange: (newVal: boolean, id: string) => void;
   width?: number;
   disabled?: boolean;
+  selectButtonProps?: React.ComponentProps<'button'>; //React.HTMLProps<HTMLButtonElement>;
 }
 
-export const ToggleBox = ({ stateIn, id, text, onChange, width, disabled }: IToggleBoxProps) => {
+export const ToggleBox = ({
+  stateIn,
+  id,
+  text,
+  onChange,
+  width,
+  disabled,
+  selectButtonProps = {},
+}: IToggleBoxProps) => {
   const [state, setState] = useState(stateIn);
   const handleClick = () => {
     if (disabled) return;
@@ -35,8 +44,9 @@ export const ToggleBox = ({ stateIn, id, text, onChange, width, disabled }: ITog
         className={state ? 'button-two' : 'button-one'}
         onClick={handleClick}
         style={styleOverride}
+        {...selectButtonProps}
       >
-        {text || (state ? <Emoji emoj="✔️" label="yes"/> : <Emoji emoj="x" label="no"/>)}
+        {text || (state ? <Emoji emoj="✔️" label="yes" /> : <Emoji emoj="x" label="no" />)}
       </button>
     </div>
   );

@@ -1,30 +1,32 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { BubbleSelectorItem } from './bubble-selector-item';
+import { BubbleSelectorListStyle } from './styles';
 
-import './bubbleSelector.scss';
+export enum EActions {
+  REMOVE = 'remove',
+  ADD = 'add',
+}
 
-export const BubbleSelectorItem = ({ uid, label, handleSelect, isSelected }) => (
-  <li className="bubbleSelector_item">
-    <button
-      type="button"
-      className={isSelected ? 'button-two selected' : 'button-one notSelected'}
-      onClick={() => handleSelect(uid)}
-    >
-      {label}
-    </button>
-  </li>
-);
+export interface IOpt {
+  uid: string | number;
+  label: string | React.ReactNode;
+}
 
-BubbleSelectorItem.propTypes = {
-  uid: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  handleSelect: PropTypes.func.isRequired,
-  isSelected: PropTypes.bool,
-};
-
-BubbleSelectorItem.defaultProps = {
-  isSelected: false,
-};
+export interface IBubbleSelectorProps {
+  activeSelection: (string | number)[];
+  updateActiveSelection: (
+    newItems: (string | number)[],
+    action?: EActions,
+    uid?: string | number
+  ) => void;
+  options: IOpt[];
+  isSorted?: boolean;
+  groupSelected?: boolean;
+  allowManualInput?: boolean;
+  allowSelectAll?: boolean;
+  hideUnselected?: boolean;
+}
 
 export const BubbleSelector = ({
   activeSelection,
@@ -42,12 +44,12 @@ export const BubbleSelector = ({
   const handleSelect = (uid) => {
     const indexInSelection = activeSelection.indexOf(uid);
     const copyOfActiveSelection = [...activeSelection];
-    let action = null;
+    let action: EActions | null = null;
     if (indexInSelection !== -1) {
-      action = 'remove';
+      action = EActions.REMOVE;
       copyOfActiveSelection.splice(indexInSelection, 1);
     } else {
-      action = 'add';
+      action = EActions.ADD;
       copyOfActiveSelection.push(uid);
     }
     const sortedList = options
@@ -127,10 +129,14 @@ export const BubbleSelector = ({
       )}
       {groupSelected && (
         <>
-          <ul className="bubbleSelector_list selected">{mapSelectedItems}</ul>
+          <BubbleSelectorListStyle className="bubbleSelector_list selected">
+            {mapSelectedItems}
+          </BubbleSelectorListStyle>
           {showUnselected && (
             <>
-              <ul className="bubbleSelector_list unselected">{mapUnselectedItems}</ul>
+              <BubbleSelectorListStyle className="bubbleSelector_list unselected">
+                {mapUnselectedItems}
+              </BubbleSelectorListStyle>
               {hideUnselected && (
                 <button
                   type="button"
@@ -151,7 +157,11 @@ export const BubbleSelector = ({
           )}
         </>
       )}
-      {!groupSelected && <ul className="bubbleSelector_list notGrouped">{mapAllItems}</ul>}
+      {!groupSelected && (
+        <BubbleSelectorListStyle className="bubbleSelector_list notGrouped">
+          {mapAllItems}
+        </BubbleSelectorListStyle>
+      )}
       {allowSelectAll && (
         <button type="button" className="button-two" onClick={handleSelectAll}>
           Select All
