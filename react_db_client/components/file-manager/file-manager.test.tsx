@@ -3,7 +3,7 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { MockReactC } from '@react_db_client/testing.utils';
 import { SearchAndSelect } from '@react_db_client/components.search-and-select';
-import { FilterObjectSimpleClass } from '@react_db_client/constants.client-types';
+import { EFileType, FilterObjectSimpleClass } from '@react_db_client/constants.client-types';
 // import { searchFilesFunction } from './logic';
 
 import { FileManager } from './file-manager';
@@ -31,7 +31,7 @@ const defaultProps = {
   handleSelect,
   collectionId: 'DemoCollection',
   documentId: 'DemoDocId',
-  fileType: 'image',
+  fileType: EFileType.IMAGE,
   allowMultiple: false,
   asyncGetDocuments,
   fileServerUrl: 'fileserverurl',
@@ -66,7 +66,7 @@ describe('file-manager', () => {
         component = mount(<FileManager {...defaultProps} />);
       });
       test('should call asyncGetDocuments when searchFunction called', () => {
-        const {collectionId, documentId, fileType} = defaultProps;
+        const { collectionId, documentId, fileType } = defaultProps;
         const collection = 'files';
         const sortBy = 'name';
         const searchString = 'searchStr';
@@ -80,14 +80,20 @@ describe('file-manager', () => {
         const sas = component.find(SearchAndSelect);
         sas.props().searchFunction([], sortBy, searchString);
 
-        expect(asyncGetDocuments).toHaveBeenCalledWith(collection, filters, schema, sortBy, searchString);
+        expect(asyncGetDocuments).toHaveBeenCalledWith(
+          collection,
+          filters,
+          schema,
+          sortBy,
+          searchString
+        );
       });
       test('should call handle select when search and select handle select called', () => {
         const sas = component.find(SearchAndSelect);
         const selectionData = {
           uid: 'abc',
           name: 'ABC',
-        }
+        };
         sas.props().handleSelect(selectionData.uid, selectionData);
         expect(handleSelect).toHaveBeenCalledWith(selectionData.uid, selectionData);
       });

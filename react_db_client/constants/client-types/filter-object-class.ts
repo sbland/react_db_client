@@ -66,7 +66,9 @@ export class FilterObjectClass<VType = any> {
       throw Error(`Invalid operator ${operator}`);
     this.uid = uid;
     this.field = field;
-    this.value = (value != null && value !== undefined ? value : getDefaultValue(type)) as unknown as VType;
+    this.value = (value != null && value !== undefined
+      ? value
+      : getDefaultValue(type)) as unknown as VType;
     this.label = label || field;
     this.operator = operator || getDefaultComparison(type);
     this.type = type;
@@ -80,7 +82,7 @@ export class FilterObjectClass<VType = any> {
 }
 
 export class FilterObjectSimpleClass extends FilterObjectClass {
-  constructor(field, value, uid = null) {
+  constructor(field: string, value: any, uid: null | string = null) {
     if (!field) throw Error('Must have field');
     super({
       uid: uid || `filter_${Date.now()}`,

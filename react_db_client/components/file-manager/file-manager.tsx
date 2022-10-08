@@ -1,10 +1,21 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { EFileType, IFile } from '@react_db_client/constants.client-types';
 import { FileUploader } from '@react_db_client/components.file-uploader';
 import { SearchAndSelect } from '@react_db_client/components.search-and-select';
-import { searchFilesFunction, searchResultHeadings } from './logic';
+import { searchFilesFunction, searchResultHeadings, TAsyncGetDocuments } from './logic';
 
-export const FileManager = ({
+export interface IFileManagerProps {
+  handleSelect: (file: string, fileData: IFile) => void;
+  collectionId: string;
+  documentId: string;
+  fileType: EFileType;
+  allowMultiple?: boolean;
+  asyncGetDocuments: TAsyncGetDocuments;
+  fileServerUrl: string;
+}
+
+export const FileManager: React.FC<IFileManagerProps> = ({
   handleSelect,
   collectionId,
   documentId,
@@ -22,7 +33,11 @@ export const FileManager = ({
         <br />
         {/* TODO: Should refresh on file upload */}
         <SearchAndSelect
-          searchFunction={searchFilesFunction(asyncGetDocuments)(collectionId, documentId, fileType)}
+          searchFunction={searchFilesFunction(asyncGetDocuments)(
+            collectionId,
+            documentId,
+            fileType
+          )}
           initialFilters={[]}
           handleSelect={handleSelect}
           autoUpdate
@@ -61,6 +76,5 @@ FileManager.propTypes = {
 
 FileManager.defaultProps = {
   allowMultiple: false,
-  fileType: '*',
+  fileType: EFileType.ANY,
 };
-

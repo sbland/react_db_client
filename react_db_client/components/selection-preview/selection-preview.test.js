@@ -25,5 +25,8 @@ describe('SelectionPreview', () => {
     beforeEach(() => {
       component = mount(<SelectionPreview {...defaultProps} />);
     });
+    test('should render', () => {
+      //
+    });
   });
 });
