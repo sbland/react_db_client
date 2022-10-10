@@ -4,7 +4,6 @@ exports[`useColumnWidthManager should prepare input data 1`] = `
 Object {
   "columnWidths": Array [
     40,
-    40,
     50,
     120,
     60,
@@ -25,7 +24,7 @@ Object {
   ],
   "error": null,
   "setColumnWidths": [Function],
-  "tableWidth": 1968,
+  "tableWidth": 1927,
 }
 `;
 

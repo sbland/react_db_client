@@ -11,12 +11,12 @@ export type HeadingObject = {
 };
 export type UseColumnManagerProps = {
   headingsDataList: HeadingObject[];
-  defaultColumnWidth: number;
-  unit: number;
-  extraWidth: number;
-  minWidth: number;
-  maxWidth: number;
-  autoWidth: boolean;
+  defaultColumnWidth?: number;
+  unit?: number;
+  extraWidth?: number;
+  minWidth?: number;
+  maxWidth?: number;
+  autoWidth?: boolean;
   containerRef?: React.RefObject<HTMLElement> | null;
 };
 
