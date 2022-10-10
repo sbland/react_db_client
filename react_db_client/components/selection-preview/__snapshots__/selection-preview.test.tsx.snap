@@ -7,39 +7,34 @@ exports[`SelectionPreview Matches Snapshot 1`] = `
   <h3>
     Selection Preview
   </h3>
-  <ul
-    className="selectionPreview_listWrap flexGrow"
-  >
-    <li
-      className="selectionPreview_listItem"
+  <styled.ul>
+    <styled.li
       key="uid"
     >
-      <label>
+      <styled.div>
         Uid
         : 
-      </label>
+      </styled.div>
       foo
-    </li>
-    <li
-      className="selectionPreview_listItem"
+    </styled.li>
+    <styled.li
       key="label"
     >
-      <label>
+      <styled.div>
         Label
         : 
-      </label>
+      </styled.div>
       Foo
-    </li>
-    <li
-      className="selectionPreview_listItem"
+    </styled.li>
+    <styled.li
       key="other"
     >
-      <label>
+      <styled.div>
         Other
         : 
-      </label>
+      </styled.div>
       {custom}
-    </li>
-  </ul>
+    </styled.li>
+  </styled.ul>
 </div>
 `;

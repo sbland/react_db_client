@@ -7,6 +7,7 @@ import { createSerializer } from 'enzyme-to-json';
 import { SelectionPreview } from './selection-preview';
 import { defaultProps } from './demo-data';
 
+//@ts-ignore
 expect.addSnapshotSerializer(createSerializer({ mode: 'deep' }));
 
 describe('SelectionPreview', () => {

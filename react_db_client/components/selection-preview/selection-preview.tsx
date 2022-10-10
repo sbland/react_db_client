@@ -2,10 +2,31 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { stringifyData } from '@react_db_client/helpers.data-processing';
+import { Uid } from '@react_db_client/constants.client-types';
+import {
+  SelectionPreviewLabelStyle,
+  SelectionPreviewList,
+  SelectionPreviewListItem,
+} from './styles';
 
-import './style.scss';
+export interface IHeading {
+  uid: Uid;
+  label: string;
+}
 
-export const SelectionPreview = ({ headings, currentSelectionData, customParsers }) => {
+export type CustomParser = (value: any) => any;
+
+export interface ISelectionPreviewProps {
+  headings: IHeading[];
+  currentSelectionData: { [id: string]: any };
+  customParsers?: { [key: string]: CustomParser };
+}
+
+export const SelectionPreview = ({
+  headings,
+  currentSelectionData,
+  customParsers,
+}: ISelectionPreviewProps) => {
   const cellData = currentSelectionData
     ? headings.map((heading) => {
         const cleanedValue = stringifyData(
@@ -19,16 +40,16 @@ export const SelectionPreview = ({ headings, currentSelectionData, customParsers
   return (
     <div className="flexHoriz">
       <h3>Selection Preview</h3>
-      <ul className="selectionPreview_listWrap flexGrow">
+      <SelectionPreviewList>
         {cellData.map(([uid, label, value]) => {
           return (
-            <li className="selectionPreview_listItem" key={uid}>
-              <label>{label}: </label>
+            <SelectionPreviewListItem key={uid}>
+              <SelectionPreviewLabelStyle>{label}: </SelectionPreviewLabelStyle>
               {value}
-            </li>
+            </SelectionPreviewListItem>
           );
         })}
-      </ul>
+      </SelectionPreviewList>
     </div>
   );
 };
