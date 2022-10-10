@@ -1,6 +1,6 @@
 export interface IFile {
   uid: string;
-  label?: string;
+  label: string;
   name: string;
   filePath: string;
   fileType: EFileType;

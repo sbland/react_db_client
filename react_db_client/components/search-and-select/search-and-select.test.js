@@ -16,7 +16,7 @@ import { StyledSelectList } from '@react_db_client/components.styled-select-list
 import { demoFiltersData, demoFieldsData } from '@react_db_client/constants.demo-data';
 import { SearchAndSelect } from './search-and-select';
 import { demoResultData, demoHeadingsData } from './demo-data';
-import { useSelectionManager } from './logic';
+import { useSelectionManager } from './useSelectionManager';
 
 const DEFAULT_SORT_BY = 'uid';
 // TODO: Mock styled select list
@@ -25,7 +25,7 @@ jest.mock('@react_db_client/async-hooks.use-async-request', () => ({
   useAsyncRequest: jest.fn(),
 }));
 
-jest.mock('./logic', () => ({
+jest.mock('./useSelectionManager', () => ({
   useSelectionManager: jest.fn(),
 }));
 

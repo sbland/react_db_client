@@ -6,7 +6,7 @@ import { SearchAndSelect } from '@react_db_client/components.search-and-select';
 import { searchFilesFunction, searchResultHeadings, TAsyncGetDocuments } from './logic';
 
 export interface IFileManagerProps {
-  handleSelect: (file: string, fileData: IFile) => void;
+  handleSelect: (fileData: IFile | IFile[]) => void;
   collectionId: string;
   documentId: string;
   fileType: EFileType;
@@ -14,6 +14,8 @@ export interface IFileManagerProps {
   asyncGetDocuments: TAsyncGetDocuments;
   fileServerUrl: string;
 }
+
+export const availableFilters = {}; // TODO: Setup available file filters
 
 export const FileManager: React.FC<IFileManagerProps> = ({
   handleSelect,
@@ -32,7 +34,7 @@ export const FileManager: React.FC<IFileManagerProps> = ({
         <br />
         <br />
         {/* TODO: Should refresh on file upload */}
-        <SearchAndSelect
+        <SearchAndSelect<IFile>
           searchFunction={searchFilesFunction(asyncGetDocuments)(
             collectionId,
             documentId,
@@ -42,6 +44,7 @@ export const FileManager: React.FC<IFileManagerProps> = ({
           handleSelect={handleSelect}
           autoUpdate
           allowFilters={false}
+          availableFilters={availableFilters}
           headings={searchResultHeadings(fileServerUrl, collectionId, documentId)}
           showSearchField
           // searchFieldTargetField="name"

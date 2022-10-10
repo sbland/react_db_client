@@ -46,9 +46,9 @@ export type TAsyncGetDocuments = (
 export const searchFilesFunction =
   (asyncGetDocuments: TAsyncGetDocuments) =>
   (collectionId: string, documentId: string, fileType: EFileType) =>
-  async (filters: FilterObjectClass[], sortBy?: string, searchString?: string) => {
+  async (filters?: FilterObjectClass[], sortBy?: string, searchString?: string) => {
     const allFilters = [
-      ...filters,
+      ...filters || [],
       new FilterObjectSimpleClass('collectionId', collectionId),
       new FilterObjectSimpleClass('documentId', documentId),
       new FilterObjectSimpleClass('fileType', fileType),

@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import { useSelectionManager } from './logic';
+import { useSelectionManager } from './useSelectionManager';
 
 const handleSelect = jest.fn();
 describe('Search and Select - Logic', () => {

@@ -1,11 +1,11 @@
-import '@samnbuk/react_db_client.testing.enzyme-setup';
+import { act } from 'react-dom/test-utils';
 import React from 'react';
 import { mount } from 'enzyme';
+import { StyledSelectList, ListItem } from '@react_db_client/components.styled-select-list';
+import '@samnbuk/react_db_client.testing.enzyme-setup';
 
 import { SearchAndSelect } from './search-and-select';
 import { demoResultData, demoHeadingsData } from './demo-data';
-import { StyledSelectList, ListItem } from '@react_db_client/components.styled-select-list';
-import { act } from 'react-dom/test-utils';
 
 const searchFunction = jest.fn().mockImplementation(async () => demoResultData);
 
