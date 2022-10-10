@@ -2,13 +2,30 @@ import React, { useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useColumnManager } from '@react_db_client/components.column-manager';
 import { ListItem } from './list-item';
+import {
+  StyledListHdeadingStyle,
+  StyledListItems,
+  StyledListStyle,
+  StyledSelectListHeadingStyle,
+} from './styles';
+import { Uid } from '@react_db_client/constants.client-types';
+import { IHeading, IItem } from './lib';
 
-import styles from './StyledSelectList.module.scss';
+export interface IStyledSelectList<ItemType extends IItem> {
+  listInput: IItem[];
+  headings: IHeading[];
+  handleSelect: (uid: Uid, data: ItemType) => void;
+  currentSelection: Uid[];
+  limitHeight?: number;
+  selectionField: string;
+  autoWidth?: boolean;
+  customParsers: { [k: string]: (valIn: any) => any };
+}
 
 /**
  * Styled select list
  */
-export const StyledSelectList = ({
+export const StyledSelectList = <ItemType extends IItem>({
   listInput,
   headings,
   handleSelect: handleSelectTop,
@@ -17,7 +34,7 @@ export const StyledSelectList = ({
   selectionField,
   autoWidth,
   customParsers,
-}) => {
+}: IStyledSelectList<ItemType>) => {
   const containerRef = useRef(null);
   const {
     columnWidths,
@@ -34,24 +51,20 @@ export const StyledSelectList = ({
   const handleSelect = (selectedUid, selectedData) => handleSelectTop(selectedUid, selectedData);
 
   const mapHeadings = headings.map((heading, i) => (
-    <div
+    <StyledSelectListHeadingStyle
       key={heading.uid}
-      // className='styledList_heading'
-      className={styles.styledList_heading}
       style={{
         width: columnWidths[i],
       }}
     >
       {heading.label}
-    </div>
+    </StyledSelectListHeadingStyle>
   ));
   const mapItems = useMemo(
     () =>
       listInput.map((item) => (
         <ListItem
           data={item}
-          currentSelection={currentSelection}
-          selectionField={selectionField}
           handleSelect={handleSelect}
           headings={headings}
           columnWidths={columnWidths}
@@ -72,16 +85,10 @@ export const StyledSelectList = ({
       customParsers,
     ]
   );
-  const itemListClassName = [
-    styles.styledList_items,
-    limitHeight ? styles['styledList_items-limitHeight'] : '',
-  ].join(' ');
 
   return (
-    <div
-      className={styles.styledList}
+    <StyledListStyle
       style={{
-        position: 'relative',
         ...(limitHeight ? { maxHeight: `${limitHeight}rem` } : {}),
       }}
       ref={containerRef}
@@ -93,13 +100,11 @@ export const StyledSelectList = ({
         minWidth={100}
         maxWidth={1000}
       /> */}
-      <div style={{ zIndex: 10 }} className={styles.styledList_headings}>
-        {mapHeadings}
-      </div>
-      <div style={{ zIndex: 10 }} className={itemListClassName} role="list">
+      <StyledListHdeadingStyle>{mapHeadings}</StyledListHdeadingStyle>
+      <StyledListItems limitHeight={limitHeight ? true : false} style={{ zIndex: 10 }} role="list">
         {mapItems}
-      </div>
-    </div>
+      </StyledListItems>
+    </StyledListStyle>
   );
 };
 

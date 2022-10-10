@@ -1,9 +1,8 @@
 import React from 'react';
 import { StyledSelectList } from './styled-select-list';
 
-
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { demoListInputData, demoHeadingsData, demoListInputDataLong } from './inputDataShapes';
+import { demoListInputData, demoHeadingsData, demoListInputDataLong } from './dummy-data';
 
 export const BasicStyledSelectList = () => (
   <StyledSelectList
@@ -12,7 +11,6 @@ export const BasicStyledSelectList = () => (
     handleSelect={(id) => alert(`Selected: ${id}`)}
   />
 );
-
 
 export const StyledSelectListLong = () => (
   <StyledSelectList

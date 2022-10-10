@@ -2,23 +2,14 @@
 
 exports[`Styled select list Snapshot 1`] = `
 <div
-  className="styledList"
-  style={
-    Object {
-      "position": "relative",
-    }
-  }
+  className="sc-gswNZR leMfon"
+  style={Object {}}
 >
   <div
-    className="styledList_headings"
-    style={
-      Object {
-        "zIndex": 10,
-      }
-    }
+    className="sc-dkrFOg iujzfJ"
   >
     <div
-      className="styledList_heading"
+      className="sc-jSUZER kdPRE"
       style={
         Object {
           "width": 360,
@@ -28,7 +19,7 @@ exports[`Styled select list Snapshot 1`] = `
       UID
     </div>
     <div
-      className="styledList_heading"
+      className="sc-jSUZER kdPRE"
       style={
         Object {
           "width": 360,
@@ -38,7 +29,7 @@ exports[`Styled select list Snapshot 1`] = `
       Type
     </div>
     <div
-      className="styledList_heading"
+      className="sc-jSUZER kdPRE"
       style={
         Object {
           "width": 360,
@@ -48,8 +39,8 @@ exports[`Styled select list Snapshot 1`] = `
       Name
     </div>
   </div>
-  <div
-    className="styledList_items "
+  <ul
+    className="sc-hLBbgP lkHHzI"
     role="list"
     style={
       Object {
@@ -58,13 +49,14 @@ exports[`Styled select list Snapshot 1`] = `
     }
   >
     <button
-      className="styledList_itemBtn styledList_itemBtn styledList_itemBtn "
+      className="sc-eDvSVe jYBAgP"
       onClick={[Function]}
       role="listitem"
       type="button"
     >
       <div
-        className="styledList_itemCell "
+        className="sc-gKPRtg lyePn"
+        selected={false}
         style={
           Object {
             "width": 360,
@@ -74,7 +66,8 @@ exports[`Styled select list Snapshot 1`] = `
         filterA
       </div>
       <div
-        className="styledList_itemCell "
+        className="sc-gKPRtg lyePn"
+        selected={false}
         style={
           Object {
             "width": 360,
@@ -84,24 +77,26 @@ exports[`Styled select list Snapshot 1`] = `
         text
       </div>
       <div
-        className="styledList_itemCell "
+        className="sc-gKPRtg lyePn"
+        selected={false}
         style={
           Object {
             "width": 360,
           }
         }
       >
-        filter A
+        
       </div>
     </button>
     <button
-      className="styledList_itemBtn styledList_itemBtn styledList_itemBtn "
+      className="sc-eDvSVe jYBAgP"
       onClick={[Function]}
       role="listitem"
       type="button"
     >
       <div
-        className="styledList_itemCell "
+        className="sc-gKPRtg lyePn"
+        selected={false}
         style={
           Object {
             "width": 360,
@@ -111,7 +106,8 @@ exports[`Styled select list Snapshot 1`] = `
         filterB
       </div>
       <div
-        className="styledList_itemCell "
+        className="sc-gKPRtg lyePn"
+        selected={false}
         style={
           Object {
             "width": 360,
@@ -121,16 +117,17 @@ exports[`Styled select list Snapshot 1`] = `
         text
       </div>
       <div
-        className="styledList_itemCell "
+        className="sc-gKPRtg lyePn"
+        selected={false}
         style={
           Object {
             "width": 360,
           }
         }
       >
-        filter B
+        
       </div>
     </button>
-  </div>
+  </ul>
 </div>
 `;

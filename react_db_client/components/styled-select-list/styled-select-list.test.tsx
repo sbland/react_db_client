@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { demoListInputData, demoHeadingsData } from './inputDataShapes';
+import { demoListInputData, demoHeadingsData } from './dummy-data';
 import { StyledSelectList } from './styled-select-list';
 
 test('Styled select list Snapshot', () => {

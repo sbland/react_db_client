@@ -15,6 +15,7 @@ import { SelectionPreview } from '@react_db_client/components.selection-preview'
 
 import { useSelectionManager } from './logic';
 import './_searchAndSelect.scss';
+import { IItem } from '@react_db_client/components.styled-select-list';
 
 export interface IHeading {
   uid: string;
@@ -78,7 +79,7 @@ export interface ISearchAndSelectProps<ResultType> {
  * }
  * @returns
  */
-export const SearchAndSelect = <ResultType,>({
+export const SearchAndSelect = <ResultType extends IItem,>({
   initialFilters,
   availableFilters, // same as field data
   searchFunction,
@@ -122,7 +123,7 @@ export const SearchAndSelect = <ResultType,>({
     loading,
     // hasLoaded,
     error,
-  } = useAsyncRequest<ResponseType[], any[]>({
+  } = useAsyncRequest<ResultType[], any[]>({
     args: [],
     callFn: searchFunction,
     callOnInit: false,

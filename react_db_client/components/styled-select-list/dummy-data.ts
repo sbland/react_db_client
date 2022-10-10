@@ -26,18 +26,18 @@ export const demoHeadingsData = [
 export const demoListInputData = [
   {
     uid: 'filterA',
-    name: 'filter A',
+    label: 'filter A',
     type: 'text',
   },
   {
     uid: 'filterB',
-    name: 'filter B',
+    label: 'filter B',
     type: 'text',
   },
 ];
 
 export const demoListInputDataLong = [...Array(100).keys()].map((v, i) => ({
   uid: `filter-${i}`,
-  name: `filter ${i}`,
+  label: `filter ${i}`,
   type: 'text',
 }));
