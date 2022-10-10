@@ -31,19 +31,21 @@ export interface IResultState {
   latestLoadingId: number;
   resultsData?: any;
   hasLoaded: boolean;
-  error?: null | string;
+  error?: AsyncRequestError;
   callCount: number;
 }
 export interface IUseAsyncRequestReturn<ResponseType, Args> {
   resultState: IResultState;
-  response: null | ResponseType;
+  response?: ResponseType;
   reload: (Args) => void;
   call: (Args) => void;
   loading: boolean;
   hasLoaded: boolean;
-  error?: null | AsyncRequestError;
+  error?: AsyncRequestError;
   callCount: number;
 }
+
+export const EmptyArgs: any[] = [];
 
 /**
  * Async React request hook
@@ -64,7 +66,7 @@ export interface IUseAsyncRequestReturn<ResponseType, Args> {
  *   - error {string} - error returned by callfn
  * }
  */
-export const useAsyncRequest = <ResponseType, Args extends any[]>({
+export const useAsyncRequest = <ResponseType, Args extends Array<any>>({
   args: argsInitial, // TODO: Rename to defaultArgs
   callFn,
   cleanupFunc = () => null,
@@ -75,15 +77,15 @@ export const useAsyncRequest = <ResponseType, Args extends any[]>({
   errorCallback: errorCallbackIn,
 }: IUseAsyncRequestProps<ResponseType, Args>): IUseAsyncRequestReturn<ResponseType, Args> => {
   // const [latestCallId, setLatestCallId] = useState(0);
-  const [resultState, setResultState] = useState({
+  const [resultState, setResultState] = useState<IResultState>({
     isLoading: false,
     latestLoadingId: 0,
     resultsData: null,
     hasLoaded: false,
-    error: null,
+    error: undefined,
     callCount: 0,
   });
-  const [args, setArgs] = useState<Args>(argsInitial || ([] as Args));
+  const [args, setArgs] = useState<Args>(argsInitial || (EmptyArgs as Args));
 
   const [callback, setCallback] = useState<null | ICallback<ResponseType, Args>>(() => callbackIn);
 
@@ -113,7 +115,7 @@ export const useAsyncRequest = <ResponseType, Args extends any[]>({
         isLoading: true,
         latestLoadingId: prev.latestLoadingId + 1,
         resultsData: null,
-        error: null,
+        error: undefined,
       }));
       const newCallId = resultState.latestLoadingId + 1;
       if (!callFn) throw Error('Missing call fn');
@@ -137,7 +139,7 @@ export const useAsyncRequest = <ResponseType, Args extends any[]>({
               return prev;
             });
             if (callback) callback(responseData, args);
-            setArgs(() => argsInitial || ([] as Args));
+            setArgs(() => argsInitial || (EmptyArgs as Args));
             setCallback(() => callbackIn);
           })
           .catch((e) => {
@@ -153,7 +155,7 @@ export const useAsyncRequest = <ResponseType, Args extends any[]>({
                   latestLoadingId: 0,
                   resultsData: null,
                   hasLoaded: true,
-                  error: 'Failed to load',
+                  error: new AsyncRequestError('Failed to load'),
                 };
               }
               return prev;
