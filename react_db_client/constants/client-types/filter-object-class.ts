@@ -29,31 +29,31 @@ const getDefaultValue = (fieldType) => {
 
 export interface IFilterObjectClassConstructorArgs {
   uid?: string;
-  field?: string | null;
-  label?: string | null;
+  field?: string;
+  label?: string;
   value?: null | string | number | boolean;
-  operator?: EComparisons | null;
+  operator?: EComparisons;
   type?: EFilterType | string;
-  filterOptionId?: string | null;
+  filterOptionId?: string;
   isCustomType?: boolean;
 }
 
 export class FilterObjectClass<VType = any> {
   uid: string;
-  field: string | null;
+  field: string;
   value: VType;
-  label: string | null;
+  label: string;
   operator: EComparisons;
   type: EFilterType | string;
-  filterOptionId: string | null;
+  filterOptionId?: string;
   constructor({
     uid = `filter_${Date.now()}`,
-    field = null,
-    label = null,
+    field = undefined,
+    label = undefined,
     value = undefined,
-    operator = null,
+    operator = undefined,
     type = filterTypes.text,
-    filterOptionId = null,
+    filterOptionId = undefined,
     isCustomType = false,
   }: IFilterObjectClassConstructorArgs = {}) {
     /* validate input */
@@ -65,11 +65,11 @@ export class FilterObjectClass<VType = any> {
     if (operator && Object.values(comparisons).indexOf(operator) === -1)
       throw Error(`Invalid operator ${operator}`);
     this.uid = uid;
-    this.field = field;
+    this.field = field || uid;
     this.value = (value != null && value !== undefined
       ? value
       : getDefaultValue(type)) as unknown as VType;
-    this.label = label || field;
+    this.label = (label || field) as string;
     this.operator = operator || getDefaultComparison(type);
     this.type = type;
     this.filterOptionId = filterOptionId || field;
