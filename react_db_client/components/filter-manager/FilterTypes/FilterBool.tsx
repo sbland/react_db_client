@@ -20,6 +20,7 @@ const FilterBool = ({ filter, updateFilter }: IFilterComponentProps) => {
       stateIn={filter.value}
       text={filter.value ? 'True' : 'False'}
       onChange={updateValue}
+      selectButtonProps={{"aria-label": `Filter ${filter.label} toggle`}}
     />
   );
 };

@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Filter Manager Compositions Matches Snapshot AllTypes 1`] = `undefined`;
+
+exports[`Filter Manager Compositions Matches Snapshot withText 1`] = `undefined`;

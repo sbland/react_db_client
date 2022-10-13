@@ -1,6 +1,11 @@
-import { EComparisons, FilterObjectClass } from '@react_db_client/constants.client-types';
+import {
+  EComparisons,
+  FilterObjectClass,
+  FilterOption,
+  filterTypes,
+} from '@react_db_client/constants.client-types';
 import React from 'react';
-import { FilterId, IField } from './lib';
+import { FilterId, TFilterFunc } from './lib';
 
 /**
  * Update the target field fot a filter row
@@ -23,9 +28,9 @@ export const updateFieldTarget = (index, fieldId, fieldsData, updateFilter, cust
 };
 
 export interface IUseManageFiltersArgs {
-  fieldsData: { [key: string]: IField };
-  initialFilterData?: FilterObjectClass[];
-  customFilters?: { [key: string]: () => {} };
+  fieldsData: { [key: string]: FilterOption<any, boolean> };
+  initialFilterData?: FilterObjectClass<any, boolean>[];
+  customFilters?: { [key: string]: TFilterFunc };
 }
 
 export interface IUseManageFiltersOutput {
@@ -45,7 +50,7 @@ export const useManageFilters = ({
 }: IUseManageFiltersArgs): IUseManageFiltersOutput => {
   const [filters, setFilters] = React.useState(initialFilterData);
 
-  const addFilter = React.useCallback((filterData: FilterObjectClass) => {
+  const addFilter = React.useCallback((filterData: FilterObjectClass<any, boolean>) => {
     setFilters((prev) => {
       return [...prev, filterData];
     });
@@ -56,7 +61,7 @@ export const useManageFilters = ({
       return newFilters.filter((f, i) => i !== filterIndex);
     });
   }, []);
-  const updateFilter = React.useCallback((filterIndex: FilterId, filterData: FilterObjectClass) => {
+  const updateFilter = React.useCallback((filterIndex: FilterId, filterData: FilterObjectClass<any, boolean>) => {
     setFilters((prev) => {
       const newFilters = [...prev];
       newFilters[filterIndex] = filterData;
@@ -74,6 +79,8 @@ export const useManageFilters = ({
     (index: FilterId, fieldId: string) => {
       if (!fieldsData[fieldId]) throw Error('Missing Field Data');
       const { uid, type } = fieldsData[fieldId];
+      const isCustomType = !(fieldsData[fieldId].type in filterTypes);
+
       const newFilter = new FilterObjectClass({
         ...fieldsData[fieldId],
         uid: undefined, // We set as undefined so that it is randomly generated

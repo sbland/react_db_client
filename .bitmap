@@ -120,7 +120,7 @@
     "components/filter-manager": {
         "scope": "samnbuk.react_db_client",
         "version": "0.2.37",
-        "mainFile": "index.js",
+        "mainFile": "index.ts",
         "rootDir": "react_db_client/components/filter-manager"
     },
     "components/form/form": {

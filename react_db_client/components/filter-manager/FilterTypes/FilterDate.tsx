@@ -23,6 +23,7 @@ const FilterDate = ({ filter, updateFilter }: IFilterComponentProps) => {
       type="date"
       value={filter.value ? parsedDate : ''}
       onChange={updateValue}
+      aria-label={`Filter ${filter.label} date input`}
     />
   );
 };

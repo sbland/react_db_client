@@ -12,7 +12,15 @@ const FilterObject = ({ filter, updateFilter }: IFilterComponentProps) => {
     updateFilter(newFilterData);
   };
 
-  return <input type="text" className="filterInput" value={filter.value} onChange={updateValue} />;
+  return (
+    <input
+      type="text"
+      className="filterInput"
+      value={filter.value}
+      onChange={updateValue}
+      aria-label={`Filter ${filter.label} object search input`}
+    />
+  );
 };
 
 FilterObject.propTypes = {

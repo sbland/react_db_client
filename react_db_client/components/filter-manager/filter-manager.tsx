@@ -1,27 +1,31 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { EComparisons, FilterObjectClass } from '@react_db_client/constants.client-types';
+import {
+  EComparisons,
+  FilterObjectClass,
+  FilterOption,
+} from '@react_db_client/constants.client-types';
 import { useAutoHidePanel } from '@react_db_client/hooks.use-auto-hide-panel-hook';
 
 import { FiltersList } from './FiltersList';
 import { AddFilterButton } from './add-filter-button';
 import './_filterManager.scss';
-import { IField, FilterId } from './lib';
+import { FilterId, TFilterFunc, IFilterComponentProps } from './lib';
 
 export interface IFilterPanelProps {
-  filterData: FilterObjectClass[];
-  addFilter: (FilterObjectClass) => void;
+  filterData: FilterObjectClass<any, boolean>[];
+  addFilter: (filter: FilterObjectClass<any, boolean>) => void;
   deleteFilter: (filterId: FilterId) => void;
-  updateFilter: (filterId: FilterId, newFilterData: FilterObjectClass) => void;
+  updateFilter: (filterId: FilterId, newFilterData: FilterObjectClass<any, boolean>) => void;
   clearFilters: () => void;
   updateFieldTarget: (filterId: FilterId, fieldId: string | number) => void;
   updateOperator: (filterId: FilterId, newOperator: EComparisons) => void;
   showPanelOverride?: boolean;
-  fieldsData: { [key: string]: IField };
+  fieldsData: { [key: string]: FilterOption<any, boolean> };
   floating?: boolean;
   autoOpenPanel?: boolean;
-  customFilters?: { [key: string]: () => {} };
-  customFiltersComponents?: { [key: string]: React.FC };
+  customFilters?: { [key: string]: TFilterFunc };
+  customFiltersComponents?: { [key: string]: React.FC<IFilterComponentProps<any, true>> };
 }
 
 /**
