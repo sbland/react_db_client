@@ -1,12 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Emoji } from '@react_db_client/components.emoji';
+import { LoadingIconStyle } from './styles';
 
-export const LoadingIcon = ({ isLoading }) => {
+export interface ILoadingIconProps {
+  isLoading: boolean;
+}
+
+export const LoadingIcon = ({ isLoading }: ILoadingIconProps) => {
   return (
     <>
       {isLoading && (
-        <Emoji emoj="\/" label="loading" className="loadingIcon"/>
+        <LoadingIconStyle>
+          <Emoji emoj="\/" label="loading" className="loadingIcon" />
+        </LoadingIconStyle>
         // <Emoji emoj="⌛" label="loading" className="loadingIcon"/>
         // <img
         //   className="loadingIcon"

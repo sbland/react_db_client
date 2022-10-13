@@ -4,10 +4,10 @@ import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wra
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { SearchAndSelectDropdown } from './search-and-select-dropdown';
-import { demoResultData } from './demo-data';
+import { demoResultData, IResultExample } from './demo-data';
 
 const defaultProps = {
-  searchFunction: async () =>
+  searchFunction: async (): Promise<IResultExample[]> =>
     new Promise((resolve) => setTimeout(() => resolve(demoResultData), 500)),
   // handleSelect: (id) => alert(`Selected: ${id}`),
   handleSelect: (id) => {},
@@ -34,11 +34,11 @@ export const DemoData = () => {
         <input
           type="number"
           name="searchDelay"
-          onChange={(e) => setSearchDelay(e.target.value)}
+          onChange={(e) => setSearchDelay(parseInt(e.target.value))}
           value={searchDelay}
         />
       </div>
-      <label htmlFor='searchInput'>Search Dropdown Example</label>
+      <label htmlFor="searchInput">Search Dropdown Example</label>
       <CompositionWrapDefault height="4rem" width="8rem">
         <SearchAndSelectDropdown {...props} id="searchInput" style={{ background: 'red' }} />
       </CompositionWrapDefault>
@@ -54,6 +54,7 @@ export const DemoDataMultipleLabels = () => {
     </div>
   );
 };
+
 export const DemoDataAltLabel = () => {
   const results = demoResultData.map((item) => ({
     ...item,
@@ -63,8 +64,8 @@ export const DemoDataAltLabel = () => {
   const props = {
     ...defaultProps,
     labelField: 'name',
-    allowMultiple: true,
-    searchFunction: async () =>
+    // allowMultiple: true,
+    searchFunction: async (): Promise<IResultExample[]> =>
       new Promise((resolve) => setTimeout(() => resolve(demoResultData), 500)),
   };
   return (
@@ -87,8 +88,6 @@ export const DemoDataAllowEmptyInstant = () => {
     </div>
   );
 };
-
-
 
 export const DemoDataSetInitial = () => {
   const props = { ...defaultProps };

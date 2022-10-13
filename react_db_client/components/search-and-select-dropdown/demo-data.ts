@@ -1,4 +1,4 @@
-import { IResult } from './lib';
+import { IResult } from '@react_db_client/components.search-and-select';
 
 export interface IResultExample extends IResult {
   name: string;

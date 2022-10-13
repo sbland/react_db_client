@@ -6,12 +6,19 @@ const setDim = (diff) => (prev) => {
   return `${prevDim}rem`;
 };
 
+export interface ICompositionWrapDefaultProps {
+  children: React.ReactElement<any> | React.ReactElement<any>[];
+  width?: number | string;
+  height?: number | string;
+  horizontal?: boolean;
+}
+
 export function CompositionWrapDefault({
   children,
-  width = null,
-  height = null,
+  width = undefined,
+  height = undefined,
   horizontal = false,
-}) {
+}: ICompositionWrapDefaultProps) {
   const [heightActive, setHeightActive] = useState(height == null ? 'auto' : height);
   const [widthActive, setWidthActive] = useState(width == null ? 'auto' : width);
   const [allowOverflow, setAllowOverflow] = useState(false);
@@ -25,7 +32,7 @@ export function CompositionWrapDefault({
     width: widthActive,
     overflow: allowOverflow ? 'visible' : 'hidden',
   };
-  const styleInner = {
+  const styleInner: React.CSSProperties = {
     outline: '1px solid green',
     margin: 0,
     padding,
@@ -50,7 +57,7 @@ export function CompositionWrapDefault({
       <button style={btnStyle(allowOverflow)} onClick={() => setAllowOverflow((prev) => !prev)}>
         Overflow
       </button>
-      <button style={btnStyle(padding)} onClick={() => setPadding((prev) => prev ? 0 : 10)}>
+      <button style={btnStyle(padding)} onClick={() => setPadding((prev) => (prev ? 0 : 10))}>
         Padding
       </button>
 
@@ -61,12 +68,12 @@ export function CompositionWrapDefault({
   );
 }
 
-export const WrapFieldComponent = ({ children }) => {
+export const WrapFieldComponent: React.FC = ({ children }) => {
   const childrenArray = Array.isArray(children) ? children : [children];
   const [state, setState] = useState(childrenArray.map((child) => child.props.value));
   const childrenWithProps = React.Children.map(childrenArray, (child, i) => {
     if (React.isValidElement(child)) {
-      return React.cloneElement(child, {
+      return React.cloneElement(child as React.ReactElement<any>, {
         uid: `uid_${i}`,
         value: state[i],
         updateFormData: (k, v) =>

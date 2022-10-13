@@ -1,22 +1,23 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import { useSelectionManager } from './useSelectionManager';
+import { IUseSelectionManagerArgs, useSelectionManager } from './useSelectionManager';
+import { IResult } from './lib';
 
 const handleSelect = jest.fn();
 describe('Search and Select - Logic', () => {
   const returnField = 'uid';
   const labelField = 'name';
-  const defaultUseSelectionManagerInputs = {
+  const defaultUseSelectionManagerInputs: IUseSelectionManagerArgs<IResult> = {
     results: [],
     returnFieldOnSelect: returnField,
     allowMultiple: false,
     labelField,
-    selectionOverride: null,
+    selectionOverride: undefined,
     handleSelect,
   };
 
-  const demoResults = [
-    { uid: 'demoid', name: 'demoname' },
-    { uid: 'demoid_02', name: 'demoname_02' },
+  const demoResults: IResult[] = [
+    { uid: 'demoid', label: 'demoname' },
+    { uid: 'demoid_02', label: 'demoname_02' },
   ];
 
   describe('Selecting', () => {
@@ -37,16 +38,16 @@ describe('Search and Select - Logic', () => {
 
       // First selection
       act(() => {
-        result.current.handleItemSelect(demoResults[0].uid);
+        result.current.handleItemSelect(demoResults[0].uid, 'uid');
       });
-      expect(handleSelect).toHaveBeenCalledWith(demoResults[0][returnField], demoResults[0]);
+      expect(handleSelect).toHaveBeenCalledWith(demoResults[0]);
       expect(result.current.currentSelection).toEqual([demoResults[0]]);
 
       // Second selection
       act(() => {
-        result.current.handleItemSelect(demoResults[1].uid);
+        result.current.handleItemSelect(demoResults[1].uid, 'uid');
       });
-      expect(handleSelect).toHaveBeenCalledWith(demoResults[1][returnField], demoResults[1]);
+      expect(handleSelect).toHaveBeenCalledWith(demoResults[1]);
       expect(result.current.currentSelection).toEqual([demoResults[1]]);
     });
 
@@ -69,7 +70,7 @@ describe('Search and Select - Logic', () => {
       const item1ToSelect = demoResults[0];
       act(() => {
         act(() => {
-          result.current.handleItemSelect(item1ToSelect.uid);
+          result.current.handleItemSelect(item1ToSelect.uid, 'uid');
         });
       });
       expect(handleSelect).not.toHaveBeenCalled();
@@ -78,7 +79,7 @@ describe('Search and Select - Logic', () => {
       // Second selection
       const item2ToSelect = demoResults[1];
       act(() => {
-        result.current.handleItemSelect(item2ToSelect.uid);
+        result.current.handleItemSelect(item2ToSelect.uid, 'uid');
       });
       expect(result.current.currentSelection).toEqual([item1ToSelect, item2ToSelect]);
     });
@@ -101,14 +102,14 @@ describe('Search and Select - Logic', () => {
       // First selection
       const item1ToSelect = demoResults[0];
       act(() => {
-        result.current.handleItemSelect(item1ToSelect.uid);
+        result.current.handleItemSelect(item1ToSelect.uid, 'uid');
       });
       expect(handleSelect).not.toHaveBeenCalled();
       expect(result.current.currentSelection).toEqual([item1ToSelect]);
 
       // Second selection
       act(() => {
-        result.current.handleItemSelect(item1ToSelect.uid);
+        result.current.handleItemSelect(item1ToSelect.uid, 'uid');
       });
       expect(result.current.currentSelection).toEqual([]);
     });
@@ -145,20 +146,17 @@ describe('Search and Select - Logic', () => {
       handleSelect.mockClear();
       const itemToSelect = demoResults[0];
       act(() => {
-        result.current.handleItemSelect(itemToSelect.uid);
+        result.current.handleItemSelect(itemToSelect.uid, 'uid');
       });
 
-      expect(handleSelect).toHaveBeenCalledWith([itemToSelect[returnField]], [itemToSelect]);
+      expect(handleSelect).toHaveBeenCalledWith([itemToSelect]);
       handleSelect.mockClear();
       const item2ToSelect = demoResults[1];
       act(() => {
-        result.current.handleItemSelect(item2ToSelect.uid);
+        result.current.handleItemSelect(item2ToSelect.uid, 'uid');
       });
 
-      expect(handleSelect).toHaveBeenCalledWith(
-        [itemToSelect[returnField], item2ToSelect[returnField]],
-        [itemToSelect, item2ToSelect]
-      );
+      expect(handleSelect).toHaveBeenCalledWith([itemToSelect, item2ToSelect]);
     });
     test('should return selection labels as well as ids', () => {
       const { result } = renderHook(() =>

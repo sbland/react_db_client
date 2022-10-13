@@ -8,7 +8,7 @@ export interface IUseSelectionManagerArgs<ResultType extends IResult> {
   returnFieldOnSelect?: string;
   allowMultiple?: boolean;
   selectionOverride?: ResultType[];
-  handleSelect: (selectedData: ResultType | ResultType[]) => void;
+  handleSelect: (data: null | ResultType) => void | ((data: null | ResultType[]) => void);
   liveUpdate?: boolean;
   labelField: string;
 }
@@ -36,12 +36,15 @@ export const useSelectionManager = <ResultType extends IResult>({
   const [selectionChanged, setSelectionChanged] = useState(false);
 
   const acceptSelection = useCallback(() => {
-    setSelectionChanged(false);
-    handleSelect(
-      // currentSelection.map((item) => item[returnFieldOnSelect] as TReturnField),
-      currentSelection
-    );
-  }, [currentSelection, returnFieldOnSelect, handleSelect]);
+    if (allowMultiple) {
+      setSelectionChanged(false);
+      // TODO: How do we handle different types of handle select
+      (handleSelect as any)(
+        // currentSelection.map((item) => item[returnFieldOnSelect] as TReturnField),
+        currentSelection
+      );
+    }
+  }, [allowMultiple, currentSelection, returnFieldOnSelect, handleSelect]);
 
   useEffect(() => {
     // TODO: This is a hack to make sure current selection is set to data loaded from api
@@ -90,7 +93,6 @@ export const useSelectionManager = <ResultType extends IResult>({
         return;
       }
 
-      // TODO: Use find index here if we are storing all item data
       const indexInSelection = currentSelection.findIndex((item) => item[idField] === uid);
       if (indexInSelection >= 0) {
         //  remove from selection
@@ -109,7 +111,7 @@ export const useSelectionManager = <ResultType extends IResult>({
       // When selecting single selection return the requested field
       // const fieldValue: TReturnField = selectedItemData[returnFieldOnSelect];
       setCurrentSelection([selectedItemData]);
-      handleSelect(selectedItemData);
+      (handleSelect as (r: ResultType) => void)(selectedItemData);
       // handleSelect(fieldValue, selectedItemData);
     }
     setSelectionChanged(true);
@@ -122,7 +124,7 @@ export const useSelectionManager = <ResultType extends IResult>({
   const clearSelection = () => {
     setCurrentSelection([]);
     setSelectionChanged(true);
-    if (liveUpdate) handleSelect([]);
+    if (liveUpdate) (handleSelect as any)(allowMultiple ? [] : null);
   };
   const currentSelectionLabels: string[] =
     currentSelection && currentSelection.map((item) => item[labelField]);

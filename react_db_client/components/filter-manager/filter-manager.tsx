@@ -9,19 +9,18 @@ import { useAutoHidePanel } from '@react_db_client/hooks.use-auto-hide-panel-hoo
 
 import { FiltersList } from './FiltersList';
 import { AddFilterButton } from './add-filter-button';
-import './_filterManager.scss';
 import { FilterId, TFilterFunc, IFilterComponentProps } from './lib';
 
 export interface IFilterPanelProps {
-  filterData: FilterObjectClass<any, boolean>[];
-  addFilter: (filter: FilterObjectClass<any, boolean>) => void;
+  filterData: FilterObjectClass[];
+  addFilter: (filter: FilterObjectClass) => void;
   deleteFilter: (filterId: FilterId) => void;
-  updateFilter: (filterId: FilterId, newFilterData: FilterObjectClass<any, boolean>) => void;
+  updateFilter: (filterId: FilterId, newFilterData: FilterObjectClass) => void;
   clearFilters: () => void;
   updateFieldTarget: (filterId: FilterId, fieldId: string | number) => void;
   updateOperator: (filterId: FilterId, newOperator: EComparisons) => void;
   showPanelOverride?: boolean;
-  fieldsData: { [key: string]: FilterOption<any, boolean> };
+  fieldsData: { [key: string]: FilterOption };
   floating?: boolean;
   autoOpenPanel?: boolean;
   customFilters?: { [key: string]: TFilterFunc };

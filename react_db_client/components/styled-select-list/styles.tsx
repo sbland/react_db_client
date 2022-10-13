@@ -27,6 +27,8 @@ export const StyledListItems = styled.ul<IStyledListItemsProps>`
   display: flex;
   flex-direction: column;
   overflow: auto;
+  margin: 0;
+  padding: 0;
   .styledList_itemBtn {
     overflow: none;
   }
@@ -50,7 +52,7 @@ export const StyledListItemBtnStyle = styled.button<IStyledListItemBtnStyleProps
     border: 1px #eeeeee solid;
     border-bottom: 2px #eeeeee solid;
   }
-
+  margin: 0;
   padding: 0;
   display: flex;
   max-height: 1rem * 2;

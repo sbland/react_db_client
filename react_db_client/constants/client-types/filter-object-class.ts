@@ -73,7 +73,7 @@ export interface IFilterOptionsArgs<VType, IsCustomType extends true | false = f
 /**
  * Filter Options Objects describe a filter that can be applied.
  */
-export class FilterOption<VType = any, IsCustomType extends true | false = false> {
+export class FilterOption<VType = any, IsCustomType extends true | false = boolean> {
   uid: TFilterOptId;
   field: Uid;
   value: VType;
@@ -134,7 +134,7 @@ export interface IFilterObjectClassConstructorArgs<IsCustomType extends true | f
 /**
  * A FilterObjectClass instance describes a filter that has been applied.
  */
-export class FilterObjectClass<VType = any, IsCustomType extends true | false = false> {
+export class FilterObjectClass<VType = any, IsCustomType extends true | false = boolean> {
   uid: TFilterId;
   field: Uid;
   value: VType;

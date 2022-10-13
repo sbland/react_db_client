@@ -1,3 +1,3 @@
-export { SearchAndSelect } from './search-and-select';
-
-export { useSelectionManager } from './useSelectionManager';
+export * from './search-and-select';
+export * from './useSelectionManager';
+export * from './lib';

@@ -6,7 +6,7 @@ import { SearchAndSelect } from '@react_db_client/components.search-and-select';
 import { searchFilesFunction, searchResultHeadings, TAsyncGetDocuments } from './logic';
 
 export interface IFileManagerProps {
-  handleSelect: (fileData: IFile | IFile[]) => void;
+  handleSelect: (fileData: null | IFile | IFile[]) => void;
   collectionId: string;
   documentId: string;
   fileType: EFileType;

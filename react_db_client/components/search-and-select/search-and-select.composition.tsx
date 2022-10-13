@@ -3,14 +3,17 @@
 import React, { useState } from 'react';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { SearchAndSelect } from './search-and-select';
+import { ISearchAndSelectProps, SearchAndSelect } from './search-and-select';
 import {
   demoResultData,
   demoHeadingsData,
   demoPreviewHeadingsData,
   demoResultsDataMany,
+  IResultExample,
 } from './demo-data';
 import { demoFiltersData, demoFieldsData } from '@react_db_client/constants.demo-data';
+import { FilterObjectClass } from '@react_db_client/constants.client-types';
+import { IResult } from './lib';
 
 const LiveUpdateBtn = ({ liveUpdate, setLiveUpdate }) => (
   <button
@@ -22,24 +25,29 @@ const LiveUpdateBtn = ({ liveUpdate, setLiveUpdate }) => (
   </button>
 );
 
-const defaultSearchFn = async () =>
+const defaultSearchFn = async (
+  filter?: FilterObjectClass<any, boolean>[]
+): Promise<IResultExample[]> =>
   new Promise((resolve) => setTimeout(() => resolve(demoResultData), 2000));
 
-const searchFnManyResults = async () =>
+const searchFnManyResults = async (): Promise<IResultExample[]> =>
   new Promise((resolve) => setTimeout(() => resolve(demoResultsDataMany), 2000));
 
 const defaultProps = {
   searchFunction: defaultSearchFn,
   initialFilters: demoFiltersData,
   availableFilters: demoFieldsData,
-  handleSelect: (id) => alert(`Selected: ${id}`),
+  handleSelect: (data) => alert(`Selected: ${data}`),
   headings: demoHeadingsData,
-  debug: true,
+  previewHeadings: demoPreviewHeadingsData,
 };
 
 export const CompDemoData = () => {
   const [liveUpdate, setLiveUpdate] = useState(false);
-  const props = { ...defaultProps, autoUpdate: liveUpdate };
+  const props = {
+    ...defaultProps,
+    autoUpdate: liveUpdate,
+  };
   return (
     <div>
       <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
@@ -54,6 +62,7 @@ export const SearchField = () => {
     autoUpdate: liveUpdate,
     showSearchField: true,
     searchFieldTargetField: 'name',
+    handleSelect: (data) => alert(`Selected: ${data}`),
   };
   return (
     <div>
@@ -67,7 +76,8 @@ export const DemoDataMulti = () => {
   const props = {
     ...defaultProps,
     autoUpdate: liveUpdate,
-    allowMultiple: true,
+    allowMultiple: true as true,
+    handleSelect: (data) => alert(`Selected: ${data}`),
   };
   return (
     <div>
@@ -78,7 +88,7 @@ export const DemoDataMulti = () => {
 };
 export const DemoDataMultiAutoupdate = () => {
   const [liveUpdate, setLiveUpdate] = useState(false);
-  const [selection, setSelection] = useState(null);
+  const [selection, setSelection] = useState<IResult | IResult[] | null>(null);
   const props = {
     ...defaultProps,
     autoUpdate: liveUpdate,
@@ -89,9 +99,9 @@ export const DemoDataMultiAutoupdate = () => {
       <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
       <SearchAndSelect
         {...props}
-        handleSelect={(uids, data) => setSelection(uids)}
+        handleSelect={(data: IResult | null | IResult[]) => setSelection(data)}
         liveUpdate
-        allowMultiple
+        allowMultiple={true}
       />
       <button type="button" className="button-one" onClick={() => alert(selection)}>
         Accept selection
@@ -122,6 +132,7 @@ export const DemoDataUseNameAsSelectionField = () => {
     showRefreshBtn: true,
     allowMultiple: true,
     returnFieldOnSelect: 'name',
+    handleSelect: (data) => alert(`Selected: ${data}`),
   };
   return (
     <div>
@@ -134,6 +145,7 @@ export const SelectionPreview = () => {
   const [liveUpdate, setLiveUpdate] = useState(false);
   const props = {
     ...defaultProps,
+    handleSelect: (data) => alert(`Selected: ${data}`),
     autoUpdate: liveUpdate,
     showSearchField: true,
     searchFieldTargetField: 'name',
@@ -141,7 +153,7 @@ export const SelectionPreview = () => {
   return (
     <div>
       <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
-      <SearchAndSelect allowSelectionPreview previewHeadings={demoPreviewHeadingsData} {...props} />
+      <SearchAndSelect allowSelectionPreview {...props} previewHeadings={demoPreviewHeadingsData} />
     </div>
   );
 };

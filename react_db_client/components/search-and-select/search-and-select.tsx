@@ -8,7 +8,7 @@ import {
   comparisons,
 } from '@react_db_client/constants.client-types';
 import { StyledSelectList } from '@react_db_client/components.styled-select-list';
-import { FilterPanel } from '@react_db_client/components.filter-manager';
+import { FilterId, FilterPanel } from '@react_db_client/components.filter-manager';
 import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
 import { Emoji } from '@react_db_client/components.emoji';
 import { SelectionPreview } from '@react_db_client/components.selection-preview';
@@ -16,6 +16,7 @@ import { SelectionPreview } from '@react_db_client/components.selection-preview'
 import { useSelectionManager } from './useSelectionManager';
 import { SearchAndSelectStyles } from './styles';
 import { IResult } from './lib';
+import { FilterOption } from '@react_db_client/constants.client-types';
 
 export interface IHeading {
   uid: string;
@@ -25,12 +26,12 @@ export interface IHeading {
 export type CustomParser = (value: any) => any;
 
 export interface ISearchAndSelectProps<ResultType extends IResult> {
-  initialFilters?: FilterObjectClass[];
-  availableFilters: { [key: string]: FilterObjectClass };
-  searchFunction: (filter?: FilterObjectClass[]) => Promise<ResultType[]>;
+  initialFilters?: FilterObjectClass<any, boolean>[];
+  availableFilters: { [key: string]: FilterOption<any, boolean> };
+  searchFunction: (filter?: FilterObjectClass<any, boolean>[]) => Promise<ResultType[]>;
   headings: IHeading[];
   previewHeadings: IHeading[];
-  handleSelect: (data: ResultType | ResultType[]) => void;
+  handleSelect: (data: null | ResultType) => void | ((data: null | ResultType[]) => void);
   selectionOverride?: ResultType[];
   autoUpdate?: boolean;
   allowFilters?: boolean;
@@ -259,9 +260,11 @@ export const SearchAndSelect = <ResultType extends IResult>({
           {allowFilters && (
             <FilterPanel
               filterData={activeFilters}
-              addFilter={(newFilterData: FilterObjectClass) => handleAddFilter(newFilterData)}
-              deleteFilter={(filterId) => handleDeleteFilter(filterId)}
-              updateFilter={(filterId, newFilterData: FilterObjectClass) =>
+              addFilter={(newFilterData: FilterObjectClass<any, boolean>) =>
+                handleAddFilter(newFilterData)
+              }
+              deleteFilter={(filterId: FilterId) => handleDeleteFilter(filterId)}
+              updateFilter={(filterId: FilterId, newFilterData: FilterObjectClass<any, boolean>) =>
                 handleUpdateFilter(filterId, newFilterData)
               }
               clearFilters={handleClearFilters}

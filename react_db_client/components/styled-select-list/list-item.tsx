@@ -30,6 +30,7 @@ export const ListItem = <ItemType extends IItem>({
       onClick={() => handleSelect(data.uid, data)}
       role="listitem"
       className="styledList_itemBtn"
+      selected={isSelected}
     >
       {headings.map((heading, i) => (
         <StyledListItemCell
@@ -37,7 +38,6 @@ export const ListItem = <ItemType extends IItem>({
           style={{
             width: columnWidths[i],
           }}
-          selected={isSelected}
         >
           {stringifyData(data[heading.uid], heading, customParsers)}
         </StyledListItemCell>
