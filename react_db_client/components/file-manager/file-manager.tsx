@@ -13,6 +13,13 @@ export interface IFileManagerProps {
   allowMultiple?: boolean;
   asyncGetDocuments: TAsyncGetDocuments;
   fileServerUrl: string;
+  asyncUpload: (
+    data: File,
+    collectionId: string,
+    documentId: string,
+    fileType: EFileType,
+    callback: () => void
+  ) => Promise<void>;
 }
 
 export const availableFilters = {}; // TODO: Setup available file filters
@@ -25,6 +32,7 @@ export const FileManager: React.FC<IFileManagerProps> = ({
   allowMultiple,
   asyncGetDocuments,
   fileServerUrl,
+  asyncUpload,
 }) => {
   const [forceUpdate, setForceUpdate] = useState(0);
   return (
@@ -61,6 +69,7 @@ export const FileManager: React.FC<IFileManagerProps> = ({
           documentId={documentId}
           fileType={fileType}
           onUpload={() => setForceUpdate(forceUpdate + 1)}
+          asyncUpload={asyncUpload}
         />
       </section>
     </div>

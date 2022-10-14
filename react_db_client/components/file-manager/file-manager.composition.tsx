@@ -1,10 +1,10 @@
 import React from 'react';
 import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
-import { FileManager } from './file-manager';
+import { FileManager, IFileManagerProps } from './file-manager';
 import { demoSearchResults } from './demo-data';
 import { EFileType } from '@react_db_client/constants.client-types';
 
-const defaultProps = {
+const defaultProps: IFileManagerProps = {
   handleSelect: (args: any) => alert('Selected'),
   collectionId: 'projects',
   documentId: 'Example Project',
@@ -12,6 +12,13 @@ const defaultProps = {
   allowMultiple: false,
   asyncGetDocuments: async () => demoSearchResults,
   fileServerUrl: 'fileserverurl',
+  asyncUpload: async (
+    data: File,
+    collectionId: string,
+    documentId: string,
+    fileType: EFileType,
+    callback: () => void
+  ) => {},
 };
 
 export const BasicFileManager = () => (

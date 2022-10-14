@@ -23,6 +23,7 @@ jest.mock('@react_db_client/components.file-uploader', () =>
 
 Date.now = jest.fn(() => 123); //14.02.2017
 const handleSelect = jest.fn();
+const asyncUpload = jest.fn();
 const asyncGetDocuments = jest
   .fn()
   .mockReturnValue(new Promise((resolve) => resolve(demoSearchResults)));
@@ -35,6 +36,7 @@ const defaultProps = {
   allowMultiple: false,
   asyncGetDocuments,
   fileServerUrl: 'fileserverurl',
+  asyncUpload,
 };
 
 describe('file-manager', () => {

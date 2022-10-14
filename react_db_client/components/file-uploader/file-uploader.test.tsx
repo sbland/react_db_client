@@ -5,6 +5,7 @@ import { mount, shallow } from 'enzyme';
 import { FileUploader } from './file-uploader';
 import * as compositions from './file-uploader.composition';
 import { StyledSelectList } from '@react_db_client/components.styled-select-list';
+import { EFileType } from '@react_db_client/constants.client-types';
 
 const asyncUpload = jest.fn();
 const onUpload = jest.fn();
@@ -12,7 +13,7 @@ const onUpload = jest.fn();
 const defaultProps = {
   collectionId: 'demoCollectionId',
   documentId: 'demoDocumentId',
-  fileType: 'image',
+  fileType: EFileType.IMAGE,
   asyncUpload,
   onUpload,
 };
