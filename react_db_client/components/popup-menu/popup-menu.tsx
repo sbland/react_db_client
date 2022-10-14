@@ -2,27 +2,56 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { getRoot } from '@react_db_client/helpers.get-root';
+import { Uid } from '@react_db_client/constants.client-types';
 
-import './style.scss';
+import {
+  PopupMenuListItemButtonStyle,
+  PopupMenuListItemStyle,
+  PopupMenuListStyle,
+  PopupMenuOverlayStyle,
+  PopupMenuRightClickWrapStyle,
+  PopupMenuStyle,
+  PopupMenuWrapStyle,
+} from './styles';
 
+export interface IItem {
+  uid: Uid;
+  label: string;
+  onClick: () => void;
+}
+export interface IPopupMenuItemsProps {
+  items: IItem[];
+}
 
-const PopupMenuItems = ({ items }) =>
-  items.map((item) => (
-    <li className="popupMenu_menuItem" key={item.uid}>
-      <button type="button" className="button-reset" onClick={item.onClick}>
-        {item.label}
-      </button>
-    </li>
-  ));
+const PopupMenuItems = ({ items }: IPopupMenuItemsProps) => (
+  <>
+    {items.map((item) => (
+      <PopupMenuListItemStyle className="popupMenu_menuItem" key={item.uid}>
+        <PopupMenuListItemButtonStyle type="button" className="button-reset" onClick={item.onClick}>
+          {item.label}
+        </PopupMenuListItemButtonStyle>
+      </PopupMenuListItemStyle>
+    ))}
+  </>
+);
 
 PopupMenuItems.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
       uid: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
+      onClick: PropTypes.func.isRequired,
     })
   ).isRequired,
 };
+
+export interface IPopupMenuProps {
+  isOpenOverride?: boolean;
+  onCloseCallback: (v: boolean) => void;
+  position: { x: number; y: number };
+  items: IItem[];
+  popupRoot?: string | HTMLElement;
+}
 
 /**
  * Popup Menu
@@ -33,7 +62,13 @@ PopupMenuItems.propTypes = {
  * }
  * @returns
  */
-export const PopupMenu = ({ isOpenOverride, onCloseCallback, position, items, popupRoot }) => {
+export const PopupMenu = ({
+  isOpenOverride,
+  onCloseCallback,
+  position,
+  items,
+  popupRoot,
+}: IPopupMenuProps) => {
   const [isOpen, setIsOpen] = useState(isOpenOverride);
 
   const _popupRoot = getRoot(popupRoot);
@@ -52,21 +87,25 @@ export const PopupMenu = ({ isOpenOverride, onCloseCallback, position, items, po
 
   if (isOpen) {
     return ReactDOM.createPortal(
-      <div className="popupMenuWrap">
-        <div
+      <PopupMenuWrapStyle className="popupMenuWrap">
+        <PopupMenuStyle
           className="popupMenu"
           style={{
             transform: `translate(${position.x}px, ${position.y}px)`,
           }}
         >
-          <ul className="popupMenu_list">
+          <PopupMenuListStyle className="popupMenu_list">
             <PopupMenuItems items={items} />
-          </ul>
-        </div>
+          </PopupMenuListStyle>
+        </PopupMenuStyle>
         {/* eslint-disable-next-line max-len */}
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-        <div className="popupMenu_overlay" onClick={handleClose} onContextMenu={handleClose} />
-      </div>,
+        <PopupMenuOverlayStyle
+          className="popupMenu_overlay"
+          onClick={handleClose}
+          onContextMenu={handleClose}
+        />
+      </PopupMenuWrapStyle>,
       _popupRoot
     );
   }
@@ -94,7 +133,13 @@ PopupMenu.defaultProps = {
   isOpenOverride: false,
 };
 
-export const RightClickWrapper = ({ children, items, popupRoot }) => {
+export interface IRightClickWrapperProps {
+  children: React.ReactElement;
+  items: IItem[];
+  popupRoot?: string | HTMLElement;
+}
+
+export const RightClickWrapper = ({ children, items, popupRoot }: IRightClickWrapperProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const handleContextMenu = (e) => {
@@ -118,13 +163,13 @@ export const RightClickWrapper = ({ children, items, popupRoot }) => {
         //     }}
         //   />,
         // ])
-        <div
+        <PopupMenuRightClickWrapStyle
           style={{ width: '100%', height: '100%' }}
           className={`popupMenu_righClickWrap ${isOpen && 'active'}`}
           onContextMenu={handleContextMenu}
         >
           {children}
-        </div>
+        </PopupMenuRightClickWrapStyle>
       )}
       <PopupMenu
         isOpenOverride={isOpen}

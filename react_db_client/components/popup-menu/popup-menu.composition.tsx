@@ -1,8 +1,7 @@
 import React from 'react';
-
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { PopupMenu, RightClickWrapper } from './popup-menu';
 import { demoItems } from './demodata';
+
+import { PopupMenu, RightClickWrapper } from './popup-menu';
 
 const WrapperB = ({ children }) => {
   const handleOnClick = () => {
@@ -64,8 +63,17 @@ const Wrapper = () => (
     }}
   />
 );
-export const defaultPopupMenu = () => <PopupMenu items={demoItems} />;
-export const defaultPopupMenuOpen = () => <PopupMenu items={demoItems} isOpenOverride />;
+export const defaultPopupMenu = () => (
+  <PopupMenu items={demoItems} position={{ x: 0, y: 0 }} onCloseCallback={() => {}} />
+);
+export const defaultPopupMenuOpen = () => (
+  <PopupMenu
+    items={demoItems}
+    isOpenOverride
+    onCloseCallback={() => {}}
+    position={{ x: 0, y: 0 }}
+  />
+);
 export const interactivePopupMenu = () => (
   <RightClickWrapper
     items={[
