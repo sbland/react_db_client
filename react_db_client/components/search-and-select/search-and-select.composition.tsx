@@ -15,19 +15,17 @@ import { demoFiltersData, demoFieldsData } from '@react_db_client/constants.demo
 import { FilterObjectClass } from '@react_db_client/constants.client-types';
 import { IResult } from './lib';
 
-const LiveUpdateBtn = ({ liveUpdate, setLiveUpdate }) => (
+const Select = ({ liveUpdate, setLiveUpdate }) => (
   <button
     type="button"
     className={liveUpdate ? 'button-two' : 'button-one'}
     onClick={() => setLiveUpdate(!liveUpdate)}
   >
-    Live Update
+    Select
   </button>
 );
 
-const defaultSearchFn = async (
-  filter?: FilterObjectClass<any, boolean>[]
-): Promise<IResultExample[]> =>
+const defaultSearchFn = async (filter?: FilterObjectClass[]): Promise<IResultExample[]> =>
   new Promise((resolve) => setTimeout(() => resolve(demoResultData), 2000));
 
 const searchFnManyResults = async (): Promise<IResultExample[]> =>
@@ -50,7 +48,7 @@ export const CompDemoData = () => {
   };
   return (
     <div>
-      <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
+      <Select {...{ liveUpdate, setLiveUpdate }} />
       <SearchAndSelect {...props} />
     </div>
   );
@@ -66,7 +64,7 @@ export const SearchField = () => {
   };
   return (
     <div>
-      <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
+      <Select {...{ liveUpdate, setLiveUpdate }} />
       <SearchAndSelect {...props} />
     </div>
   );
@@ -81,7 +79,7 @@ export const DemoDataMulti = () => {
   };
   return (
     <div>
-      <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
+      <Select {...{ liveUpdate, setLiveUpdate }} />
       <SearchAndSelect {...props} />
     </div>
   );
@@ -96,7 +94,7 @@ export const DemoDataMultiAutoupdate = () => {
   };
   return (
     <div>
-      <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
+      <Select {...{ liveUpdate, setLiveUpdate }} />
       <SearchAndSelect
         {...props}
         handleSelect={(data: IResult | null | IResult[]) => setSelection(data)}
@@ -119,7 +117,7 @@ export const DemoDataRefreshBtn = () => {
   };
   return (
     <div>
-      <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
+      <Select {...{ liveUpdate, setLiveUpdate }} />
       <SearchAndSelect {...props} />
     </div>
   );
@@ -136,7 +134,7 @@ export const DemoDataUseNameAsSelectionField = () => {
   };
   return (
     <div>
-      <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
+      <Select {...{ liveUpdate, setLiveUpdate }} />
       <SearchAndSelect {...props} />
     </div>
   );
@@ -152,7 +150,7 @@ export const SelectionPreview = () => {
   };
   return (
     <div>
-      <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
+      <Select {...{ liveUpdate, setLiveUpdate }} />
       <SearchAndSelect allowSelectionPreview {...props} previewHeadings={demoPreviewHeadingsData} />
     </div>
   );
@@ -171,8 +169,24 @@ export const SelectionPreviewManyResults = () => {
   };
   return (
     <div>
-      <LiveUpdateBtn {...{ liveUpdate, setLiveUpdate }} />
+      <Select {...{ liveUpdate, setLiveUpdate }} />
       <SearchAndSelect {...props} />
+    </div>
+  );
+};
+
+export const SelectSearchFn = () => {
+  const [sw, setSw] = useState(true);
+  const props = {
+    ...defaultProps,
+    autoUpdate: true,
+  };
+
+  const searchFn = sw ? defaultProps.searchFunction : searchFnManyResults;
+  return (
+    <div>
+      <Select {...{ liveUpdate: sw, setLiveUpdate: setSw }} />
+      <SearchAndSelect {...props} searchFunction={searchFn} liveUpdate />
     </div>
   );
 };

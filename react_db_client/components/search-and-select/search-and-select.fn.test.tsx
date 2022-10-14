@@ -1,8 +1,8 @@
+import '@samnbuk/react_db_client.testing.enzyme-setup';
 import { act } from 'react-dom/test-utils';
 import React from 'react';
 import { mount } from 'enzyme';
 import { StyledSelectList, ListItem } from '@react_db_client/components.styled-select-list';
-import '@samnbuk/react_db_client.testing.enzyme-setup';
 
 import { ISearchAndSelectProps, SearchAndSelect } from './search-and-select';
 import { demoResultData, demoHeadingsData } from './demo-data';
@@ -48,7 +48,7 @@ describe('SearchAndSelect', () => {
         });
       });
       test('should have called searchFn', () => {
-        expect(searchFunction).toHaveBeenCalledWith([], 'uid', '', false);
+        expect(searchFunction).toHaveBeenCalledWith([], 'uid', undefined, false);
       });
 
       test('should have passed results to styled select list', () => {

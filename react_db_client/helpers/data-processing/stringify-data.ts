@@ -1,4 +1,4 @@
-import { filterTypes } from '@react_db_client/constants.client-types';
+import { EFilterType, filterTypes, Uid } from '@react_db_client/constants.client-types';
 import { switchF, tryF } from '@react_db_client/helpers.func-tools';
 
 /**
@@ -7,7 +7,7 @@ import { switchF, tryF } from '@react_db_client/helpers.func-tools';
  * @param {number} step decimal number to limit decimal places
  * @returns number
  */
-export const formatValue = (v, step = 0.01, strict) => {
+export const formatValue = (v: number, step: number = 0.01, strict: boolean = false): number => {
   const [whole] = v.toFixed(100).split('.');
   if (!Number(v) && !strict) return 0;
   // match accuracy of step size
@@ -18,7 +18,7 @@ export const formatValue = (v, step = 0.01, strict) => {
     // Has no decimal places
     const accuracy = step.toString().length;
     const vLength = whole.length;
-    if (vLength >= step.toString().length) return Math.round(whole / step) * step;
+    if (vLength >= step.toString().length) return Math.round(Number(whole) / step) * step;
     const vSuff = v
       .toString()
       .split('.')[0]
@@ -30,25 +30,36 @@ export const formatValue = (v, step = 0.01, strict) => {
   return parseFloat(v.toFixed(accuracy));
 };
 
-
 /**
  *
  * @param {object} data data with default values and type
  * @returns
  */
-export const getDefaultValue = (data) => {
+export const getDefaultValue = <T extends any>(data: { defaultValue?: T; type?: EFilterType }): T | '' => {
   if (data.defaultValue !== undefined) return data.defaultValue;
-  if (data.type === filterTypes.number) return 0;
-  if (data.type === filterTypes.bool) return false;
-  if (data.type === filterTypes.toggle) return false;
+  if (data.type === EFilterType.number) return 0 as T;
+  if (data.type === EFilterType.bool) return false as T;
+  if (data.type === EFilterType.toggle) return false as T;
   return '';
 };
 
-export const sanitizeNumber = (cellData, columnData = {}) =>
+export const sanitizeNumber = (
+  cellData: any,
+  columnData: { step?: number } = {}
+): number | 'Invalid' =>
   !Number.isNaN(Number(cellData)) ? formatValue(Number(cellData), columnData.step) : 'Invalid';
 
-export const sanitizeCellData = (cellData, columnData = {}) =>
-  switchF(
+export const sanitizeCellData = <T>(
+  cellData: any,
+  columnData: {
+    defaultValue?: T;
+    label?: string;
+    name?: string;
+    type?: EFilterType;
+    step?: number;
+  } = {}
+) =>
+  switchF<any, unknown>(
     typeof cellData,
     {
       // TODO: textLong
@@ -62,7 +73,10 @@ export const sanitizeCellData = (cellData, columnData = {}) =>
     () => cellData
   );
 
-export const stringifyNumber = (data, metaData) => {
+export const stringifyNumber = (
+  data: string | number,
+  metaData: { step?: number; commas?: boolean }
+) => {
   const { step, commas } = metaData;
   if (data === null || data === undefined) return '';
   const dataParsed = Number(data);
@@ -75,28 +89,33 @@ export const stringifyNumber = (data, metaData) => {
   if (!formattedPoint) return whole;
   if (commas) {
     // TODO: Need to reverse
-    const wholeCommas = whole
-      .split('')
-      .reverse()
-      .join('')
-      .match(/.{1,3}/g)
-      .map((v) => v.split('').reverse().join(''))
-      .reverse()
-      .join(',');
+    const wholeCommas =
+      whole
+        .split('')
+        .reverse()
+        .join('')
+        .match(/.{1,3}/g)
+        ?.map((v) => v.split('').reverse().join(''))
+        .reverse()
+        .join(',') || 'Invalid';
     return `${wholeCommas}.${formattedPoint}`;
   }
   return `${whole}.${formattedPoint}`;
 };
 
-export const stringifyText = (data, _metaData) => (data === null || data === undefined ? '' : data);
-export const stringifyBool = (data, _metaData) => (data ? 'Yes' : 'No');
-export const stringifyDict = (data, metaData) => {
+export const stringifyText = (data: null | string, _metaData) =>
+  data === null || data === undefined ? '' : data;
+export const stringifyBool = (data: boolean, _metaData) => (data ? 'Yes' : 'No');
+export const stringifyDict = (
+  data: { label?: string; name?: string },
+  metaData: { labelField?: string }
+) => {
   if (!data) return '';
   if (metaData.labelField) return data[metaData.labelField] || '';
   return data.label || data.name || 'Invalid Object';
 };
 
-export const stringifyDate = (data, _metaData) =>
+export const stringifyDate = (data: Date, _metaData) =>
   tryF(
     () => {
       const a = new Date(data);
@@ -106,8 +125,9 @@ export const stringifyDate = (data, _metaData) =>
   );
 
 /* Individual components should override image parsing if they need to display the image */
-export const stringifyImage = (data, _metaData) => data;
+export const stringifyImage = (data: string, _metaData) => data;
 
+export type Parser = (data: any, metadata: {}) => string;
 /**
  * Parse an item using meta data and type based parser
  *
@@ -123,22 +143,33 @@ export const stringifyImage = (data, _metaData) => data;
  * @param {objectOf} customParsers dict containing custom parsers
  * @returns parsed item
  */
-export const stringifyData = (item, metaData, customParsers={}, strict=true) => {
-  const parser = switchF(
+export const stringifyData = (
+  item: any,
+  metaData: {
+    uid: Uid;
+    type: EFilterType | string;
+    step?: number;
+    commas?: boolean;
+    labelField?: string;
+  },
+  customParsers = {},
+  strict = true
+) => {
+  const parser = switchF<EFilterType | string, Parser>(
     metaData.type,
     {
-      text: () => stringifyText,
-      textLong: () => stringifyText,
-      button: () => stringifyText,
-      select: () => stringifyText, // TODO: Should this use label instead of just data?
+      [EFilterType.text]: () => stringifyText,
+      [EFilterType.textLong]: () => stringifyText,
+      [EFilterType.button]: () => stringifyText,
+      [EFilterType.select]: () => stringifyText, // TODO: Should this use label instead of just data?
+      [EFilterType.number]: () => stringifyNumber,
+      [EFilterType.bool]: () => stringifyBool,
+      [EFilterType.toggle]: () => stringifyBool,
+      [EFilterType.dict]: () => stringifyDict,
+      [EFilterType.date]: () => stringifyDate,
+      [EFilterType.image]: () => stringifyImage,
+      [EFilterType.reference]: () => stringifyDict,
       link: () => stringifyText,
-      number: () => stringifyNumber,
-      bool: () => stringifyBool,
-      toggle: () => stringifyBool,
-      dict: () => stringifyDict,
-      date: () => stringifyDate,
-      image: () => stringifyImage,
-      reference: () => stringifyDict,
       /* Note: Custom parsers override the above defaults */
       ...Object.entries(customParsers).reduce((acc, [key, customParser]) => {
         acc[key] = () => customParser;
@@ -146,7 +177,7 @@ export const stringifyData = (item, metaData, customParsers={}, strict=true) => 
       }, {}),
     },
     () => {
-      if (strict)throw Error(`Missing parser for ${metaData.uid} of type ${metaData.type}`);
+      if (strict) throw Error(`Missing parser for ${metaData.uid} of type ${metaData.type}`);
       return (d) => d;
     }
   );

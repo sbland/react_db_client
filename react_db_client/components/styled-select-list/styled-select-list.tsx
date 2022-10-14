@@ -92,6 +92,7 @@ export const StyledSelectList = <ItemType extends IItem>({
         ...(limitHeight ? { maxHeight: `${limitHeight}rem` } : {}),
       }}
       ref={containerRef}
+      data-testid="styledSelectList"
     >
       {/* TODO: This is causing a memory leak! */}
       {/* <DataTableColumnWidthManager
@@ -113,14 +114,14 @@ StyledSelectList.propTypes = {
   listInput: PropTypes.arrayOf(
     PropTypes.shape({
       /** Uid for list item */
-      uid: PropTypes.string.isRequired,
+      uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     })
   ).isRequired,
   /** headings for list table */
   headings: PropTypes.arrayOf(
     PropTypes.shape({
       /** Heading uid matches field in list items */
-      uid: PropTypes.string.isRequired,
+      uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       /** Heading label to display on table */
       label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     })
@@ -128,7 +129,7 @@ StyledSelectList.propTypes = {
   /** func to handle selecting an item (selectedUid, selectedData) => {} */
   handleSelect: PropTypes.func.isRequired,
   /** override current selection */
-  currentSelection: PropTypes.arrayOf(PropTypes.string),
+  currentSelection: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
   /** Limit the list height */
   limitHeight: PropTypes.number,
   /** Field to return on selection */

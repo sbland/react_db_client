@@ -6,6 +6,7 @@ import {
   FilterObjectClass,
   filterTypes,
   comparisons,
+  EFilterType,
 } from '@react_db_client/constants.client-types';
 import { StyledSelectList } from '@react_db_client/components.styled-select-list';
 import { FilterId, FilterPanel } from '@react_db_client/components.filter-manager';
@@ -21,14 +22,23 @@ import { FilterOption } from '@react_db_client/constants.client-types';
 export interface IHeading {
   uid: string;
   label: string;
+  type: EFilterType | string;
 }
 
 export type CustomParser = (value: any) => any;
 
-export interface ISearchAndSelectProps<ResultType extends IResult> {
-  initialFilters?: FilterObjectClass<any, boolean>[];
-  availableFilters: { [key: string]: FilterOption<any, boolean> };
-  searchFunction: (filter?: FilterObjectClass<any, boolean>[]) => Promise<ResultType[]>;
+export type TSearchAndSelectSearchFunction<ResultType extends IResult> = (
+  filters?: FilterObjectClass[],
+  sortBy?: string,
+  searchValue?: string,
+  reverseSort?: boolean
+) => Promise<ResultType[]>;
+
+export interface ISearchAndSelectProps<ResultType extends IResult>
+  extends React.HTMLProps<HTMLInputElement> {
+  initialFilters?: FilterObjectClass[];
+  availableFilters: { [key: string]: FilterOption };
+  searchFunction: TSearchAndSelectSearchFunction<ResultType>;
   headings: IHeading[];
   previewHeadings: IHeading[];
   handleSelect: (data: null | ResultType) => void | ((data: null | ResultType[]) => void);
@@ -52,7 +62,8 @@ export interface ISearchAndSelectProps<ResultType extends IResult> {
   customParsers?: { [key: string]: CustomParser };
   labelField?: 'label' | string;
   allowSelectionPreview?: boolean;
-  autoPreview?: any;
+  autoPreview?: boolean;
+  initialSearchValue?: string;
 }
 export const EmptyArray = [];
 
@@ -110,12 +121,14 @@ export const SearchAndSelect = <ResultType extends IResult>({
   labelField = 'label',
   allowSelectionPreview,
   autoPreview,
+  initialSearchValue = '',
+  ...inputProps
 }: ISearchAndSelectProps<ResultType>) => {
   const [showPreview, setShowPreview] = useState(autoPreview);
   const [shouldReload, setShouldReload] = useState(loadOnInit);
   const [singleLoad, setSingleLoad] = useState(false);
   const [activeFilters, setActiveFilters] = useState(initialFilters || EmptyArray);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState(initialSearchValue);
   const [sortBy] = useState(sortByOverride);
   const [canLoad, setCanLoad] = useState(loadOnInit); // flag to stop loading on init
 
@@ -129,6 +142,7 @@ export const SearchAndSelect = <ResultType extends IResult>({
     args: [],
     callFn: searchFunction,
     callOnInit: false,
+    reloadKey: searchFunction,
   });
 
   /* Reset the active filters if initial filters changes */
@@ -260,11 +274,9 @@ export const SearchAndSelect = <ResultType extends IResult>({
           {allowFilters && (
             <FilterPanel
               filterData={activeFilters}
-              addFilter={(newFilterData: FilterObjectClass<any, boolean>) =>
-                handleAddFilter(newFilterData)
-              }
+              addFilter={(newFilterData: FilterObjectClass) => handleAddFilter(newFilterData)}
               deleteFilter={(filterId: FilterId) => handleDeleteFilter(filterId)}
-              updateFilter={(filterId: FilterId, newFilterData: FilterObjectClass<any, boolean>) =>
+              updateFilter={(filterId: FilterId, newFilterData: FilterObjectClass) =>
                 handleUpdateFilter(filterId, newFilterData)
               }
               clearFilters={handleClearFilters}
@@ -291,6 +303,7 @@ export const SearchAndSelect = <ResultType extends IResult>({
                 placeholder="search..."
                 value={searchValue}
                 onChange={handleSearchFieldInput}
+                {...inputProps}
               />
             </div>
           )}
@@ -403,7 +416,7 @@ SearchAndSelect.propTypes = {
   initialFilters: PropTypes.arrayOf(PropTypes.instanceOf(FilterObjectClass)),
   availableFilters: PropTypes.objectOf(
     PropTypes.shape({
-      uid: PropTypes.string.isRequired,
+      uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       label: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
       value: PropTypes.any,
@@ -412,18 +425,18 @@ SearchAndSelect.propTypes = {
   handleSelect: PropTypes.func.isRequired,
   headings: PropTypes.arrayOf(
     PropTypes.shape({
-      uid: PropTypes.string.isRequired,
+      uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     })
   ).isRequired,
   previewHeadings: PropTypes.arrayOf(
     PropTypes.shape({
-      uid: PropTypes.string.isRequired,
+      uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     })
   ),
   selectionOverride: PropTypes.shape({
-    uid: PropTypes.string.isRequired,
+    uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   }),
   autoUpdate: PropTypes.bool,
   // forceUpdate: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
@@ -434,7 +447,7 @@ SearchAndSelect.propTypes = {
   searchFieldTargetField: PropTypes.string,
   acceptSelectionBtnText: PropTypes.string,
   showRefreshBtn: PropTypes.bool,
-  limitResultHeight: PropTypes.bool,
+  limitResultHeight: PropTypes.number,
   sortBy: PropTypes.string,
   reverseSort: PropTypes.bool,
   reloadKey: PropTypes.number,

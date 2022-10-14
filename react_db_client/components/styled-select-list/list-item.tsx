@@ -48,7 +48,7 @@ export const ListItem = <ItemType extends IItem>({
 
 ListItem.propTypes = {
   data: PropTypes.shape({
-    uid: PropTypes.string.isRequired,
+    uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   }).isRequired,
   headings: PropTypes.arrayOf(
     PropTypes.shape({

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { stringifyData } from '@react_db_client/helpers.data-processing';
-import { Uid } from '@react_db_client/constants.client-types';
+import { EFilterType, Uid } from '@react_db_client/constants.client-types';
 import {
   SelectionPreviewLabelStyle,
   SelectionPreviewList,
@@ -12,6 +12,7 @@ import {
 export interface IHeading {
   uid: Uid;
   label: string;
+  type: EFilterType | string;
 }
 
 export type CustomParser = (value: any) => any;
@@ -56,12 +57,12 @@ export const SelectionPreview = ({
 
 SelectionPreview.propTypes = {
   currentSelectionData: PropTypes.shape({
-    uid: PropTypes.string,
+    uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     label: PropTypes.string,
   }).isRequired,
   headings: PropTypes.arrayOf(
     PropTypes.shape({
-      uid: PropTypes.string.isRequired,
+      uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       label: PropTypes.string.isRequired,
     })
   ).isRequired,

@@ -12,6 +12,8 @@ const FilterSelect = ({ filter, updateFilter, fieldData }: IFilterComponentProps
     updateFilter(newFilterData);
   };
 
+  if(!fieldData.typeArgs) throw Error(`Select filter "${filter.uid}" is missing typeArgs`)
+
   const { options, multiple } = fieldData.typeArgs;
 
   return (

@@ -10,7 +10,7 @@ import { LoadingIcon } from './loading-icon';
 import { DropdownBtn, SasDropLoadingWrap, SasDropWrap, SearchFieldWrapStyle } from './styles';
 
 export interface ISearchAndSelectDropdownProps<Item> extends React.HTMLProps<HTMLInputElement> {
-  searchFunction: (filters?: FilterObjectClass<any, boolean>[]) => Promise<Item[]>;
+  searchFunction: (filters?: FilterObjectClass[]) => Promise<Item[]>;
   handleSelect: (id: string, selectedData: Item) => void;
   debug?: boolean;
   initialValue?: string | Item;

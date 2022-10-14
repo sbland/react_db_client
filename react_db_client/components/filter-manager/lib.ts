@@ -47,8 +47,8 @@ export interface IFilterComponentProps<VType = any, IsCustomType extends true | 
 
 export interface IGetFilterComponentsProps {
   filterData: FilterObjectClass[];
-  updateFilter: (filterId: FilterId, newFilterData: FilterObjectClass<any, boolean>) => void;
-  fieldsData: { [key: string]: FilterOption<any, boolean> };
+  updateFilter: (filterId: FilterId, newFilterData: FilterObjectClass) => void;
+  fieldsData: { [key: string]: FilterOption };
   customFiltersComponents: {
     [key: string]: React.FC<IFilterComponentProps<any, true>>;
   };
@@ -56,7 +56,7 @@ export interface IGetFilterComponentsProps {
 
 export interface IGetFilterComponentProps<VType = any, IsCustomType extends true | false = false> {
   filter: FilterObjectClass<VType, IsCustomType>;
-  updateFilter: (newFilterData: FilterObjectClass<any, boolean>) => void;
+  updateFilter: (newFilterData: FilterObjectClass) => void;
   fieldData: FilterOption<VType, IsCustomType>;
   customFiltersComponents: { [key: string]: React.FC<IFilterComponentProps<any, true>> };
 }
@@ -65,5 +65,5 @@ export interface IGetFilterComponentProps<VType = any, IsCustomType extends true
 //   uid: Uid;
 //   label: string;
 //   type: EFilterType.embedded;
-//   filters: { [k: string]: FilterOption<any, boolean> };
+//   filters: { [k: string]: FilterOption };
 // }

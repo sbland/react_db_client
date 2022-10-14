@@ -21,10 +21,10 @@ import {
 } from './styles';
 
 export interface IFilterListProps {
-  filterData: FilterObjectClass<any, boolean>[];
+  filterData: FilterObjectClass[];
   deleteFilter: (filterId: FilterId) => void;
-  updateFilter: (filterId: FilterId, newFilterData: FilterObjectClass<any, boolean>) => void;
-  fieldsData: { [key: string]: FilterOption<any, boolean> };
+  updateFilter: (filterId: FilterId, newFilterData: FilterObjectClass) => void;
+  fieldsData: { [key: string]: FilterOption };
   customFiltersComponents: { [key: string]: React.FC<IFilterComponentProps<any, true>> };
   updateFieldTarget: (filterId: FilterId, fieldId: string | number) => void;
   updateOperator: (filterId: FilterId, newOperator: EComparisons) => void;

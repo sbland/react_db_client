@@ -155,7 +155,7 @@ export const demoFilterCustom = new FilterObjectClass({
   isCustomType: true,
 });
 
-export const demoFiltersData: FilterObjectClass<any, boolean>[] = [
+export const demoFiltersData: FilterObjectClass[] = [
   demoFilterString,
   demoFilterNumber,
   // demoFilterExpression,

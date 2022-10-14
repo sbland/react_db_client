@@ -28,8 +28,8 @@ export const updateFieldTarget = (index, fieldId, fieldsData, updateFilter, cust
 };
 
 export interface IUseManageFiltersArgs {
-  fieldsData: { [key: string]: FilterOption<any, boolean> };
-  initialFilterData?: FilterObjectClass<any, boolean>[];
+  fieldsData: { [key: string]: FilterOption };
+  initialFilterData?: FilterObjectClass[];
   customFilters?: { [key: string]: TFilterFunc };
 }
 
@@ -50,7 +50,7 @@ export const useManageFilters = ({
 }: IUseManageFiltersArgs): IUseManageFiltersOutput => {
   const [filters, setFilters] = React.useState(initialFilterData);
 
-  const addFilter = React.useCallback((filterData: FilterObjectClass<any, boolean>) => {
+  const addFilter = React.useCallback((filterData: FilterObjectClass) => {
     setFilters((prev) => {
       return [...prev, filterData];
     });
@@ -61,7 +61,7 @@ export const useManageFilters = ({
       return newFilters.filter((f, i) => i !== filterIndex);
     });
   }, []);
-  const updateFilter = React.useCallback((filterIndex: FilterId, filterData: FilterObjectClass<any, boolean>) => {
+  const updateFilter = React.useCallback((filterIndex: FilterId, filterData: FilterObjectClass) => {
     setFilters((prev) => {
       const newFilters = [...prev];
       newFilters[filterIndex] = filterData;

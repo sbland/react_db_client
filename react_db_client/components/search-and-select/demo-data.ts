@@ -63,6 +63,16 @@ export const demoResultData: IResultExample[] = [
   },
 ];
 
-export const demoResultsDataMany = Array.from(Array(30).keys()).map(
-  (i) => demoResultData[i % demoResultData.length]
-);
+export const extraResult = {
+  uid: 999999,
+  label: 'Extra Result 1',
+  name: 'Extra This thing 1',
+};
+
+export const demoResultsDataMany = [
+  ...Array.from(Array(30).keys()).map((i) => ({
+    ...demoResultData[i % demoResultData.length],
+    uid: i,
+  })),
+  extraResult,
+];

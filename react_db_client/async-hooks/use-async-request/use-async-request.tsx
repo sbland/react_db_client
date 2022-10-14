@@ -20,6 +20,7 @@ export interface IUseAsyncRequestProps<ResponseType, Args> {
   debug?: boolean;
   callback?: ICallback<ResponseType, Args>;
   errorCallback?: (AsyncRequestError) => void;
+  reloadKey?: any;
 }
 
 export interface IFnArgs<ResponseType, Args> {
@@ -75,6 +76,7 @@ export const useAsyncRequest = <ResponseType, Args extends Array<any>>({
   //callback = (response: ResponseType, args: Args) => null as any
   callback: callbackIn,
   errorCallback: errorCallbackIn,
+  reloadKey,
 }: IUseAsyncRequestProps<ResponseType, Args>): IUseAsyncRequestReturn<ResponseType, Args> => {
   // const [latestCallId, setLatestCallId] = useState(0);
   const [resultState, setResultState] = useState<IResultState>({
@@ -105,6 +107,9 @@ export const useAsyncRequest = <ResponseType, Args extends Array<any>>({
     },
     []
   );
+  useEffect(() => {
+    setForceLoad(true);
+  }, [reloadKey]);
 
   // Call callback in use effect
   useEffect(() => {
