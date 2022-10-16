@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+import { screen, within } from '@testing-library/react';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ISearchAndSelectProps, SearchAndSelect } from './search-and-select';
+import { SearchAndSelect } from './search-and-select';
 import {
   demoResultData,
   demoHeadingsData,
@@ -27,6 +28,12 @@ const Select = ({ liveUpdate, setLiveUpdate }) => (
 
 const defaultSearchFn = async (filter?: FilterObjectClass[]): Promise<IResultExample[]> =>
   new Promise((resolve) => setTimeout(() => resolve(demoResultData), 2000));
+
+defaultSearchFn.waitForReady = async () => {
+  await jest.runOnlyPendingTimers();
+  const resultsList = screen.getByTestId('styledSelectList');
+  await within(resultsList).findAllByText(demoResultData[0].name);
+};
 
 const searchFnManyResults = async (): Promise<IResultExample[]> =>
   new Promise((resolve) => setTimeout(() => resolve(demoResultsDataMany), 2000));
@@ -53,6 +60,9 @@ export const CompDemoData = () => {
     </div>
   );
 };
+
+
+
 export const SearchField = () => {
   const [liveUpdate, setLiveUpdate] = useState(false);
   const props = {
@@ -189,4 +199,10 @@ export const SelectSearchFn = () => {
       <SearchAndSelect {...props} searchFunction={searchFn} liveUpdate />
     </div>
   );
+};
+
+SelectSearchFn.waitForReady = async () => {
+  await jest.runOnlyPendingTimers();
+  const resultsList = screen.getByTestId('styledSelectList');
+  await within(resultsList).findAllByText(demoResultData[0].name);
 };

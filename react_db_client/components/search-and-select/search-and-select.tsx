@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
-
+import { FilterOption } from '@react_db_client/constants.client-types';
 import {
   FilterObjectClass,
   filterTypes,
@@ -17,7 +17,6 @@ import { SelectionPreview } from '@react_db_client/components.selection-preview'
 import { useSelectionManager } from './useSelectionManager';
 import { SearchAndSelectStyles } from './styles';
 import { IResult } from './lib';
-import { FilterOption } from '@react_db_client/constants.client-types';
 
 export interface IHeading {
   uid: string;

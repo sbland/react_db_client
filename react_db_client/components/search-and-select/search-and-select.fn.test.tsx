@@ -48,7 +48,7 @@ describe('SearchAndSelect', () => {
         });
       });
       test('should have called searchFn', () => {
-        expect(searchFunction).toHaveBeenCalledWith([], 'uid', undefined, false);
+        expect(searchFunction).toHaveBeenCalledWith([], 'uid', "", false);
       });
 
       test('should have passed results to styled select list', () => {

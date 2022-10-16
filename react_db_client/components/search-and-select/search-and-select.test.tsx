@@ -25,8 +25,10 @@ const runOnlyPendingTimers = async () =>
 describe('SearchAndSelect', () => {
   describe('Compositions', () => {
     Object.entries(compositions).forEach(([name, Composition]) => {
-      test(name, () => {
+      test(name, async () => {
         render(<Composition />);
+        // @ts-ignore
+        if (Composition.waitForReady) await Composition.waitForReady();
       });
     });
   });
