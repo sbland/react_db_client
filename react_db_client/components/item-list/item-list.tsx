@@ -65,7 +65,7 @@ ItemList.propTypes = {
   ).isRequired,
   overlayButtons: PropTypes.arrayOf(
     PropTypes.shape({
-      func: PropTypes.func.isRequired,
+      onClick: PropTypes.func.isRequired,
       label: PropTypes.string.isRequired,
     })
   ),

@@ -14,8 +14,8 @@ const mockfn2 = jest.fn();
 const handleItemClick = jest.fn();
 
 const demoOverlayBtns: IOverlayButton[] = [
-  { func: mockfn1, label: 'btn 01', icon: 'f1' },
-  { func: mockfn2, label: 'btn 02', icon: 'f2' },
+  { onClick: mockfn1, label: 'btn 01', icon: 'f1' },
+  { onClick: mockfn2, label: 'btn 02', icon: 'f2' },
 ];
 
 const defaultProps: IItemListProps = {

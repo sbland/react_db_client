@@ -8,8 +8,8 @@ const mockfn1 = () => alert('1');
 const mockfn2 = () => alert('2');
 
 const demoOverlayBtns = [
-  { func: mockfn1, label: 'btn 01', icon: 'f1' },
-  { func: mockfn2, label: 'btn 02', icon: 'f2' },
+  { onClick: mockfn1, label: 'btn 01', icon: 'f1' },
+  { onClick: mockfn2, label: 'btn 02', icon: 'f2' },
 ];
 
 const defaultProps: IItemListProps = {

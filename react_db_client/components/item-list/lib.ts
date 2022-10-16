@@ -30,7 +30,6 @@ export interface IItemImage extends IItemCommon {
   src: string;
 }
 
-
 export interface IItemButton extends IItemCommon {
   type: EItemTypes.BUTTON;
   onClick?: (id: Uid) => void;
@@ -42,14 +41,20 @@ export interface IItemCustomComponent extends IItemCommon {
 }
 
 export interface IItemUnknown extends IItemCommon {
-  type: "UNKNOWN";
+  type: 'UNKNOWN';
 }
 
-export type TItem =
-  | IItemLink
-  | IItemImage
-  | IItemButton
-  | IItemCustomComponent
-  | IItemUnknown;
+export type TItem = IItemLink | IItemImage | IItemButton | IItemCustomComponent | IItemUnknown;
 
-export interface IOverlayButton {}
+export interface IOverlayButton {
+  icon: string | React.ReactNode;
+  func?: (uid: Uid) => void; // Deprecated
+  onClick: (uid: Uid) => void;
+  label: string;
+}
+
+export interface IOverlayButtonProps {
+  onClick: () => void;
+  label: string;
+  icon: string | React.ReactNode;
+}
