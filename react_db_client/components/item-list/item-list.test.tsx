@@ -2,24 +2,25 @@ import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 
-import { ItemList } from './item-list';
+import { IItemListProps, ItemList } from './item-list';
 import * as compositions from './item-list.composition';
 import { demoData } from './demo-data';
 import { OverlayButton } from './overlay-buttons';
 import { Item } from './item';
+import { EViewTypes, IOverlayButton } from './lib';
 
 const mockfn1 = jest.fn();
 const mockfn2 = jest.fn();
 const handleItemClick = jest.fn();
 
-const demoOverlayBtns = [
+const demoOverlayBtns: IOverlayButton[] = [
   { func: mockfn1, label: 'btn 01', icon: 'f1' },
   { func: mockfn2, label: 'btn 02', icon: 'f2' },
 ];
 
-const defaultProps = {
-  viewType: 'grid',
-  items: demoData,
+const defaultProps: IItemListProps = {
+  viewType: EViewTypes.DEFAULT,
+  items: demoData.map((d) => ({ ...d, onClick: handleItemClick })),
   overlayButtons: demoOverlayBtns,
   handleItemClick,
 };

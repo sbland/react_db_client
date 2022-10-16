@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`item-list shallow renders Matches Snapshot 1`] = `
+"<styled.ul viewType=\\"grid\\">
+  <styled.li viewType=\\"grid\\" selected={false}>
+    <OverlayButtons uid=\\"a\\" overlayButtons={{...}} />
+    <Item data={{...}} onClick={[Function: onClick]} />
+  </styled.li>
+  <styled.li viewType=\\"grid\\" selected={false}>
+    <OverlayButtons uid=\\"b\\" overlayButtons={{...}} />
+    <Item data={{...}} onClick={[Function: onClick]} />
+  </styled.li>
+  <styled.li viewType=\\"grid\\" selected={false}>
+    <OverlayButtons uid=\\"c\\" overlayButtons={{...}} />
+    <Item data={{...}} onClick={[Function: onClick]} />
+  </styled.li>
+</styled.ul>"
+`;

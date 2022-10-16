@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { EItemTypes, IItemButton, TItem } from './lib';
+import { Uid } from '@react_db_client/constants.client-types';
+import { ItemButtonStyle, ItemImageStyle, ItemStyle } from './styles';
 
 // import { Link } from 'react-router-dom';
 
@@ -21,35 +24,33 @@ import PropTypes from 'prop-types';
 //   linkPre: PropTypes.string.isRequired,
 // };
 
-export const Item = ({
-  onClick,
-  data: {
-    type,
-    uid,
-    label,
-    name, // legacy
-    component,
-    src,
-  },
-}) => (
-  <div className="itemList_item">
-    {!type && <div>{label || name}</div>}
+export interface IItemProps {
+  onClick: (id: Uid) => void;
+  data: TItem;
+}
+
+export const Item = ({ onClick, data }: IItemProps) => (
+  <ItemStyle>
+    {(!data.type || data.type === 'UNKNOWN') && <div>{data.label || data.name}</div>}
     {/* {type === 'link' && <LinkItem label={label || name} uid={uid} linkPre={linkPre} />} */}
-    {type === 'button' && (
-      <button
+    {data.type === EItemTypes.BUTTON && (
+      <ItemButtonStyle
         type="button"
-        className="button-reset maximize itemList_itemBtn"
-        onClick={() => onClick(uid)}
+        onClick={() =>
+          data.onClick !== undefined
+            ? data.onClick !== undefined && data.onClick(data.uid)
+            : onClick(data.uid)
+        }
       >
-        <strong>{label || name}</strong>
-      </button>
+        <strong>{data.label || data.name}</strong>
+      </ItemButtonStyle>
     )}
-    {type === 'image' && (
+    {data.type === EItemTypes.IMAGE && (
       // NOTE: We set width and height to 0 so that it fill smin width and height of item list item wrap
-      <img src={src} width="0" height="0" className="itemlist_item-image" alt={label} />
+      <ItemImageStyle src={data.src} width="0" height="0" alt={data.label} />
     )}
-    {type === 'component' && component}
-  </div>
+    {data.type === EItemTypes.COMPONENT && data.component}
+  </ItemStyle>
 );
 
 Item.propTypes = {

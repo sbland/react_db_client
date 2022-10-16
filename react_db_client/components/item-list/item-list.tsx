@@ -1,9 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Uid } from '@react_db_client/constants.client-types';
 
 import { OverlayButtons } from './overlay-buttons';
 import { Item } from './item';
-import './style.scss';
+import { ItemListStyle, ItemWrapStyle } from './styles';
+import { TItem, EViewTypes, IOverlayButton } from './lib';
+
+export interface IItemListProps {
+  viewType: EViewTypes;
+  items: TItem[];
+  overlayButtons: IOverlayButton[];
+  selectedId?: Uid;
+  handleItemClick: (id: Uid) => void;
+}
 
 /**
  *
@@ -15,22 +25,27 @@ import './style.scss';
  *   overlayButtons, - list of overlay btn details
  * }
  */
-export const ItemList = ({ viewType, items, overlayButtons, selectedId, handleItemClick }) => (
-  <div className={`itemList_wrap ${viewType}`}>
-    <ul className="itemList">
-      {items.map((item) => (
-        <li
-          className={`itemList_itemWrap ${item.uid === selectedId ? 'selected' : ''}`}
-          key={item.uid || JSON.stringify(item)}
-        >
-          {overlayButtons && !item.hideOverlay && (
-            <OverlayButtons uid={item.uid} overlayButtons={overlayButtons} />
-          )}
-          <Item data={item} onClick={(uid) => handleItemClick(uid)} />
-        </li>
-      ))}
-    </ul>
-  </div>
+export const ItemList = ({
+  viewType,
+  items,
+  overlayButtons,
+  selectedId,
+  handleItemClick,
+}: IItemListProps) => (
+  <ItemListStyle viewType={viewType}>
+    {items.map((item) => (
+      <ItemWrapStyle
+        viewType={viewType}
+        selected={item.uid === selectedId}
+        key={item.uid || JSON.stringify(item)}
+      >
+        {overlayButtons && !item.hideOverlay && (
+          <OverlayButtons uid={item.uid} overlayButtons={overlayButtons} />
+        )}
+        <Item data={item} onClick={(uid) => handleItemClick(uid)} />
+      </ItemWrapStyle>
+    ))}
+  </ItemListStyle>
 );
 
 ItemList.propTypes = {
@@ -45,7 +60,7 @@ ItemList.propTypes = {
         onClick: PropTypes.func,
         component: PropTypes.node,
       }),
-      PropTypes.node,
+      // PropTypes.node,
     ])
   ).isRequired,
   overlayButtons: PropTypes.arrayOf(
