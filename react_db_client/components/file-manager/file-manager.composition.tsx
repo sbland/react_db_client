@@ -6,19 +6,11 @@ import { EFileType } from '@react_db_client/constants.client-types';
 
 const defaultProps: IFileManagerProps = {
   handleSelect: (args: any) => alert('Selected'),
-  collectionId: 'projects',
-  documentId: 'Example Project',
   fileType: EFileType.IMAGE,
   allowMultiple: false,
-  asyncGetDocuments: async () => demoSearchResults,
+  asyncGetFiles: async () => demoSearchResults,
   fileServerUrl: 'fileserverurl',
-  asyncUpload: async (
-    data: File,
-    collectionId: string,
-    documentId: string,
-    fileType: EFileType,
-    callback: () => void
-  ) => {},
+  asyncFileUpload: async (data: File, fileType: EFileType, callback: () => void) => {},
 };
 
 export const BasicFileManager = () => (

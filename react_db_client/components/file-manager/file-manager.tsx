@@ -2,24 +2,21 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { EFileType, IFile } from '@react_db_client/constants.client-types';
 import { FileUploader } from '@react_db_client/components.file-uploader';
-import { SearchAndSelect } from '@react_db_client/components.search-and-select';
-import { searchFilesFunction, searchResultHeadings, TAsyncGetDocuments } from './logic';
+import {
+  SearchAndSelect,
+  TSearchAndSelectSearchFunction,
+} from '@react_db_client/components.search-and-select';
+import { searchResultHeadings } from './logic';
 
 export interface IFileManagerProps {
   handleSelect: (fileData: null | IFile | IFile[]) => void;
-  collectionId: string;
-  documentId: string;
+  collectionId?: never;
+  documentId?: never;
   fileType: EFileType;
   allowMultiple?: boolean;
-  asyncGetDocuments: TAsyncGetDocuments;
+  asyncGetFiles: TSearchAndSelectSearchFunction<IFile>;
   fileServerUrl: string;
-  asyncUpload: (
-    data: File,
-    collectionId: string,
-    documentId: string,
-    fileType: EFileType,
-    callback: () => void
-  ) => Promise<void>;
+  asyncFileUpload: (data: File, fileType: EFileType, callback: () => void) => Promise<void>;
 }
 
 export const availableFilters = {}; // TODO: Setup available file filters
@@ -30,11 +27,13 @@ export const FileManager: React.FC<IFileManagerProps> = ({
   documentId,
   fileType,
   allowMultiple,
-  asyncGetDocuments,
+  asyncGetFiles,
   fileServerUrl,
-  asyncUpload,
+  asyncFileUpload,
 }) => {
   const [forceUpdate, setForceUpdate] = useState(0);
+  if (collectionId || documentId) throw new Error('No longer need collection id and doc id');
+
   return (
     <div className="fileManager_wrap sectionWrapper">
       <section>
@@ -43,17 +42,13 @@ export const FileManager: React.FC<IFileManagerProps> = ({
         <br />
         {/* TODO: Should refresh on file upload */}
         <SearchAndSelect<IFile>
-          searchFunction={searchFilesFunction(asyncGetDocuments)(
-            collectionId,
-            documentId,
-            fileType
-          )}
+          searchFunction={asyncGetFiles}
           initialFilters={[]}
           handleSelect={handleSelect}
           autoUpdate
           allowFilters={false}
           availableFilters={availableFilters}
-          headings={searchResultHeadings(fileServerUrl, collectionId, documentId)}
+          headings={searchResultHeadings(fileServerUrl)}
           showSearchField
           // searchFieldTargetField="name"
           key={forceUpdate}
@@ -65,11 +60,9 @@ export const FileManager: React.FC<IFileManagerProps> = ({
       <section>
         <h2>Upload New File</h2>
         <FileUploader
-          collectionId={collectionId}
-          documentId={documentId}
           fileType={fileType}
           onUpload={() => setForceUpdate(forceUpdate + 1)}
-          asyncUpload={asyncUpload}
+          asyncFileUpload={asyncFileUpload}
         />
       </section>
     </div>
@@ -78,11 +71,9 @@ export const FileManager: React.FC<IFileManagerProps> = ({
 
 FileManager.propTypes = {
   handleSelect: PropTypes.func.isRequired,
-  collectionId: PropTypes.string.isRequired,
-  documentId: PropTypes.string.isRequired,
   fileType: PropTypes.oneOf(['image', 'document', 'data', '*']),
   allowMultiple: PropTypes.bool,
-  asyncGetDocuments: PropTypes.func.isRequired,
+  asyncGetFiles: PropTypes.func.isRequired,
   fileServerUrl: PropTypes.string.isRequired,
 };
 

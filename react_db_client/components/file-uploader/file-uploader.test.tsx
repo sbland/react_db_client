@@ -7,20 +7,18 @@ import * as compositions from './file-uploader.composition';
 import { StyledSelectList } from '@react_db_client/components.styled-select-list';
 import { EFileType } from '@react_db_client/constants.client-types';
 
-const asyncUpload = jest.fn();
+const asyncFileUpload = jest.fn();
 const onUpload = jest.fn();
 
 const defaultProps = {
-  collectionId: 'demoCollectionId',
-  documentId: 'demoDocumentId',
   fileType: EFileType.IMAGE,
-  asyncUpload,
+  asyncFileUpload,
   onUpload,
 };
 
 describe('file-uploader', () => {
   beforeEach(() => {
-    asyncUpload.mockClear();
+    asyncFileUpload.mockClear();
     onUpload.mockClear();
   });
   test('Renders', () => {

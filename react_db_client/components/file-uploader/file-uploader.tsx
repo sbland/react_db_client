@@ -23,34 +23,22 @@ const fileTypesToInputAccept = (fileType: EFileType) => {
 const fileListHeadings: IHeading[] = [{ uid: 'name', label: 'Name', type: filterTypes.text }];
 
 export interface IFileUploaderProps {
-  collectionId: string;
-  documentId: string;
   fileType: EFileType;
   onUpload: (responses: unknown) => void;
-  asyncUpload: (
-    data: File,
-    collectionId: string,
-    documentId: string,
-    fileType: EFileType,
-    callback: () => void
-  ) => Promise<void>;
+  asyncFileUpload: (data: File, fileType: EFileType, callback: () => void) => Promise<void>;
 }
 
 export const FileUploader = ({
-  collectionId,
-  documentId,
   fileType: fileTypeIn,
   onUpload,
-  asyncUpload,
+  asyncFileUpload,
 }: IFileUploaderProps) => {
   const [selectedFiles, setSelectedFiles] = useState<IFile[]>([]);
   const [fileType, setFileType] = useState(fileTypeIn || EFileType.IMAGE);
 
   const { uploadFiles, uploading, uploadProgress, uploadComplete, error } = useFileUploader({
-    collectionId,
-    documentId,
     fileType,
-    asyncUpload,
+    asyncFileUpload,
     onUpload,
   });
 
@@ -142,11 +130,9 @@ export const FileUploader = ({
 };
 
 FileUploader.propTypes = {
-  collectionId: PropTypes.string.isRequired,
-  documentId: PropTypes.string.isRequired,
   fileType: PropTypes.oneOf(['image', 'document', 'data', '*']),
   onUpload: PropTypes.func.isRequired,
-  asyncUpload: PropTypes.func.isRequired,
+  asyncFileUpload: PropTypes.func.isRequired,
 };
 
 FileUploader.defaultProps = {

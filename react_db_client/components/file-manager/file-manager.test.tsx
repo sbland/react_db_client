@@ -3,8 +3,7 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { MockReactC } from '@react_db_client/testing.utils';
 import { SearchAndSelect } from '@react_db_client/components.search-and-select';
-import { EFileType, FilterObjectSimpleClass } from '@react_db_client/constants.client-types';
-// import { searchFilesFunction } from './logic';
+import { EFileType } from '@react_db_client/constants.client-types';
 
 import { FileManager } from './file-manager';
 import * as compositions from './file-manager.composition';
@@ -16,33 +15,27 @@ jest.mock('@react_db_client/components.search-and-select', () =>
 jest.mock('@react_db_client/components.file-uploader', () =>
   MockReactC('FileUploader', ['FileUploader'])
 );
-// jest.mock('./logic', () => ({
-//   searchFilesFunction: jest.fn().mockImplementation(() => async () => {}),
-//   searchResultHeadings: jest.fn().mockImplementation(() => []),
-// }));
 
 Date.now = jest.fn(() => 123); //14.02.2017
 const handleSelect = jest.fn();
-const asyncUpload = jest.fn();
-const asyncGetDocuments = jest
+const asyncFileUpload = jest.fn();
+const asyncGetFiles = jest
   .fn()
   .mockReturnValue(new Promise((resolve) => resolve(demoSearchResults)));
 
 const defaultProps = {
   handleSelect,
-  collectionId: 'DemoCollection',
-  documentId: 'DemoDocId',
   fileType: EFileType.IMAGE,
   allowMultiple: false,
-  asyncGetDocuments,
+  asyncGetFiles,
   fileServerUrl: 'fileserverurl',
-  asyncUpload,
+  asyncFileUpload,
 };
 
 describe('file-manager', () => {
   beforeEach(() => {
     handleSelect.mockClear();
-    asyncGetDocuments.mockClear();
+    asyncGetFiles.mockClear();
   });
   test('Renders', () => {
     shallow(<FileManager {...defaultProps} />);
@@ -68,27 +61,15 @@ describe('file-manager', () => {
         component = mount(<FileManager {...defaultProps} />);
       });
       test('should call asyncGetDocuments when searchFunction called', () => {
-        const { collectionId, documentId, fileType } = defaultProps;
-        const collection = 'files';
         const sortBy = 'name';
         const searchString = 'searchStr';
-        const filters = [
-          new FilterObjectSimpleClass('collectionId', collectionId, 'filter_123'),
-          new FilterObjectSimpleClass('documentId', documentId, 'filter_123'),
-          new FilterObjectSimpleClass('fileType', fileType, 'filter_123'),
-        ];
+        const filters = [];
         const schema = ['uid', 'name', 'updatedAt', 'createdAt', 'fileType', 'filePath'];
 
         const sas = component.find(SearchAndSelect);
-        sas.props().searchFunction([], sortBy, searchString);
+        sas.props().searchFunction([], sortBy, searchString, schema);
 
-        expect(asyncGetDocuments).toHaveBeenCalledWith(
-          collection,
-          filters,
-          schema,
-          sortBy,
-          searchString
-        );
+        expect(asyncGetFiles).toHaveBeenCalledWith(filters, sortBy, searchString, schema);
       });
       test('should call handle select when search and select handle select called', () => {
         const sas = component.find(SearchAndSelect);

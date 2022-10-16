@@ -6,17 +6,9 @@ import { useState, useEffect } from 'react';
 const ENV = process.env.NODE_ENV;
 
 export interface IUseFileUploaderArgs {
-  collectionId: string;
-  documentId: string;
   fileType: EFileType;
   onUpload: (responses: unknown) => void;
-  asyncUpload: (
-    data: File,
-    collectionId: string,
-    documentId: string,
-    fileType: EFileType,
-    callback: () => void
-  ) => Promise<void>;
+  asyncFileUpload: (data: File, fileType: EFileType, callback: () => void) => Promise<void>;
 }
 
 export interface IUseFileUploaderReturn {
@@ -28,20 +20,15 @@ export interface IUseFileUploaderReturn {
 }
 
 export const useFileUploader = ({
-  collectionId,
-  documentId,
   fileType,
   onUpload,
-  asyncUpload,
+  asyncFileUpload,
 }: IUseFileUploaderArgs): IUseFileUploaderReturn => {
   const [filesToUpload, setFilesToUpload] = useState<null | IFile[]>(null);
-  // const [selected, setSelected] = useState(null);
-  // const [uploadSelected, setUploadSelected] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [uploadComplete, setUploadComplete] = useState(false);
-  // const [message, setMessage] = useState('');
 
   // handle upload selected
   useEffect(() => {
@@ -51,7 +38,7 @@ export const useFileUploader = ({
 
       const promises = filesToUpload.map(async (file) => {
         if (!file.data) throw Error('Missing file data');
-        await asyncUpload(file.data, collectionId, documentId, fileType, () => {});
+        await asyncFileUpload(file.data, fileType, () => {});
         setFilesToUpload((prev) => prev?.filter((f) => f.name !== file.name) || null);
         setUploadProgress((prev) => prev - 1);
       });
@@ -72,7 +59,7 @@ export const useFileUploader = ({
     return () => {
       // TODO: handle cancel upload
     };
-  }, [filesToUpload, uploading, collectionId, documentId, fileType, onUpload, uploadProgress]);
+  }, [filesToUpload, uploading, fileType, onUpload, uploadProgress]);
 
   const uploadFiles = (fileList: IFile[]) => {
     setFilesToUpload(fileList);

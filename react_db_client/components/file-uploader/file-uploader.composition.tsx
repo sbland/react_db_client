@@ -3,14 +3,12 @@ import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wra
 import { FileUploader } from './file-uploader';
 import { EFileType } from '@react_db_client/constants.client-types';
 
-const asyncUpload = async () => {};
+const asyncFileUpload = async () => {};
 const onUpload = () => {};
 
 const defaultProps = {
-  collectionId: 'demoCollectionId',
-  documentId: 'demoDocumentId',
   fileType: EFileType.IMAGE,
-  asyncUpload,
+  asyncFileUpload,
   onUpload,
 };
 
