@@ -1,1 +1,1 @@
-export { FileManager } from './file-manager';
+export { FileManager, IFileManagerProps } from './file-manager';

@@ -1,4 +1,5 @@
 import React from 'react';
+import { screen } from '@testing-library/react';
 import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
 import { FileManager, IFileManagerProps } from './file-manager';
 import { demoSearchResults } from './demo-data';
@@ -18,3 +19,7 @@ export const BasicFileManager = () => (
     <FileManager {...defaultProps} />
   </CompositionWrapDefault>
 );
+
+BasicFileManager.waitForReady = async () => {
+  await screen.findByText(demoSearchResults[0].name);
+};
