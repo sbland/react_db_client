@@ -13,6 +13,7 @@ export type ICallback<ResponseType, Args> = (response: ResponseType, args: Args)
 export type ICallFn<Args> = (args: Args) => Promise<any>;
 
 export interface IUseAsyncRequestProps<ResponseType, Args> {
+  id?: string;
   args: Args | null;
   callFn: ICallFn<Args>;
   cleanupFunc?: () => void;
@@ -68,6 +69,7 @@ export const EmptyArgs: any[] = [];
  * }
  */
 export const useAsyncRequest = <ResponseType, Args extends Array<any>>({
+  id,
   args: argsInitial, // TODO: Rename to defaultArgs
   callFn,
   cleanupFunc = () => null,
@@ -170,7 +172,7 @@ export const useAsyncRequest = <ResponseType, Args extends Array<any>>({
             if (errorCallbackIn) errorCallbackIn(new AsyncRequestError(errorMessage, e));
           });
       } catch (error) {
-        console.error('Async Call function failed');
+        console.error(`Async Call function failed: ${id || callFn.name}`);
         throw error;
       }
     }
