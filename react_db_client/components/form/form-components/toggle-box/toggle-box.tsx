@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Emoji } from '@react_db_client/components.emoji';
+import { Uid } from '@react_db_client/constants.client-types';
 
 export interface IToggleBoxProps {
   stateIn?: boolean;
-  id: string;
+  id: Uid;
   text?: string;
-  onChange: (newVal: boolean, id: string) => void;
+  onChange: (newVal: boolean, id: Uid) => void;
   width?: number;
   disabled?: boolean;
   selectButtonProps?: React.ComponentProps<'button'>; //React.HTMLProps<HTMLButtonElement>;

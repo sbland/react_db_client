@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Uid } from '@react_db_client/constants.client-types';
 import { IToggleBoxProps } from './toggle-box';
 
 export interface IToggleBoxRadioGroupProps {
-  selected: string;
+  selected: Uid;
   className: string;
   children: React.ReactElement<IToggleBoxProps>[];
-  onChange: (i: number, uid: string | number) => void;
+  onChange: (i: number, uid: Uid) => void;
   allowDeselect?: boolean;
 }
 
