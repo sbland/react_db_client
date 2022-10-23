@@ -19,6 +19,7 @@ const FilterString = ({ filter, updateFilter }: IFilterComponentProps) => {
       value={filter.value}
       onChange={updateValue}
       disabled={filter.operator === comparisons.empty}
+      aria-label={`Filter ${filter.label} text input`}
     />
   );
 };

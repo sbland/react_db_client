@@ -37,7 +37,7 @@ export const BubbleSelector = ({
   allowManualInput,
   allowSelectAll,
   hideUnselected,
-}) => {
+}: IBubbleSelectorProps) => {
   const [showUnselected, setShowUnselected] = useState(!hideUnselected);
   const [manualInput, setManualInput] = useState('');
 
@@ -75,7 +75,10 @@ export const BubbleSelector = ({
     ? selectedItems.concat(unselectedItems)
     : [...options, ...additionalItems];
 
-  const sortFn = isSorted ? (a, b) => a.label.toUpperCase() > b.label.toUpperCase() : () => false;
+  const sortFn = isSorted
+    ? (a: IOpt, b: IOpt) =>
+        String(a?.label).toLowerCase() > String(b.label).toLowerCase() ? 1 : -1
+    : () => 1;
 
   const mapAllItems = allItems
     .sort(sortFn)

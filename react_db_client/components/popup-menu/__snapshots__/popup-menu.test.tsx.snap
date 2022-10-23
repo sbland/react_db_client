@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ItemList matches snapshot 1`] = `
+"<RightClickWrapper items={{...}} popupRoot=\\"root\\">
+  <div id=\\"box\\" style={{...}} onContextMenu={[Function: handleContextMenu]} />
+  <PopupMenu isOpenOverride={false} onCloseCallback={[Function: onCloseCallback]} items={{...}} position={{...}} popupRoot=\\"root\\" />
+</RightClickWrapper>"
+`;

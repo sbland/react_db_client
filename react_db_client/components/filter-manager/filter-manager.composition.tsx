@@ -1,10 +1,17 @@
 import React from 'react';
 
 import { FilterPanel } from './filter-manager';
-import { demoFiltersData, demoFieldsData, allTypeFilters, allTypeFieldsData } from './demoData';
+import {
+  demoFiltersData,
+  demoFieldsData,
+  allTypeFilters,
+  allTypeFieldsData,
+  customFilters,
+  customFiltersComponents,
+} from './demoData';
 import { useManageFilters } from './useManageFilters';
 
-export const withText = () => {
+export const FilterManagerWithText = () => {
   const {
     addFilter,
     deleteFilter,
@@ -16,6 +23,7 @@ export const withText = () => {
   } = useManageFilters({
     fieldsData: demoFieldsData,
     initialFilterData: demoFiltersData,
+    customFilters,
   });
 
   return (
@@ -34,6 +42,8 @@ export const withText = () => {
         clearFilters={clearFilters}
         updateFieldTarget={updateFieldTarget}
         updateOperator={updateOperator}
+        customFilters={customFilters}
+        customFiltersComponents={customFiltersComponents}
       />
       {JSON.stringify(filters)}
     </div>

@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Styled select list Snapshot 1`] = `
+<div
+  className="sc-gswNZR leMfon"
+  style={Object {}}
+>
+  <div
+    className="sc-dkrFOg iujzfJ"
+  >
+    <div
+      className="sc-jSUZER kdPRE"
+      style={
+        Object {
+          "width": 360,
+        }
+      }
+    >
+      UID
+    </div>
+    <div
+      className="sc-jSUZER kdPRE"
+      style={
+        Object {
+          "width": 360,
+        }
+      }
+    >
+      Type
+    </div>
+    <div
+      className="sc-jSUZER kdPRE"
+      style={
+        Object {
+          "width": 360,
+        }
+      }
+    >
+      Name
+    </div>
+  </div>
+  <ul
+    className="sc-hLBbgP kzKYkb"
+    role="list"
+    style={
+      Object {
+        "zIndex": 10,
+      }
+    }
+  >
+    <button
+      className="sc-eDvSVe gIItyE styledList_itemBtn"
+      onClick={[Function]}
+      role="listitem"
+      selected={false}
+      type="button"
+    >
+      <div
+        className="sc-gKPRtg lyePn"
+        style={
+          Object {
+            "width": 360,
+          }
+        }
+      >
+        filterA
+      </div>
+      <div
+        className="sc-gKPRtg lyePn"
+        style={
+          Object {
+            "width": 360,
+          }
+        }
+      >
+        text
+      </div>
+      <div
+        className="sc-gKPRtg lyePn"
+        style={
+          Object {
+            "width": 360,
+          }
+        }
+      >
+        
+      </div>
+    </button>
+    <button
+      className="sc-eDvSVe gIItyE styledList_itemBtn"
+      onClick={[Function]}
+      role="listitem"
+      selected={false}
+      type="button"
+    >
+      <div
+        className="sc-gKPRtg lyePn"
+        style={
+          Object {
+            "width": 360,
+          }
+        }
+      >
+        filterB
+      </div>
+      <div
+        className="sc-gKPRtg lyePn"
+        style={
+          Object {
+            "width": 360,
+          }
+        }
+      >
+        text
+      </div>
+      <div
+        className="sc-gKPRtg lyePn"
+        style={
+          Object {
+            "width": 360,
+          }
+        }
+      >
+        
+      </div>
+    </button>
+  </ul>
+</div>
+`;

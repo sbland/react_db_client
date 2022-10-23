@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BubbleSelector Matches Snapshot - group selected 1`] = `
+"<div className=\\"bubbleSelector\\">
+  <styled.ul className=\\"bubbleSelector_list selected\\">
+    <BubbleSelectorItem uid=\\"a\\" label=\\"a\\" handleSelect={[Function: handleSelect]} isSelected={true} />
+    <BubbleSelectorItem uid=\\"c\\" label=\\"c\\" handleSelect={[Function: handleSelect]} isSelected={true} />
+  </styled.ul>
+  <styled.ul className=\\"bubbleSelector_list unselected\\">
+    <BubbleSelectorItem uid=\\"b\\" label=\\"b\\" handleSelect={[Function: handleSelect]} isSelected={false} />
+    <BubbleSelectorItem uid=\\"d\\" label=\\"d\\" handleSelect={[Function: handleSelect]} isSelected={false} />
+  </styled.ul>
+</div>"
+`;
+
+exports[`BubbleSelector Matches Snapshot 1`] = `
+"<div className=\\"bubbleSelector\\">
+  <styled.ul className=\\"bubbleSelector_list notGrouped\\">
+    <BubbleSelectorItem uid=\\"a\\" label=\\"a\\" handleSelect={[Function: handleSelect]} isSelected={true} />
+    <BubbleSelectorItem uid=\\"b\\" label=\\"b\\" handleSelect={[Function: handleSelect]} isSelected={false} />
+    <BubbleSelectorItem uid=\\"c\\" label=\\"c\\" handleSelect={[Function: handleSelect]} isSelected={true} />
+    <BubbleSelectorItem uid=\\"d\\" label=\\"d\\" handleSelect={[Function: handleSelect]} isSelected={false} />
+  </styled.ul>
+</div>"
+`;

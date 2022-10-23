@@ -5,17 +5,27 @@ import {
   FilterObjectClass,
   filterTypesComparisons,
   comparisonMetaData,
+  FilterOption,
 } from '@react_db_client/constants.client-types';
 
-import { FilterId, IField } from './lib';
+import { FilterId, IFilterComponentProps } from './lib';
 import { useGetFilterComponents } from './useGetFilterComponents';
+import {
+  FilterListColumnBtns,
+  FilterListColumnField,
+  FilterListColumnOperator,
+  FilterListColumnValue,
+  FilterListHeadingsStyle,
+  FilterListItemStyle,
+  FilterListStyle,
+} from './styles';
 
 export interface IFilterListProps {
   filterData: FilterObjectClass[];
   deleteFilter: (filterId: FilterId) => void;
   updateFilter: (filterId: FilterId, newFilterData: FilterObjectClass) => void;
-  fieldsData: { [key: string]: IField };
-  customFiltersComponents: { [key: string]: React.FC };
+  fieldsData: { [key: string]: FilterOption };
+  customFiltersComponents: { [key: string]: React.FC<IFilterComponentProps<any, true>> };
   updateFieldTarget: (filterId: FilterId, fieldId: string | number) => void;
   updateOperator: (filterId: FilterId, newOperator: EComparisons) => void;
 }
@@ -38,61 +48,94 @@ export const FiltersList = ({
     customFiltersComponents,
   });
 
-  const mapFilters =
+  const mappedFilters =
     filterData &&
     Array.isArray(filterData) &&
     filterData.map((filter, i) => {
       const filterTypeComponent = filterElements[i];
       const { field: fieldId, type } = filter;
-      const { validComparisons = null } = fieldId !== null ? fieldsData[fieldId] : {};
+      const { operators = null } = fieldId !== null ? fieldsData[fieldId] : {};
       const comparisonOptions: EComparisons[] =
-        validComparisons != null ? validComparisons : filterTypesComparisons[type];
+        operators != null ? operators : filterTypesComparisons[type];
+
+      if (!comparisonOptions)
+        throw Error(`comparisonOptions not found for field: "${fieldId}" type: "${type}"`);
 
       return (
-        <li className="filterPanel_filterItem" key={filter.uid} id={filter.uid}>
+        <FilterListItemStyle
+          className="filterPanel_filterItem"
+          key={filter.uid}
+          id={`${filter.uid}`}
+        >
           {/* Delete filter button */}
-          <button
-            type="button"
-            className="button-one deleteFilterBtn"
-            onClick={() => deleteFilter(i)}
-          >
-            X
-          </button>
+          <FilterListColumnBtns>
+            <button
+              type="button"
+              className="button-one deleteFilterBtn"
+              onClick={() => deleteFilter(i)}
+              aria-label={`Delete ${filter.label} button`}
+            >
+              X
+            </button>
+          </FilterListColumnBtns>
           {/* Target field select */}
-          <select
-            value={filter.filterOptionId || ''}
-            onChange={(e) => updateFieldTarget(i, e.target.value)}
-            className="filterItem_filterFieldSelect"
-          >
-            {Object.values(fieldsData)
-              .filter((f) => !f.noFilter)
-              .map((opt) => (
-                <option value={opt.uid} key={opt.uid}>
-                  {opt.label}
+          <FilterListColumnField>
+            <select
+              value={filter.field || ''}
+              // value={filter.filterOptionId || ''}
+              onChange={(e) => updateFieldTarget(i, e.target.value)}
+              className="filterItem_filterFieldSelect"
+              aria-label={`Select ${filter.label} field`}
+            >
+              {Object.values(fieldsData)
+                // .filter((f) => !f.noFilter)
+                .map((opt) => (
+                  <option value={opt.uid} key={opt.uid}>
+                    {opt.label}
+                  </option>
+                ))}
+            </select>
+          </FilterListColumnField>
+          <FilterListColumnOperator>
+            <select
+              value={filter.operator}
+              onChange={(e) => updateOperator(i, e.target.value as EComparisons)}
+              className="filterOperatorSelect"
+              aria-label={`Select ${filter.label} operator`}
+            >
+              {comparisonOptions.map((c) => (
+                <option key={c} value={c}>
+                  {comparisonMetaData[c]?.label || 'MISSING COMPARISON LABEL!'}
                 </option>
               ))}
-          </select>
-          <select
-            value={filter.operator}
-            onChange={(e) => updateOperator(i, e.target.value as EComparisons)}
-            className="filterOperatorSelect"
-          >
-            {comparisonOptions.map((c) => (
-              <option key={c} value={c}>
-                {comparisonMetaData[c]?.label || 'MISSING COMPARISON LABEL!'}
-              </option>
-            ))}
-          </select>
-          {/* Filter input */}
-          {filterTypeComponent}
-        </li>
+            </select>
+          </FilterListColumnOperator>
+          <FilterListColumnValue>
+            {/* Filter input */}
+            {filterTypeComponent}
+          </FilterListColumnValue>
+        </FilterListItemStyle>
       );
     });
   return (
-    <ul className="filterPanel_filterList">
-      {mapFilters || 'Invalid Filter Data'}
-      {filterData && filterData.length === 0 && 'No filters'}
-    </ul>
+    <div>
+      <FilterListHeadingsStyle>
+        <FilterListColumnBtns />
+        <FilterListColumnField>
+          <label>Field</label>
+        </FilterListColumnField>
+        <FilterListColumnOperator>
+          <label>Operator</label>
+        </FilterListColumnOperator>
+        <FilterListColumnValue>
+          <label>Value</label>
+        </FilterListColumnValue>
+      </FilterListHeadingsStyle>
+      <FilterListStyle className="filterPanel_filterList">
+        {mappedFilters || 'Invalid Filter Data'}
+        {filterData && filterData.length === 0 && 'No filters'}
+      </FilterListStyle>
+    </div>
   );
 };
 
@@ -102,7 +145,12 @@ FiltersList.propTypes = {
       uid: PropTypes.string.isRequired,
       field: PropTypes.string.isRequired,
       operator: PropTypes.string,
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)]),
+      value: PropTypes.oneOfType([
+        PropTypes.bool,
+        PropTypes.string,
+        PropTypes.number,
+        PropTypes.instanceOf(Date),
+      ]),
     })
   ).isRequired,
   deleteFilter: PropTypes.func.isRequired,

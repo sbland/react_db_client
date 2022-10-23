@@ -100,6 +100,7 @@ export const stringComparisons = {
 } as const;
 
 export const numberComparisons = {
+  equals: EComparisons.EQUALS,
   greaterThan: EComparisons.GREATER_THAN,
   lesserThan: EComparisons.LESS_THAN,
 } as const;

@@ -1,18 +1,13 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useLayoutEffect, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  FilterObjectClass,
-  filterTypes,
-  EComparisons,
-} from '@react_db_client/constants.client-types';
+import { FilterObjectClass, EComparisons } from '@react_db_client/constants.client-types';
 import { AsyncRequestError, useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
 import { CustomSelectDropdown } from '@react_db_client/components.custom-select-dropdown';
+import { useCombinedRefs } from '@react_db_client/hooks.use-combined-ref';
+import { EFilterType } from '@react_db_client/constants.client-types';
 
 import { LoadingIcon } from './loading-icon';
-
-import './style.scss';
-import { useCombinedRefs } from '@react_db_client/hooks.use-combined-ref';
-import { useLayoutEffect } from 'react';
+import { DropdownBtn, SasDropLoadingWrap, SasDropWrap, SearchFieldWrapStyle } from './styles';
 
 export interface ISearchAndSelectDropdownProps<Item> extends React.HTMLProps<HTMLInputElement> {
   searchFunction: (filters?: FilterObjectClass[]) => Promise<Item[]>;
@@ -20,7 +15,7 @@ export interface ISearchAndSelectDropdownProps<Item> extends React.HTMLProps<HTM
   debug?: boolean;
   initialValue?: string | Item;
   searchFieldTargetField?: string;
-  labelField?: string;
+  labelField?: string | string[];
   className?: string;
   searchFieldPlaceholder?: string;
   allowEmptySearch?: boolean;
@@ -134,7 +129,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
       field: searchFieldTargetField,
       value: searchValue,
       operator: EComparisons.CONTAINS,
-      type: filterTypes.text,
+      type: EFilterType.text,
     });
     if (searchTimeout.current) {
       clearTimeout(searchTimeout.current as NodeJS.Timeout);
@@ -228,7 +223,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
         if (!selectedData) throw Error('Selected item not found');
         setIsFocused(false);
         setShowResults(false);
-        setSearchValue(selectedData[labelField]);
+        setSearchValue(selectedData[Array.isArray(labelField) ? labelField[0] : labelField]);
         goBackToSearchField();
         setWaitForInput(true);
         handleSelect(selectedId, selectedData);
@@ -293,8 +288,8 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
     setWaitForInput(false);
   };
   return (
-    <div className={classNames}>
-      <div className="searchFieldWrap">
+    <SasDropWrap className={classNames}>
+      <SearchFieldWrapStyle className="searchFieldWrap">
         <input
           className="searchField"
           style={{ flexGrow: 1 }}
@@ -311,7 +306,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
           {...additionalProps}
         />
         {!loading && (
-          <button
+          <DropdownBtn
             type="button"
             name="Show Results"
             aria-label="Show Results"
@@ -319,12 +314,12 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
             onClick={handleClickDropdownBtn}
           >
             \/
-          </button>
+          </DropdownBtn>
         )}
-        <div className="sas_drop_loadingWrap">
+        <SasDropLoadingWrap className="sas_drop_loadingWrap">
           <LoadingIcon isLoading={loading} />
-        </div>
-      </div>
+        </SasDropLoadingWrap>
+      </SearchFieldWrapStyle>
       <CustomSelectDropdown
         options={mappedResults}
         isOpen={showResults}
@@ -334,7 +329,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
         goBackToSearchField={goBackToSearchField}
         position="relative"
       />
-    </div>
+    </SasDropWrap>
   );
 };
 

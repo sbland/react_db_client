@@ -1,57 +1,70 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
-
+import { FilterOption } from '@react_db_client/constants.client-types';
 import {
   FilterObjectClass,
   filterTypes,
   comparisons,
+  EFilterType,
 } from '@react_db_client/constants.client-types';
 import { StyledSelectList } from '@react_db_client/components.styled-select-list';
-import { FilterPanel } from '@react_db_client/components.filter-manager';
+import { FilterId, FilterPanel } from '@react_db_client/components.filter-manager';
 import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
 import { Emoji } from '@react_db_client/components.emoji';
 import { SelectionPreview } from '@react_db_client/components.selection-preview';
 
-import { useSelectionManager } from './logic';
-import './_searchAndSelect.scss';
+import { useSelectionManager } from './useSelectionManager';
+import { SearchAndSelectStyles } from './styles';
+import { IResult } from './lib';
 
 export interface IHeading {
   uid: string;
   label: string;
+  type: EFilterType | string;
 }
 
-export type CustomeParser = (value: any) => any;
+export type CustomParser = (value: any) => any;
 
-export interface ISearchAndSelectProps<ResultType> {
-  initialFilters: FilterObjectClass[];
-  availableFilters: { [key: string]: FilterObjectClass };
-  searchFunction: (filter?: FilterObjectClass[]) => Promise<ResultType[]>;
+export type TSearchAndSelectSearchFunction<ResultType extends IResult> = (
+  filters?: FilterObjectClass[],
+  sortBy?: string,
+  searchValue?: string,
+  reverseSort?: boolean
+) => Promise<ResultType[]>;
+
+export interface ISearchAndSelectProps<ResultType extends IResult>
+  extends React.HTMLProps<HTMLInputElement> {
+  initialFilters?: FilterObjectClass[];
+  availableFilters: { [key: string]: FilterOption };
+  searchFunction: TSearchAndSelectSearchFunction<ResultType>;
   headings: IHeading[];
   previewHeadings: IHeading[];
-  handleSelect: () => {};
-  selectionOverride: unknown;
-  autoUpdate: boolean;
-  allowFilters: boolean;
-  allowMultiple: boolean;
-  returnFieldOnSelect: string;
-  showSearchField: boolean;
-  searchFieldTargetField: string;
-  acceptSelectionBtnText: string;
-  showRefreshBtn: boolean;
-  limitResultHeight: number;
-  sortBy: string;
-  reverseSort: boolean;
+  handleSelect: (data: null | ResultType) => void | ((data: null | ResultType[]) => void);
+  selectionOverride?: ResultType[];
+  autoUpdate?: boolean;
+  allowFilters?: boolean;
+  allowMultiple?: boolean;
+  returnFieldOnSelect?: 'uid' | string;
+  showSearchField?: boolean;
+  searchFieldTargetField?: string;
+  acceptSelectionBtnText?: string;
+  showRefreshBtn?: boolean;
+  limitResultHeight?: number;
+  sortBy?: 'uid' | string;
+  reverseSort?: boolean;
   reloadKey?: null | number;
-  loadOnInit: boolean;
-  noEmptySearch: boolean;
-  liveUpdate: boolean;
-  autoWidth: boolean;
-  customParsers: { [key: string]: CustomeParser };
-  labelField: string;
-  allowSelectionPreview: boolean;
-  autoPreview: any;
+  loadOnInit?: boolean;
+  noEmptySearch?: boolean;
+  liveUpdate?: boolean;
+  autoWidth?: boolean;
+  customParsers?: { [key: string]: CustomParser };
+  labelField?: 'label' | string;
+  allowSelectionPreview?: boolean;
+  autoPreview?: boolean;
+  initialSearchValue?: string;
 }
+export const EmptyArray = [];
 
 /**
  * Search and Select Component
@@ -78,7 +91,7 @@ export interface ISearchAndSelectProps<ResultType> {
  * }
  * @returns
  */
-export const SearchAndSelect = <ResultType,>({
+export const SearchAndSelect = <ResultType extends IResult>({
   initialFilters,
   availableFilters, // same as field data
   searchFunction,
@@ -90,7 +103,7 @@ export const SearchAndSelect = <ResultType,>({
   // forceUpdate,
   allowFilters,
   allowMultiple,
-  returnFieldOnSelect,
+  returnFieldOnSelect = 'uid',
   showSearchField,
   searchFieldTargetField,
   acceptSelectionBtnText,
@@ -104,15 +117,17 @@ export const SearchAndSelect = <ResultType,>({
   liveUpdate,
   autoWidth, // Auto calc column width
   customParsers,
-  labelField,
+  labelField = 'label',
   allowSelectionPreview,
   autoPreview,
+  initialSearchValue = '',
+  ...inputProps
 }: ISearchAndSelectProps<ResultType>) => {
   const [showPreview, setShowPreview] = useState(autoPreview);
   const [shouldReload, setShouldReload] = useState(loadOnInit);
   const [singleLoad, setSingleLoad] = useState(false);
-  const [activeFilters, setActiveFilters] = useState(initialFilters);
-  const [searchValue, setSearchValue] = useState('');
+  const [activeFilters, setActiveFilters] = useState(initialFilters || EmptyArray);
+  const [searchValue, setSearchValue] = useState(initialSearchValue);
   const [sortBy] = useState(sortByOverride);
   const [canLoad, setCanLoad] = useState(loadOnInit); // flag to stop loading on init
 
@@ -122,15 +137,16 @@ export const SearchAndSelect = <ResultType,>({
     loading,
     // hasLoaded,
     error,
-  } = useAsyncRequest<ResponseType[], any[]>({
+  } = useAsyncRequest<ResultType[], any[]>({
     args: [],
     callFn: searchFunction,
     callOnInit: false,
+    reloadKey: searchFunction,
   });
 
   /* Reset the active filters if initial filters changes */
   useEffect(() => {
-    setActiveFilters(initialFilters);
+    setActiveFilters(initialFilters || EmptyArray);
     if (autoUpdate) setShouldReload(true);
   }, [initialFilters]);
 
@@ -236,152 +252,161 @@ export const SearchAndSelect = <ResultType,>({
   const handleClearFilters = () => setActiveFilters([]);
 
   return (
-    <div className="searchAndSelect sas_wrap sectionWrapper">
-      <section
-        className="sas_filtersSection"
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        {allowSelectionPreview && (
-          <button
-            type="button"
-            className={showPreview ? 'button-two' : 'button-one'}
-            onClick={() => setShowPreview((prev) => !prev)}
-          >
-            Show Preview
-          </button>
-        )}
-        {allowFilters && (
-          <FilterPanel
-            filterData={activeFilters}
-            clearFilters={handleClearFilters}
-            addFilter={(newFilterData) => handleAddFilter(newFilterData)}
-            deleteFilter={(filterId) => handleDeleteFilter(filterId)}
-            updateFilter={(filterId, newFilterData) => handleUpdateFilter(filterId, newFilterData)}
-            fieldsData={availableFilters}
-          />
-        )}
-
-        {showSearchField && (
-          <div
-            style={{
-              marginLeft: '1rem',
-              flexGrow: 1,
-              display: 'flex',
-            }}
-          >
-            <label>Search: </label>
-            <input
-              className="searchField"
-              style={{ flexGrow: 1 }}
-              aria-label="search"
-              type="text"
-              placeholder="search..."
-              value={searchValue}
-              onChange={handleSearchFieldInput}
-            />
-          </div>
-        )}
-        {showRefreshBtn && (
-          <button
-            type="button"
-            className="button-reset refreshBtn"
-            onClick={() => {
-              setShouldReload(true);
-              setSingleLoad(true);
-            }}
-            style={{
-              width: '2rem',
-              height: '2rem',
-              textAlign: 'center',
-              fontSize: '1.5rem',
-            }}
-          >
-            <Emoji emoj="🔄" label="refresh" />
-          </button>
-        )}
-      </section>
-
-      <section
-        className="sas_resultsSection"
-        style={{
-          minWidth: '100%',
-        }}
-      >
-        <div className="sas_resultsList">
-          {/* TODO: Add option to turn on results title */}
-          {/* <h4>Results</h4> */}
-          <div
-            style={{
-              cursor: loading ? 'progress' : 'default',
-            }}
-          >
-            <StyledSelectList
-              listInput={results || []}
-              headings={headings}
-              handleSelect={loading ? () => {} : handleItemSelect}
-              currentSelection={currentSelectionUid}
-              limitHeight={limitResultHeight}
-              selectionField="uid"
-              autoWidth={autoWidth}
-              customParsers={customParsers}
-            />
-          </div>
-          {loading && (
-            <div
-              className={`sas_loadingWrap ${loading ? '' : 'hidden'}`}
-              style={{ display: loading ? 'initial' : 'none' }}
-            >
-              Loading results...
-            </div>
-          )}
-          {!loading && (!results || results.length === 0) && (
-            <div className="sas_resultsList-empty">
-              No results found. Try adjusting the filters above.
-            </div>
-          )}
-          {!loading && error && <div className="sas_resultsList-empty">{error.message}</div>}
-
-          {showPreview && (
-            <section className="selectionPreviewWrap">
-              <SelectionPreview
-                headings={previewHeadings}
-                currentSelectionData={currentSelection[0] || {}}
-                customParsers={customParsers}
-              />
-            </section>
-          )}
-        </div>
-      </section>
-
-      {allowMultiple && (
-        <section className="sas_manageSelectionSection">
-          {!liveUpdate && (
+    <SearchAndSelectStyles>
+      <div className="searchAndSelect sas_wrap sectionWrapper">
+        <section
+          className="sas_filtersSection"
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          {allowSelectionPreview && (
             <button
               type="button"
-              className="button-two acceptSelectionBtn"
-              onClick={() => acceptSelection()}
-              disabled={!currentSelection || currentSelection.length === 0}
+              className={showPreview ? 'button-two' : 'button-one'}
+              onClick={() => setShowPreview((prev) => !prev)}
             >
-              {acceptSelectionBtnText}
+              Show Preview
             </button>
           )}
+          {allowFilters && (
+            <FilterPanel
+              filterData={activeFilters}
+              addFilter={(newFilterData: FilterObjectClass) => handleAddFilter(newFilterData)}
+              deleteFilter={(filterId: FilterId) => handleDeleteFilter(filterId)}
+              updateFilter={(filterId: FilterId, newFilterData: FilterObjectClass) =>
+                handleUpdateFilter(filterId, newFilterData)
+              }
+              clearFilters={handleClearFilters}
+              updateFieldTarget={() => {}} // TODO: Implement this
+              updateOperator={() => {}} // TODO: Implement this
+              fieldsData={availableFilters}
+            />
+          )}
 
-          <button type="button" className="button-one selectAllBtn" onClick={selectAll}>
-            Select All
-          </button>
-          <button
-            type="button"
-            className="button-one clearSelectionButton"
-            onClick={clearSelection}
-          >
-            Clear Selection
-          </button>
+          {showSearchField && (
+            <div
+              style={{
+                marginLeft: '1rem',
+                flexGrow: 1,
+                display: 'flex',
+              }}
+            >
+              <label>Search: </label>
+              <input
+                className="searchField"
+                style={{ flexGrow: 1 }}
+                aria-label="search"
+                type="text"
+                placeholder="search..."
+                value={searchValue}
+                onChange={handleSearchFieldInput}
+                {...inputProps}
+              />
+            </div>
+          )}
+          {showRefreshBtn && (
+            <button
+              type="button"
+              className="button-reset refreshBtn"
+              onClick={() => {
+                setShouldReload(true);
+                setSingleLoad(true);
+              }}
+              style={{
+                width: '2rem',
+                height: '2rem',
+                textAlign: 'center',
+                fontSize: '1.5rem',
+              }}
+            >
+              <Emoji emoj="🔄" label="refresh" />
+            </button>
+          )}
         </section>
-      )}
-    </div>
+
+        <section
+          className="sas_resultsSection"
+          style={{
+            minWidth: '100%',
+          }}
+        >
+          <div className="sas_resultsList">
+            {/* TODO: Add option to turn on results title */}
+            {/* <h4>Results</h4> */}
+            <div
+              style={{
+                cursor: loading ? 'progress' : 'default',
+              }}
+            >
+              <StyledSelectList
+                listInput={results || []}
+                headings={headings}
+                handleSelect={
+                  loading ? () => {} : (uid) => handleItemSelect(uid, returnFieldOnSelect)
+                }
+                currentSelection={currentSelectionUid}
+                limitHeight={limitResultHeight}
+                selectionField="uid"
+                autoWidth={autoWidth}
+                customParsers={customParsers}
+              />
+            </div>
+            {loading && (
+              <div
+                className={`sas_loadingWrap ${loading ? '' : 'hidden'}`}
+                style={{ display: loading ? 'initial' : 'none' }}
+              >
+                Loading results...
+              </div>
+            )}
+            {!loading && (!results || results.length === 0) && (
+              <div className="sas_resultsList-empty">
+                No results found. Try adjusting the filters above.
+              </div>
+            )}
+            {!loading && error && <div className="sas_resultsList-empty">{error.message}</div>}
+
+            {showPreview && (
+              <section className="selectionPreviewWrap">
+                <SelectionPreview
+                  headings={previewHeadings}
+                  currentSelectionData={currentSelection[0] || {}}
+                  customParsers={customParsers}
+                />
+              </section>
+            )}
+          </div>
+        </section>
+
+        {allowMultiple && (
+          <section className="sas_manageSelectionSection">
+            {!liveUpdate && (
+              <button
+                type="button"
+                className="button-two acceptSelectionBtn"
+                onClick={() => acceptSelection()}
+                disabled={!currentSelection || currentSelection.length === 0}
+              >
+                {acceptSelectionBtnText}
+              </button>
+            )}
+
+            <button type="button" className="button-one selectAllBtn" onClick={selectAll}>
+              Select All
+            </button>
+            <button
+              type="button"
+              className="button-one clearSelectionButton"
+              onClick={clearSelection}
+            >
+              Clear Selection
+            </button>
+          </section>
+        )}
+      </div>
+    </SearchAndSelectStyles>
   );
 };
 
@@ -390,7 +415,7 @@ SearchAndSelect.propTypes = {
   initialFilters: PropTypes.arrayOf(PropTypes.instanceOf(FilterObjectClass)),
   availableFilters: PropTypes.objectOf(
     PropTypes.shape({
-      uid: PropTypes.string.isRequired,
+      uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       label: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
       value: PropTypes.any,
@@ -399,18 +424,18 @@ SearchAndSelect.propTypes = {
   handleSelect: PropTypes.func.isRequired,
   headings: PropTypes.arrayOf(
     PropTypes.shape({
-      uid: PropTypes.string.isRequired,
+      uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     })
   ).isRequired,
   previewHeadings: PropTypes.arrayOf(
     PropTypes.shape({
-      uid: PropTypes.string.isRequired,
+      uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     })
   ),
   selectionOverride: PropTypes.shape({
-    uid: PropTypes.string.isRequired,
+    uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   }),
   autoUpdate: PropTypes.bool,
   // forceUpdate: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
@@ -421,7 +446,7 @@ SearchAndSelect.propTypes = {
   searchFieldTargetField: PropTypes.string,
   acceptSelectionBtnText: PropTypes.string,
   showRefreshBtn: PropTypes.bool,
-  limitResultHeight: PropTypes.bool,
+  limitResultHeight: PropTypes.number,
   sortBy: PropTypes.string,
   reverseSort: PropTypes.bool,
   reloadKey: PropTypes.number,

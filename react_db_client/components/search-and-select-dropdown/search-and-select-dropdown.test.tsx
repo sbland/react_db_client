@@ -2,12 +2,11 @@ import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { act } from 'react-dom/test-utils';
-import ReactDOMServer from 'react-dom/server';
 import { MockReactC } from '@react_db_client/testing.utils';
 import {
   FilterObjectClass,
-  filterTypes,
-  comparisons,
+  EFilterType,
+  EComparisons,
 } from '@react_db_client/constants.client-types';
 import { CustomSelectDropdown } from '@react_db_client/components.custom-select-dropdown';
 
@@ -51,7 +50,7 @@ const defaultProps = {
   labelField,
   debug: true,
   searchFieldTargetField: 'label',
-  searchFieldPlaceholder: "helloworld"
+  searchFieldPlaceholder: 'helloworld',
 } as ISearchAndSelectDropdownProps<IItem>;
 /* Helpers*/
 
@@ -71,8 +70,8 @@ const modifySearchInput = async (c, searchVal) => {
   });
 };
 
-const clickDopdownBtn = (c) => {
-  const dropdownBtn = c.find('.dropdownBtn');
+const clickDropdownBtn = (c) => {
+  const dropdownBtn = c.find('.dropdownBtn').first();
   dropdownBtn.simulate('click');
   c.update();
 };
@@ -85,7 +84,9 @@ describe('SearchAndSelectDropdown', () => {
     searchFunction.mockClear();
   });
   test('Renders', () => {
-    shallow(<SearchAndSelectDropdown {...(defaultProps as ISearchAndSelectDropdownProps<IItem>)} />);
+    shallow(
+      <SearchAndSelectDropdown {...(defaultProps as ISearchAndSelectDropdownProps<IItem>)} />
+    );
   });
   describe('shallow renders', () => {
     test('Matches Snapshot', () => {
@@ -115,15 +116,15 @@ describe('SearchAndSelectDropdown', () => {
         const searchVal = 'searchVal';
         await focusOnSearchInput(component);
         await modifySearchInput(component, searchVal);
-        expect(searchFunction).toHaveBeenCalledWith(
-          new FilterObjectClass({
+        expect(searchFunction).toHaveBeenCalledWith([
+          new FilterObjectClass<any, false>({
             uid: 'search',
             field: 'label',
             value: searchVal,
-            operator: comparisons.contains,
-            type: filterTypes.text,
-          })
-        );
+            operator: EComparisons.CONTAINS,
+            type: EFilterType.text,
+          }),
+        ]);
       });
 
       test('should not call async search fn when we modify the search input to empty', async () => {
@@ -186,7 +187,7 @@ describe('SearchAndSelectDropdown', () => {
 
       test('should call async search fn when we modify the search input with empty value', async () => {
         await focusOnSearchInput(component);
-        expect(searchFunction).toHaveBeenCalledWith();
+        expect(searchFunction).toHaveBeenCalledWith([]);
       });
       test('should call async search func when input is set to empty', async () => {
         await focusOnSearchInput(component);
@@ -194,7 +195,7 @@ describe('SearchAndSelectDropdown', () => {
         searchFunction.mockClear();
 
         await modifySearchInput(component, '');
-        expect(searchFunction).toHaveBeenCalledWith();
+        expect(searchFunction).toHaveBeenCalledWith([]);
       });
     });
     describe('Dropdown Btn', () => {
@@ -208,10 +209,10 @@ describe('SearchAndSelectDropdown', () => {
       test('should call async search fn when click dropdown btn', async () => {
         await runOnlyPendingTimers();
         expect(searchFunction).not.toHaveBeenCalled();
-        clickDopdownBtn(component);
+        clickDropdownBtn(component);
         component.update();
         await runOnlyPendingTimers();
-        expect(searchFunction).toHaveBeenCalledWith();
+        expect(searchFunction).toHaveBeenCalledWith([]);
       });
     });
     describe.skip('Selection', () => {

@@ -13,7 +13,13 @@ const FilterNumber = ({ filter, updateFilter }: IFilterComponentProps) => {
   };
 
   return (
-    <input className="filterInput" type="number" value={filter.value} onChange={updateValue} />
+    <input
+      className="filterInput"
+      type="number"
+      value={filter.value}
+      onChange={updateValue}
+      aria-label={`Filter ${filter.label} number input`}
+    />
   );
 };
 

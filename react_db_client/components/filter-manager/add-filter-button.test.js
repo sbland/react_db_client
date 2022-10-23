@@ -37,8 +37,8 @@ describe('Add Filter Button Component', () => {
       new FilterObjectClass({
         field: 'name',
         label: 'Name',
-        value: '',
-        operator: comparisons.contains,
+        value: undefined,
+        operator: comparisons.equals,
         type: filterTypes.text,
         uid: expect.any(String),
         filterOptionId: 'name',

@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FilterPanel Matches Snapshot 1`] = `
+"<FilterPanel filterData={{...}} addFilter={[Function: mockConstructor] { _isMockFunction: true, getMockImplementation: [Function (anonymous)], mock: Object [Object: null prototype] { calls: [], instances: [], invocationCallOrder: [], results: [] }, mockClear: [Function (anonymous)], mockReset: [Function (anonymous)], mockRestore: [Function (anonymous)], mockReturnValueOnce: [Function (anonymous)], mockResolvedValueOnce: [Function (anonymous)], mockRejectedValueOnce: [Function (anonymous)], mockReturnValue: [Function (anonymous)], mockResolvedValue: [Function (anonymous)], mockRejectedValue: [Function (anonymous)], mockImplementationOnce: [Function (anonymous)], mockImplementation: [Function (anonymous)], mockReturnThis: [Function (anonymous)], mockName: [Function (anonymous)], getMockName: [Function (anonymous)] }} deleteFilter={[Function: mockConstructor] { _isMockFunction: true, getMockImplementation: [Function (anonymous)], mock: Object [Object: null prototype] { calls: [], instances: [], invocationCallOrder: [], results: [] }, mockClear: [Function (anonymous)], mockReset: [Function (anonymous)], mockRestore: [Function (anonymous)], mockReturnValueOnce: [Function (anonymous)], mockResolvedValueOnce: [Function (anonymous)], mockRejectedValueOnce: [Function (anonymous)], mockReturnValue: [Function (anonymous)], mockResolvedValue: [Function (anonymous)], mockRejectedValue: [Function (anonymous)], mockImplementationOnce: [Function (anonymous)], mockImplementation: [Function (anonymous)], mockReturnThis: [Function (anonymous)], mockName: [Function (anonymous)], getMockName: [Function (anonymous)] }} updateFilter={[Function: mockConstructor] { _isMockFunction: true, getMockImplementation: [Function (anonymous)], mock: Object [Object: null prototype] { calls: [], instances: [], invocationCallOrder: [], results: [] }, mockClear: [Function (anonymous)], mockReset: [Function (anonymous)], mockRestore: [Function (anonymous)], mockReturnValueOnce: [Function (anonymous)], mockResolvedValueOnce: [Function (anonymous)], mockRejectedValueOnce: [Function (anonymous)], mockReturnValue: [Function (anonymous)], mockResolvedValue: [Function (anonymous)], mockRejectedValue: [Function (anonymous)], mockImplementationOnce: [Function (anonymous)], mockImplementation: [Function (anonymous)], mockReturnThis: [Function (anonymous)], mockName: [Function (anonymous)], getMockName: [Function (anonymous)] }} clearFilters={[Function: mockConstructor] { _isMockFunction: true, getMockImplementation: [Function (anonymous)], mock: Object [Object: null prototype] { calls: [], instances: [], invocationCallOrder: [], results: [] }, mockClear: [Function (anonymous)], mockReset: [Function (anonymous)], mockRestore: [Function (anonymous)], mockReturnValueOnce: [Function (anonymous)], mockResolvedValueOnce: [Function (anonymous)], mockRejectedValueOnce: [Function (anonymous)], mockReturnValue: [Function (anonymous)], mockResolvedValue: [Function (anonymous)], mockRejectedValue: [Function (anonymous)], mockImplementationOnce: [Function (anonymous)], mockImplementation: [Function (anonymous)], mockReturnThis: [Function (anonymous)], mockName: [Function (anonymous)], getMockName: [Function (anonymous)] }} updateFieldTarget={[Function: mockConstructor] { _isMockFunction: true, getMockImplementation: [Function (anonymous)], mock: Object [Object: null prototype] { calls: [], instances: [], invocationCallOrder: [], results: [] }, mockClear: [Function (anonymous)], mockReset: [Function (anonymous)], mockRestore: [Function (anonymous)], mockReturnValueOnce: [Function (anonymous)], mockResolvedValueOnce: [Function (anonymous)], mockRejectedValueOnce: [Function (anonymous)], mockReturnValue: [Function (anonymous)], mockResolvedValue: [Function (anonymous)], mockRejectedValue: [Function (anonymous)], mockImplementationOnce: [Function (anonymous)], mockImplementation: [Function (anonymous)], mockReturnThis: [Function (anonymous)], mockName: [Function (anonymous)], getMockName: [Function (anonymous)] }} updateOperator={[Function: mockConstructor] { _isMockFunction: true, getMockImplementation: [Function (anonymous)], mock: Object [Object: null prototype] { calls: [], instances: [], invocationCallOrder: [], results: [] }, mockClear: [Function (anonymous)], mockReset: [Function (anonymous)], mockRestore: [Function (anonymous)], mockReturnValueOnce: [Function (anonymous)], mockResolvedValueOnce: [Function (anonymous)], mockRejectedValueOnce: [Function (anonymous)], mockReturnValue: [Function (anonymous)], mockResolvedValue: [Function (anonymous)], mockRejectedValue: [Function (anonymous)], mockImplementationOnce: [Function (anonymous)], mockImplementation: [Function (anonymous)], mockReturnThis: [Function (anonymous)], mockName: [Function (anonymous)], getMockName: [Function (anonymous)] }} showPanelOverride={true} fieldsData={{...}} floating={false} autoOpenPanel={false} customFilters={{...}} customFiltersComponents={{...}}>
+  <div className=\\"filterManager\\">
+    <button type=\\"button\\" className=\\"button-one openFiltersButton\\" onClick={[Function: onClick]}>
+      Filters
+    </button>
+    <div className=\\"filterPanel_panel \\" style={{...}}>
+      <FiltersList filterData={{...}} deleteFilter={[Function: deleteFilter]} updateFilter={[Function: updateFilter]} fieldsData={{...}} customFilters={{...}} customFiltersComponents={{...}} updateFieldTarget={[Function: mockConstructor] { _isMockFunction: true, getMockImplementation: [Function (anonymous)], mock: Object [Object: null prototype] { calls: [], instances: [], invocationCallOrder: [], results: [] }, mockClear: [Function (anonymous)], mockReset: [Function (anonymous)], mockRestore: [Function (anonymous)], mockReturnValueOnce: [Function (anonymous)], mockResolvedValueOnce: [Function (anonymous)], mockRejectedValueOnce: [Function (anonymous)], mockReturnValue: [Function (anonymous)], mockResolvedValue: [Function (anonymous)], mockRejectedValue: [Function (anonymous)], mockImplementationOnce: [Function (anonymous)], mockImplementation: [Function (anonymous)], mockReturnThis: [Function (anonymous)], mockName: [Function (anonymous)], getMockName: [Function (anonymous)] }} updateOperator={[Function: mockConstructor] { _isMockFunction: true, getMockImplementation: [Function (anonymous)], mock: Object [Object: null prototype] { calls: [], instances: [], invocationCallOrder: [], results: [] }, mockClear: [Function (anonymous)], mockReset: [Function (anonymous)], mockRestore: [Function (anonymous)], mockReturnValueOnce: [Function (anonymous)], mockResolvedValueOnce: [Function (anonymous)], mockRejectedValueOnce: [Function (anonymous)], mockReturnValue: [Function (anonymous)], mockResolvedValue: [Function (anonymous)], mockRejectedValue: [Function (anonymous)], mockImplementationOnce: [Function (anonymous)], mockImplementation: [Function (anonymous)], mockReturnThis: [Function (anonymous)], mockName: [Function (anonymous)], getMockName: [Function (anonymous)] }}>
+        <ul className=\\"filterPanel_filterList\\">
+          <li className=\\"filterPanel_filterItem\\" id=\\"demoFilterString\\">
+            <button type=\\"button\\" className=\\"button-one deleteFilterBtn\\" onClick={[Function: onClick]}>
+              X
+            </button>
+            <select value=\\"name\\" onChange={[Function: onChange]} className=\\"filterItem_filterFieldSelect\\">
+              <option value=\\"name\\">
+                Name
+              </option>
+              <option value=\\"count\\">
+                Count
+              </option>
+              <option value=\\"filterA\\">
+                filter A
+              </option>
+              <option value=\\"filterB\\">
+                filter B
+              </option>
+              <option value=\\"select\\">
+                Select
+              </option>
+              <option value=\\"filterEmbedded\\">
+                Embedded Filter
+              </option>
+            </select>
+            <select value=\\"contains\\" onChange={[Function: onChange]} className=\\"filterOperatorSelect\\">
+              <option value=\\"regex\\">
+                contains
+              </option>
+              <option value=\\"=\\">
+                is
+              </option>
+              <option value=\\"empty\\">
+                empty
+              </option>
+            </select>
+            <FilterString filter={{...}} updateFilter={[Function: updateFilter]} fieldData={{...}}>
+              <input type=\\"text\\" className=\\"filterInput\\" value=\\"Foo\\" onChange={[Function: updateValue]} disabled={false} />
+            </FilterString>
+          </li>
+          <li className=\\"filterPanel_filterItem\\" id=\\"demoFilterNumber\\">
+            <button type=\\"button\\" className=\\"button-one deleteFilterBtn\\" onClick={[Function: onClick]}>
+              X
+            </button>
+            <select value=\\"count\\" onChange={[Function: onChange]} className=\\"filterItem_filterFieldSelect\\">
+              <option value=\\"name\\">
+                Name
+              </option>
+              <option value=\\"count\\">
+                Count
+              </option>
+              <option value=\\"filterA\\">
+                filter A
+              </option>
+              <option value=\\"filterB\\">
+                filter B
+              </option>
+              <option value=\\"select\\">
+                Select
+              </option>
+              <option value=\\"filterEmbedded\\">
+                Embedded Filter
+              </option>
+            </select>
+            <select value=\\">\\" onChange={[Function: onChange]} className=\\"filterOperatorSelect\\">
+              <option value=\\"=\\">
+                is
+              </option>
+              <option value=\\">\\">
+                Greater than
+              </option>
+              <option value=\\"<\\">
+                Less than
+              </option>
+            </select>
+            <FilterNumber filter={{...}} updateFilter={[Function: updateFilter]} fieldData={{...}}>
+              <input className=\\"filterInput\\" type=\\"number\\" value={0} onChange={[Function: updateValue]} />
+            </FilterNumber>
+          </li>
+          <li className=\\"filterPanel_filterItem\\" id=\\"demoFilterExpression\\">
+            <button type=\\"button\\" className=\\"button-one deleteFilterBtn\\" onClick={[Function: onClick]}>
+              X
+            </button>
+            <select value=\\"select\\" onChange={[Function: onChange]} className=\\"filterItem_filterFieldSelect\\">
+              <option value=\\"name\\">
+                Name
+              </option>
+              <option value=\\"count\\">
+                Count
+              </option>
+              <option value=\\"filterA\\">
+                filter A
+              </option>
+              <option value=\\"filterB\\">
+                filter B
+              </option>
+              <option value=\\"select\\">
+                Select
+              </option>
+              <option value=\\"filterEmbedded\\">
+                Embedded Filter
+              </option>
+            </select>
+            <select value=\\"contains\\" onChange={[Function: onChange]} className=\\"filterOperatorSelect\\">
+              <option value=\\"=\\">
+                is
+              </option>
+            </select>
+            <FilterSelect filter={{...}} updateFilter={[Function: updateFilter]} fieldData={{...}} multiple={false}>
+              <select multiple={[undefined]} value=\\"a\\" onChange={[Function: updateValue]}>
+                <option>
+                   
+                </option>
+                <option value=\\"a\\">
+                  A
+                </option>
+                <option value=\\"b\\">
+                  B
+                </option>
+              </select>
+            </FilterSelect>
+          </li>
+        </ul>
+      </FiltersList>
+      <button type=\\"button\\" className=\\"button-one\\" onClick={[Function: onClick]}>
+        Clear Filters
+      </button>
+      <AddFilterButton fieldsData={{...}} returnNewFilter={[Function: returnNewFilter]} customFilters={{...}}>
+        <button type=\\"button\\" className=\\"button-two addFilterBtn\\" onClick={[Function: handleNewFilter]}>
+          Add Filter
+        </button>
+      </AddFilterButton>
+    </div>
+  </div>
+</FilterPanel>"
+`;

@@ -12,10 +12,17 @@ const FilterSelect = ({ filter, updateFilter, fieldData }: IFilterComponentProps
     updateFilter(newFilterData);
   };
 
-  const { options, multiple } = fieldData;
+  if(!fieldData.typeArgs) throw Error(`Select filter "${filter.uid}" is missing typeArgs`)
+
+  const { options, multiple } = fieldData.typeArgs;
 
   return (
-    <select multiple={multiple} value={filter.value || ''} onChange={updateValue}>
+    <select
+      multiple={multiple}
+      value={filter.value || ''}
+      onChange={updateValue}
+      aria-label={`Filter ${filter.label} select`}
+    >
       {!multiple && <option> </option>}
       {options &&
         options.map((opt) => (
@@ -35,19 +42,17 @@ FilterSelect.propTypes = {
     value: PropTypes.string,
   }).isRequired,
   fieldData: PropTypes.shape({
-    options: PropTypes.arrayOf(
-      PropTypes.shape({
-        uid: PropTypes.string.isRequired,
-        label: PropTypes.string.isRequired,
-      })
-    ).isRequired,
+    typeArgs: PropTypes.shape({
+      multiple: PropTypes.bool,
+      options: PropTypes.arrayOf(
+        PropTypes.shape({
+          uid: PropTypes.string.isRequired,
+          label: PropTypes.string.isRequired,
+        })
+      ).isRequired,
+    }),
   }).isRequired,
   updateFilter: PropTypes.func.isRequired,
-  multiple: PropTypes.bool,
-};
-
-FilterSelect.defaultProps = {
-  multiple: false,
 };
 
 export default FilterSelect;

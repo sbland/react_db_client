@@ -1,6 +1,11 @@
-import { EComparisons, FilterObjectClass } from '@react_db_client/constants.client-types';
+import {
+  EComparisons,
+  FilterObjectClass,
+  FilterOption,
+  filterTypes,
+} from '@react_db_client/constants.client-types';
 import React from 'react';
-import { FilterId, IField } from './lib';
+import { FilterId, TFilterFunc } from './lib';
 
 /**
  * Update the target field fot a filter row
@@ -23,9 +28,9 @@ export const updateFieldTarget = (index, fieldId, fieldsData, updateFilter, cust
 };
 
 export interface IUseManageFiltersArgs {
-  fieldsData: { [key: string]: IField };
+  fieldsData: { [key: string]: FilterOption };
   initialFilterData?: FilterObjectClass[];
-  customFilters?: { [key: string]: () => {} };
+  customFilters?: { [key: string]: TFilterFunc };
 }
 
 export interface IUseManageFiltersOutput {
@@ -74,6 +79,8 @@ export const useManageFilters = ({
     (index: FilterId, fieldId: string) => {
       if (!fieldsData[fieldId]) throw Error('Missing Field Data');
       const { uid, type } = fieldsData[fieldId];
+      const isCustomType = !(fieldsData[fieldId].type in filterTypes);
+
       const newFilter = new FilterObjectClass({
         ...fieldsData[fieldId],
         uid: undefined, // We set as undefined so that it is randomly generated
