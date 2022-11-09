@@ -228,7 +228,7 @@
     "components/item-editor": {
         "scope": "samnbuk.react_db_client",
         "version": "0.2.117",
-        "mainFile": "index.js",
+        "mainFile": "index.ts",
         "rootDir": "react_db_client/components/item-editor"
     },
     "components/item-list": {
