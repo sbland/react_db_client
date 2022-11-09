@@ -70,18 +70,20 @@ const ColumnManagerStyles = styled.div`
   }
 `;
 
-export interface ColumnManagerTypes {
+export interface IColumnManagerProps {
+  tableWidth: number;
   columnWidths: number[];
   setColumnWidths: (newWidths: number[]) => void;
   minWidth?: number;
   maxWidth?: number;
   showEdges?: boolean;
   liveDragging?: boolean;
-  innerRef: React.RefObject<HTMLDivElement>;
+  innerRef?: React.RefObject<HTMLDivElement>;
   widthPadding?: number;
 }
 
-export const ColumnWidthManager: React.FC<ColumnManagerTypes> = ({
+export const ColumnWidthManager: React.FC<IColumnManagerProps> = ({
+  tableWidth,
   columnWidths,
   setColumnWidths,
   minWidth = 10,
@@ -89,7 +91,7 @@ export const ColumnWidthManager: React.FC<ColumnManagerTypes> = ({
   showEdges = false,
   liveDragging = false,
   innerRef,
-  widthPadding=100,
+  widthPadding = 100,
 }) => {
   const [currentColumnn, setCurrentColumnn] = useState(-1);
   const [resizingColumn, setResizingColumn] = useState(false);
@@ -113,7 +115,7 @@ export const ColumnWidthManager: React.FC<ColumnManagerTypes> = ({
   // called on mouse move over resize overlay when dragging
   const resizeColumn = (e: React.MouseEvent<HTMLDivElement>) => {
     const newWidths = [...columnWidthOverrideRef.current];
-    const boundaryWidth = containerRef.current.parentElement.clientWidth;
+    const boundaryWidth = containerRef.current?.parentElement?.clientWidth || 0;
     const isOutsideBoundary = e.clientX < 0 || e.clientX > boundaryWidth;
     const moveToPoint = isOutsideBoundary ? boundaryWidth : e.clientX;
     const newWidth = newWidths[currentColumnn] + moveToPoint - lastMousePosRef.current;
@@ -155,8 +157,16 @@ export const ColumnWidthManager: React.FC<ColumnManagerTypes> = ({
     window.addEventListener('mouseup', event);
   };
 
+  React.useEffect(() => {
+    setLiveColumnWidths(columnWidths);
+  }, [columnWidths]);
+
   return (
-    <ColumnManagerStyles className="columnWidthManager_styles" ref={innerRef}>
+    <ColumnManagerStyles
+      className="columnWidthManager_styles"
+      ref={innerRef}
+      style={{ width: tableWidth }}
+    >
       <div
         className="columnWidthManager"
         style={{
@@ -172,6 +182,7 @@ export const ColumnWidthManager: React.FC<ColumnManagerTypes> = ({
               position: 'absolute',
               top: 0,
               bottom: 0,
+              zIndex: 1000,
               width: 10,
               left: `${columnEdgePositions[i] - 5}px`,
               pointerEvents: resizingColumn ? 'none' : 'all',

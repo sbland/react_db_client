@@ -5,11 +5,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-export type HeadingObject = {
+export interface HeadingObject {
   label?: string;
   columnWidth?: number;
-};
-export type UseColumnManagerProps = {
+}
+export interface UseColumnManagerProps {
   headingsDataList: HeadingObject[];
   defaultColumnWidth?: number;
   unit?: number;
@@ -18,7 +18,13 @@ export type UseColumnManagerProps = {
   maxWidth?: number;
   autoWidth?: boolean;
   containerRef?: React.RefObject<HTMLElement> | null;
-};
+}
+
+export interface IUseColumnManagerReturn {
+  columnWidths: number[];
+  setColumnWidths: (v: number[]) => void;
+  tableWidth: number;
+}
 
 /* 1. Manage the column widths
 
@@ -32,15 +38,15 @@ export const useColumnManager = ({
   maxWidth = 2000,
   autoWidth = false,
   containerRef = null,
-}: UseColumnManagerProps) => {
-  const error = null;
+}: UseColumnManagerProps): IUseColumnManagerReturn => {
   const [columnCount, setColumnCount] = useState<number | null>(null);
   const getColumnWidth = useCallback(
     (itemData: HeadingObject) => {
       if (autoWidth) {
         // We assume a container width of 1080 if the container hasn't yet loaded
         const containerWidth = containerRef?.current ? containerRef.current.clientWidth : 1080;
-        return containerWidth / headingsDataList.length;
+        // TODO: we shouldn't need to include padding here
+        return (containerWidth * 0.995) / headingsDataList.length;
       }
       if (itemData.columnWidth) return itemData.columnWidth * unit + extraWidth;
       if (itemData.label) return itemData.label.length * unit + extraWidth;
@@ -58,8 +64,15 @@ export const useColumnManager = ({
     ],
     [getColumnWidth, maxWidth, minWidth]
   );
+
   // -- Column widths state
   const [columnWidths, setColumnWidths] = useState(() => resetColumnWidths(headingsDataList));
+
+  React.useEffect(() => {
+    if (autoWidth && containerRef?.current) {
+      setColumnWidths(resetColumnWidths(headingsDataList));
+    }
+  }, [containerRef, autoWidth]);
 
   useEffect(() => {
     if (headingsDataList.length !== columnCount) {
@@ -67,6 +80,7 @@ export const useColumnManager = ({
       setColumnWidths(resetColumnWidths(headingsDataList));
     }
   }, [headingsDataList, resetColumnWidths, columnCount]);
+
   const tableWidth = React.useMemo(
     () => columnWidths.reduce((a, b) => a + b) + columnWidths.length - 1,
     [columnWidths]
@@ -76,7 +90,6 @@ export const useColumnManager = ({
     columnWidths,
     setColumnWidths,
     tableWidth,
-    error,
   };
 };
 
