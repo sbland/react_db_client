@@ -1,14 +1,14 @@
 import React, { useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { useColumnManager } from '@react_db_client/components.column-manager';
+import { useColumnManager, ColumnWidthManager } from '@react_db_client/components.column-manager';
+import { Uid } from '@react_db_client/constants.client-types';
 import { ListItem } from './list-item';
 import {
-  StyledListHdeadingStyle,
+  StyledListHeadingStyle,
   StyledListItems,
   StyledListStyle,
   StyledSelectListHeadingStyle,
 } from './styles';
-import { Uid } from '@react_db_client/constants.client-types';
 import { IHeading, IItem } from './lib';
 
 export interface IStyledSelectList<ItemType extends IItem> {
@@ -19,6 +19,8 @@ export interface IStyledSelectList<ItemType extends IItem> {
   limitHeight?: number;
   selectionField: string;
   autoWidth?: boolean;
+  minWidth?: number;
+  maxWidth?: number;
   customParsers: { [k: string]: (valIn: any) => any };
 }
 
@@ -33,17 +35,15 @@ export const StyledSelectList = <ItemType extends IItem>({
   limitHeight,
   selectionField,
   autoWidth,
+  maxWidth = 1000,
+  minWidth = 100,
   customParsers,
 }: IStyledSelectList<ItemType>) => {
   const containerRef = useRef(null);
-  const {
-    columnWidths,
-    // setColumnWidths,
-    // tableWidth
-  } = useColumnManager({
+  const { columnWidths, setColumnWidths, tableWidth } = useColumnManager({
     headingsDataList: headings,
-    minWidth: 100,
-    maxWidth: 1000,
+    minWidth,
+    maxWidth,
     autoWidth,
     containerRef,
   });
@@ -68,6 +68,7 @@ export const StyledSelectList = <ItemType extends IItem>({
           handleSelect={handleSelect}
           headings={headings}
           columnWidths={columnWidths}
+          tableWidth={tableWidth}
           customParsers={customParsers}
           isSelected={
             (currentSelection && currentSelection.indexOf(item[selectionField]) >= 0) || false
@@ -90,21 +91,27 @@ export const StyledSelectList = <ItemType extends IItem>({
     <StyledListStyle
       style={{
         ...(limitHeight ? { maxHeight: `${limitHeight}rem` } : {}),
+        width: '100%',
+        overflow: 'auto',
+        // width: tableWidth,
       }}
       ref={containerRef}
       data-testid="styledSelectList"
     >
-      {/* TODO: This is causing a memory leak! */}
-      {/* <DataTableColumnWidthManager
+      <StyledListHeadingStyle style={{ width: tableWidth }}>{mapHeadings}</StyledListHeadingStyle>
+      <StyledListItems
+        limitHeight={limitHeight ? true : false}
+        style={{ zIndex: 10, width: tableWidth }}
+      >
+        {mapItems}
+      </StyledListItems>
+      <ColumnWidthManager
         setColumnWidths={setColumnWidths}
+        tableWidth={tableWidth}
         columnWidths={columnWidths}
         minWidth={100}
         maxWidth={1000}
-      /> */}
-      <StyledListHdeadingStyle>{mapHeadings}</StyledListHdeadingStyle>
-      <StyledListItems limitHeight={limitHeight ? true : false} style={{ zIndex: 10 }} role="list">
-        {mapItems}
-      </StyledListItems>
+      />
     </StyledListStyle>
   );
 };

@@ -5,28 +5,22 @@ import { demoListInputData, demoHeadingsData } from './dummy-data';
 
 export const ListItemDefault = () => (
   <ListItem
+    tableWidth={demoHeadingsData.reduce((acc, _) => acc + 100, 0)}
     data={demoListInputData[0]}
-    // currentSelection={currentSelection}
-    selectionField={demoHeadingsData[0].uid}
     handleSelect={alert}
     headings={demoHeadingsData}
     columnWidths={demoHeadingsData.map(() => 100)}
     customParsers={{}}
-    // isSelected={
-    // currentSelection &&
-    // currentSelection.indexOf(item[selectionField]) >= 0
-    // }
-    // key={item.uid}
   />
 );
-
-export const ListItemCustomClasses = () => (
+export const ListItemDefaultSelected = () => (
   <ListItem
+    tableWidth={demoHeadingsData.reduce((acc, _) => acc + 100, 0)}
     data={demoListInputData[0]}
-    selectionField={demoHeadingsData[0].uid}
     handleSelect={alert}
     headings={demoHeadingsData}
     columnWidths={demoHeadingsData.map(() => 100)}
     customParsers={{}}
+    isSelected
   />
 );

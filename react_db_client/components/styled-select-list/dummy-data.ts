@@ -16,9 +16,9 @@ export const demoHeadingsData = [
     label: 'Type',
   },
   {
-    uid: 'name',
+    uid: 'label',
     type: 'text',
-    label: 'Name',
+    label: 'Label',
     columnWidth: 20,
   },
 ];
