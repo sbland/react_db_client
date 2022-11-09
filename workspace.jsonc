@@ -60,7 +60,7 @@
         "@teambit/harmony": "0.3.3",
         "@teambit/react.templates.themes.theme": "0.0.4",
         "@testing-library/user-event": "^14.4.0",
-        "@types/styled-components": "^5.1.25",
+        "@types/styled-components": "^5.1.26",
         "classnames": "2.3.1",
         "mathjs": "10.6.1",
         "react-base-table": "1.13.0",
