@@ -2,7 +2,7 @@ import React, { useCallback, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { useAsyncObjectManager } from '@react_db_client/async-hooks.use-async-object-manager';
-import { Form, FormField } from '@react_db_client/components.form.form';
+import { Form, FormField } from '@form-extendable/component';
 import { mapFields } from './field-mapper';
 
 /**
@@ -24,7 +24,7 @@ export const ItemEditor = ({
   componentMap,
   saveErrorCallback,
 }) => {
-  const [overridenFields, setOverridenFields] = useState([]);
+  const [overridenFields, setOverridenFields] = useState<string[]>([]);
 
   const {
     saveData,

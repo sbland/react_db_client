@@ -1,13 +1,13 @@
 import React from 'react';
 import { ItemEditor } from './item-editor';
 import { demoParams, demoData } from './demo-data';
-import { defaultComponentMap } from '@react_db_client/components.form.form';
+import { defaultComponentMap } from '@form-extendable/components.component-map';
 
-const asyncGetDocuments = async () => {
+const asyncGetFiles = () => async () => {
   throw Error('Not Implemented');
 };
 const fileServerUrl = '';
-const onSubmitCallback= () => {};
+const onSubmitCallback = () => {};
 
 export const BasicItemEditor = () => (
   <div className="productEditor_FormWrap sectionWrapper">
@@ -23,7 +23,7 @@ export const BasicItemEditor = () => (
       asyncPutDocument={async () => {}}
       asyncPostDocument={async () => {}}
       asyncDeleteDocument={async () => {}}
-      componentMap={defaultComponentMap({ asyncGetDocuments, fileServerUrl })}
+      componentMap={defaultComponentMap({ asyncGetFiles, fileServerUrl })}
     />
   </div>
 );
