@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './_emoji.css';
+import { EmojiSpan } from './styles';
 
-export interface IEmojiProps{
+export interface IEmojiProps {
   emoj: string;
   label: string;
   className?: string;
 }
 
 export const Emoji = ({ emoj, label, className }: IEmojiProps) => (
-  <span className={`emoji ${className}`} role="img" aria-label={label}>
+  <EmojiSpan className={`emoji ${className}`} role="img" aria-label={label}>
     {emoj || ''}
-  </span>
+  </EmojiSpan>
 );
 
 Emoji.propTypes = {
