@@ -1,15 +1,25 @@
 import React from 'react';
+import { getRoot } from '@react_db_client/helpers.get-root';
 
 export type TPopupId = string | number;
 
+export interface IPopupElementState {
+  open?: boolean;
+  root: HTMLElement;
+  deleteRootOnUnmount?: boolean;
+}
 export interface IPopupPanelContext {
   popupCount: number;
-  registerPopup: (id: TPopupId) => void;
+  registerPopup: (
+    id: TPopupId,
+    root: string | HTMLElement | undefined,
+    deleteRootOnUnmount?: boolean
+  ) => void;
   deregisterPopup: (id: TPopupId) => void;
   baseZIndex: number;
   openPopup: (id: TPopupId) => void;
   closePopup: (id: TPopupId) => void;
-  popupRegister: { [id: TPopupId]: boolean };
+  popupRegister: { [id: TPopupId]: IPopupElementState };
 }
 
 export interface IPopupProviderProps {
@@ -19,7 +29,11 @@ export interface IPopupProviderProps {
 
 export const defaultState: IPopupPanelContext = {
   popupCount: 0,
-  registerPopup: (id: TPopupId) => null,
+  registerPopup: (
+    id: TPopupId,
+    root?: string | HTMLElement | undefined,
+    deleteRootOnUnmount?: boolean
+  ) => null,
   deregisterPopup: (id: TPopupId) => null,
   baseZIndex: 100,
   openPopup: (id: TPopupId) => {
@@ -41,26 +55,37 @@ export const PopupProvider = ({ initialState = defaultState, children }: IPopupP
     initialState.popupRegister || EMPTY_OBJECT
   );
 
-  const registerPopup = (id: TPopupId) => {
-    setPopupRegister((prev) => ({ ...prev, [id]: false }));
+  const registerPopup = (
+    id: TPopupId,
+    popupRoot: string | HTMLElement | undefined,
+    deleteRootOnUnmount?: boolean
+  ) => {
+    const root = getRoot(popupRoot || id, id);
+    setPopupRegister((prev) => ({ ...prev, [id]: { open: false, root, deleteRootOnUnmount } }));
   };
 
   const deregisterPopup = (id: TPopupId) => {
     setPopupRegister((prev) => {
-      const out = { ...prev };
-      delete out[id];
-      return out;
+      const registerCopy = { ...prev };
+      const { deleteRootOnUnmount, root } = registerCopy[id] || {};
+      if (deleteRootOnUnmount && root) {
+        root.remove();
+      }
+      delete registerCopy[id];
+      return registerCopy;
     });
   };
 
   const openPopup = (id: TPopupId) => {
     popupCount.current += 1;
-    if (popupRegister[id] !== undefined) setPopupRegister((prev) => ({ ...prev, [id]: true }));
+    if (popupRegister[id] !== undefined)
+      setPopupRegister((prev) => ({ ...prev, [id]: { ...prev[id], open: true } }));
   };
 
   const closePopup = (id: TPopupId) => {
     popupCount.current -= 1;
-    if (popupRegister[id] !== undefined) setPopupRegister((prev) => ({ ...prev, [id]: false }));
+    if (popupRegister[id] !== undefined)
+      setPopupRegister((prev) => ({ ...prev, [id]: { ...prev[id], open: false } }));
   };
 
   const mergedValue = {

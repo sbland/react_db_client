@@ -17,33 +17,41 @@ export type PopupPanelProps = {
   renderWhenClosed?: boolean;
   children: ReactNode;
   popupRoot?: string | HTMLElement;
+  deleteRootOnUnmount?: boolean;
 };
 
-export function PopupPanel({ id, renderWhenClosed, children, popupRoot }: PopupPanelProps) {
-  const _popupRoot = getRoot(popupRoot || id, id);
+export function PopupPanel({
+  id,
+  renderWhenClosed,
+  children,
+  popupRoot,
+  deleteRootOnUnmount,
+}: PopupPanelProps) {
+  // const _popupRoot = getRoot(popupRoot || id, id);
 
   const { popupCount, registerPopup, deregisterPopup, baseZIndex, popupRegister, closePopup } =
     React.useContext(PopupPanelContext);
 
   const z = React.useRef<number>(popupCount);
 
-  const isOpen = popupRegister[id];
+  const { open, root } = popupRegister[id] || { open: false, root: null };
 
   React.useEffect(() => {
-    registerPopup(id);
+    registerPopup(id, popupRoot, deleteRootOnUnmount);
     return () => {
       deregisterPopup(id);
     };
   }, []);
 
-  if (!_popupRoot) return <div>Missing Popup Root</div>;
+  if (!root) return <></>;
+  // if (!_popupRoot) return <div>Missing Popup Root</div>;
 
   return ReactDOM.createPortal(
     <PopupPanelWrapStyle
       data-testid={`popupPanel_${id}`}
       style={{
         zIndex: baseZIndex + z.current * 10,
-        display: isOpen ? 'inherit' : 'none',
+        display: open ? 'inherit' : 'none',
       }}
     >
       <PopupPanelClosePanelStyle
@@ -52,10 +60,10 @@ export function PopupPanel({ id, renderWhenClosed, children, popupRoot }: PopupP
         aria-label="Close popup"
         data-testid={'popupPanel_closeBtn'}
       />
-      <PopupPanelContentPanelStyle data-testid={'popupPanel_content'} isOpen={isOpen}>
-        {(renderWhenClosed || isOpen) && children}
+      <PopupPanelContentPanelStyle data-testid={'popupPanel_content'} isOpen={open || false}>
+        {(renderWhenClosed || open) && children}
       </PopupPanelContentPanelStyle>
     </PopupPanelWrapStyle>,
-    _popupRoot
+    root
   );
 }
