@@ -10,7 +10,7 @@ export interface IHeading {
 
 export const searchResultHeadings = (fileServerUrl: string): IHeading[] => [
   {
-    uid: 'name',
+    uid: 'label',
     label: 'Thumbnail',
     type: EFilterType.image,
     root: fileServerUrl,
