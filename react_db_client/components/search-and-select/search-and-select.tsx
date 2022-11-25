@@ -344,7 +344,7 @@ export const SearchAndSelect = <ResultType extends IResult>({
                 listInput={results || []}
                 headings={headings}
                 handleSelect={
-                  loading ? () => {} : (uid) => handleItemSelect(uid, returnFieldOnSelect)
+                  loading ? () => {} : (uid, data) => handleItemSelect(data, returnFieldOnSelect)
                 }
                 currentSelection={currentSelectionUid}
                 limitHeight={limitResultHeight}

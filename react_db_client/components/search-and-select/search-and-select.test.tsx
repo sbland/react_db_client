@@ -1,11 +1,13 @@
 import React from 'react';
-import { screen, render, within, act } from '@testing-library/react';
+import { screen, render, within, act, waitFor } from '@testing-library/react';
+import UserEvent from '@testing-library/user-event';
 import { ISearchAndSelectProps, SearchAndSelect } from './search-and-select';
 import { demoResultData, demoHeadingsData, IResultExample, extraResult } from './demo-data';
 import * as compositions from './search-and-select.composition';
 
 const searchFunction = jest.fn().mockImplementation(async () => demoResultData);
 const handleSelect = jest.fn();
+Date.now = jest.fn(() => 123); //14.02.2017
 
 const defaultProps: ISearchAndSelectProps<IResultExample> = {
   searchFunction,
@@ -16,21 +18,17 @@ const defaultProps: ISearchAndSelectProps<IResultExample> = {
   previewHeadings: demoHeadingsData,
 };
 
-jest.useFakeTimers('modern');
-const runOnlyPendingTimers = async () =>
-  await act(async () => {
-    jest.runOnlyPendingTimers();
-  });
-
 describe('SearchAndSelect', () => {
   describe('Compositions', () => {
-    Object.entries(compositions).forEach(([name, Composition]) => {
-      test(name, async () => {
-        render(<Composition />);
-        // @ts-ignore
-        if (Composition.waitForReady) await Composition.waitForReady();
+    Object.entries(compositions)
+      .filter(([name, Composition]) => (Composition as any).forTests)
+      .forEach(([name, Composition]) => {
+        test(name, async () => {
+          render(<Composition />);
+          // @ts-ignore
+          if (Composition.waitForReady) await Composition.waitForReady();
+        });
       });
-    });
   });
   describe('Unit Tests', () => {
     describe('standard', () => {
@@ -39,26 +37,54 @@ describe('SearchAndSelect', () => {
       });
       test('should work', () => {});
     });
-    describe('Changing Props', () => {
-      test('should be able to change search function', async () => {
-        render(<compositions.SelectSearchFn />);
-        await runOnlyPendingTimers();
-        const resultsList = screen.getByTestId('styledSelectList');
-        await within(resultsList).findAllByText(demoResultData[0].name);
-        // TODO: Fix this test
-        // const results = await within(resultsList).findAllByRole('listitem');
-        // const initialResultsCount = results.length;
-        // expect(initialResultsCount).toBeGreaterThan(0);
-        // const switchFuncSelect = screen.getByRole('button', {name: /Select/})
-        // await UserEvent.click(switchFuncSelect);
+    describe('Filters', () => {
+      test.todo('should be able to change search function');
+    });
 
-        // await waitFor(() => screen.getByText(extraResult.name));
+    describe('Selecting results', () => {
+      let realWindow;
+      const mockAlert = jest.fn();
+      beforeEach(() => {
+        /* Backup mocked globals */
+        window.alert = mockAlert;
+      });
 
-        // const resultsListB = screen.getByTestId("styledSelectList");
-        // await within(resultsListB).findAllByText(demoResultData[0].name);
-        // const results = await within(resultsListB).findAllByRole('listitem');
-        // const initialResultsCount = results.length;
-        // expect(initialResultsCount).toBeGreaterThan(0);
+      afterEach(() => {
+        // eslint-disable-next-line no-global-assign
+        window = realWindow;
+      });
+      test('should return selection when selecting from results', async () => {
+        render(<compositions.SearchExampleForTests />);
+        await compositions.SearchExampleForTests.waitForReady();
+        const liveUpdateButton = screen.getByRole('button', { name: /Live Update/ });
+        await UserEvent.click(liveUpdateButton);
+        await screen.findByText(demoResultData[0].uid);
+        const resultsList = screen
+          .getAllByRole('list')
+          .find((c) => within(c).queryByText(demoResultData[0].name));
+        expect(resultsList).toBeInTheDocument();
+        const resultsListItems = within(resultsList as HTMLUListElement).getAllByRole('listitem');
+        expect(resultsListItems.length).toBeGreaterThan(0);
+        const firstItem = within(resultsListItems[0]).getByRole('button');
+        await UserEvent.click(firstItem);
+        expect(mockAlert).toHaveBeenCalledWith(demoResultData[0]);
+      });
+
+      test('should return selection when selecting from results with alt id', async () => {
+        render(<compositions.SearchExampleForTestsAltReturnField />);
+        await compositions.SearchExampleForTestsAltReturnField.waitForReady();
+        const liveUpdateButton = screen.getByRole('button', { name: /Live Update/ });
+        await UserEvent.click(liveUpdateButton);
+        await screen.findByText(demoResultData[0].uid);
+        const resultsList = screen
+          .getAllByRole('list')
+          .find((c) => within(c).queryByText(demoResultData[0].name));
+        expect(resultsList).toBeInTheDocument();
+        const resultsListItems = within(resultsList as HTMLUListElement).getAllByRole('listitem');
+        expect(resultsListItems.length).toBeGreaterThan(0);
+        const firstItem = within(resultsListItems[0]).getByRole('button');
+        await UserEvent.click(firstItem);
+        expect(mockAlert).toHaveBeenCalledWith(demoResultData[0]);
       });
     });
   });

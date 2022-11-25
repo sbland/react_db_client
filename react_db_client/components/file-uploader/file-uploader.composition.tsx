@@ -13,7 +13,7 @@ const defaultProps = {
 };
 
 export const BasicFileUploader = () => (
-  <CompositionWrapDefault height="4rem" width="8rem">
+  <CompositionWrapDefault height="40rem" width="50rem">
     <FileUploader {...defaultProps} />
   </CompositionWrapDefault>
 );

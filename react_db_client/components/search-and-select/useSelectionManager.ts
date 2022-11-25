@@ -14,7 +14,7 @@ export interface IUseSelectionManagerArgs<ResultType extends IResult> {
 }
 
 export interface IUseSelectionManagerReturn<ResultType extends IResult> {
-  handleItemSelect: (uid: Uid, idField: string) => void;
+  handleItemSelect: (data: any, idField: string) => void;
   currentSelection: ResultType[];
   currentSelectionUid: Uid[];
   currentSelectionLabels: string[];
@@ -44,7 +44,7 @@ export const useSelectionManager = <ResultType extends IResult>({
         currentSelection
       );
     }
-  }, [allowMultiple, currentSelection, returnFieldOnSelect, handleSelect]);
+  }, [allowMultiple, currentSelection, handleSelect]);
 
   useEffect(() => {
     // TODO: This is a hack to make sure current selection is set to data loaded from api
@@ -78,12 +78,15 @@ export const useSelectionManager = <ResultType extends IResult>({
     selectionChanged,
   ]);
 
-  const handleItemSelect = (uid: Uid, idField: string) => {
+  const handleItemSelect = (data: any, idField: string) => {
+    const uid = data[idField];
     const selectedItemData =
       (results && results.find((r) => r[idField] === uid)) ||
       currentSelection.find((item) => item[idField] === uid);
     if (!selectedItemData) {
+      console.info(idField, uid);
       console.log(currentSelection);
+      console.log(results);
       throw Error(`Invalid Selection ${uid}`);
     }
 

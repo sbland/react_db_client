@@ -39,7 +39,6 @@ export const FileManager: React.FC<IFileManagerProps> = ({
       <section>
         <h2>Select File</h2>
         <br />
-        <br />
         {/* TODO: Should refresh on file upload */}
         <SearchAndSelect<IFile>
           searchFunction={asyncGetFiles}
@@ -52,7 +51,7 @@ export const FileManager: React.FC<IFileManagerProps> = ({
           showSearchField
           // searchFieldTargetField="name"
           key={forceUpdate}
-          returnFieldOnSelect="filePath"
+          // returnFieldOnSelect="filePath"
           allowMultiple={allowMultiple}
           showRefreshBtn
         />

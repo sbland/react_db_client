@@ -16,18 +16,21 @@ import { demoFiltersData, demoFieldsData } from '@react_db_client/constants.demo
 import { FilterObjectClass } from '@react_db_client/constants.client-types';
 import { IResult } from './lib';
 
-const Select = ({ liveUpdate, setLiveUpdate }) => (
+const Switch = ({ liveUpdate, setLiveUpdate, text }) => (
   <button
     type="button"
     className={liveUpdate ? 'button-two' : 'button-one'}
     onClick={() => setLiveUpdate(!liveUpdate)}
   >
-    Select
+    {text}
   </button>
 );
 
 const defaultSearchFn = async (filter?: FilterObjectClass[]): Promise<IResultExample[]> =>
   new Promise((resolve) => setTimeout(() => resolve(demoResultData), 2000));
+
+const defaultSearchFnNoTimeout = async (filter?: FilterObjectClass[]): Promise<IResultExample[]> =>
+  new Promise((resolve) => resolve(demoResultData));
 
 defaultSearchFn.waitForReady = async () => {
   await jest.runOnlyPendingTimers();
@@ -47,6 +50,50 @@ const defaultProps = {
   previewHeadings: demoPreviewHeadingsData,
 };
 
+export const SearchExampleForTests = () => {
+  const [liveUpdate, setLiveUpdate] = useState(false);
+  const props = {
+    ...defaultProps,
+    handleSelect: alert,
+    searchFunction: defaultSearchFnNoTimeout,
+    autoUpdate: liveUpdate,
+  };
+  return (
+    <div>
+      <Switch {...{ liveUpdate, setLiveUpdate }} text="Live Update" />
+      <SearchAndSelect {...props} />
+    </div>
+  );
+};
+
+SearchExampleForTests.waitForReady = async () => {
+  await screen.findByText('No results found. Try adjusting the filters above.');
+};
+
+SearchExampleForTests.forTests = true;
+
+export const SearchExampleForTestsAltReturnField = () => {
+  const [liveUpdate, setLiveUpdate] = useState(false);
+  const props = {
+    ...defaultProps,
+    handleSelect: alert,
+    searchFunction: defaultSearchFnNoTimeout,
+    autoUpdate: liveUpdate,
+    returnFieldOnSelect: 'name',
+  };
+  return (
+    <div>
+      <Switch {...{ liveUpdate, setLiveUpdate }} text="Live Update" />
+      <SearchAndSelect {...props} />
+    </div>
+  );
+};
+
+SearchExampleForTestsAltReturnField.waitForReady = async () => {
+  await screen.findByText('No results found. Try adjusting the filters above.');
+};
+SearchExampleForTestsAltReturnField.forTests = true;
+
 export const CompDemoData = () => {
   const [liveUpdate, setLiveUpdate] = useState(false);
   const props = {
@@ -55,13 +102,15 @@ export const CompDemoData = () => {
   };
   return (
     <div>
-      <Select {...{ liveUpdate, setLiveUpdate }} />
+      <Switch {...{ liveUpdate, setLiveUpdate }} text="Live Update" />
       <SearchAndSelect {...props} />
     </div>
   );
 };
 
-
+CompDemoData.waitForReady = async () => {
+  await screen.findByText('No results found. Try adjusting the filters above.');
+};
 
 export const SearchField = () => {
   const [liveUpdate, setLiveUpdate] = useState(false);
@@ -70,15 +119,17 @@ export const SearchField = () => {
     autoUpdate: liveUpdate,
     showSearchField: true,
     searchFieldTargetField: 'name',
-    handleSelect: (data) => alert(`Selected: ${data}`),
+    handleSelect: alert,
+    // handleSelect: (data) => alert(`Selected: ${JSON.stringify(data)}`),
   };
   return (
     <div>
-      <Select {...{ liveUpdate, setLiveUpdate }} />
+      <Switch {...{ liveUpdate, setLiveUpdate }} text="Live Update" />
       <SearchAndSelect {...props} />
     </div>
   );
 };
+
 export const DemoDataMulti = () => {
   const [liveUpdate, setLiveUpdate] = useState(false);
   const props = {
@@ -89,11 +140,12 @@ export const DemoDataMulti = () => {
   };
   return (
     <div>
-      <Select {...{ liveUpdate, setLiveUpdate }} />
+      <Switch {...{ liveUpdate, setLiveUpdate }} text="Live Update" />
       <SearchAndSelect {...props} />
     </div>
   );
 };
+
 export const DemoDataMultiAutoupdate = () => {
   const [liveUpdate, setLiveUpdate] = useState(false);
   const [selection, setSelection] = useState<IResult | IResult[] | null>(null);
@@ -104,7 +156,7 @@ export const DemoDataMultiAutoupdate = () => {
   };
   return (
     <div>
-      <Select {...{ liveUpdate, setLiveUpdate }} />
+      <Switch {...{ liveUpdate, setLiveUpdate }} text="Live Update" />
       <SearchAndSelect
         {...props}
         handleSelect={(data: IResult | null | IResult[]) => setSelection(data)}
@@ -118,6 +170,7 @@ export const DemoDataMultiAutoupdate = () => {
     </div>
   );
 };
+
 export const DemoDataRefreshBtn = () => {
   const [liveUpdate, setLiveUpdate] = useState(false);
   const props = {
@@ -127,11 +180,12 @@ export const DemoDataRefreshBtn = () => {
   };
   return (
     <div>
-      <Select {...{ liveUpdate, setLiveUpdate }} />
+      <Switch {...{ liveUpdate, setLiveUpdate }} text="Live Update" />
       <SearchAndSelect {...props} />
     </div>
   );
 };
+
 export const DemoDataUseNameAsSelectionField = () => {
   const [liveUpdate, setLiveUpdate] = useState(false);
   const props = {
@@ -144,11 +198,12 @@ export const DemoDataUseNameAsSelectionField = () => {
   };
   return (
     <div>
-      <Select {...{ liveUpdate, setLiveUpdate }} />
+      <Switch {...{ liveUpdate, setLiveUpdate }} text="Live Update" />
       <SearchAndSelect {...props} />
     </div>
   );
 };
+
 export const SelectionPreview = () => {
   const [liveUpdate, setLiveUpdate] = useState(false);
   const props = {
@@ -160,11 +215,12 @@ export const SelectionPreview = () => {
   };
   return (
     <div>
-      <Select {...{ liveUpdate, setLiveUpdate }} />
+      <Switch {...{ liveUpdate, setLiveUpdate }} text="Live Update" />
       <SearchAndSelect allowSelectionPreview {...props} previewHeadings={demoPreviewHeadingsData} />
     </div>
   );
 };
+
 export const SelectionPreviewManyResults = () => {
   const [liveUpdate, setLiveUpdate] = useState(false);
   const props = {
@@ -179,7 +235,7 @@ export const SelectionPreviewManyResults = () => {
   };
   return (
     <div>
-      <Select {...{ liveUpdate, setLiveUpdate }} />
+      <Switch {...{ liveUpdate, setLiveUpdate }} text="Live Update" />
       <SearchAndSelect {...props} />
     </div>
   );
@@ -195,14 +251,14 @@ export const SelectSearchFn = () => {
   const searchFn = sw ? defaultProps.searchFunction : searchFnManyResults;
   return (
     <div>
-      <Select {...{ liveUpdate: sw, setLiveUpdate: setSw }} />
+      <Switch {...{ liveUpdate: sw, setLiveUpdate: setSw }} text="select" />
       <SearchAndSelect {...props} searchFunction={searchFn} liveUpdate />
     </div>
   );
 };
 
 SelectSearchFn.waitForReady = async () => {
-  await jest.runOnlyPendingTimers();
+  // await jest.runOnlyPendingTimers();
   const resultsList = screen.getByTestId('styledSelectList');
   await within(resultsList).findAllByText(demoResultData[0].name);
 };

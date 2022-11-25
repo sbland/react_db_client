@@ -15,7 +15,7 @@ const defaultProps: IFileManagerProps = {
 };
 
 export const BasicFileManager = () => (
-  <CompositionWrapDefault height="4rem" width="8rem">
+  <CompositionWrapDefault height="30rem" width="40rem">
     <FileManager {...defaultProps} />
   </CompositionWrapDefault>
 );

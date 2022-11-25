@@ -20,7 +20,9 @@ const fileTypesToInputAccept = (fileType: EFileType) => {
   }
 };
 
-const fileListHeadings: IHeading[] = [{ uid: 'name', label: 'Name', type: filterTypes.text }];
+const fileListHeadings: IHeading[] = [
+  { uid: 'name', label: 'Name', type: filterTypes.text },
+];
 
 export interface IFileUploaderProps {
   fileType: EFileType;
@@ -112,7 +114,7 @@ export const FileUploader = ({
         currentSelection={undefined}
         // limitHeight
         selectionField="uid"
-        autoWidth
+        // autoWidth
       />
       {/* <ItemList
         items={
