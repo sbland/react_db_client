@@ -8,6 +8,7 @@ import {
   stringComparisons,
 } from './comparisons';
 import { Uid } from './uid';
+import { ILabelled } from './lib';
 
 const getAvailableComparisons = (type: EFilterType) => {
   switch (type) {
@@ -53,17 +54,12 @@ const getDefaultValue = (type: EFilterType) => {
 export type TFilterId = Uid;
 export type TFilterOptId = Uid;
 
-export interface ILabeled {
-  uid: string;
-  label: string;
-}
-
 export interface IFilterOptionsArgs<VType, IsCustomType extends true | false = false> {
   uid: TFilterOptId;
   field: Uid;
   label: string;
   operators?: EComparisons[];
-  options?: ILabeled[];
+  options?: ILabelled[];
   multiple?: boolean;
   type: IsCustomType extends true ? string : EFilterType;
   isCustomType?: IsCustomType;
@@ -82,7 +78,7 @@ export class FilterOption<VType = any, IsCustomType extends true | false = boole
   type: IsCustomType extends true ? string : EFilterType;
   isCustomType: IsCustomType;
   typeArgs: {
-    options?: ILabeled[];
+    options?: ILabelled[];
     multiple?: boolean;
   };
 

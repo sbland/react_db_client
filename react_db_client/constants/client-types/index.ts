@@ -7,3 +7,5 @@ export { FilterObjectSimpleClass, FilterObjectClass, FilterOption } from './filt
 export * from './file';
 
 export * from './uid';
+
+export type { ILabelled } from './lib';
