@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-import './customSelectDropdown.scss';
 import { DropDownItem } from './drop-down-item';
+import { SelectDropdown, SelectDropdownList, SelectDropdownMenu } from './styles';
 
 export interface Option {
   uid: string | number;
@@ -77,7 +77,7 @@ export const CustomSelectDropdown: React.FC<ICustomSelectDropdownProps> = ({
       setCurrentItemFocus(0);
     }
     if (e.key === 'Escape') goBackToSearchField();
-    if (e.key === "Tab") {
+    if (e.key === 'Tab') {
       e.preventDefault();
       goBackToSearchField();
     }
@@ -105,14 +105,16 @@ export const CustomSelectDropdown: React.FC<ICustomSelectDropdownProps> = ({
   const menuDropdownClass = isOpen ? 'selectDropdown_menu open' : 'selectDropdown_menu';
 
   const render = (
-    <div
+    <SelectDropdown
       className="selectDropdown"
       style={{ position, left: absolutePosition?.left | 0, top: absolutePosition?.top | 0 }}
     >
-      <div className={menuDropdownClass} ref={menuRef}>
-        {isOpen && <ul className={listDropdownClass}>{mapOptions}</ul>}
-      </div>
-    </div>
+      <SelectDropdownMenu className={menuDropdownClass} ref={menuRef}>
+        {isOpen && (
+          <SelectDropdownList className={listDropdownClass}>{mapOptions}</SelectDropdownList>
+        )}
+      </SelectDropdownMenu>
+    </SelectDropdown>
   );
   if (containerRef) return ReactDOM.createPortal(render, containerRef);
   return render;

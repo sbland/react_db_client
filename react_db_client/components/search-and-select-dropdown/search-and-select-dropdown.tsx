@@ -28,6 +28,7 @@ export interface ISearchAndSelectDropdownProps<Item> extends React.HTMLProps<HTM
 
 export interface IItem {
   uid: string | number;
+  label: string;
 }
 
 // TODO: Provide default search function

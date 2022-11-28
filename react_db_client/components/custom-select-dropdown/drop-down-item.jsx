@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { SelectDropwdownItem } from './styles';
 
 export const DropDownItem = ({ itemRef, uid, label, handleSelect, isSelected, handleKeyDown }) => (
-  <li className="selectDropdown_item">
+  <SelectDropwdownItem>
     <button
       type="button"
       className={`itemBtn ${isSelected ? 'button-two selected' : 'button-one notSelected'}`}
@@ -12,7 +13,7 @@ export const DropDownItem = ({ itemRef, uid, label, handleSelect, isSelected, ha
     >
       {label || 'Missing Label'}
     </button>
-  </li>
+  </SelectDropwdownItem>
 );
 
 DropDownItem.propTypes = {
