@@ -56,6 +56,7 @@ export const SelectDropwdownItem = styled.li`
   button {
     height: ${listItemHeight};
     pointer-events: all;
+    margin: 0;
     width: 100%;
     border-radius: 0;
     border: none;
@@ -73,6 +74,7 @@ export const SelectDropwdownItem = styled.li`
 
 export const DropdownBtn = styled.button`
   position: absolute;
+  margin: 0;
   right: 3px;
   top: 3px;
   bottom: 3px;

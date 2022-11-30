@@ -107,7 +107,7 @@ export const CustomSelectDropdown: React.FC<ICustomSelectDropdownProps> = ({
   const render = (
     <SelectDropdown
       className="selectDropdown"
-      style={{ position, left: absolutePosition?.left | 0, top: absolutePosition?.top | 0 }}
+      style={{ position, left: absolutePosition?.left || 0, top: absolutePosition?.top || 0 }}
     >
       <SelectDropdownMenu className={menuDropdownClass} ref={menuRef}>
         {isOpen && (
