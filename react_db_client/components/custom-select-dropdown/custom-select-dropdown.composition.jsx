@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CustomSelectDropdown } from './custom-select-dropdown';
+import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
 
 const DEMO_OPTIONS = [
   { uid: 1, label: '01' },
@@ -14,14 +15,16 @@ const DEMO_OPTIONS_LONG = [...Array(30)].map((v, i) => ({ uid: i, label: i }));
 
 export const Basic = () => {
   return (
-    <CustomSelectDropdown
-      options={DEMO_OPTIONS}
-      handleSelect={(uid) => {}}
-      isOpen
-      handleClose={() => {}}
-      firstItemRef={{ current: {} }}
-      goBackToSearchField={() => {}}
-    />
+    <CompositionWrapDefault height="8rem" width="12rem">
+      <CustomSelectDropdown
+        options={DEMO_OPTIONS}
+        handleSelect={(uid) => {}}
+        isOpen
+        handleClose={() => {}}
+        firstItemRef={{ current: {} }}
+        goBackToSearchField={() => {}}
+      />
+    </CompositionWrapDefault>
   );
 };
 
@@ -29,18 +32,20 @@ export const Interactive = () => {
   const [open, setOpen] = useState(false);
   const [selection, setSelection] = useState(null);
   return (
-    <div style={{ width: '10rem' }}>
-      {selection || 'Nothing selected'}
-      <input type="text" onFocus={() => setOpen(true)} style={{ width: '100%' }} />
-      <CustomSelectDropdown
-        options={DEMO_OPTIONS}
-        handleSelect={(uid) => setSelection(uid)}
-        isOpen={open}
-        handleClose={() => setOpen(false)}
-        firstItemRef={{ current: {} }}
-      />
-      <div style={{ width: '300px', height: '300px', background: 'red' }} />
-    </div>
+    <CompositionWrapDefault height="8rem" width="12rem">
+      <div style={{ width: '10rem' }}>
+        {selection || 'Nothing selected'}
+        <input type="text" onFocus={() => setOpen(true)} style={{ width: '100%' }} />
+        <CustomSelectDropdown
+          options={DEMO_OPTIONS}
+          handleSelect={(uid) => setSelection(uid)}
+          isOpen={open}
+          handleClose={() => setOpen(false)}
+          firstItemRef={{ current: {} }}
+        />
+        <div style={{ width: '300px', height: '300px', background: 'red' }} />
+      </div>
+    </CompositionWrapDefault>
   );
 };
 
@@ -48,18 +53,20 @@ export const LongList = () => {
   const [open, setOpen] = useState(false);
   const [selection, setSelection] = useState(null);
   return (
-    <div style={{ width: '10rem' }}>
-      {selection || 'Nothing Selected'}
-      <input type="text" onFocus={() => setOpen(true)} style={{ width: '100%' }} />
-      <CustomSelectDropdown
-        options={DEMO_OPTIONS_LONG}
-        handleSelect={(uid) => setSelection(uid)}
-        isOpen={open}
-        handleClose={() => setOpen(false)}
-        firstItemRef={{ current: {} }}
-      />
-      <div style={{ width: '300px', height: '300px', background: 'red' }} />
-    </div>
+    <CompositionWrapDefault height="8rem" width="12rem">
+      <div style={{ width: '10rem' }}>
+        {selection || 'Nothing Selected'}
+        <input type="text" onFocus={() => setOpen(true)} style={{ width: '100%' }} />
+        <CustomSelectDropdown
+          options={DEMO_OPTIONS_LONG}
+          handleSelect={(uid) => setSelection(uid)}
+          isOpen={open}
+          handleClose={() => setOpen(false)}
+          firstItemRef={{ current: {} }}
+        />
+        <div style={{ width: '300px', height: '300px', background: 'red' }} />
+      </div>
+    </CompositionWrapDefault>
   );
 };
 
@@ -68,27 +75,29 @@ export const OverflowHidden = () => {
   const [selection, setSelection] = useState(null);
   // TODO: This is currently not working
   return (
-    <div
-      style={{
-        width: '10rem',
-        height: '5rem',
-        overflow: 'hidden',
-        position: 'relative',
-      }}
-    >
-      {selection || 'Nothing Selected'}
-      <input type="text" onFocus={() => setOpen(true)} style={{ width: '100%' }} />
-      <div style={{ position: 'absolute', zIndex: 99 }}>
-        <CustomSelectDropdown
-          options={DEMO_OPTIONS_LONG}
-          handleSelect={(uid) => setSelection(uid)}
-          isOpen={open}
-          handleClose={() => setOpen(false)}
-          firstItemRef={{ current: {} }}
-        />
+    <CompositionWrapDefault height="8rem" width="12rem">
+      <div
+        style={{
+          width: '10rem',
+          height: '5rem',
+          overflow: 'hidden',
+          position: 'relative',
+        }}
+      >
+        {selection || 'Nothing Selected'}
+        <input type="text" onFocus={() => setOpen(true)} style={{ width: '100%' }} />
+        <div style={{ position: 'absolute', zIndex: 99 }}>
+          <CustomSelectDropdown
+            options={DEMO_OPTIONS_LONG}
+            handleSelect={(uid) => setSelection(uid)}
+            isOpen={open}
+            handleClose={() => setOpen(false)}
+            firstItemRef={{ current: {} }}
+          />
+        </div>
+        <div style={{ width: '300px', height: '300px', background: 'red' }} />
       </div>
-      <div style={{ width: '300px', height: '300px', background: 'red' }} />
-    </div>
+    </CompositionWrapDefault>
   );
 };
 
@@ -112,7 +121,7 @@ export const OverflowHiddenFixed = () => {
 
   // TODO: This is currently not working
   return (
-    <>
+    <CompositionWrapDefault height="8rem" width="12rem">
       <div
         style={{
           width: '10rem',
@@ -140,7 +149,7 @@ export const OverflowHiddenFixed = () => {
       <div style={{ position: 'absolute', left: 0, top: 0, background: null }} ref={containerRef}>
         {' '}
       </div>
-    </>
+    </CompositionWrapDefault>
   );
 };
 
@@ -154,7 +163,7 @@ export const BasicMenuAbsolutePosition = () => {
   }, []);
 
   return (
-    <>
+    <CompositionWrapDefault height="8rem" width="12rem">
       {rerender && containerRef.current && (
         <CustomSelectDropdown
           options={DEMO_OPTIONS}
@@ -181,6 +190,6 @@ export const BasicMenuAbsolutePosition = () => {
       >
         Here!
       </div>
-    </>
+    </CompositionWrapDefault>
   );
 };

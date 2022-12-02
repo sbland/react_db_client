@@ -6,7 +6,7 @@ export const DropDownItem = ({ itemRef, uid, label, handleSelect, isSelected, ha
   <SelectDropwdownItem>
     <button
       type="button"
-      className={`itemBtn ${isSelected ? 'button-two selected' : 'button-one notSelected'}`}
+      className={`itemBtn ${isSelected ? 'selected' : 'notSelected'}`}
       onClick={() => handleSelect(uid)}
       ref={itemRef}
       onKeyDown={handleKeyDown}

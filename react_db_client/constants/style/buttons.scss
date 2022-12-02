@@ -1,95 +1,95 @@
-$btnBorderRadius: ($unit * 0.2);
+// $btnBorderRadius: ($unit * 0.2);
 
-button,
-.button {
-  cursor: pointer;
-  border-radius: $btnBorderRadius;
-  text-decoration: none;
-  background: white;
-  border: 1px grey solid;
-  border-radius: 2px;
-  text-align: centre;
-  line-height: $unit;
+// button,
+// .button {
+//   cursor: pointer;
+//   border-radius: $btnBorderRadius;
+//   text-decoration: none;
+//   background: white;
+//   border: 1px grey solid;
+//   border-radius: 2px;
+//   text-align: centre;
+//   line-height: $unit;
 
-  * {
-    pointer-events: none;
-  }
+//   * {
+//     pointer-events: none;
+//   }
 
-  &:hover {
-    background: $grey-10;
-    color: $white;
-    box-shadow: 1px 1px 2px $primaryColour-light;
-  }
-}
+//   &:hover {
+//     background: $grey-10;
+//     color: $white;
+//     box-shadow: 1px 1px 2px $primaryColour-light;
+//   }
+// }
 
-// Removes all styling from button
-.button-reset {
-  cursor: pointer;
-  text-decoration: none;
-  background: transparent;
-  border: none;
-  text-align: left;
-  line-height: $core_line-height;
+// // Removes all styling from button
+// .button-reset {
+//   cursor: pointer;
+//   text-decoration: none;
+//   background: transparent;
+//   border: none;
+//   text-align: left;
+//   line-height: $core_line-height;
 
-  padding: 0;
-  margin: 0;
+//   padding: 0;
+//   margin: 0;
 
-  &:focus {
-    outline: $focus_outline;
-    outline-offset: $focus_offset;
-  }
-}
+//   &:focus {
+//     outline: $focus_outline;
+//     outline-offset: $focus_offset;
+//   }
+// }
 
-.button-one {
-  border-radius: $btnBorderRadius;
-  background: $white;
-  &:hover {
-    color: $primaryColour;
-    background: $grey-10;
-  }
-}
+// .button-one {
+//   border-radius: $btnBorderRadius;
+//   background: $white;
+//   &:hover {
+//     color: $primaryColour;
+//     background: $grey-10;
+//   }
+// }
 
-.button-two {
-  border-radius: $btnBorderRadius;
-  background: $primaryColour;
-  color: $white;
-  &:hover {
-    background: $primaryColour-dark;
-  }
-  &:focus {
-    outline: $focus_outline;
-    outline-color: $grey-40;
-    outline-offset: $focus_offset;
-  }
-}
+// .button-two {
+//   border-radius: $btnBorderRadius;
+//   background: $primaryColour;
+//   color: $white;
+//   &:hover {
+//     background: $primaryColour-dark;
+//   }
+//   &:focus {
+//     outline: $focus_outline;
+//     outline-color: $grey-40;
+//     outline-offset: $focus_offset;
+//   }
+// }
 
-.button-three {
-  border-radius: $btnBorderRadius;
-  background: $white;
-  border: 1px $primaryColour solid;
-  color: $primaryColour;
-  &:hover {
-    background: $primaryColour-dark;
-  }
-  &:focus {
-    // outline: $focus_outline;
-    // outline-color: $grey-40;
-    // outline-offset: $focus_offset;
-  }
-}
+// .button-three {
+//   border-radius: $btnBorderRadius;
+//   background: $white;
+//   border: 1px $primaryColour solid;
+//   color: $primaryColour;
+//   &:hover {
+//     background: $primaryColour-dark;
+//   }
+//   &:focus {
+//     // outline: $focus_outline;
+//     // outline-color: $grey-40;
+//     // outline-offset: $focus_offset;
+//   }
+// }
 
-.button-one,
-.button-two,
-.button-three {
-  &:disabled {
-    background: $grey-40;
-    cursor: not-allowed;
-  }
-}
+// .button-one,
+// .button-two,
+// .button-three {
+//   &:disabled {
+//     background: $grey-40;
+//     cursor: not-allowed;
+//   }
+// }
 
-.button-one,
-.button-two,
-.button-three {
-  font-size: $font-size-2;
-  line-height: $unit;
-}
+// .button-one,
+// .button-two,
+// .button-three {
+//   font-size: $font-size-2;
+//   line-height: $unit;
+// }

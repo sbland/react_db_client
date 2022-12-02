@@ -24,13 +24,12 @@ export const LoadingIconStyle = styled.div`
   position: absolute;
   top: 3px;
   right: 3px;
-  line-height: 1rem;
+  line-height: ${({ theme }) => theme.reactDbClientTheme.typography.lineHeight};
   animation: spin 1s infinite linear;
-  width: 1.5rem;
-  font-size: 1rem;
+  width: ${({ theme }) => theme.reactDbClientTheme.typography.lineHeight};
+  font-size: ${({ theme }) => theme.reactDbClientTheme.typography.fontSize};
   display: block;
   text-align: center;
-  font-size: 1rem;
   font-weight: 400;
 `;
 
@@ -54,8 +53,17 @@ export const DropdownBtn = styled.button`
   right: 3px;
   top: 3px;
   bottom: 3px;
-  width: 1.5rem;
+  width: ${({ theme }) => theme.reactDbClientTheme.typography.lineHeight};
   text-align: center;
   border: none;
   background: none;
+  margin: 0;
+  line-height: ${({ theme }) => theme.reactDbClientTheme.typography.lineHeight};
+
+  &:focus {
+    ${({ theme }) => theme.reactDbClientTheme.button.onFocus}
+  }
+  &:hover {
+    ${({ theme }) => theme.reactDbClientTheme.button.onHover}
+  }
 `;

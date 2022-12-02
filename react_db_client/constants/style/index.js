@@ -1,1 +1,0 @@
-export * as styles from './index.scss';

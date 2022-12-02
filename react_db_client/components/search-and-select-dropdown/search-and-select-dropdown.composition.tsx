@@ -49,9 +49,9 @@ export const DemoData = () => {
 export const DemoDataMultipleLabels = () => {
   const props = { ...defaultProps, labelField: ['label', 'uid'] };
   return (
-    <div>
+    <CompositionWrapDefault height="4rem" width="8rem">
       <SearchAndSelectDropdown {...props} allowEmptySearch />
-    </div>
+    </CompositionWrapDefault>
   );
 };
 
@@ -69,30 +69,30 @@ export const DemoDataAltLabel = () => {
       new Promise((resolve) => setTimeout(() => resolve(demoResultData), 500)),
   };
   return (
-    <div>
+    <CompositionWrapDefault height="4rem" width="8rem">
       <SearchAndSelectDropdown {...props} allowEmptySearch />
-    </div>
+    </CompositionWrapDefault>
   );
 };
 
 export const DemoDataAllowEmptyInstant = () => {
   const props = { ...defaultProps };
   return (
-    <div>
+    <CompositionWrapDefault height="4rem" width="8rem">
       <SearchAndSelectDropdown
         {...props}
         allowEmptySearch
         searchFunction={async () => demoResultData}
         searchDelay={0}
       />
-    </div>
+    </CompositionWrapDefault>
   );
 };
 
 export const DemoDataSetInitial = () => {
   const props = { ...defaultProps };
   return (
-    <div>
+    <CompositionWrapDefault height="4rem" width="8rem">
       <SearchAndSelectDropdown
         {...props}
         initialValue="hello"
@@ -100,6 +100,6 @@ export const DemoDataSetInitial = () => {
         searchFunction={async () => demoResultData}
         searchDelay={0}
       />
-    </div>
+    </CompositionWrapDefault>
   );
 };

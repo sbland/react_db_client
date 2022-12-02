@@ -1,3 +1,4 @@
+import { ReactDbClientThemeProvider, defaultTheme } from '@react_db_client/constants.style';
 import React, { useState } from 'react';
 
 const setDim = (diff) => (prev) => {
@@ -49,7 +50,7 @@ export function CompositionWrapDefault({
   });
 
   return (
-    <div>
+    <ReactDbClientThemeProvider theme={defaultTheme}>
       <button onClick={() => setHeightActive(setDim(5))}>+5 Height</button>
       <button onClick={() => setWidthActive(setDim(5))}>+5 Width</button>
       <button onClick={() => setHeightActive(setDim(-5))}>-5 Height</button>
@@ -64,7 +65,7 @@ export function CompositionWrapDefault({
       <div style={styleOuter}>
         <div style={styleInner}>{children}</div>
       </div>
-    </div>
+    </ReactDbClientThemeProvider>
   );
 }
 

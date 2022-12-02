@@ -1,14 +1,10 @@
 import styled from 'styled-components';
 
-const listItemHeight = '1.5rem';
-const minDropdownListWidth = '8rem';
-const primaryColourLight = 'grey';
-
 export const SelectDropdown = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  min-width: ${minDropdownListWidth};
+  min-width: ${({ theme }) => theme.reactDbClientTheme.select.menu.minWidth};
 `;
 
 export const SelectDropdownList = styled.ul`
@@ -25,8 +21,8 @@ export const SelectDropdownList = styled.ul`
   display: none;
   &.open {
     display: initial;
-    min-height: ${listItemHeight};
-    max-height: calc(${listItemHeight} * 8.5);
+    min-height: ${({ theme }) => theme.reactDbClientTheme.typography.lineHeight};
+    max-height: calc(${({ theme }) => theme.reactDbClientTheme.typography.lineHeight} * 8.5);
   }
 `;
 
@@ -40,9 +36,9 @@ export const SelectDropdownMenu = styled.div`
   transition: max-height 0.3s ease;
   &.open {
     display: initial;
-    min-height: ${listItemHeight};
-    max-height: calc(${listItemHeight} * 8.5);
-    border: 1px solid ${primaryColourLight};
+    min-height: ${({ theme }) => theme.reactDbClientTheme.typography.lineHeight};
+    max-height: calc(${({ theme }) => theme.reactDbClientTheme.typography.lineHeight} * 8.5);
+    border: ${({ theme }) => theme.reactDbClientTheme.select.menu.border};
     border-top: none;
     overflow: auto;
     pointer-events: all;
@@ -52,10 +48,11 @@ export const SelectDropdownMenu = styled.div`
 
 export const SelectDropwdownItem = styled.li`
   width: 100%;
-  height: ${listItemHeight};
+  height: ${({ theme }) => theme.reactDbClientTheme.typography.lineHeight};
   button {
-    height: ${listItemHeight};
+    height: ${({ theme }) => theme.reactDbClientTheme.typography.lineHeight};
     pointer-events: all;
+    cursor: pointer;
     margin: 0;
     width: 100%;
     border-radius: 0;
@@ -66,8 +63,13 @@ export const SelectDropwdownItem = styled.li`
     white-space: nowrap;
     text-align: left;
     overflow: hidden;
+
+    ${({ theme }) => theme.reactDbClientTheme.select.item.default}
     &:focus {
-      background-color: ${primaryColourLight};
+      ${({ theme }) => theme.reactDbClientTheme.select.item.onFocus}
+    }
+    &:hover {
+      ${({ theme }) => theme.reactDbClientTheme.select.item.onHover}
     }
   }
 `;
@@ -82,4 +84,11 @@ export const DropdownBtn = styled.button`
   text-align: center;
   border: none;
   background: none;
+  lineHeight: ${({ theme }) => theme.reactDbClientTheme.typography.lineHeight}
+  &:focus {
+    ${({ theme }) => theme.reactDbClientTheme.buttons.onFocus}
+  }
+  &:hover {
+    ${({ theme }) => theme.reactDbClientTheme.buttons.onHover}
+  }
 `;
