@@ -7,13 +7,15 @@ export interface IPopupElementState {
   open?: boolean;
   root: HTMLElement;
   deleteRootOnUnmount?: boolean;
+  z: number;
 }
 export interface IPopupPanelContext {
   popupCount: number;
   registerPopup: (
     id: TPopupId,
     root: string | HTMLElement | undefined,
-    deleteRootOnUnmount?: boolean
+    deleteRootOnUnmount?: boolean,
+    z?: number
   ) => void;
   deregisterPopup: (id: TPopupId) => void;
   baseZIndex: number;
@@ -32,7 +34,8 @@ export const defaultState: IPopupPanelContext = {
   registerPopup: (
     id: TPopupId,
     root?: string | HTMLElement | undefined,
-    deleteRootOnUnmount?: boolean
+    deleteRootOnUnmount?: boolean,
+    z?: number,
   ) => null,
   deregisterPopup: (id: TPopupId) => null,
   baseZIndex: 100,
@@ -58,10 +61,14 @@ export const PopupProvider = ({ initialState = defaultState, children }: IPopupP
   const registerPopup = (
     id: TPopupId,
     popupRoot: string | HTMLElement | undefined,
-    deleteRootOnUnmount?: boolean
+    deleteRootOnUnmount?: boolean,
+    z?: number
   ) => {
     const root = getRoot(popupRoot || id, id);
-    setPopupRegister((prev) => ({ ...prev, [id]: { open: false, root, deleteRootOnUnmount } }));
+    setPopupRegister((prev) => ({
+      ...prev,
+      [id]: { open: false, root, deleteRootOnUnmount, z: z || popupCount?.current },
+    }));
   };
 
   const deregisterPopup = (id: TPopupId) => {
@@ -88,7 +95,7 @@ export const PopupProvider = ({ initialState = defaultState, children }: IPopupP
       setPopupRegister((prev) => ({ ...prev, [id]: { ...prev[id], open: false } }));
   };
 
-  const mergedValue = {
+  const mergedValue: IPopupPanelContext = {
     ...defaultState,
     ...initialState,
     popupCount: popupCount.current,

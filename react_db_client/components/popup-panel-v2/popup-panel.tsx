@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
-import { getRoot } from '@react_db_client/helpers.get-root';
 import { PopupPanelContext } from './popup-panel-provider';
 import {
   PopupPanelClosePanelStyle,
@@ -18,6 +17,7 @@ export type PopupPanelProps = {
   children: ReactNode;
   popupRoot?: string | HTMLElement;
   deleteRootOnUnmount?: boolean;
+  zIndex?: number;
 };
 
 export function PopupPanel({
@@ -26,31 +26,27 @@ export function PopupPanel({
   children,
   popupRoot,
   deleteRootOnUnmount,
+  zIndex,
 }: PopupPanelProps) {
-  // const _popupRoot = getRoot(popupRoot || id, id);
-
-  const { popupCount, registerPopup, deregisterPopup, baseZIndex, popupRegister, closePopup } =
+  const { registerPopup, deregisterPopup, baseZIndex, popupRegister, closePopup } =
     React.useContext(PopupPanelContext);
 
-  const z = React.useRef<number>(popupCount);
-
-  const { open, root } = popupRegister[id] || { open: false, root: null };
+  const { open, root, z } = popupRegister[id] || { open: false, root: null, z: null };
 
   React.useEffect(() => {
-    registerPopup(id, popupRoot, deleteRootOnUnmount);
+    registerPopup(id, popupRoot, deleteRootOnUnmount, zIndex);
     return () => {
       deregisterPopup(id);
     };
   }, []);
 
   if (!root) return <></>;
-  // if (!_popupRoot) return <div>Missing Popup Root</div>;
 
   return ReactDOM.createPortal(
     <PopupPanelWrapStyle
       data-testid={`popupPanel_${id}`}
       style={{
-        zIndex: baseZIndex + z.current * 10,
+        zIndex: baseZIndex + z * 10,
         display: open ? 'inherit' : 'none',
       }}
     >
