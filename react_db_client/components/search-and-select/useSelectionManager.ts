@@ -1,9 +1,8 @@
 /* eslint-disable import/prefer-default-export */
-import { Uid } from '@react_db_client/constants.client-types';
+import { IDocument, Uid } from '@react_db_client/constants.client-types';
 import { useCallback, useEffect, useState } from 'react';
-import { IResult } from './lib';
 
-export interface IUseSelectionManagerArgs<ResultType extends IResult> {
+export interface IUseSelectionManagerArgs<ResultType extends IDocument> {
   results?: ResultType[];
   returnFieldOnSelect?: string;
   allowMultiple?: boolean;
@@ -13,7 +12,7 @@ export interface IUseSelectionManagerArgs<ResultType extends IResult> {
   labelField: string;
 }
 
-export interface IUseSelectionManagerReturn<ResultType extends IResult> {
+export interface IUseSelectionManagerReturn<ResultType extends IDocument> {
   handleItemSelect: (data: any, idField: string) => void;
   currentSelection: ResultType[];
   currentSelectionUid: Uid[];
@@ -23,7 +22,7 @@ export interface IUseSelectionManagerReturn<ResultType extends IResult> {
   acceptSelection: () => void;
 }
 
-export const useSelectionManager = <ResultType extends IResult>({
+export const useSelectionManager = <ResultType extends IDocument>({
   results = [],
   returnFieldOnSelect = 'uid',
   allowMultiple,

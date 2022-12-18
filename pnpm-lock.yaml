@@ -9,6 +9,7 @@ importers:
       '@babel/runtime': 7.12.18
       '@form-extendable/component': ~0.1.12
       '@form-extendable/components.component-map': ~0.1.8
+      '@form-extendable/lib': 0.1.6
       '@teambit/design.ui.external-link': 0.0.344
       '@teambit/documenter.theme.theme-compositions': 4.1.1
       '@teambit/documenter.ui.copy-box': 4.1.1
@@ -75,6 +76,7 @@ importers:
       '@babel/plugin-syntax-flow': registry.npmjs.org/@babel/plugin-syntax-flow/7.16.7_@babel+core@7.18.2
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.12.18
       '@form-extendable/component': registry.npmjs.org/@form-extendable/component/0.1.12_edda4zi4afvqboeg2tdxu64rqe
+      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.6_wcqkhtmu7mswc6yz4uyexck3ty
       '@teambit/design.ui.external-link': registry.npmjs.org/@teambit/design.ui.external-link/0.0.344_wcqkhtmu7mswc6yz4uyexck3ty
       '@teambit/documenter.theme.theme-compositions': registry.npmjs.org/@teambit/documenter.theme.theme-compositions/4.1.1_wcqkhtmu7mswc6yz4uyexck3ty
       '@teambit/documenter.ui.copy-box': registry.npmjs.org/@teambit/documenter.ui.copy-box/4.1.1_wcqkhtmu7mswc6yz4uyexck3ty
@@ -1448,6 +1450,26 @@ packages:
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
 
+  registry.npmjs.org/@form-extendable/lib/0.1.6_wcqkhtmu7mswc6yz4uyexck3ty:
+    resolution: {integrity: sha512-+nkq1P8/ridrwi9DMSeHmSheksa/aWmbh7RenPSTderxMAZTyMkKQwpIp5NrUtMEUNJ7DuMgx3dH4nWLgLfP2Q==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/lib/-/lib-0.1.6.tgz}
+    id: registry.npmjs.org/@form-extendable/lib/0.1.6
+    name: '@form-extendable/lib'
+    version: 0.1.6
+    peerDependencies:
+      react: '*'
+      react-dom: '*'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.2.18_wcqkhtmu7mswc6yz4uyexck3ty
+      core-js: registry.npmjs.org/core-js/3.22.7
+      react: registry.npmjs.org/react/16.14.0
+      react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
+    dev: false
+
   registry.npmjs.org/@form-extendable/utils/0.1.3_wcqkhtmu7mswc6yz4uyexck3ty:
     resolution: {integrity: sha512-+CaQF4Pz8+FpKI1p1FxpjprqYg3vdgVzh9bg2aX7U7BpYWjAc/H9Er9dYjzeqh+S8H8LGFXQ3CLykyzWcbEGJg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/utils/-/utils-0.1.3.tgz}
     id: registry.npmjs.org/@form-extendable/utils/0.1.3
@@ -2414,6 +2436,25 @@ packages:
       core-js: registry.npmjs.org/core-js/3.22.7
       react: registry.npmjs.org/react/16.14.0
       react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
+
+  registry.npmjs.org/@react_db_client/constants.client-types/0.2.18_wcqkhtmu7mswc6yz4uyexck3ty:
+    resolution: {integrity: sha512-2QZ9KXcKoxyAdiAaqSix0IHfVwrfem2N8D446qt9nag2Bjj6f/5caF2v9iqEiHQX0ZqCmymwIm9SXXF+QJsdYg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/constants.client-types/-/constants.client-types-0.2.18.tgz}
+    id: registry.npmjs.org/@react_db_client/constants.client-types/0.2.18
+    name: '@react_db_client/constants.client-types'
+    version: 0.2.18
+    peerDependencies:
+      react: '*'
+      react-dom: '*'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      core-js: registry.npmjs.org/core-js/3.22.7
+      react: registry.npmjs.org/react/16.14.0
+      react-dom: registry.npmjs.org/react-dom/16.14.0_react@16.14.0
+    dev: false
 
   registry.npmjs.org/@react_db_client/helpers.data-processing/0.2.24_wcqkhtmu7mswc6yz4uyexck3ty:
     resolution: {integrity: sha512-BZzjroaCE24dbzD1M/4MaK03MfGlDHrnEIGBB+62Z/R5OUrhzA6Ld8GjB8pjtCNU0+C6hwgFcSWoKVODB/Htgw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/helpers.data-processing/-/helpers.data-processing-0.2.24.tgz}

@@ -1,12 +1,61 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { SearchAndSelect } from '@react_db_client/components.search-and-select';
+import { TComponentMap } from '@form-extendable/lib';
+import {
+  CustomParser,
+  IHeading,
+  ISearchAndSelectProps,
+  SearchAndSelect,
+} from '@react_db_client/components.search-and-select';
 import { AreYouSureBtn } from '@react_db_client/components.are-you-sure-btn';
-import { ItemEditor as _ItemEditor } from '@react_db_client/components.item-editor';
+import {
+  FilterObjectClass,
+  FilterOption,
+  IDocument,
+  TAsyncCopyDocument,
+  TAsyncDeleteDocument,
+  TAsyncGetDocument,
+  TAsyncGetDocuments,
+  TAsyncPostDocument,
+  TAsyncPutDocument,
+  Uid,
+} from '@react_db_client/constants.client-types';
+import { ItemEditor as ItemEditorDefault } from '@react_db_client/components.item-editor';
 import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
 import { Emoji } from '@react_db_client/components.emoji';
 import { generateUid } from '@react_db_client/helpers.generate-uid';
+
+// Link these to actual types
+export interface IItemEditorProps {}
+export interface IPopupPanelProps {}
+
+export interface IGenericCatalogueProps<ResultType extends IDocument> {
+  id: Uid;
+  itemName: string;
+  collection: string;
+  additionalFilters?: FilterObjectClass[];
+  customSort?: (a: ResultType, b: ResultType) => -1 | 0 | 1;
+  resultsHeadings: IHeading[];
+  editorHeadings: IHeading[];
+  additionalSaveData?: object;
+  availableFilters: { [key: string]: FilterOption<any, boolean> };
+  ItemEditor: typeof ItemEditorDefault;
+  errorCallback?: (message: string, e: Error) => void;
+  PopupPanel: IPopupPanelProps;
+  notificationDispatch: (message: string) => void;
+  customParsers?: { [k: string]: CustomParser };
+  previewHeadings?: IHeading[];
+  asyncGetDocument: TAsyncGetDocument<ResultType>;
+  asyncPutDocument: TAsyncPutDocument<ResultType>;
+  asyncPostDocument: TAsyncPostDocument<ResultType>;
+  asyncGetDocuments: TAsyncGetDocuments<ResultType>;
+  asyncDeleteDocument: TAsyncDeleteDocument;
+  asyncCopyDocument: TAsyncCopyDocument;
+  componentMap: TComponentMap;
+  closePopupOnItemSave?: boolean;
+  sasProps?: Partial<ISearchAndSelectProps<ResultType>>;
+}
 
 /**
  * Generic catalogue wrapper for searching and editing documents from the api
@@ -58,7 +107,7 @@ import { generateUid } from '@react_db_client/helpers.generate-uid';
  * - @argument { object } additionalData additional data to add to copied doc
  * @returns
  */
-export const GenericCatalogue = ({
+export const GenericCatalogue = <ResultType extends IDocument>({
   id,
   itemName,
   collection,
@@ -82,25 +131,31 @@ export const GenericCatalogue = ({
   asyncCopyDocument,
   componentMap,
   closePopupOnItemSave,
-}) => {
+  sasProps,
+}: IGenericCatalogueProps<ResultType>) => {
   const [showEditor, setShowEditor] = useState(false);
-  const [selectedUid, setSelectedUid] = useState(null);
+  const [selectedUid, setSelectedUid] = useState<Uid | null>(null);
   const [reloadDatakey, setReloadDataKey] = useState(0);
   const [handleDelete, setHandleDelete] = useState(false);
 
   /* Handle Delete */
   useEffect(() => {
-    if (handleDelete) {
+    if (handleDelete && selectedUid) {
       setHandleDelete(false);
       asyncDeleteDocument(collection, selectedUid)
         .then(() => {
           setReloadDataKey((prev) => prev + 1);
         })
         .catch((e) => {
-          errorCallback(`Error deleting ${itemName}`, e);
+          if (errorCallback) errorCallback(`Error deleting ${itemName}`, e);
         });
     }
   }, [handleDelete, selectedUid, errorCallback, collection, itemName]);
+
+  const handleSasSelect = useCallback((data?: ResultType | null) => {
+    if (data) setSelectedUid(data.uid);
+    else setSelectedUid(null);
+  }, []);
 
   const duplicateCallback = useCallback(
     (_, [, , , toUid]) => {
@@ -113,9 +168,9 @@ export const GenericCatalogue = ({
   );
 
   /* Handle Duplicate */
-  const { call: copyItem } = useAsyncRequest({
+  const { call: copyItem } = useAsyncRequest<void, any[]>({
     args: [],
-    callFn: asyncCopyDocument,
+    callFn: asyncCopyDocument as any,
     callOnInit: false,
     callback: duplicateCallback,
   });
@@ -176,7 +231,7 @@ export const GenericCatalogue = ({
           asyncDeleteDocument={asyncDeleteDocument}
           componentMap={componentMap}
           saveErrorCallback={errorCallback}
-          onCancel={() => setShowEditor(false)}
+          // onCancel={() => setShowEditor(false)}
           id={`item_editor_${id}`}
         />
       )}
@@ -202,17 +257,17 @@ export const GenericCatalogue = ({
             searchFunction={searchFn}
             initialFilters={additionalFilters}
             availableFilters={availableFilters}
-            handleSelect={setSelectedUid}
+            handleSelect={handleSasSelect}
             headings={resultsHeadings}
             previewHeadings={previewHeadings || resultsHeadings}
             customParsers={customParsers}
-            autoWidth={false}
             autoUpdate
             showRefreshBtn
             showSearchField
             loadOnInit={false}
             noEmptySearch
             allowSelectionPreview
+            {...sasProps}
           />
           <div>
             <button
@@ -280,7 +335,6 @@ GenericCatalogue.propTypes = {
   asyncGetDocuments: PropTypes.func.isRequired,
   asyncDeleteDocuments: PropTypes.func.isRequired,
   asyncGetDocument: PropTypes.func.isRequired,
-  asyncGetDocuments: PropTypes.func.isRequired,
   asyncPutDocument: PropTypes.func.isRequired,
   asyncPostDocument: PropTypes.func.isRequired,
   asyncDeleteDocument: PropTypes.func.isRequired,
@@ -295,7 +349,7 @@ GenericCatalogue.defaultProps = {
   customSort: null,
   previewHeadings: [],
   customParsers: {},
-  ItemEditor: _ItemEditor,
+  ItemEditor: ItemEditorDefault,
   PopupPanel: () => {},
   notificationDispatch: alert,
   componentMap: {},

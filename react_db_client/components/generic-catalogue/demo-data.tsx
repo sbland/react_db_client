@@ -34,6 +34,7 @@ export const demoHeadingsDataSimple = [
 export const demoResults = {
   a: {
     uid: 'a',
+    label: 'a',
     natid: '100a',
     name: 'Foo',
     count: 3,
@@ -47,6 +48,7 @@ export const demoResults = {
   ab: {
     // Note string "4" here to check we can pass string numbers without issues
     uid: 'ab',
+    label: 'ab',
     natid: '10a',
     name: 'Foobar',
     count: '99',
@@ -56,6 +58,7 @@ export const demoResults = {
   },
   b: {
     uid: 'b',
+    label: 'b',
     natid: '50a',
     name: 'Bar',
     description: 'A really really really long description that needs to fit into a little box!',
@@ -64,6 +67,7 @@ export const demoResults = {
   },
   c: {
     uid: 'c',
+    label: 'c',
     name: 'C',
     count: 3,
     multiplier: 3,
@@ -73,6 +77,7 @@ export const demoResults = {
   },
   d: {
     uid: 'd',
+    label: 'd',
     name: '',
     hiddenDemoNumber: 3,
     hiddenDemo: 'Hide me',

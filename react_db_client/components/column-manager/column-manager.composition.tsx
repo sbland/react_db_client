@@ -1,0 +1,150 @@
+import React, { useRef, useState } from 'react';
+import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
+import { ColumnWidthManager } from './column-width-manager';
+import { useColumnManager } from './column-manager-hook';
+
+export const ColumnManagerHandle = () => {
+  const [columnWidths, setColumnWidths] = useState([10, 20, 30]);
+  const ref = React.useRef<HTMLDivElement>(null);
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  return (
+    <>
+      <CompositionWrapDefault width="16rem" height="16rem" horizontal ref={containerRef}>
+        <ColumnWidthManager
+          tableWidth={columnWidths.reduce((acc, v) => acc + v)}
+          columnWidths={columnWidths}
+          setColumnWidths={setColumnWidths}
+          minWidth={5}
+          showEdges
+          debug
+          // ref={ref}
+        />
+      </CompositionWrapDefault>
+      {columnWidths.map((c, i) => (
+        <div key={i} style={{ height: 10, width: c, border: '1px solid red' }} />
+      ))}
+      {columnWidths.reduce((acc, v) => acc + v)}
+    </>
+  );
+};
+
+export const ColumnManagerAutoHandle = () => {
+  const [columnWidths, setColumnWidths] = useState([10, 20, 30]);
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  return (
+    <>
+      <CompositionWrapDefault width="16rem" height="16rem" horizontal ref={ref}>
+        <ColumnWidthManager
+          columnWidths={columnWidths}
+          tableWidth={columnWidths.reduce((acc, v) => acc + v)}
+          setColumnWidths={setColumnWidths}
+          minWidth={5}
+          showEdges
+          // ref={ref}
+        />
+      </CompositionWrapDefault>
+      {columnWidths.map((c, i) => (
+        <div key={i} style={{ height: 10, width: c, border: '1px solid red' }} />
+      ))}
+    </>
+  );
+};
+
+export const ColumnManagerHandleLive = () => {
+  const [columnWidths, setColumnWidths] = useState([10, 20, 30]);
+  return (
+    <>
+      <CompositionWrapDefault width="16rem" height="16rem" horizontal>
+        <ColumnWidthManager
+          columnWidths={columnWidths}
+          tableWidth={columnWidths.reduce((acc, v) => acc + v)}
+          setColumnWidths={setColumnWidths}
+          minWidth={5}
+          showEdges
+          liveDragging
+        />
+      </CompositionWrapDefault>
+      {columnWidths.map((c, i) => (
+        <div key={i} style={{ height: 10, width: c, border: '1px solid red' }} />
+      ))}
+    </>
+  );
+};
+
+export const ColumnManagerHook = () => {
+  const ref = useRef(null);
+  const [headings, setHeadings] = useState([
+    {
+      uid: 'a',
+      label: 'A',
+    },
+    {
+      uid: 'b',
+      label: 'B',
+      columnWidth: 300,
+    },
+    {
+      uid: 'b',
+      label: 'B',
+      columnWidth: 300,
+    },
+  ]);
+
+  const addHeading = () => {
+    setHeadings((prev) => {
+      return [
+        ...prev,
+        {
+          uid: String(prev.length),
+          label: String(prev.length),
+          columnWidth: 3,
+        },
+      ];
+    });
+  };
+
+  const {
+    columnWidths,
+    setColumnWidths,
+    // tableWidth
+  } = useColumnManager({
+    headingsDataList: headings,
+    minWidth: 100,
+    maxWidth: 1000,
+    autoWidth: true,
+    containerRef: ref,
+  });
+
+  return (
+    <div>
+      <div>
+        <button onClick={addHeading}>add heading</button>
+      </div>
+      <div>
+        Column widths:{' '}
+        {columnWidths.map((w) => (
+          <p>{w}</p>
+        ))}
+        Table Width: {columnWidths.reduce((acc, v) => acc + v)}
+      </div>
+
+      <CompositionWrapDefault width="16rem" height="16rem" horizontal ref={ref}>
+        <ColumnWidthManager
+          tableWidth={columnWidths.reduce((acc, v) => acc + v)}
+          columnWidths={columnWidths}
+          setColumnWidths={setColumnWidths}
+          minWidth={5}
+          showEdges
+          liveDragging
+          debug
+        />
+      </CompositionWrapDefault>
+    </div>
+  );
+};
+
+// export const ColumnManagerVisibility = () => {
+//   // TODO Complete this composition
+// };

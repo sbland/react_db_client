@@ -9,3 +9,14 @@ export * from './file';
 export * from './uid';
 
 export type { ILabelled } from './lib';
+
+export type { IDocument } from './IDocument';
+
+export type {
+  TAsyncGetDocument,
+  TAsyncGetDocuments,
+  TAsyncPutDocument,
+  TAsyncPostDocument,
+  TAsyncDeleteDocument,
+  TAsyncCopyDocument,
+} from './api-queries';

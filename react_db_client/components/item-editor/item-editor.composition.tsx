@@ -4,10 +4,16 @@ import { demoParams, demoData } from './demo-data';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
 
 const asyncGetFiles = () => async () => {
-  throw Error('Not Implemented');
+  return [];
 };
 const fileServerUrl = '';
 const onSubmitCallback = () => {};
+const Popup = ({ children, isOpen = true || undefined }) => {
+  if (isOpen) return <>{children}</>;
+  return <></>;
+};
+
+const componentMap =  defaultComponentMap({ asyncGetFiles, fileServerUrl, PopupPanel: Popup })
 
 export const BasicItemEditor = () => (
   <div className="productEditor_FormWrap sectionWrapper">
@@ -23,7 +29,7 @@ export const BasicItemEditor = () => (
       asyncPutDocument={async () => {}}
       asyncPostDocument={async () => {}}
       asyncDeleteDocument={async () => {}}
-      componentMap={defaultComponentMap({ asyncGetFiles, fileServerUrl })}
+      componentMap={componentMap}
     />
   </div>
 );

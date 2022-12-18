@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
-import { FilterOption } from '@react_db_client/constants.client-types';
 import {
   FilterObjectClass,
   filterTypes,
   comparisons,
   EFilterType,
+  IDocument,
+  FilterOption,
 } from '@react_db_client/constants.client-types';
 import { StyledSelectList } from '@react_db_client/components.styled-select-list';
 import { FilterId, FilterPanel } from '@react_db_client/components.filter-manager';
@@ -16,7 +17,6 @@ import { SelectionPreview } from '@react_db_client/components.selection-preview'
 
 import { useSelectionManager } from './useSelectionManager';
 import { SearchAndSelectStyles } from './styles';
-import { IResult } from './lib';
 
 export interface IHeading {
   uid: string;
@@ -26,14 +26,14 @@ export interface IHeading {
 
 export type CustomParser = (value: any) => any;
 
-export type TSearchAndSelectSearchFunction<ResultType extends IResult> = (
+export type TSearchAndSelectSearchFunction<ResultType extends IDocument> = (
   filters?: FilterObjectClass[],
   sortBy?: string,
   searchValue?: string,
   reverseSort?: boolean
 ) => Promise<ResultType[]>;
 
-export interface ISearchAndSelectProps<ResultType extends IResult>
+export interface ISearchAndSelectProps<ResultType extends IDocument>
   extends React.HTMLProps<HTMLInputElement> {
   initialFilters?: FilterObjectClass[];
   availableFilters: { [key: string]: FilterOption };
@@ -91,7 +91,7 @@ export const EmptyArray = [];
  * }
  * @returns
  */
-export const SearchAndSelect = <ResultType extends IResult>({
+export const SearchAndSelect = <ResultType extends IDocument>({
   initialFilters,
   availableFilters, // same as field data
   searchFunction,

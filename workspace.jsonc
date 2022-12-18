@@ -55,6 +55,7 @@
         "@babel/plugin-syntax-flow": "7.16.7",
         "@form-extendable/component": "~0.1.12",
         "@form-extendable/components.component-map": "~0.1.8",
+        "@form-extendable/lib": "0.1.6",
         "@teambit/design.ui.external-link": "0.0.344",
         "@teambit/documenter.theme.theme-compositions": "4.1.1",
         "@teambit/documenter.ui.copy-box": "4.1.1",

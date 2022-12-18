@@ -1,6 +1,6 @@
-import { IResult } from '@react_db_client/components.search-and-select';
+import { IDocument } from '@react_db_client/constants.client-types';
 
-export interface IResultExample extends IResult {
+export interface IResultExample extends IDocument {
   name: string;
 }
 

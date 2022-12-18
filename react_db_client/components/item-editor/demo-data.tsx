@@ -64,6 +64,7 @@ export const demoParams = [
 
 export const demoData = {
   uid: 'demoid',
+  label: 'Demo Object',
   choice: 'choicea',
   cost: 10,
   code: 'Code',

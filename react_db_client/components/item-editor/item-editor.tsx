@@ -3,12 +3,41 @@ import PropTypes from 'prop-types';
 
 import { useAsyncObjectManager } from '@react_db_client/async-hooks.use-async-object-manager';
 import { Form, FormField } from '@form-extendable/component';
+import { IHeading, TComponentMap } from '@form-extendable/lib';
+import {
+  IDocument,
+  ILabelled,
+  TAsyncDeleteDocument,
+  TAsyncGetDocument,
+  TAsyncPostDocument,
+  TAsyncPutDocument,
+  Uid,
+} from '@react_db_client/constants.client-types';
 import { mapFields } from './field-mapper';
+
+export interface IParam extends ILabelled {}
+export type TFieldComponent = unknown;
+
+export interface IItemEditorProps<ResultType extends IDocument> {
+  id: Uid;
+  inputUid?: Uid;
+  isNew: boolean;
+  onSubmitCallback: (uid: Uid) => void;
+  additionalData?: Partial<ResultType>;
+  params: IHeading[];
+  collection: string;
+  asyncGetDocument: TAsyncGetDocument<ResultType>;
+  asyncPutDocument: TAsyncPutDocument<ResultType>;
+  asyncPostDocument: TAsyncPostDocument<ResultType>;
+  asyncDeleteDocument: TAsyncDeleteDocument;
+  componentMap: TComponentMap;
+  saveErrorCallback: (message: string, e: Error) => void;
+}
 
 /**
  *  A form component wrapper that manages item state updates and api calls
  */
-export const ItemEditor = ({
+export const ItemEditor = <ResultType extends IDocument>({
   // REACT
   id,
   inputUid,
@@ -23,7 +52,7 @@ export const ItemEditor = ({
   asyncDeleteDocument,
   componentMap,
   saveErrorCallback,
-}) => {
+}: IItemEditorProps<ResultType>) => {
   const [overridenFields, setOverridenFields] = useState<string[]>([]);
 
   const {

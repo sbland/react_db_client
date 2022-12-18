@@ -1,12 +1,12 @@
+import { IDocument } from '@react_db_client/constants.client-types';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { IUseSelectionManagerArgs, useSelectionManager } from './useSelectionManager';
-import { IResult } from './lib';
 
 const handleSelect = jest.fn();
 describe.skip('Search and Select - Logic', () => {
   const returnField = 'uid';
   const labelField = 'name';
-  const defaultUseSelectionManagerInputs: IUseSelectionManagerArgs<IResult> = {
+  const defaultUseSelectionManagerInputs: IUseSelectionManagerArgs<IDocument> = {
     results: [],
     returnFieldOnSelect: returnField,
     allowMultiple: false,
@@ -15,7 +15,7 @@ describe.skip('Search and Select - Logic', () => {
     handleSelect,
   };
 
-  const demoResults: IResult[] = [
+  const demoResults: IDocument[] = [
     { uid: 'demoid', label: 'demoname' },
     { uid: 'demoid_02', label: 'demoname_02' },
   ];

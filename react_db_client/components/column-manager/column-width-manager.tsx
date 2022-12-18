@@ -1,6 +1,7 @@
 import React, { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { useColumnWidthManager } from './use-column-width-manager-hook';
 
 const ColumnManagerStyles = styled.div`
 
@@ -19,7 +20,7 @@ const ColumnManagerStyles = styled.div`
   top: 0;
   bottom: 0;
   z-index: 100;
-  overflow-x: auto;
+  overflow-x: visible;
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none; /* for Firefox */
 
@@ -61,7 +62,7 @@ const ColumnManagerStyles = styled.div`
 
   .columnResizeCanvas {
     position: absolute;
-    width: 100%;
+    width: 110%; // Overflow allows draggingcolumnResizeCanvas
     height: 100%;
     z-index: 11;
     border: 1px $primaryColour solid;
@@ -80,98 +81,58 @@ export interface IColumnManagerProps {
   liveDragging?: boolean;
   innerRef?: React.RefObject<HTMLDivElement>;
   widthPadding?: number;
+  debug?: boolean;
 }
 
-export const ColumnWidthManager: React.FC<IColumnManagerProps> = ({
+export interface IColumnWidthManagerRenderProps {
+  resizeColumn: (e: React.MouseEvent<HTMLDivElement>) => void;
+  resizingColumn: boolean;
+  liveColumnWidths: number[];
+  columnEdgePositions: number[];
+  onMouseDownResizeHandle: (e: React.MouseEvent<HTMLDivElement>) => void;
+  mouseOverEdge: (i: number) => void;
+  endDragging: () => void;
+  handlePosition: number;
+  tableWidth: number;
+  liveDragging?: boolean;
+  showEdges?: boolean;
+  widthPadding?: number;
+  debug?: boolean;
+}
+
+export const ColumnWidthManagerRender = ({
+  resizeColumn,
+  resizingColumn,
+  liveColumnWidths,
+  columnEdgePositions,
+  onMouseDownResizeHandle,
+  mouseOverEdge,
+  endDragging,
+  handlePosition,
   tableWidth,
-  columnWidths,
-  setColumnWidths,
-  minWidth = 10,
-  maxWidth = 99999999,
   showEdges = false,
   liveDragging = false,
-  innerRef,
+  // innerRef,
   widthPadding = 100,
-}) => {
-  const [currentColumnn, setCurrentColumnn] = useState(-1);
-  const [resizingColumn, setResizingColumn] = useState(false);
-  const lastMousePosRef = useRef(0);
-  const columnWidthOverrideRef = useRef(columnWidths);
-  const [handlePosition, setHandlePosition] = useState(-1);
-  const [liveColumnWidths, setLiveColumnWidths] = useState(columnWidths);
+  debug = false,
+}: IColumnWidthManagerRenderProps) => {
+  // TODO: Can we remove container ref
   const containerRef: React.RefObject<HTMLObjectElement> = React.useRef(null);
-
-  // Use offset column positions to determine
-
-  const columnEdgePositions = useMemo(() => {
-    let widthSum = 0;
-
-    return liveColumnWidths.map((cwidth) => {
-      widthSum += cwidth;
-      return widthSum;
-    });
-  }, [liveColumnWidths]);
-
-  // called on mouse move over resize overlay when dragging
-  const resizeColumn = (e: React.MouseEvent<HTMLDivElement>) => {
-    const newWidths = [...columnWidthOverrideRef.current];
-    const boundaryWidth = containerRef.current?.parentElement?.clientWidth || 0;
-    const isOutsideBoundary = e.clientX < 0 || e.clientX > boundaryWidth;
-    const moveToPoint = isOutsideBoundary ? boundaryWidth : e.clientX;
-    const newWidth = newWidths[currentColumnn] + moveToPoint - lastMousePosRef.current;
-    newWidths[currentColumnn] = Math.min(maxWidth, Math.max(minWidth, newWidth));
-    if (liveDragging) setColumnWidths(newWidths);
-    setLiveColumnWidths(newWidths);
-    setHandlePosition(moveToPoint);
-    columnWidthOverrideRef.current = [...newWidths];
-    lastMousePosRef.current = moveToPoint;
-  };
-
-  const endDragging = () => {
-    setColumnWidths(columnWidthOverrideRef.current);
-    setLiveColumnWidths(columnWidthOverrideRef.current);
-    setResizingColumn(false);
-    setCurrentColumnn(-1);
-    setHandlePosition(-1);
-    lastMousePosRef.current = 0;
-  };
-
-  const mouseOverEdge = (i: number) => {
-    setCurrentColumnn(i);
-    setHandlePosition(columnEdgePositions[currentColumnn]);
-  };
-
-  const onMouseDownResizeHandle = (e: React.MouseEvent<HTMLDivElement>) => {
-    setResizingColumn(true);
-    lastMousePosRef.current = e.clientX;
-    columnWidthOverrideRef.current = [...liveColumnWidths];
-    let event: EventListener = () => {};
-    event = () => {
-      window.removeEventListener('mouseup', event);
-      setResizingColumn(false);
-      setCurrentColumnn(-1);
-      setHandlePosition(-1);
-      lastMousePosRef.current = 0;
-      endDragging();
-    };
-    window.addEventListener('mouseup', event);
-  };
-
-  React.useEffect(() => {
-    setLiveColumnWidths(columnWidths);
-  }, [columnWidths]);
-
   return (
     <ColumnManagerStyles
       className="columnWidthManager_styles"
-      ref={innerRef}
-      style={{ width: tableWidth }}
+      // ref={innerRef}
+      style={{
+        width: tableWidth,
+        outline: debug ? '1px solid purple' : 'none',
+      }}
     >
       <div
         className="columnWidthManager"
         style={{
           pointerEvents: resizingColumn ? 'all' : 'none',
           width: liveColumnWidths.reduce((acc, v) => acc + v, 0) + widthPadding,
+          outline: debug ? '1px solid yellow' : 'none',
         }}
         ref={containerRef}
       >
@@ -203,7 +164,9 @@ export const ColumnWidthManager: React.FC<IColumnManagerProps> = ({
                 pointerEvents: 'none',
                 display: showEdges || resizingColumn ? 'inherit' : 'none',
               }}
-            />
+            >
+              {debug && i}
+            </div>
           </div>
         ))}
         {/* // eslint-disable-next-line jsx-a11y/no-static-element-interactions,
@@ -211,16 +174,16 @@ export const ColumnWidthManager: React.FC<IColumnManagerProps> = ({
         <div
           className="columnResizeCanvas"
           style={{
-            display: resizingColumn ? 'inherit' : 'none',
-            background: liveDragging ? 'none' : 'rgba(255,255,255,0.7)',
+            display: resizingColumn || debug ? 'inherit' : 'none',
+            background: (debug && 'yellow') || (liveDragging ? 'none' : 'rgba(255,255,255,0.7)'),
+            outline: debug ? '1px solid grey' : 'none',
+            width: tableWidth + 100,
           }}
           onMouseUp={() => {
-            setResizingColumn(false);
-            lastMousePosRef.current = 0;
+            endDragging();
           }}
           onMouseLeave={() => {
-            setResizingColumn(false);
-            lastMousePosRef.current = 0;
+            endDragging();
           }}
           onMouseMove={(e) => {
             if (resizingColumn) resizeColumn(e);
@@ -240,6 +203,54 @@ export const ColumnWidthManager: React.FC<IColumnManagerProps> = ({
         />
       </div>
     </ColumnManagerStyles>
+  );
+};
+
+export const ColumnWidthManager: React.FC<IColumnManagerProps> = ({
+  tableWidth,
+  columnWidths,
+  setColumnWidths,
+  minWidth = 10,
+  maxWidth = 99999999,
+  showEdges = false,
+  liveDragging = false,
+  // innerRef,
+  widthPadding = 100,
+  debug = false,
+}) => {
+  const {
+    resizeColumn,
+    resizingColumn,
+    liveColumnWidths,
+    columnEdgePositions,
+    onMouseDownResizeHandle,
+    mouseOverEdge,
+    endDragging,
+    handlePosition,
+  } = useColumnWidthManager({
+    columnWidths,
+    setColumnWidths,
+    minWidth,
+    maxWidth,
+    liveDragging,
+  });
+
+  return (
+    <ColumnWidthManagerRender
+      resizeColumn={resizeColumn}
+      resizingColumn={resizingColumn}
+      liveColumnWidths={liveColumnWidths}
+      columnEdgePositions={columnEdgePositions}
+      onMouseDownResizeHandle={onMouseDownResizeHandle}
+      mouseOverEdge={mouseOverEdge}
+      endDragging={endDragging}
+      handlePosition={handlePosition}
+      tableWidth={tableWidth}
+      showEdges={showEdges}
+      // innerRef={innerRef}
+      widthPadding={widthPadding}
+      debug={debug}
+    />
   );
 };
 

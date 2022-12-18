@@ -14,12 +14,10 @@ export interface ICompositionWrapDefaultProps {
   horizontal?: boolean;
 }
 
-export function CompositionWrapDefault({
-  children,
-  width = undefined,
-  height = undefined,
-  horizontal = false,
-}: ICompositionWrapDefaultProps) {
+export const CompositionWrapDefault = React.forwardRef<
+  HTMLDivElement,
+  ICompositionWrapDefaultProps
+>(({ children, width = undefined, height = undefined, horizontal = false }, ref) => {
   const [heightActive, setHeightActive] = useState(height == null ? 'auto' : height);
   const [widthActive, setWidthActive] = useState(width == null ? 'auto' : width);
   const [allowOverflow, setAllowOverflow] = useState(false);
@@ -63,11 +61,11 @@ export function CompositionWrapDefault({
       </button>
 
       <div style={styleOuter}>
-        <div style={styleInner}>{children}</div>
+        <div ref={ref} style={styleInner}>{children}</div>
       </div>
     </ReactDbClientThemeProvider>
   );
-}
+});
 
 export const WrapFieldComponent: React.FC = ({ children }) => {
   const childrenArray = Array.isArray(children) ? children : [children];

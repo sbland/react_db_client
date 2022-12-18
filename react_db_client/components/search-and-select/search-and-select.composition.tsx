@@ -13,8 +13,7 @@ import {
   IResultExample,
 } from './demo-data';
 import { demoFiltersData, demoFieldsData } from '@react_db_client/constants.demo-data';
-import { FilterObjectClass } from '@react_db_client/constants.client-types';
-import { IResult } from './lib';
+import { FilterObjectClass, IDocument } from '@react_db_client/constants.client-types';
 
 const Switch = ({ liveUpdate, setLiveUpdate, text }) => (
   <button
@@ -29,8 +28,9 @@ const Switch = ({ liveUpdate, setLiveUpdate, text }) => (
 const defaultSearchFn = async (filter?: FilterObjectClass[]): Promise<IResultExample[]> =>
   new Promise((resolve) => setTimeout(() => resolve(demoResultData), 2000));
 
-const defaultSearchFnNoTimeout = async (filter?: FilterObjectClass[]): Promise<IResultExample[]> =>
-  new Promise((resolve) => resolve(demoResultData));
+const defaultSearchFnNoTimeout = async (
+  filter?: FilterObjectClass[]
+): Promise<IResultExample[]> => new Promise((resolve) => resolve(demoResultData));
 
 defaultSearchFn.waitForReady = async () => {
   await jest.runOnlyPendingTimers();
@@ -148,7 +148,7 @@ export const DemoDataMulti = () => {
 
 export const DemoDataMultiAutoupdate = () => {
   const [liveUpdate, setLiveUpdate] = useState(false);
-  const [selection, setSelection] = useState<IResult | IResult[] | null>(null);
+  const [selection, setSelection] = useState<IDocument | IDocument[] | null>(null);
   const props = {
     ...defaultProps,
     autoUpdate: liveUpdate,
@@ -159,7 +159,7 @@ export const DemoDataMultiAutoupdate = () => {
       <Switch {...{ liveUpdate, setLiveUpdate }} text="Live Update" />
       <SearchAndSelect
         {...props}
-        handleSelect={(data: IResult | null | IResult[]) => setSelection(data)}
+        handleSelect={(data: IDocument | null | IDocument[]) => setSelection(data)}
         liveUpdate
         allowMultiple={true}
       />

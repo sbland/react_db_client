@@ -2,17 +2,17 @@ import '@samnbuk/react_db_client.testing.enzyme-setup';
 import { act } from 'react-dom/test-utils';
 import React from 'react';
 import { mount } from 'enzyme';
+import { IDocument } from '@react_db_client/constants.client-types';
 import { StyledSelectList, ListItem } from '@react_db_client/components.styled-select-list';
 
 import { ISearchAndSelectProps, SearchAndSelect } from './search-and-select';
 import { demoResultData, demoHeadingsData } from './demo-data';
-import { IResult } from './lib';
 
 const searchFunction = jest.fn().mockImplementation(async () => demoResultData);
 
 const handleSelect = jest.fn();
 
-const defaultProps: ISearchAndSelectProps<IResult> = {
+const defaultProps: ISearchAndSelectProps<IDocument> = {
   searchFunction,
   initialFilters: [],
   availableFilters: {},
@@ -48,7 +48,7 @@ describe.skip('SearchAndSelect', () => {
         });
       });
       test('should have called searchFn', () => {
-        expect(searchFunction).toHaveBeenCalledWith([], 'uid', "", false);
+        expect(searchFunction).toHaveBeenCalledWith([], 'uid', '', false);
       });
 
       test('should have passed results to styled select list', () => {

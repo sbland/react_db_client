@@ -1,6 +1,10 @@
 import React, { useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { useColumnManager, ColumnWidthManager } from '@react_db_client/components.column-manager';
+import {
+  useColumnManager,
+  useColumnWidthManager,
+  ColumnWidthManagerRender,
+} from '@react_db_client/components.column-manager';
 import { Uid } from '@react_db_client/constants.client-types';
 import { ListItem } from './list-item';
 import {
@@ -22,6 +26,7 @@ export interface IStyledSelectList<ItemType extends IItem> {
   minWidth?: number;
   maxWidth?: number;
   customParsers: { [k: string]: (valIn: any) => any };
+  liveColumnWidthDragging: boolean;
 }
 
 /**
@@ -38,6 +43,7 @@ export const StyledSelectList = <ItemType extends IItem>({
   maxWidth = 1000,
   minWidth = 100,
   customParsers,
+  liveColumnWidthDragging,
 }: IStyledSelectList<ItemType>) => {
   const containerRef = useRef(null);
   const { columnWidths, setColumnWidths, tableWidth } = useColumnManager({
@@ -46,6 +52,23 @@ export const StyledSelectList = <ItemType extends IItem>({
     maxWidth,
     autoWidth,
     containerRef,
+  });
+
+  const {
+    resizeColumn,
+    resizingColumn,
+    liveColumnWidths,
+    columnEdgePositions,
+    onMouseDownResizeHandle,
+    mouseOverEdge,
+    endDragging,
+    handlePosition,
+  } = useColumnWidthManager({
+    columnWidths,
+    setColumnWidths,
+    minWidth,
+    maxWidth,
+    liveDragging: liveColumnWidthDragging,
   });
 
   const handleSelect = (selectedUid, selectedData) => handleSelectTop(selectedUid, selectedData);
@@ -91,9 +114,6 @@ export const StyledSelectList = <ItemType extends IItem>({
     <StyledListStyle
       style={{
         ...(limitHeight ? { maxHeight: `${limitHeight}rem` } : {}),
-        width: '100%',
-        overflow: 'auto',
-        // width: tableWidth,
       }}
       ref={containerRef}
       data-testid="styledSelectList"
@@ -105,12 +125,16 @@ export const StyledSelectList = <ItemType extends IItem>({
       >
         {mapItems}
       </StyledListItems>
-      <ColumnWidthManager
-        setColumnWidths={setColumnWidths}
+      <ColumnWidthManagerRender
+        resizeColumn={resizeColumn}
+        resizingColumn={resizingColumn}
+        liveColumnWidths={liveColumnWidths}
+        columnEdgePositions={columnEdgePositions}
+        onMouseDownResizeHandle={onMouseDownResizeHandle}
+        mouseOverEdge={mouseOverEdge}
+        endDragging={endDragging}
+        handlePosition={handlePosition}
         tableWidth={tableWidth}
-        columnWidths={columnWidths}
-        minWidth={100}
-        maxWidth={1000}
       />
     </StyledListStyle>
   );
@@ -145,6 +169,8 @@ StyledSelectList.propTypes = {
   autoWidth: PropTypes.bool,
   /** custom parsers for field types */
   customParsers: PropTypes.objectOf(PropTypes.func),
+  /** liveColumnWidthDragging */
+  liveColumnWidthDragging: PropTypes.bool,
 };
 
 StyledSelectList.defaultProps = {
@@ -153,4 +179,5 @@ StyledSelectList.defaultProps = {
   autoWidth: true,
   customParsers: {},
   selectionField: 'uid',
+  liveColumnWidthDragging: false,
 };

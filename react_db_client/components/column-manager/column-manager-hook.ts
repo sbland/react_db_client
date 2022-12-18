@@ -24,6 +24,7 @@ export interface IUseColumnManagerReturn {
   columnWidths: number[];
   setColumnWidths: (v: number[]) => void;
   tableWidth: number;
+
 }
 
 /* 1. Manage the column widths
@@ -68,7 +69,13 @@ export const useColumnManager = ({
   // -- Column widths state
   const [columnWidths, setColumnWidths] = useState(() => resetColumnWidths(headingsDataList));
 
-  React.useEffect(() => {
+  // React.useEffect(() => {
+  //   if (autoWidth && containerRef?.current) {
+  //     setColumnWidths(resetColumnWidths(headingsDataList));
+  //   }
+  // }, [containerRef, autoWidth]);
+
+  React.useLayoutEffect(() => {
     if (autoWidth && containerRef?.current) {
       setColumnWidths(resetColumnWidths(headingsDataList));
     }
