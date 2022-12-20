@@ -15,11 +15,17 @@ export interface ITheme {
       default?: string;
       onHover?: string;
       onFocus?: string;
-    }
+    };
   };
   button: {
     onHover?: string;
     onFocus?: string;
+    default?: string;
+  };
+  ctabutton: {
+    onHover?: string;
+    onFocus?: string;
+    default?: string;
   };
 }
 
@@ -37,11 +43,17 @@ export const defaultTheme: ITheme = {
       default: 'background: grey;',
       onHover: 'background: pink;',
       onFocus: 'background: purple;',
-    }
+    },
   },
   button: {
     onHover: `background: yellow;`,
     onFocus: `background: green;`,
+    default: `background: grey;`,
+  },
+  ctabutton: {
+    onHover: `border: 1px solid red; background: yellow;`,
+    onFocus: `border: 1px solid red; background: green;`,
+    default: `border: 1px solid red; background: grey;`,
   },
 };
 

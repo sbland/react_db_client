@@ -1,72 +1,59 @@
-import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
-import { mount, shallow } from 'enzyme';
-
-import { FileUploader } from './file-uploader';
+import { screen, render, within, act, waitFor } from '@testing-library/react';
+import UserEvent from '@testing-library/user-event';
 import * as compositions from './file-uploader.composition';
-import { StyledSelectList } from '@react_db_client/components.styled-select-list';
-import { EFileType } from '@react_db_client/constants.client-types';
+import { onUpload, asyncFileUpload } from './dummy-data';
 
-const asyncFileUpload = jest.fn();
-const onUpload = jest.fn();
+jest.mock('./dummy-data', () => ({
+  asyncFileUpload: jest.fn().mockImplementation(async () => {}),
+  onUpload: jest.fn(),
+}));
 
-const defaultProps = {
-  fileType: EFileType.IMAGE,
-  asyncFileUpload,
-  onUpload,
-};
-
-describe('file-uploader', () => {
-  beforeEach(() => {
-    asyncFileUpload.mockClear();
-    onUpload.mockClear();
-  });
-  test('Renders', () => {
-    shallow(<FileUploader {...defaultProps} />);
-  });
-
+describe('File uploader', () => {
   describe('Compositions', () => {
-    Object.entries(compositions).forEach(([name, Composition]) => {
-      test(name, () => {
-        mount(<Composition />);
+    Object.entries(compositions)
+      .filter(([name, Composition]) => (Composition as any).forTests)
+      .forEach(([name, Composition]) => {
+        test(name, async () => {
+          render(<Composition />);
+          // @ts-ignore
+          if (Composition.waitForReady) await Composition.waitForReady();
+        });
       });
+  });
+  describe('Multi select', () => {
+    //
+    test('should add files to selected on click', async () => {
+      render(<compositions.BasicFileUploader />);
+      const selectFilesBtn = screen.getByLabelText('Select Files');
+      const exampleFile: File = new File(['hello'], 'hello.png', { type: 'image/png' });
+      await UserEvent.upload(selectFilesBtn, exampleFile);
+      const selectedFilesList = screen.getByRole('list');
+      const selectedFiles = within(selectedFilesList).getAllByRole('listitem');
+      expect(selectedFiles.length).toEqual(1);
+    });
+    test('should call asyncFileUpload with file data', async () => {
+      render(<compositions.BasicFileUploader />);
+      const selectFilesBtn = screen.getByLabelText('Select Files');
+      const exampleFile: File = new File(['hello'], 'hello.png', { type: 'image/png' });
+      await UserEvent.upload(selectFilesBtn, exampleFile);
+      const uploadBtn = screen.getByRole('button', { name: 'Upload' });
+      await UserEvent.click(uploadBtn);
+      await waitFor(() => expect(asyncFileUpload).toHaveBeenCalled());
+      expect(asyncFileUpload).toHaveBeenCalledWith(exampleFile, 'image', expect.any(Function));
+      expect(onUpload).toHaveBeenCalledWith([`Uploaded ${exampleFile.name}`]);
     });
   });
-  describe('shallow renders', () => {
-    test('Matches Snapshot', () => {
-      const component = shallow(<FileUploader {...defaultProps} />);
-      const tree = component.debug();
-      expect(tree).toMatchSnapshot();
+  describe('Single selection', () => {
+    test('should call asyncFileUpload with file data', async () => {
+      render(<compositions.BasicFileUploaderSimple />);
+      const uploadBtn = screen.getByLabelText('Upload');
+      const exampleFile: File = new File(['hello'], 'hello.png', { type: 'image/png' });
+      await UserEvent.upload(uploadBtn, exampleFile);
+      await waitFor(() => expect(asyncFileUpload).toHaveBeenCalled());
+      expect(asyncFileUpload).toHaveBeenCalledWith(exampleFile, 'image', expect.any(Function));
+      expect(onUpload).toHaveBeenCalledWith([`Uploaded ${exampleFile.name}`]);
     });
-  });
-  describe('Unit Testing', () => {
-    let component;
-    beforeEach(() => {
-      component = mount(<FileUploader {...defaultProps} />);
-    });
-    test('should add files to selected on file select', () => {
-      const fileInput = component.find('.fileUploader_fileInput');
-      expect(fileInput).toBeTruthy();
-      const event = {
-        target: {
-          name: 'pollName',
-          files: [
-            { uid: 'fileA', name: 'fileA' },
-            { uid: 'fileB', name: 'fileB' },
-          ],
-        },
-      };
-      fileInput.simulate('change', event);
-      const fileList = component.find(StyledSelectList);
-      expect(fileList.props().listInput.length).toEqual(2);
-      const tree = component.debug();
-      expect(tree).toMatchSnapshot();
-    });
-
-    // test('should send a xhr request on clicking the upload button', () => {
-    //   // TODO: Test we call uploader hook here
-    //   const uploadBtn = component.find('.uploadBtn');
-    //   uploadBtn.simulate('click');
-    // });
+    test.todo('should call on Upload when asyncFileUpload complete');
   });
 });

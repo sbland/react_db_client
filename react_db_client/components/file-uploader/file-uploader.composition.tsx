@@ -2,9 +2,8 @@ import React from 'react';
 import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
 import { FileUploader } from './file-uploader';
 import { EFileType } from '@react_db_client/constants.client-types';
-
-const asyncFileUpload = async () => {};
-const onUpload = () => {};
+import { FileUploaderSimple } from './file-uploader-simple';
+import { asyncFileUpload, onUpload } from './dummy-data';
 
 const defaultProps = {
   fileType: EFileType.IMAGE,
@@ -15,5 +14,11 @@ const defaultProps = {
 export const BasicFileUploader = () => (
   <CompositionWrapDefault height="40rem" width="50rem">
     <FileUploader {...defaultProps} />
+  </CompositionWrapDefault>
+);
+
+export const BasicFileUploaderSimple = () => (
+  <CompositionWrapDefault height="40rem" width="50rem">
+    <FileUploaderSimple {...defaultProps} />
   </CompositionWrapDefault>
 );

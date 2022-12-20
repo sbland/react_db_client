@@ -35,12 +35,12 @@ export const useFileUploader = ({
     if (filesToUpload && !uploading) {
       setUploading(true);
       setUploadProgress(filesToUpload.length);
-
       const promises = filesToUpload.map(async (file) => {
         if (!file.data) throw Error('Missing file data');
         await asyncFileUpload(file.data, fileType, () => {});
         setFilesToUpload((prev) => prev?.filter((f) => f.name !== file.name) || null);
         setUploadProgress((prev) => prev - 1);
+        return `Uploaded ${file.name}`
       });
       Promise.all(promises)
         .then((responses) => {
