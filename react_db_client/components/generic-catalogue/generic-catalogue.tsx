@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { TComponentMap } from '@form-extendable/lib';
+import { TComponentMap, THeading } from '@form-extendable/lib';
 import {
   CustomParser,
   IHeading,
@@ -21,14 +21,13 @@ import {
   TAsyncPutDocument,
   Uid,
 } from '@react_db_client/constants.client-types';
-import { ItemEditor as ItemEditorDefault } from '@react_db_client/components.item-editor';
+import {
+  IItemEditorProps,
+  ItemEditor as ItemEditorDefault,
+} from '@react_db_client/components.item-editor';
 import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
 import { Emoji } from '@react_db_client/components.emoji';
 import { generateUid } from '@react_db_client/helpers.generate-uid';
-
-// Link these to actual types
-export interface IItemEditorProps {}
-export interface IPopupPanelProps {}
 
 export interface IGenericCatalogueProps<ResultType extends IDocument> {
   id: Uid;
@@ -36,22 +35,21 @@ export interface IGenericCatalogueProps<ResultType extends IDocument> {
   collection: string;
   additionalFilters?: FilterObjectClass[];
   customSort?: (a: ResultType, b: ResultType) => -1 | 0 | 1;
-  resultsHeadings: IHeading[];
-  editorHeadings: IHeading[];
-  additionalSaveData?: object;
+  resultsHeadings: THeading<unknown>[];
+  editorHeadings: THeading<unknown>[];
+  additionalSaveData?: Partial<ResultType>;
   availableFilters: { [key: string]: FilterOption<any, boolean> };
-  ItemEditor: typeof ItemEditorDefault;
+  ItemEditor: React.FC<IItemEditorProps<ResultType>>;
   errorCallback?: (message: string, e: Error) => void;
-  PopupPanel: IPopupPanelProps;
   notificationDispatch: (message: string) => void;
   customParsers?: { [k: string]: CustomParser };
-  previewHeadings?: IHeading[];
+  previewHeadings?: THeading<unknown>[];
   asyncGetDocument: TAsyncGetDocument<ResultType>;
   asyncPutDocument: TAsyncPutDocument<ResultType>;
   asyncPostDocument: TAsyncPostDocument<ResultType>;
   asyncGetDocuments: TAsyncGetDocuments<ResultType>;
   asyncDeleteDocument: TAsyncDeleteDocument;
-  asyncCopyDocument: TAsyncCopyDocument;
+  asyncCopyDocument: TAsyncCopyDocument<ResultType>;
   componentMap: TComponentMap;
   closePopupOnItemSave?: boolean;
   sasProps?: Partial<ISearchAndSelectProps<ResultType>>;
@@ -119,7 +117,6 @@ export const GenericCatalogue = <ResultType extends IDocument>({
   availableFilters,
   ItemEditor,
   errorCallback,
-  PopupPanel,
   notificationDispatch,
   customParsers,
   previewHeadings,
@@ -215,6 +212,10 @@ export const GenericCatalogue = <ResultType extends IDocument>({
     [itemName]
   );
 
+  const handleCloseItemEditor = React.useCallback(() => {
+    setShowEditor(false);
+  }, []);
+
   return (
     <>
       {showEditor && (
@@ -231,7 +232,7 @@ export const GenericCatalogue = <ResultType extends IDocument>({
           asyncDeleteDocument={asyncDeleteDocument}
           componentMap={componentMap}
           saveErrorCallback={errorCallback}
-          // onCancel={() => setShowEditor(false)}
+          onCancel={handleCloseItemEditor}
           id={`item_editor_${id}`}
         />
       )}
@@ -293,7 +294,6 @@ export const GenericCatalogue = <ResultType extends IDocument>({
               message={`Delete ${itemName}`}
               disabled={selectedUid === null}
               btnText={<Emoji emoj="🗑️" label="Delete" />}
-              PopupPanel={PopupPanel}
             />
           </div>
         </section>
@@ -333,12 +333,12 @@ GenericCatalogue.propTypes = {
   PopupPanel: PropTypes.elementType,
   notificationDispatch: PropTypes.func,
   asyncGetDocuments: PropTypes.func.isRequired,
-  asyncDeleteDocuments: PropTypes.func.isRequired,
+  // asyncDeleteDocuments: PropTypes.func.isRequired,
   asyncGetDocument: PropTypes.func.isRequired,
   asyncPutDocument: PropTypes.func.isRequired,
   asyncPostDocument: PropTypes.func.isRequired,
   asyncDeleteDocument: PropTypes.func.isRequired,
-  componentMap: PropTypes.objectOf(PropTypes.elementType),
+  componentMap: PropTypes.objectOf(PropTypes.elementType).isRequired,
   errorCallback: PropTypes.func,
   closePopupOnItemSave: PropTypes.bool,
 };
@@ -352,7 +352,6 @@ GenericCatalogue.defaultProps = {
   ItemEditor: ItemEditorDefault,
   PopupPanel: () => {},
   notificationDispatch: alert,
-  componentMap: {},
   errorCallback: () => {},
   closePopupOnItemSave: false,
 };

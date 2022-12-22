@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { PopupPanelContext, PopupPanel } from '@react_db_client/components.popup-panel-v2';
+
+const popupId = 'areYouSureBtn_popupPanel';
 
 export const AreYouSureBtn = ({
   btnText,
@@ -8,39 +11,39 @@ export const AreYouSureBtn = ({
   className,
   disabled,
   notes,
-  PopupPanel,
 }) => {
-  const [request, setRequest] = useState(false);
-  const [areYouSure, setAreYouSure] = useState(false);
+  const { openPopup, closePopup } = React.useContext(PopupPanelContext);
 
-  useEffect(() => {
-    if (areYouSure && request) {
-      onConfirmed();
-      setAreYouSure(false);
-      setRequest(false);
-    }
-  }, [areYouSure, request, onConfirmed]);
+  const handleFirstClick = () => {
+    openPopup(popupId);
+  };
+
+  const handleCancel = () => {
+    closePopup(popupId);
+  };
+
+  const handleAccept = () => {
+    closePopup(popupId);
+    onConfirmed();
+  };
+
   return (
     <>
-      <PopupPanel
-        id="areYouSureBtn_popupPanel"
-        isOpen={request && !areYouSure}
-        handleClose={() => setRequest(false)}
-      >
+      <PopupPanel id={popupId} onClose={handleCancel}>
         <div className="areYouSurePanel_wrap">
           <h1>Are You Sure?</h1>
           <div>
             <button
               type="button"
               className="areYouSure_cancelBtn button-one"
-              onClick={() => setRequest(false)}
+              onClick={handleCancel}
             >
               Cancel
             </button>
             <button
               type="button"
               className="areYouSure_acceptBtn button-two"
-              onClick={() => setAreYouSure(true)}
+              onClick={handleAccept}
             >
               {confirmMessage}
             </button>
@@ -50,7 +53,7 @@ export const AreYouSureBtn = ({
       </PopupPanel>
       <button
         disabled={disabled}
-        onClick={() => setRequest(true)}
+        onClick={() => handleFirstClick()}
         type="button"
         className={`areYouSureBtn ${className}`}
       >

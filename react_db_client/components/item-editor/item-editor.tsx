@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 import { useAsyncObjectManager } from '@react_db_client/async-hooks.use-async-object-manager';
 import { Form, FormField } from '@form-extendable/component';
-import { IHeading, TComponentMap } from '@form-extendable/lib';
+import { TComponentMap, THeading } from '@form-extendable/lib';
+
 import {
   IDocument,
   ILabelled,
@@ -20,18 +21,19 @@ export type TFieldComponent = unknown;
 
 export interface IItemEditorProps<ResultType extends IDocument> {
   id: Uid;
-  inputUid?: Uid;
+  inputUid?: Uid | null;
   isNew: boolean;
   onSubmitCallback: (uid: Uid) => void;
   additionalData?: Partial<ResultType>;
-  params: IHeading[];
+  params: THeading<unknown>[];
   collection: string;
   asyncGetDocument: TAsyncGetDocument<ResultType>;
   asyncPutDocument: TAsyncPutDocument<ResultType>;
   asyncPostDocument: TAsyncPostDocument<ResultType>;
   asyncDeleteDocument: TAsyncDeleteDocument;
   componentMap: TComponentMap;
-  saveErrorCallback: (message: string, e: Error) => void;
+  saveErrorCallback?: (message: string, e: Error) => void;
+  onCancel?: () => void;
 }
 
 /**
@@ -108,7 +110,7 @@ export const ItemEditor = <ResultType extends IDocument>({
   const classNames = [id].filter((f) => f).join(' ');
 
   return (
-    <div className="itemEditor_wrap">
+    <div className="itemEditor_wrap" data-testid="rdc-itemEditor">
       <div className={`sectionWrapper ${classNames}`}>
         <Form
           formDataInitial={data}

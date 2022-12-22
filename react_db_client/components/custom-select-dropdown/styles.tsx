@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { defaultTheme } from '@react_db_client/constants.style';
+
 export const SelectDropdown = styled.div`
   top: 0;
   left: 0;
@@ -7,6 +9,11 @@ export const SelectDropdown = styled.div`
   min-width: ${({ theme }) => theme.reactDbClientTheme.select.menu.minWidth};
 `;
 
+SelectDropdown.defaultProps = {
+  theme: {
+    reactDbClientTheme: defaultTheme,
+  },
+};
 export const SelectDropdownList = styled.ul`
   list-style: none;
   display: flex;
@@ -26,6 +33,11 @@ export const SelectDropdownList = styled.ul`
   }
 `;
 
+SelectDropdownList.defaultProps = {
+  theme: {
+    reactDbClientTheme: defaultTheme,
+  },
+};
 export const SelectDropdownMenu = styled.div`
   position: absolute;
   width: 100%;
@@ -46,6 +58,11 @@ export const SelectDropdownMenu = styled.div`
   }
 `;
 
+SelectDropdownMenu.defaultProps = {
+  theme: {
+    reactDbClientTheme: defaultTheme,
+  },
+};
 export const SelectDropwdownItem = styled.li`
   width: 100%;
   height: ${({ theme }) => theme.reactDbClientTheme.typography.lineHeight};
@@ -74,6 +91,11 @@ export const SelectDropwdownItem = styled.li`
   }
 `;
 
+SelectDropwdownItem.defaultProps = {
+  theme: {
+    reactDbClientTheme: defaultTheme,
+  },
+};
 export const DropdownBtn = styled.button`
   position: absolute;
   margin: 0;
@@ -92,3 +114,9 @@ export const DropdownBtn = styled.button`
     ${({ theme }) => theme.reactDbClientTheme.buttons.onHover}
   }
 `;
+
+DropdownBtn.defaultProps = {
+  theme: {
+    reactDbClientTheme: defaultTheme,
+  },
+};

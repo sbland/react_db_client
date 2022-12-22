@@ -56,7 +56,7 @@ export type TFilterOptId = Uid;
 
 export interface IFilterOptionsArgs<VType, IsCustomType extends true | false = false> {
   uid: TFilterOptId;
-  field: Uid;
+  field?: Uid;
   label: string;
   operators?: EComparisons[];
   options?: ILabelled[];
@@ -72,7 +72,6 @@ export interface IFilterOptionsArgs<VType, IsCustomType extends true | false = f
 export class FilterOption<VType = any, IsCustomType extends true | false = boolean> {
   uid: TFilterOptId;
   field: Uid;
-  value: VType;
   label: string;
   operators: EComparisons[];
   type: IsCustomType extends true ? string : EFilterType;
@@ -85,7 +84,6 @@ export class FilterOption<VType = any, IsCustomType extends true | false = boole
   constructor({
     uid = `filter_${Date.now()}`,
     field,
-    value,
     label,
     operators,
     type,
@@ -100,10 +98,7 @@ export class FilterOption<VType = any, IsCustomType extends true | false = boole
     if (!field) throw Error('Must have field id');
     if (!label && !field) throw Error('Must have field or label');
     this.uid = uid;
-    this.field = field;
-    this.value = (value != null && value !== undefined
-      ? value
-      : getDefaultValue(type as EFilterType)) as unknown as VType;
+    this.field = field || uid;
     this.label = (label || field) as string;
     this.operators = operators || getAvailableComparisons(type as EFilterType);
     this.type = type;

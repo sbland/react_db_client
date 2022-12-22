@@ -1,23 +1,19 @@
 import React from 'react';
-// import { PopupPanel } from '@react_db_client/components.popup-panel';
-import { IItemEditorProps, ItemEditor } from '@react_db_client/components.item-editor';
+import { ItemEditor } from '@react_db_client/components.item-editor';
 import { GenericCatalogue, IGenericCatalogueProps } from './generic-catalogue';
-import { PopupPanel, PopupPanelConnector } from '@react_db_client/components.popup-panel';
-
-import { demoHeadingsData, demoHeadingsDataSimple, demoResults } from './demo-data';
+import { PopupPanelConnector } from '@react_db_client/components.popup-panel';
 import { IDocument } from '@react_db_client/constants.client-types';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
+import { demoHeadingsData, demoHeadingsDataSimple, demoResults } from './demo-data';
 
 const ItemEditorPopup = PopupPanelConnector(ItemEditor, 'root', true, 'onCancel', {
   title: 'Demo Item Editor',
 });
-const PopupPanelConnected = (props) => <PopupPanel popupRoot="root" {...props} />;
 
 const asyncGetFiles = () => async () => {
   return [];
 };
 const fileServerUrl = '';
-const onSubmitCallback = () => {};
 const Popup = ({ children, isOpen = true || undefined }) => {
   if (isOpen) return <>{children}</>;
   return <></>;
@@ -35,7 +31,6 @@ const defaultProps: IGenericCatalogueProps<IDocument> = {
   editorHeadings: demoHeadingsData,
   additionalSaveData: {},
   ItemEditor: ItemEditorPopup,
-  PopupPanel: PopupPanelConnected,
   notificationDispatch: alert,
   asyncGetDocument: async () => Object.values(demoResults)[0],
   asyncGetDocuments: async () => Object.values(demoResults),
@@ -43,20 +38,8 @@ const defaultProps: IGenericCatalogueProps<IDocument> = {
   asyncPostDocument: async () => alert('Post doc'),
   asyncDeleteDocument: async () => {},
   asyncCopyDocument: async () => {},
-  // asyncDeleteDocuments: async () => alert('Deleted DOcument'),
   componentMap,
   // onError: () => {},
 };
 
 export const BasicGenericCatalogue = () => <GenericCatalogue {...defaultProps} />;
-
-// const popupRoot = document.createElement('div', { id: 'popup-root' });
-// const _PopupItemEditor = (props: IItemEditorProps<IDocument>) => (
-//   // <PopupPanel isOpen handleClose={() => setShowEditor(false)} popupRoot={popupRoot}>
-//   <ItemEditor {...props} />
-//   // </PopupPanel>
-// );
-
-// export const PopupItemEditor = () => (
-//   <GenericCatalogue {...defaultProps} ItemEditor={_PopupItemEditor} />
-// );

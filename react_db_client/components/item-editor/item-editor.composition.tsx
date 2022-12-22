@@ -2,6 +2,8 @@ import React from 'react';
 import { ItemEditor } from './item-editor';
 import { demoParams, demoData } from './demo-data';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
+import { Form, FormField } from '@form-extendable/component';
+import { defaultTheme, FormThemeProvider } from '@form-extendable/styles';
 
 const asyncGetFiles = () => async () => {
   return [];
@@ -13,10 +15,10 @@ const Popup = ({ children, isOpen = true || undefined }) => {
   return <></>;
 };
 
-const componentMap =  defaultComponentMap({ asyncGetFiles, fileServerUrl, PopupPanel: Popup })
+const componentMap = defaultComponentMap({ asyncGetFiles, fileServerUrl, PopupPanel: Popup });
 
 export const BasicItemEditor = () => (
-  <div className="productEditor_FormWrap sectionWrapper">
+  <FormThemeProvider theme={defaultTheme}>
     <ItemEditor
       id="demo-id"
       inputUid="abc"
@@ -31,5 +33,22 @@ export const BasicItemEditor = () => (
       asyncDeleteDocument={async () => {}}
       componentMap={componentMap}
     />
-  </div>
+  </FormThemeProvider>
 );
+
+export const TestForm = () => {
+  return (
+    <FormThemeProvider theme={defaultTheme}>
+      <Form
+        formDataInitial={{}}
+        headings={demoParams}
+        onSubmit={() => {}}
+        onChange={() => {}}
+        showEndBtns
+        submitBtnText="Save Item"
+        componentMap={componentMap}
+        FormField={FormField}
+      />
+    </FormThemeProvider>
+  );
+};

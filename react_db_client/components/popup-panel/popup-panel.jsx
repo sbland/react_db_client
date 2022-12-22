@@ -39,6 +39,7 @@ export const PopupPanel = ({
 
   const classNames = [className, `popupid_${id}`].filter((f) => f).join(' ');
 
+
   if (!_popupRoot) return <div className={classNames}>Missing Popup Root</div>;
   return ReactDOM.createPortal(
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
@@ -51,7 +52,7 @@ export const PopupPanel = ({
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       tabIndex="0"
     >
-      <div className="popupPanel">
+      <div className="popupPanel" data-testid="rdc-popupPanel">
         <div className="popupPanel_content">{(renderWhenClosed || isOpen) && children}</div>
         <div className="popupPanel_topBar">
           <div className="popupPanel_title">{title}</div>
