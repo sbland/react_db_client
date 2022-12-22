@@ -1,3 +1,4 @@
+/**@deprecated use @react_db_client/helpers.html-helpers instead*/
 export const getRoot = (inputRoot) => {
   let root = null;
   if (typeof inputRoot === 'object') root = inputRoot;

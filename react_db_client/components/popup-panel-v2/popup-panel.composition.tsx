@@ -18,15 +18,42 @@ const ExamplePanel = styled.div`
 `;
 
 export const BasicPopupPanel = () => {
-  const id = 'popup';
+  const id = 'popupRoot';
   return (
     <div style={{ position: 'relative' }}>
       <PopupProvider>
         <OpenPopupButton id={id} />
-        <PopupPanel id={id}>
-          <ExamplePanel>hello world!</ExamplePanel>
+        <PopupPanel id={id} deleteRootOnUnmount>
+          <ExamplePanel>Hello I'm open!</ExamplePanel>
         </PopupPanel>
       </PopupProvider>
+    </div>
+  );
+};
+
+export const PopupPanelUnmountOnHide = () => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const id = 'popupRoot';
+
+  return (
+    <div className="">
+      <div className="">
+        <button
+          type="button"
+          className={isOpen ? 'button-one' : 'button-two'}
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
+          Open
+        </button>
+        <PopupProvider>
+          {/* <OpenPopupButton id={id} /> */}
+          {isOpen && (
+            <PopupPanel id={id} deleteRootOnUnmount>
+              <ExamplePanel>Hello I'm open!</ExamplePanel>
+            </PopupPanel>
+          )}
+        </PopupProvider>
+      </div>
     </div>
   );
 };

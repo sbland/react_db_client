@@ -48,17 +48,13 @@ describe('CertificateCatalogue', () => {
       const searchResults = await searchForDocument(screen, 'demo');
       await openExistingItemEditor(searchResults[0]);
     });
-    test.skip('should close item editor when pressing close button', async () => {
+    test('should close item editor when pressing close button', async () => {
       render(<compositions.BasicGenericCatalogue />);
       const searchResults = await searchForDocument(screen, 'demo');
       const itemEditor = await openExistingItemEditor(searchResults[0]);
-      const closeBtn = within(itemEditor).getByRole('button', { name: /X/ });
+      const closeBtn = screen.getByRole('button', { name: /X/ });
       await UserEvent.click(closeBtn);
-      await screen.getByText('EDITOR HIDDEN');
-      screen.debug(itemEditor);
-
-      // TODO: Fix why editor not being removed
-      await waitForElementToBeRemoved(itemEditor);
+      expect(itemEditor).not.toBeInTheDocument();
     });
   });
 });

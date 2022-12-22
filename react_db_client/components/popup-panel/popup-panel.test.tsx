@@ -1,22 +1,5 @@
-// import React from 'react';
-// import { render, screen } from '@testing-library/react';
-// import UserEvent from '@testing-library/user-event';
-// import { BasicPopupPanel } from './popup-panel.composition';
-
-// it('should not render popup when not open', () => {
-//   expect(screen.queryByText('hello world!')).not.toBeInTheDocument();
-// });
-
-// it('should render with the correct text', async () => {
-//   render(<BasicPopupPanel />);
-//   const openBtn = screen.getByRole('button');
-//   await UserEvent.click(openBtn);
-//   const rendered = await screen.findByText('hello world!');
-//   expect(rendered).toBeTruthy();
-// });
-
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import * as compositions from './popup-panel.composition';
 
@@ -43,6 +26,8 @@ describe('popup panel', () => {
       expect(screen.getByText("Hello I'm open!")).toBeInTheDocument();
     });
     test('should add root element if does not already exist', async () => {
+      const rootElNone = document.getElementById('popupRoot');
+      expect(rootElNone).not.toBeInTheDocument();
       render(<compositions.BasicPopupPanel />);
       const rootEl = document.getElementById('popupRoot');
       expect(rootEl).toBeInTheDocument();
@@ -51,12 +36,16 @@ describe('popup panel', () => {
       render(<compositions.PopupPanelUnmountOnHide />);
       const openPopupButton = screen.getByRole('button');
       await UserEvent.click(openPopupButton);
+      await screen.findByText("Hello I'm open!");
       const rootEl = document.getElementById('popupRoot');
       expect(rootEl).toBeInTheDocument();
-      await UserEvent.click(openPopupButton);
+      const closeBtn = screen.getByRole('button', { name: /X/ });
+      await UserEvent.click(closeBtn);
       const rootElNone = document.getElementById('popupRoot');
       expect(rootElNone).not.toBeInTheDocument();
     });
-    test('should show new popup panels on top of old popup panels', () => {});
+    test('should show new popup panels on top of old popup panels', () => {
+
+    });
   });
 });

@@ -20,12 +20,44 @@ export const BasicPopupPanel = () => {
           handleClose={() => {
             setIsOpen(false);
           }}
-          popupRoot="root"
+          popupRoot="popupRoot"
         >
           <div className="" style={{ background: 'red' }}>
-            Hello
+            Hello I'm open!
           </div>
         </PopupPanel>
+      </div>
+    </div>
+  );
+};
+
+export const PopupPanelUnmountOnHide = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="">
+      <div className="">
+        <button
+          type="button"
+          className={isOpen ? 'button-one' : 'button-two'}
+          onClick={() => setIsOpen(true)}
+        >
+          Open
+        </button>
+        {isOpen && (
+          <PopupPanel
+            id="demo-id"
+            isOpen
+            handleClose={() => {
+              setIsOpen(false);
+            }}
+            popupRoot="popupRoot"
+          >
+            <div className="" style={{ background: 'red' }}>
+              Hello I'm open!
+            </div>
+          </PopupPanel>
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import { getRoot } from '@react_db_client/helpers.get-root';
+import { useGetRoot } from '@react_db_client/helpers.html-helpers';
 
 import './style.scss';
 
@@ -27,7 +27,8 @@ export const PopupPanel = ({
   popupRoot,
 }) => {
   const [z] = useState(popupCount);
-  const _popupRoot = getRoot(popupRoot || id);
+  const _popupRoot = useGetRoot(popupRoot || id);
+  // const _popupRoot = getRoot(popupRoot || id);
 
   useEffect(() => {
     popupCount += 1;
@@ -38,7 +39,6 @@ export const PopupPanel = ({
   if (!isOpen) return <></>;
 
   const classNames = [className, `popupid_${id}`].filter((f) => f).join(' ');
-
 
   if (!_popupRoot) return <div className={classNames}>Missing Popup Root</div>;
   return ReactDOM.createPortal(

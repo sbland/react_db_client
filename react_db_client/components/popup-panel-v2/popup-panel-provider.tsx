@@ -1,5 +1,6 @@
 import React from 'react';
-import { getRoot } from '@react_db_client/helpers.get-root';
+import { getRoot } from '@react_db_client/helpers.html-helpers';
+// import { getRoot,  } from '@react_db_client/helpers.get-root';
 
 export type TPopupId = string | number;
 
@@ -35,7 +36,7 @@ export const defaultState: IPopupPanelContext = {
     id: TPopupId,
     root?: string | HTMLElement | undefined,
     deleteRootOnUnmount?: boolean,
-    z?: number,
+    z?: number
   ) => null,
   deregisterPopup: (id: TPopupId) => null,
   baseZIndex: 100,

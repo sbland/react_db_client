@@ -28,6 +28,9 @@ import {
 import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
 import { Emoji } from '@react_db_client/components.emoji';
 import { generateUid } from '@react_db_client/helpers.generate-uid';
+import { IHeading as StyledSelectListHeading } from '@react_db_client/components.styled-select-list';
+
+export type TResultHeading<V> = THeading<V> & StyledSelectListHeading;
 
 export interface IGenericCatalogueProps<ResultType extends IDocument> {
   id: Uid;
@@ -35,7 +38,7 @@ export interface IGenericCatalogueProps<ResultType extends IDocument> {
   collection: string;
   additionalFilters?: FilterObjectClass[];
   customSort?: (a: ResultType, b: ResultType) => -1 | 0 | 1;
-  resultsHeadings: THeading<unknown>[];
+  resultsHeadings: TResultHeading<unknown>[];
   editorHeadings: THeading<unknown>[];
   additionalSaveData?: Partial<ResultType>;
   availableFilters: { [key: string]: FilterOption<any, boolean> };
@@ -57,53 +60,6 @@ export interface IGenericCatalogueProps<ResultType extends IDocument> {
 
 /**
  * Generic catalogue wrapper for searching and editing documents from the api
- * @param id
- * @param itemName
- * @param collection
- * @param additionalFilters
- * @param customSort
- * @param resultsHeadings
- * @param editorHeadings
- * @param additionalSaveData
- * @param availableFilters
- * @param ItemEditor
- * @param errorCallback
- * @param PopupPanel
- * @param notificationDispatch
- * @param customParsers
- * @param previewHeadings
- * @param componentMap Map of field component for item editor
- * @param {async function} asyncGetDocument async function to get a document
- * - @argument { string } collection target database collection
- * - @argument { string } uid id of document
- * - @argument { Array[string] } schema fields to request from db
- * - @argument { bool } populate if true populate nested docs
- * @param {async function} asyncGetDocuments async function to search for multiple documents
- * - @argument { string } collection target database collection
- * - @argument { List[FilterObjectClass] } filters list of filters to apply to search
- * - @argument { List[string] } schema list of fields to request
- * - @argument { string } sortBy Field to sort by
- * - @argument { string } textsearch string to use for text(Keyword) searching
- * - @argument { bool } reverseSort if true reverse sorting
- * - @argument { bool } populate if true populate nested docs
- * @param {async function} asyncPutDocument async function to update a document
- * - @argument { string } collection target database collection
- * - @argument { string } uid id of document
- * - @argument { object } data data to upload
- * @param {async function} asyncPostDocument async function to add a new document
- * - @argument { string } collection target database collection
- * - @argument { string } uid id of document
- * - @argument { object } data data to upload
- * @param {async function} asyncDeleteDocument async function to delete a document
- * - @argument { string } collection target database collection
- * - @argument { string } uid id of document
- * @param {async function} asyncCopyDocument async function to copy a document
- * - @argument { string } fromCollection db collection to copy from
- * - @argument { string } fromUid db uid to copy
- * - @argument { string } toCollection db collection to copy to
- * - @argument { string } toUid new document id
- * - @argument { object } additionalData additional data to add to copied doc
- * @returns
  */
 export const GenericCatalogue = <ResultType extends IDocument>({
   id,
