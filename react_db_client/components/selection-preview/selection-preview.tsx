@@ -11,7 +11,7 @@ import {
 
 export interface IHeading {
   uid: Uid;
-  label: string;
+  label: string | React.ReactNode;
   type: EFilterType | string;
 }
 

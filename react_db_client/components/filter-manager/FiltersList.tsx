@@ -54,7 +54,7 @@ export const FiltersList = ({
     filterData.map((filter, i) => {
       const filterTypeComponent = filterElements[i];
       const { field: fieldId, type } = filter;
-      const { operators = null } = fieldId !== null ? fieldsData[fieldId] : {};
+      const { operators = null } = fieldId != null ? fieldsData[fieldId] || {} : {};
       const comparisonOptions: EComparisons[] =
         operators != null ? operators : filterTypesComparisons[type];
 

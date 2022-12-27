@@ -6,7 +6,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 export interface HeadingObject {
-  label?: string;
+  label?: string | React.ReactNode;
   columnWidth?: number;
 }
 export interface UseColumnManagerProps {
@@ -24,7 +24,6 @@ export interface IUseColumnManagerReturn {
   columnWidths: number[];
   setColumnWidths: (v: number[]) => void;
   tableWidth: number;
-
 }
 
 /* 1. Manage the column widths
@@ -50,7 +49,14 @@ export const useColumnManager = ({
         return (containerWidth * 0.995) / headingsDataList.length;
       }
       if (itemData.columnWidth) return itemData.columnWidth * unit + extraWidth;
-      if (itemData.label) return itemData.label.length * unit + extraWidth;
+      if (itemData.label)
+        return (
+          (typeof itemData.label === 'string'
+            ? itemData.label.length
+            : itemData.columnWidth || minWidth) *
+            unit +
+          extraWidth
+        );
       return defaultColumnWidth;
     },
     [defaultColumnWidth, extraWidth, unit, containerRef, autoWidth, headingsDataList]

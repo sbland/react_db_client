@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   FilterObjectClass,
-  filterTypes,
-  comparisons,
-  EFilterType,
   IDocument,
   FilterOption,
+  EFilterType,
+  EComparisons,
 } from '@react_db_client/constants.client-types';
 import { StyledSelectList } from '@react_db_client/components.styled-select-list';
 import { FilterId, FilterPanel } from '@react_db_client/components.filter-manager';
@@ -17,21 +16,7 @@ import { SelectionPreview } from '@react_db_client/components.selection-preview'
 
 import { useSelectionManager } from './useSelectionManager';
 import { SearchAndSelectStyles } from './styles';
-
-export interface IHeading {
-  uid: string;
-  label: string;
-  type: EFilterType | string;
-}
-
-export type CustomParser = (value: any) => any;
-
-export type TSearchAndSelectSearchFunction<ResultType extends IDocument> = (
-  filters?: FilterObjectClass[],
-  sortBy?: string,
-  searchValue?: string,
-  reverseSort?: boolean
-) => Promise<ResultType[]>;
+import { CustomParser, IHeading, TSearchAndSelectSearchFunction } from './lib';
 
 export interface ISearchAndSelectProps<ResultType extends IDocument>
   extends React.HTMLProps<HTMLInputElement> {
@@ -217,8 +202,8 @@ export const SearchAndSelect = <ResultType extends IDocument>({
             uid: 'search',
             field: searchFieldTargetField,
             value: newSearchString,
-            operator: comparisons.contains,
-            type: filterTypes.text,
+            operator: EComparisons.CONTAINS,
+            type: EFilterType.text,
           })
         );
         return filtersCopy;

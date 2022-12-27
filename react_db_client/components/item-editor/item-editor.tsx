@@ -34,6 +34,7 @@ export interface IItemEditorProps<ResultType extends IDocument> {
   componentMap: TComponentMap;
   saveErrorCallback?: (message: string, e: Error) => void;
   onCancel?: () => void;
+  submitBtnText?: string;
 }
 
 /**
@@ -54,6 +55,7 @@ export const ItemEditor = <ResultType extends IDocument>({
   asyncDeleteDocument,
   componentMap,
   saveErrorCallback,
+  submitBtnText = 'Save Item',
 }: IItemEditorProps<ResultType>) => {
   const [overridenFields, setOverridenFields] = useState<string[]>([]);
 
@@ -118,7 +120,7 @@ export const ItemEditor = <ResultType extends IDocument>({
           onSubmit={saveData}
           onChange={handleOnChange}
           showEndBtns
-          submitBtnText="Save Item"
+          submitBtnText={submitBtnText}
           componentMap={componentMap}
           FormField={FormField}
         />
