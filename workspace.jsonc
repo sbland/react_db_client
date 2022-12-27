@@ -150,97 +150,114 @@
     "{generator/*}": {
       "teambit.harmony/aspect": {}
     },
-    // "{components/**}": {
+    "{components/**}": {
+      "teambit.react/react": {},
+      "teambit.pkg/pkg": {
+        "packageManagerPublishArgs": [
+          "--access public"
+          // "--otp=039502@react_db_client/components.emoji"
+        ],
+        "packageJson": {
+          "name": "@{scope}/{name}",
+          "private": false,
+          "publishConfig": {
+            "scope": "@saminuk",
+            "registry": "https://registry.npmjs.org/"
+          }
+        }
+      }
+    },
+    "{constants/**}": {
+      "teambit.react/react": {},
+      "teambit.pkg/pkg": {
+        "packageManagerPublishArgs": [
+          "--access public"
+          // "--otp=039502@react_db_client/components.emoji"
+        ],
+        "packageJson": {
+          "name": "@{scope}/{name}",
+          "private": false,
+          "publishConfig": {
+            "scope": "@saminuk",
+            "registry": "https://registry.npmjs.org/"
+          }
+        }
+      }
+    },
+    "{async-hooks/**}": {
+      "teambit.react/react": {},
+      "teambit.pkg/pkg": {
+        "packageManagerPublishArgs": [
+          "--access public"
+          // "--otp=039502@react_db_client/components.emoji"
+        ],
+        "packageJson": {
+          "name": "@{scope}/{name}",
+          "private": false,
+          "publishConfig": {
+            "scope": "@saminuk",
+            "registry": "https://registry.npmjs.org/"
+          }
+        }
+      }
+    },
+    "{hooks/**}": {
+      "teambit.react/react": {},
+      "teambit.pkg/pkg": {
+        "packageManagerPublishArgs": [
+          "--access public"
+          // "--otp=039502@react_db_client/components.emoji"
+        ],
+        "packageJson": {
+          "name": "@{scope}/{name}",
+          "private": false,
+          "publishConfig": {
+            "scope": "@saminuk",
+            "registry": "https://registry.npmjs.org/"
+          }
+        }
+      }
+    },
+    "{helpers/**}": {
+      "teambit.react/react": {},
+      "teambit.pkg/pkg": {
+        "packageManagerPublishArgs": [
+          "--access public"
+          // "--otp=039502@react_db_client/components.emoji"
+        ],
+        "packageJson": {
+          "name": "@{scope}/{name}",
+          "private": false,
+          "publishConfig": {
+            "scope": "@saminuk",
+            "registry": "https://registry.npmjs.org/"
+          }
+        }
+      }
+    },
+    "{testing/utils}": {
+      "teambit.react/react": {},
+      "teambit.pkg/pkg": {
+        "packageManagerPublishArgs": [
+          "--access public"
+          // "--otp=039502@react_db_client/components.emoji"
+        ],
+        "packageJson": {
+          "name": "@{scope}/{name}",
+          "private": false,
+          "publishConfig": {
+            "scope": "@saminuk",
+            "registry": "https://registry.npmjs.org/"
+          }
+        }
+      }
+    }
+    // "{constants/**/*},{components/**/*},{async-hooks/**/*},{helpers/**/*},{hooks/**/*}": {
     //   "teambit.react/react": {},
     //   "teambit.pkg/pkg": {
     //     "packageManagerPublishArgs": [
     //       "--access public"
-    //       // "--otp=039502@react_db_client/components.emoji"
-    //     ],
-    //     "packageJson": {
-    //       "name": "@{scope}/{name}",
-    //       "private": false,
-    //       "publishConfig": {
-    //         "scope": "@saminuk",
-    //         "registry": "https://registry.npmjs.org/"
-    //       }
-    //     }
-    //   }
-    // },
-    // "{constants/**}": {
-    //   "teambit.react/react": {},
-    //   "teambit.pkg/pkg": {
-    //     "packageManagerPublishArgs": [
-    //       "--access public"
-    //       // "--otp=039502@react_db_client/components.emoji"
-    //     ],
-    //     "packageJson": {
-    //       "name": "@{scope}/{name}",
-    //       "private": false,
-    //       "publishConfig": {
-    //         "scope": "@saminuk",
-    //         "registry": "https://registry.npmjs.org/"
-    //       }
-    //     }
-    //   }
-    // },
-    // "{async-hooks/**}": {
-    //   "teambit.react/react": {},
-    //   "teambit.pkg/pkg": {
-    //     "packageManagerPublishArgs": [
-    //       "--access public"
-    //       // "--otp=039502@react_db_client/components.emoji"
-    //     ],
-    //     "packageJson": {
-    //       "name": "@{scope}/{name}",
-    //       "private": false,
-    //       "publishConfig": {
-    //         "scope": "@saminuk",
-    //         "registry": "https://registry.npmjs.org/"
-    //       }
-    //     }
-    //   }
-    // },
-    // "{hooks/**}": {
-    //   "teambit.react/react": {},
-    //   "teambit.pkg/pkg": {
-    //     "packageManagerPublishArgs": [
-    //       "--access public"
-    //       // "--otp=039502@react_db_client/components.emoji"
-    //     ],
-    //     "packageJson": {
-    //       "name": "@{scope}/{name}",
-    //       "private": false,
-    //       "publishConfig": {
-    //         "scope": "@saminuk",
-    //         "registry": "https://registry.npmjs.org/"
-    //       }
-    //     }
-    //   }
-    // },
-    // "{helpers/**}": {
-    //   "teambit.react/react": {},
-    //   "teambit.pkg/pkg": {
-    //     "packageManagerPublishArgs": [
-    //       "--access public"
-    //       // "--otp=039502@react_db_client/components.emoji"
-    //     ],
-    //     "packageJson": {
-    //       "name": "@{scope}/{name}",
-    //       "private": false,
-    //       "publishConfig": {
-    //         "scope": "@saminuk",
-    //         "registry": "https://registry.npmjs.org/"
-    //       }
-    //     }
-    //   }
-    // },
-    // "{testing/utils}": {
-    //   "teambit.react/react": {},
-    //   "teambit.pkg/pkg": {
-    //     "packageManagerPublishArgs": [
-    //       "--access public"
-    //       // "--otp=039502@react_db_client/components.emoji"
+    // "--otp=039502@react_db_client/components.emoji"
     //     ],
     //     "packageJson": {
     //       "name": "@{scope}/{name}",
@@ -252,22 +269,5 @@
     //     }
     //   }
     // }
-    // // "{constants/**/*},{components/**/*},{async-hooks/**/*},{helpers/**/*},{hooks/**/*}": {
-    // //   "teambit.react/react": {},
-    // //   "teambit.pkg/pkg": {
-    // //     "packageManagerPublishArgs": [
-    // //       "--access public"
-    // // "--otp=039502@react_db_client/components.emoji"
-    // //     ],
-    // //     "packageJson": {
-    // //       "name": "@{scope}/{name}",
-    // //       "private": false,
-    // //       "publishConfig": {
-    // //         "scope": "@saminuk",
-    // //         "registry": "https://registry.npmjs.org/"
-    // //       }
-    // //     }
-    // //   }
-    // // }
   }
 }

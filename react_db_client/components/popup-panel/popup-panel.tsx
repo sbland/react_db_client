@@ -2,8 +2,26 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { useGetRoot } from '@react_db_client/helpers.html-helpers';
+import {
+  PopupPanelCloseBtn,
+  PopupPanelContentStyle,
+  PopupPanelOverlay,
+  PopupPanelStyle,
+  PopupPanelTitle,
+  PopupPanelTopBar,
+  PopupPanelWrapStyle,
+} from './style';
 
-import './style.scss';
+export interface IPopupPanelProps {
+  id: string;
+  title: string;
+  isOpen: boolean;
+  handleClose: () => void;
+  className?: string;
+  renderWhenClosed?: boolean;
+  children: React.ReactNode;
+  popupRoot?: any;
+}
 
 let popupCount = 1;
 /**
@@ -25,7 +43,7 @@ export const PopupPanel = ({
   renderWhenClosed,
   children,
   popupRoot,
-}) => {
+}: IPopupPanelProps) => {
   const [z] = useState(popupCount);
   const _popupRoot = useGetRoot(popupRoot || id);
   // const _popupRoot = getRoot(popupRoot || id);
@@ -43,28 +61,31 @@ export const PopupPanel = ({
   if (!_popupRoot) return <div className={classNames}>Missing Popup Root</div>;
   return ReactDOM.createPortal(
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-    <div
+    <PopupPanelWrapStyle
       className={`popupPanelWrap ${classNames}`}
       style={{
         zIndex: z * 10,
       }}
+      data-testid={`popupid_${id}`}
       onKeyDown={(e) => e.key === 'Escape' && handleClose()}
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-      tabIndex="0"
+      // tabIndex="0"
     >
-      <div className="popupPanel" data-testid="rdc-popupPanel">
-        <div className="popupPanel_content">{(renderWhenClosed || isOpen) && children}</div>
-        <div className="popupPanel_topBar">
-          <div className="popupPanel_title">{title}</div>
-          <button className="popupPanel_closeBtn" type="button" onClick={handleClose}>
+      <PopupPanelStyle className="popupPanel" data-testid="rdc-popupPanel">
+        <PopupPanelContentStyle className="popupPanel_content">
+          {(renderWhenClosed || isOpen) && children}
+        </PopupPanelContentStyle>
+        <PopupPanelTopBar className="popupPanel_topBar">
+          <PopupPanelTitle className="popupPanel_title">{title}</PopupPanelTitle>
+          <PopupPanelCloseBtn className="popupPanel_closeBtn" type="button" onClick={handleClose}>
             X
-          </button>
-        </div>
-      </div>
+          </PopupPanelCloseBtn>
+        </PopupPanelTopBar>
+      </PopupPanelStyle>
       {/* eslint-disable-next-line max-len */}
       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-      <div className="popupPanel_overlay" onClick={handleClose} />
-    </div>,
+      <PopupPanelOverlay className="popupPanel_overlay" onClick={handleClose} />
+    </PopupPanelWrapStyle>,
     _popupRoot
   );
 };
