@@ -11,7 +11,7 @@ const DEMO_OPTIONS = [
   { uid: 6, label: '06' },
   { uid: 7, label: '07' },
 ];
-const DEMO_OPTIONS_LONG = [...Array(30)].map((v, i) => ({ uid: i, label: i }));
+const DEMO_OPTIONS_LONG = [...Array(30)].map((v, i) => ({ uid: i, label: String(i) }));
 
 export const Basic = () => {
   return (
@@ -21,7 +21,7 @@ export const Basic = () => {
         handleSelect={(uid) => {}}
         isOpen
         handleClose={() => {}}
-        firstItemRef={{ current: {} }}
+        firstItemRef={{ current: {} as HTMLElement }}
         goBackToSearchField={() => {}}
       />
     </CompositionWrapDefault>
@@ -30,18 +30,24 @@ export const Basic = () => {
 
 export const Interactive = () => {
   const [open, setOpen] = useState(false);
-  const [selection, setSelection] = useState(null);
+  const [selection, setSelection] = useState<string | null>(null);
   return (
     <CompositionWrapDefault height="8rem" width="12rem">
       <div style={{ width: '10rem' }}>
-        {selection || 'Nothing selected'}
-        <input type="text" onFocus={() => setOpen(true)} style={{ width: '100%' }} />
+        <p data-testid="curSel">{selection || 'Nothing Selected'}</p>
+        <input
+          data-testid="testInput"
+          type="text"
+          onFocus={() => setOpen(true)}
+          style={{ width: '100%' }}
+        />
         <CustomSelectDropdown
           options={DEMO_OPTIONS}
           handleSelect={(uid) => setSelection(uid)}
           isOpen={open}
           handleClose={() => setOpen(false)}
-          firstItemRef={{ current: {} }}
+          firstItemRef={{ current: {} as HTMLElement }}
+          goBackToSearchField={() => {}}
         />
         <div style={{ width: '300px', height: '300px', background: 'red' }} />
       </div>
@@ -51,7 +57,7 @@ export const Interactive = () => {
 
 export const LongList = () => {
   const [open, setOpen] = useState(false);
-  const [selection, setSelection] = useState(null);
+  const [selection, setSelection] = useState<string | null>(null);
   return (
     <CompositionWrapDefault height="8rem" width="12rem">
       <div style={{ width: '10rem' }}>
@@ -62,7 +68,8 @@ export const LongList = () => {
           handleSelect={(uid) => setSelection(uid)}
           isOpen={open}
           handleClose={() => setOpen(false)}
-          firstItemRef={{ current: {} }}
+          firstItemRef={{ current: {} as HTMLElement }}
+          goBackToSearchField={() => {}}
         />
         <div style={{ width: '300px', height: '300px', background: 'red' }} />
       </div>
@@ -72,7 +79,7 @@ export const LongList = () => {
 
 export const OverflowHidden = () => {
   const [open, setOpen] = useState(false);
-  const [selection, setSelection] = useState(null);
+  const [selection, setSelection] = useState<string | null>(null);
   // TODO: This is currently not working
   return (
     <CompositionWrapDefault height="8rem" width="12rem">
@@ -84,7 +91,7 @@ export const OverflowHidden = () => {
           position: 'relative',
         }}
       >
-        {selection || 'Nothing Selected'}
+        <p data-testid="curSel">{selection || 'Nothing Selected'}</p>
         <input type="text" onFocus={() => setOpen(true)} style={{ width: '100%' }} />
         <div style={{ position: 'absolute', zIndex: 99 }}>
           <CustomSelectDropdown
@@ -92,7 +99,8 @@ export const OverflowHidden = () => {
             handleSelect={(uid) => setSelection(uid)}
             isOpen={open}
             handleClose={() => setOpen(false)}
-            firstItemRef={{ current: {} }}
+            firstItemRef={{ current: {} as HTMLElement }}
+            goBackToSearchField={() => {}}
           />
         </div>
         <div style={{ width: '300px', height: '300px', background: 'red' }} />
@@ -103,9 +111,9 @@ export const OverflowHidden = () => {
 
 export const OverflowHiddenFixed = () => {
   const [open, setOpen] = useState(false);
-  const [selection, setSelection] = useState(null);
+  const [selection, setSelection] = useState<string | null>(null);
   const containerRef = React.useRef(null);
-  const targetRef = React.useRef(null);
+  const targetRef = React.useRef<HTMLDivElement>(null);
   const [rerender, setRerender] = React.useState(0);
   const [position, setPosition] = React.useState({ top: 0, left: 0 });
 
@@ -113,8 +121,8 @@ export const OverflowHiddenFixed = () => {
     setRerender(1);
     if (targetRef.current) {
       setPosition({
-        top: targetRef.current.offsetTop,
-        left: targetRef.current.offsetLeft,
+        top: targetRef.current?.offsetTop,
+        left: targetRef.current?.offsetLeft,
       });
     }
   }, [targetRef.current]);
@@ -138,15 +146,19 @@ export const OverflowHiddenFixed = () => {
             handleSelect={(uid) => setSelection(uid)}
             isOpen={open}
             handleClose={() => setOpen(false)}
-            firstItemRef={{ current: {} }}
+            firstItemRef={{ current: {} as HTMLElement }}
             position="absolute"
             absolutePosition={position}
             containerRef={containerRef.current}
+            goBackToSearchField={() => {}}
           />
         </div>
         <div style={{ width: '300px', height: '300px', background: 'red' }} />
       </div>
-      <div style={{ position: 'absolute', left: 0, top: 0, background: null }} ref={containerRef}>
+      <div
+        style={{ position: 'absolute', left: 0, top: 0, background: undefined }}
+        ref={containerRef}
+      >
         {' '}
       </div>
     </CompositionWrapDefault>
@@ -154,7 +166,7 @@ export const OverflowHiddenFixed = () => {
 };
 
 export const BasicMenuAbsolutePosition = () => {
-  const containerRef = React.useRef(null);
+  const containerRef = React.useRef<HTMLDivElement>(null);
   const targetRef = React.useRef(null);
   const [rerender, setRerender] = React.useState(0);
 
@@ -164,19 +176,19 @@ export const BasicMenuAbsolutePosition = () => {
 
   return (
     <CompositionWrapDefault height="8rem" width="12rem">
-      {rerender && containerRef.current && (
+      {(rerender && containerRef.current && (
         <CustomSelectDropdown
           options={DEMO_OPTIONS}
           handleSelect={(uid) => {}}
           isOpen
           handleClose={() => {}}
-          firstItemRef={{ current: {} }}
+          firstItemRef={{ current: {} as HTMLElement }}
           goBackToSearchField={() => {}}
           containerRef={containerRef.current}
           position="absolute"
           absolutePosition={{ left: 50, top: 50 }}
         />
-      )}
+      )) || <>""</>}
       <div
         style={{ position: 'absolute', left: 10, top: 400, background: 'red' }}
         ref={containerRef}
