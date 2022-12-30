@@ -31,7 +31,15 @@ ${error}\n
 const getMailTo = (addr, errorBody, subject) =>
   `mailto:${addr}?subject=${subject}&body=${errorBody}`;
 
-export const ErrorInfoComponent = ({
+export interface IErrorInfoComponent {
+  errorLabel?: string | null;
+  error: Error;
+  emailErrorsTo?: string;
+  emailErrorSubject?: string;
+  appVersion?: string;
+}
+
+export const ErrorInfoComponent: React.FC<IErrorInfoComponent> = ({
   errorLabel,
   error,
   emailErrorsTo,
@@ -58,7 +66,22 @@ export const ErrorInfoComponent = ({
   );
 };
 
-export class ErrorBoundary extends React.Component {
+export interface IErrorBoundaryProps<T> {
+  onError: (error: Error, info: any, componentProps: T) => void;
+  message?: string;
+  componentProps?: T;
+  emailErrorsTo?: string | null;
+  emailErrorSubject?: string | null;
+  appVersion?: string;
+  children: React.ReactNode;
+}
+
+export interface IErrorBoundaryState {
+  error?: Error | null;
+  errorLabel?: string | null;
+}
+
+export class ErrorBoundary<T> extends React.Component<IErrorBoundaryProps<T>, IErrorBoundaryState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -86,7 +109,7 @@ export class ErrorBoundary extends React.Component {
   render() {
     const { children } = this.props;
     const { error, errorLabel } = this.state;
-    return error ? <ErrorInfoComponent errorLabel={errorLabel} error={error} /> : children;
+    return error ? <ErrorInfoComponent errorLabel={errorLabel} error={error} /> : <>{children}</>;
   }
 }
 
