@@ -19,6 +19,7 @@ const defaultProps = {
 export const DemoData = () => {
   const [allowEmptySearch, setAllowEmptySearch] = useState(false);
   const [searchDelay, setSearchDelay] = useState(500);
+  const [selection, setSelection] = useState<null | { uid: string }>(null);
   const props = { ...defaultProps, allowEmptySearch, searchDelay };
   return (
     <div className="">
@@ -40,8 +41,14 @@ export const DemoData = () => {
       </div>
       <label htmlFor="searchInput">Search Dropdown Example</label>
       <CompositionWrapDefault height="4rem" width="8rem">
-        <SearchAndSelectDropdown {...props} id="searchInput" style={{ background: 'red' }} />
+        <SearchAndSelectDropdown
+          {...props}
+          id="searchInput"
+          style={{ background: 'red' }}
+          handleSelect={(v) => setSelection(v)}
+        />
       </CompositionWrapDefault>
+      <p data-testid="curSel">{selection?.uid}</p>
     </div>
   );
 };
@@ -77,15 +84,21 @@ export const DemoDataAltLabel = () => {
 
 export const DemoDataAllowEmptyInstant = () => {
   const props = { ...defaultProps };
+  const [selection, setSelection] = useState<null | { uid: string; label: string }>();
   return (
-    <CompositionWrapDefault height="4rem" width="8rem">
-      <SearchAndSelectDropdown
-        {...props}
-        allowEmptySearch
-        searchFunction={async () => demoResultData}
-        searchDelay={0}
-      />
-    </CompositionWrapDefault>
+    <>
+      <CompositionWrapDefault height="4rem" width="8rem">
+        <SearchAndSelectDropdown
+          {...props}
+          allowEmptySearch
+          searchFunction={async () => demoResultData}
+          handleSelect={(v) => setSelection(v)}
+          searchDelay={0}
+          value={selection?.label || ''}
+        />
+      </CompositionWrapDefault>
+      <p data-testid="curSel">{selection?.uid}</p>
+    </>
   );
 };
 

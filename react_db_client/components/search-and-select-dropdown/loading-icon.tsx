@@ -11,7 +11,7 @@ export const LoadingIcon = ({ isLoading }: ILoadingIconProps) => {
   return (
     <>
       {isLoading && (
-        <LoadingIconStyle>
+        <LoadingIconStyle data-testid="loadingIcon">
           <Emoji emoj="\/" label="loading" className="loadingIcon" />
         </LoadingIconStyle>
         // <Emoji emoj="⌛" label="loading" className="loadingIcon"/>

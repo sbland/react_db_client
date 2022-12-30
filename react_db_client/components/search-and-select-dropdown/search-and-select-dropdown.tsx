@@ -11,7 +11,7 @@ import { DropdownBtn, SasDropLoadingWrap, SasDropWrap, SearchFieldWrapStyle } fr
 
 export interface ISearchAndSelectDropdownProps<Item> extends React.HTMLProps<HTMLInputElement> {
   searchFunction: (filters?: FilterObjectClass[]) => Promise<Item[]>;
-  handleSelect: (id: string, selectedData: Item) => void;
+  handleSelect: (selectedData: Item) => void;
   debug?: boolean;
   initialValue?: string | Item;
   searchFieldTargetField?: string;
@@ -83,6 +83,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
   }, [initialValue, searchFieldTargetField]);
 
   const searchCallback = useCallback((resultsNew) => {
+    // console.info(resultsNew)
     setResults(resultsNew);
     setLoading(false);
   }, []);
@@ -227,7 +228,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
         setSearchValue(selectedData[Array.isArray(labelField) ? labelField[0] : labelField]);
         goBackToSearchField();
         setWaitForInput(true);
-        handleSelect(selectedId, selectedData);
+        handleSelect(selectedData);
       } else {
         console.log('loading');
       }
