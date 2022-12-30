@@ -43,6 +43,8 @@ describe('file-manager', () => {
       expect(existingFilesListItems.length).toBeGreaterThan(0);
       const firstItem = within(existingFilesListItems[0]).getByRole('button');
       await UserEvent.click(firstItem);
+      const curSel = screen.getByTestId('curSel');
+      expect(curSel.textContent).toEqual(demoSearchResults[0].uid);
     });
   });
 });

@@ -6,7 +6,7 @@ import {
   SearchAndSelect,
   TSearchAndSelectSearchFunction,
 } from '@react_db_client/components.search-and-select';
-import { searchResultHeadings } from './logic';
+import { searchResultHeadings, searchResultImageHeadings } from './logic';
 
 export interface IFileManagerProps {
   handleSelect: (fileData: null | IFile | IFile[]) => void;
@@ -47,7 +47,11 @@ export const FileManager: React.FC<IFileManagerProps> = ({
           autoUpdate
           allowFilters={false}
           availableFilters={availableFilters}
-          headings={searchResultHeadings(fileServerUrl)}
+          headings={
+            fileType === EFileType.IMAGE
+              ? searchResultImageHeadings(fileServerUrl)
+              : searchResultHeadings(fileServerUrl)
+          }
           showSearchField
           // searchFieldTargetField="name"
           key={forceUpdate}
