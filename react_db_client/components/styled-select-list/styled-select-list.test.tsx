@@ -1,16 +1,17 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import { demoListInputData, demoHeadingsData } from './dummy-data';
-import { StyledSelectList } from './styled-select-list';
+import { screen, render, within } from '@testing-library/react';
+import UserEvent from '@testing-library/user-event';
 
-test('Styled select list Snapshot', () => {
-  const component = renderer.create(
-    <StyledSelectList
-      listInput={demoListInputData}
-      headings={demoHeadingsData}
-      handleSelect={() => {}}
-    />
-  );
-  const tree = component.toJSON();
-  expect(tree).toMatchSnapshot();
+import * as compositions from './list-item.composition';
+
+describe('Styled select list', () => {
+  describe('Compositions', () => {
+    Object.entries(compositions).forEach(([name, Composition]) => {
+      test(name, async () => {
+        render(<Composition />);
+        // @ts-ignore
+        if (Composition.waitForReady) await Composition.waitForReady();
+      });
+    });
+  });
 });

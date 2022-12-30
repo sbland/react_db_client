@@ -64,5 +64,9 @@ ListItem.propTypes = {
   handleSelect: PropTypes.func.isRequired,
   customParsers: PropTypes.objectOf(PropTypes.func).isRequired,
   columnWidths: PropTypes.arrayOf(PropTypes.number).isRequired,
-  isSelected: PropTypes.bool.isRequired,
+  isSelected: PropTypes.bool,
+};
+
+ListItem.defaultProps = {
+  isSelected: false,
 };
