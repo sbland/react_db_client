@@ -53,8 +53,8 @@
     "policy": {
       "dependencies": {
         "@babel/plugin-syntax-flow": "7.16.7",
-        "@form-extendable/component": "0.1.48",
-        "@form-extendable/components.component-map": "0.1.37",
+        "@form-extendable/component": "0.1.49",
+        "@form-extendable/components.component-map": "0.1.38",
         "@form-extendable/lib": "0.1.12",
         "@form-extendable/styles": "0.0.14",
         "@teambit/design.ui.external-link": "0.0.344",

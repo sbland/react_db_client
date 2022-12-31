@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { TComponentMap, THeading } from '@form-extendable/lib';
 import {
   CustomParser,
-  IHeading,
   ISearchAndSelectProps,
   SearchAndSelect,
 } from '@react_db_client/components.search-and-select';
@@ -247,7 +246,7 @@ export const GenericCatalogue = <ResultType extends IDocument>({
               onConfirmed={() => {
                 setHandleDelete(true);
               }}
-              message={`Delete ${itemName}`}
+              confirmMessage={`Delete ${itemName}`}
               disabled={selectedUid === null}
               btnText={<Emoji emoj="🗑️" label="Delete" />}
             />

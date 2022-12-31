@@ -4,6 +4,15 @@ import { PopupPanelContext, PopupPanel } from '@react_db_client/components.popup
 
 const popupId = 'areYouSureBtn_popupPanel';
 
+export interface IAreYouSureProps {
+  btnText: string | React.ReactNode;
+  onConfirmed: () => void;
+  confirmMessage?: string;
+  className?: string;
+  disabled?: boolean;
+  notes?: string;
+}
+
 export const AreYouSureBtn = ({
   btnText,
   onConfirmed,
@@ -11,7 +20,7 @@ export const AreYouSureBtn = ({
   className,
   disabled,
   notes,
-}) => {
+}: IAreYouSureProps) => {
   const { openPopup, closePopup } = React.useContext(PopupPanelContext);
 
   const handleFirstClick = () => {
