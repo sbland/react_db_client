@@ -59,7 +59,7 @@ describe('functional functions', () => {
     it('Nested Example', () => {
       const isThereMilkInTheFridge = false;
       const drinkMilk = jest.fn();
-      const theShopIsOpen = false;
+      const theShopIsOpen = true;
       const closeFridgeDoor = jest.fn();
       const goToShop = jest.fn();
       const drinkWater = jest.fn();
@@ -71,8 +71,8 @@ describe('functional functions', () => {
 
       expect(drinkMilk).not.toBeCalled();
       expect(closeFridgeDoor).toBeCalled();
-      expect(goToShop).toBeCalled();
       expect(drinkWater).not.toBeCalled();
+      expect(goToShop).toBeCalled();
     });
     it('Returns value', () => {
       const isThereMilkInTheFridge = false;
