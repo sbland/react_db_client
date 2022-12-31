@@ -124,8 +124,8 @@ export const ColumnManagerHook = () => {
       </div>
       <div>
         Column widths:{' '}
-        {columnWidths.map((w) => (
-          <p>{w}</p>
+        {columnWidths.map((w, i) => (
+          <p key={i}>{w}</p>
         ))}
         Table Width: {columnWidths.reduce((acc, v) => acc + v)}
       </div>
