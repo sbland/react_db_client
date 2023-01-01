@@ -5,7 +5,7 @@ import UserEvent from '@testing-library/user-event';
 import * as compositions from './bubble-selector.composition';
 import { demoItems } from './demo-data';
 
-describe('Column Manager', () => {
+describe('Bubble selector', () => {
   describe('Compositions', () => {
     Object.entries(compositions).forEach(([name, Composition]) => {
       test(name, async () => {
@@ -16,20 +16,7 @@ describe('Column Manager', () => {
     });
   });
   describe('selecting', () => {
-    // const updateActiveSelection = jest.fn();
-    // const bubbleSelector = mount(
-    //   <BubbleSelector
-    //     activeSelection={['a', 'b']}
-    //     options={[
-    //       { uid: 'a', label: 'a' },
-    //       { uid: 'b', label: 'b' },
-    //       { uid: 'c', label: 'c' },
-    //       { uid: 'd', label: 'd' },
-    //     ]}
-    //     updateActiveSelection={updateActiveSelection}
-    //   />
-    // );
-    test('should show buttons for each item', () => {
+    test('should show buttons for each selected item', () => {
       render(<compositions.BasicBubbleSelector />);
       const bubbleButtons = screen.getAllByRole('button');
       expect(bubbleButtons.length).toEqual(demoItems.length);

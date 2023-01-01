@@ -1,18 +1,15 @@
-import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import { BasicToggleBox } from './toggle-box.composition';
+import { render } from '@testing-library/react';
+
 import * as compositions from './toggle-box.composition';
 
-const defaultProps = {
-  //
-};
-
-describe('toggle box', () => {
+describe('Toggle box', () => {
   describe('Compositions', () => {
     Object.entries(compositions).forEach(([name, Composition]) => {
-      test(name, () => {
-        mount(<Composition />);
+      test(name, async () => {
+        render(<Composition />);
+        // @ts-ignore
+        if (Composition.waitForReady) await Composition.waitForReady();
       });
     });
   });

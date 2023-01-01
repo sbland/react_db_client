@@ -1,54 +1,16 @@
-import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { render } from '@testing-library/react';
 
-import { RightClickWrapper } from './popup-menu';
+import * as compositions from './popup-menu.composition';
 
-describe('ItemList', () => {
-  it('renders', () => {
-    shallow(
-      <RightClickWrapper
-        items={[
-          { uid: 'A', label: 'Item A', onClick: () => {} },
-          { uid: 'B', label: 'Item B', onClick: () => {} },
-        ]}
-      >
-        <div
-          id="box"
-          style={{
-            // position: 'relative',
-            width: '100px',
-            height: '100px',
-            background: 'red',
-            position: 'absolute',
-            transform: 'translate(400px, 400px)',
-          }}
-        />
-      </RightClickWrapper>
-    );
-  });
-  it('matches snapshot', () => {
-    const out = mount(
-      <RightClickWrapper
-        items={[
-          { uid: 'A', label: 'Item A', onClick: () => {} },
-          { uid: 'B', label: 'Item B', onClick: () => {} },
-        ]}
-        popupRoot="root"
-      >
-        <div
-          id="box"
-          style={{
-            // position: 'relative',
-            width: '100px',
-            height: '100px',
-            background: 'red',
-            position: 'absolute',
-            transform: 'translate(400px, 400px)',
-          }}
-        />
-      </RightClickWrapper>
-    );
-    expect(out.debug()).toMatchSnapshot();
+describe('Popup Menu', () => {
+  describe('Compositions', () => {
+    Object.entries(compositions).forEach(([name, Composition]) => {
+      test(name, async () => {
+        render(<Composition />);
+        // @ts-ignore
+        if (Composition.waitForReady) await Composition.waitForReady();
+      });
+    });
   });
 });

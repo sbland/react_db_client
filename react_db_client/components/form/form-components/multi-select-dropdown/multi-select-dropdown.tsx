@@ -97,10 +97,20 @@ export const MultiSelectDropdown = ({
       >
         <Emoji emoj="🔽" label="DropDownMenu" />
       </button>
-      <ul className="multiSelectDropdown_list-selected">{mapSelectedItems}</ul>
+      <ul
+        className="multiSelectDropdown_list-selected"
+        data-testid="multiSelectDropdown_list-selected"
+      >
+        {mapSelectedItems}
+      </ul>
       {menuOpen && (
         <div className="multiSelectDropdown_menu" ref={menuRef}>
-          <ul className="multiSelectDropdown_list-unselected">{mapUnselectedItems}</ul>
+          <ul
+            className="multiSelectDropdown_list-unselected"
+            data-testid="multiSelectDropdown_list-unselected"
+          >
+            {mapUnselectedItems}
+          </ul>
         </div>
       )}
     </MultiSelectDropdownStyles>

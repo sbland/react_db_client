@@ -287,9 +287,6 @@ importers:
   react_db_client/helpers/html-helpers:
     specifiers: {}
 
-  react_db_client/helpers/testing:
-    specifiers: {}
-
   react_db_client/hooks/use-auto-hide-panel-hook:
     specifiers: {}
 
