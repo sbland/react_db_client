@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, render, within, act, waitFor } from '@testing-library/react';
+import { screen, render, within } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import { ISearchAndSelectProps, SearchAndSelect } from './search-and-select';
 import { demoResultData, demoHeadingsData, IResultExample, extraResult } from './demo-data';

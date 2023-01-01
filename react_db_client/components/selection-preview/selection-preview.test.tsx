@@ -1,33 +1,19 @@
-import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
-import { mount, shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import { createSerializer } from 'enzyme-to-json';
+import { render } from '@testing-library/react';
 
-import { SelectionPreview } from './selection-preview';
-import { defaultProps } from './demo-data';
+import * as compositions from './selection-preview.composition';
 
-//@ts-ignore
-expect.addSnapshotSerializer(createSerializer({ mode: 'deep' }));
-
-describe('SelectionPreview', () => {
-  beforeEach(() => {
-    //
-  });
-  it('Renders', () => {
-    shallow(<SelectionPreview {...defaultProps} />);
-  });
-  it('Matches Snapshot', () => {
-    const component = shallow(<SelectionPreview {...defaultProps} />);
-    expect(toJson(component)).toMatchSnapshot();
-  });
-  describe('Unit Testing', () => {
-    let component;
-    beforeEach(() => {
-      component = mount(<SelectionPreview {...defaultProps} />);
+describe('Selection Preview', () => {
+  describe('Compositions', () => {
+    Object.entries(compositions).forEach(([name, Composition]) => {
+      test(name, async () => {
+        render(<Composition />);
+        // @ts-ignore
+        if (Composition.waitForReady) await Composition.waitForReady();
+      });
     });
-    test('should render', () => {
-      //
-    });
+  });
+  describe('Unit Tests', () => {
+    test.todo('should show meta info on document');
   });
 });
