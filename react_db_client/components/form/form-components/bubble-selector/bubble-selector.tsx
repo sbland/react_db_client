@@ -132,12 +132,18 @@ export const BubbleSelector = ({
       )}
       {groupSelected && (
         <>
-          <BubbleSelectorListStyle className="bubbleSelector_list selected">
+          <BubbleSelectorListStyle
+            className="bubbleSelector_list selected"
+            data-testid="bubbleSelector_list-selected"
+          >
             {mapSelectedItems}
           </BubbleSelectorListStyle>
           {showUnselected && (
             <>
-              <BubbleSelectorListStyle className="bubbleSelector_list unselected">
+              <BubbleSelectorListStyle
+                className="bubbleSelector_list unselected"
+                data-testid="bubbleSelector_list-notselected"
+              >
                 {mapUnselectedItems}
               </BubbleSelectorListStyle>
               {hideUnselected && (
@@ -161,7 +167,7 @@ export const BubbleSelector = ({
         </>
       )}
       {!groupSelected && (
-        <BubbleSelectorListStyle className="bubbleSelector_list notGrouped">
+        <BubbleSelectorListStyle className="bubbleSelector_list notGrouped" data-testid="bubbleSelector_list">
           {mapAllItems}
         </BubbleSelectorListStyle>
       )}

@@ -1,104 +1,67 @@
-import '@samnbuk/react_db_client.testing.enzyme-setup';
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import { BubbleSelector } from './bubble-selector';
+import { screen, render, within } from '@testing-library/react';
+import UserEvent from '@testing-library/user-event';
 
-describe('BubbleSelector', () => {
-  it('Renders', () => {
-    shallow(
-      <BubbleSelector
-        activeSelection={['a', 'b']}
-        options={[
-          { uid: 'a', label: 'a' },
-          { uid: 'b', label: 'b' },
-          { uid: 'c', label: 'c' },
-          { uid: 'd', label: 'd' },
-        ]}
-        updateActiveSelection={() => {}}
-      />
-    );
-  });
-  it('Matches Snapshot', () => {
-    const component = shallow(
-      <BubbleSelector
-        activeSelection={['a', 'c']}
-        options={[
-          { uid: 'a', label: 'a' },
-          { uid: 'b', label: 'b' },
-          { uid: 'c', label: 'c' },
-          { uid: 'd', label: 'd' },
-        ]}
-        updateActiveSelection={() => {}}
-      />
-    );
-    const tree = component.debug();
-    expect(tree).toMatchSnapshot();
-  });
-  it('Matches Snapshot - group selected', () => {
-    const component = shallow(
-      <BubbleSelector
-        activeSelection={['a', 'c']}
-        options={[
-          { uid: 'a', label: 'a' },
-          { uid: 'b', label: 'b' },
-          { uid: 'c', label: 'c' },
-          { uid: 'd', label: 'd' },
-        ]}
-        updateActiveSelection={() => {}}
-        groupSelected
-      />
-    );
-    const tree = component.debug();
-    expect(tree).toMatchSnapshot();
+import * as compositions from './bubble-selector.composition';
+import { demoItems } from './demo-data';
+
+describe('Column Manager', () => {
+  describe('Compositions', () => {
+    Object.entries(compositions).forEach(([name, Composition]) => {
+      test(name, async () => {
+        render(<Composition />);
+        // @ts-ignore
+        if (Composition.waitForReady) await Composition.waitForReady();
+      });
+    });
   });
   describe('selecting', () => {
-    const updateActiveSelection = jest.fn();
-    const bubbleSelector = mount(
-      <BubbleSelector
-        activeSelection={['a', 'b']}
-        options={[
-          { uid: 'a', label: 'a' },
-          { uid: 'b', label: 'b' },
-          { uid: 'c', label: 'c' },
-          { uid: 'd', label: 'd' },
-        ]}
-        updateActiveSelection={updateActiveSelection}
-      />
-    );
-    it('highlights selected', () => {
-      expect(bubbleSelector.find('.selected').length).toEqual(2);
+    // const updateActiveSelection = jest.fn();
+    // const bubbleSelector = mount(
+    //   <BubbleSelector
+    //     activeSelection={['a', 'b']}
+    //     options={[
+    //       { uid: 'a', label: 'a' },
+    //       { uid: 'b', label: 'b' },
+    //       { uid: 'c', label: 'c' },
+    //       { uid: 'd', label: 'd' },
+    //     ]}
+    //     updateActiveSelection={updateActiveSelection}
+    //   />
+    // );
+    test('should show buttons for each item', () => {
+      render(<compositions.BasicBubbleSelector />);
+      const bubbleButtons = screen.getAllByRole('button');
+      expect(bubbleButtons.length).toEqual(demoItems.length);
     });
-    it('calls update selection with item removed when selected item is clicked', () => {
-      const selectedItemBtn = bubbleSelector.find('.selected').first();
-      selectedItemBtn.simulate('click');
-      expect(updateActiveSelection).toHaveBeenCalled();
-      expect(updateActiveSelection).toHaveBeenCalledWith(['b'], 'remove', 'a');
-      updateActiveSelection.mockClear();
+    test('should remove item from selection', async () => {
+      render(<compositions.BasicBubbleSelectorGrouped />);
+      const selectedList = screen.getByTestId('bubbleSelector_list-selected');
+      const unselectedList = screen.getByTestId('bubbleSelector_list-notselected');
+      expect(within(selectedList).getAllByRole('button').length).toEqual(2);
+      expect(within(unselectedList).getAllByRole('button').length).toEqual(2);
+      const selectedItemBtn = within(selectedList).getAllByRole('button')[0];
+      await UserEvent.click(selectedItemBtn);
+      expect(within(selectedList).getAllByRole('button').length).toEqual(1);
+      expect(within(unselectedList).getAllByRole('button').length).toEqual(3);
     });
-    it('calls update selection with item added when non-selected item is clicked', () => {
-      const selectedItemBtn = bubbleSelector.find('.notSelected').first();
-      selectedItemBtn.simulate('click');
-      expect(updateActiveSelection).toHaveBeenCalled();
-      expect(updateActiveSelection).toHaveBeenCalledWith(['a', 'b', 'c'], 'add', 'c');
-      updateActiveSelection.mockClear();
+    test('should add to selection', async () => {
+      render(<compositions.BasicBubbleSelectorGrouped />);
+      const selectedList = screen.getByTestId('bubbleSelector_list-selected');
+      const unselectedList = screen.getByTestId('bubbleSelector_list-notselected');
+      expect(within(selectedList).getAllByRole('button').length).toEqual(2);
+      expect(within(unselectedList).getAllByRole('button').length).toEqual(2);
+      const unselectedItemBtn = within(unselectedList).getAllByRole('button')[0];
+      await UserEvent.click(unselectedItemBtn);
+      expect(within(selectedList).getAllByRole('button').length).toEqual(3);
+      expect(within(unselectedList).getAllByRole('button').length).toEqual(1);
     });
   });
   describe('Adding custom entry', () => {
-    const updateActiveSelection = jest.fn();
-    const bubbleSelector = mount(
-      <BubbleSelector
-        activeSelection={['a', 'b', 'e']}
-        options={[
-          { uid: 'a', label: 'a' },
-          { uid: 'b', label: 'b' },
-          { uid: 'c', label: 'c' },
-          { uid: 'd', label: 'd' },
-        ]}
-        updateActiveSelection={updateActiveSelection}
-      />
-    );
-    it('allows selections outside of option set', () => {
-      expect(bubbleSelector.find('.selected').length).toEqual(3);
+    test('allows selections outside of option set', () => {
+      render(<compositions.BasicBubbleSelectorCustomElement />);
+      const selectedList = screen.getByTestId('bubbleSelector_list');
+      expect(within(selectedList).getAllByRole('button').length).toEqual(5);
     });
     // it('adds a selection on entering into text field and pressing enter', () => {
     //   // const textField =

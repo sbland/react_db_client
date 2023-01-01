@@ -1,39 +1,39 @@
 import React, { useState } from 'react';
 import { BubbleSelector } from './bubble-selector';
-
-
+import { demoItems } from './demo-data';
 
 export const BasicBubbleSelector = () => {
-  const [activeSelection, setActiveSelection] = useState(['a', 'b', 'e']);
+  const [activeSelection, setActiveSelection] = useState(['a', 'b']);
   return (
     <BubbleSelector
       activeSelection={activeSelection}
-      options={[
-        { uid: 'a', label: 'a' },
-        { uid: 'b', label: 'b' },
-        { uid: 'c', label: 'c' },
-        { uid: 'd', label: 'd' },
-      ]}
+      options={demoItems}
       updateActiveSelection={setActiveSelection}
     />
   );
 };
 
 
-export const BasicBubbleSelectorGrouped = () => {
+export const BasicBubbleSelectorCustomElement = () => {
   const [activeSelection, setActiveSelection] = useState(['a', 'b', 'e']);
   return (
     <BubbleSelector
       activeSelection={activeSelection}
-      options={[
-        { uid: 'a', label: 'a' },
-        { uid: 'b', label: 'b' },
-        { uid: 'c', label: 'c' },
-        { uid: 'd', label: 'd' },
-      ]}
+      options={demoItems}
+      updateActiveSelection={setActiveSelection}
+    />
+  );
+};
+
+export const BasicBubbleSelectorGrouped = () => {
+  const [activeSelection, setActiveSelection] = useState(['a', 'b']);
+  return (
+    <BubbleSelector
+      activeSelection={activeSelection}
+      options={demoItems}
       updateActiveSelection={setActiveSelection}
       groupSelected
-      hideUnselected
+      // hideUnselected
     />
   );
 };
@@ -43,12 +43,7 @@ export const BubbleSelectorManualInput = () => {
   return (
     <BubbleSelector
       activeSelection={activeSelection}
-      options={[
-        { uid: 'a', label: 'a' },
-        { uid: 'b', label: 'b' },
-        { uid: 'c', label: 'c' },
-        { uid: 'd', label: 'd' },
-      ]}
+      options={demoItems}
       updateActiveSelection={setActiveSelection}
       allowManualInput
     />
