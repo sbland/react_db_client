@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Form Matches Snapshot 1`] = `
-"<form onSubmit={[Function: onSubmit]} autoComplete=\\"on\\" className=\\"form sectionWrapper\\">
-  <FormInputs headings={{...}} formData={{...}} updateFormData={[Function (anonymous)]} showKey={true} orientation=\\"vert\\" additionalData={{...}} componentMap={{...}} FormField={[Function: FormField]} heading=\\"\\" isSection={false} id={{...}} />
-  <section style={{...}} />
-</form>"
-`;

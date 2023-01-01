@@ -123,12 +123,6 @@
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/filter-manager"
     },
-    "components/form/form": {
-        "scope": "samnbuk.react_db_client",
-        "version": "0.2.152",
-        "mainFile": "index.js",
-        "rootDir": "react_db_client/components/form/form"
-    },
     "components/form/form-components/bubble-selector": {
         "scope": "samnbuk.react_db_client",
         "version": "0.2.9",
@@ -147,72 +141,6 @@
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/form/form-components/toggle-box"
     },
-    "components/form/form-fields/field-bool": {
-        "scope": "samnbuk.react_db_client",
-        "version": "0.2.34",
-        "mainFile": "index.js",
-        "rootDir": "react_db_client/components/form/form-fields/field-bool"
-    },
-    "components/form/form-fields/field-date": {
-        "scope": "samnbuk.react_db_client",
-        "version": "0.2.14",
-        "mainFile": "index.js",
-        "rootDir": "react_db_client/components/form/form-fields/field-date"
-    },
-    "components/form/form-fields/field-file": {
-        "scope": "samnbuk.react_db_client",
-        "version": "0.2.113",
-        "mainFile": "index.js",
-        "rootDir": "react_db_client/components/form/form-fields/field-file"
-    },
-    "components/form/form-fields/field-multi-select": {
-        "scope": "samnbuk.react_db_client",
-        "version": "0.2.35",
-        "mainFile": "index.js",
-        "rootDir": "react_db_client/components/form/form-fields/field-multi-select"
-    },
-    "components/form/form-fields/field-number": {
-        "scope": "samnbuk.react_db_client",
-        "version": "0.2.15",
-        "mainFile": "index.js",
-        "rootDir": "react_db_client/components/form/form-fields/field-number"
-    },
-    "components/form/form-fields/field-object-ref": {
-        "scope": "samnbuk.react_db_client",
-        "version": "0.2.106",
-        "mainFile": "index.js",
-        "rootDir": "react_db_client/components/form/form-fields/field-object-ref"
-    },
-    "components/form/form-fields/field-read-only": {
-        "scope": "samnbuk.react_db_client",
-        "version": "0.2.28",
-        "mainFile": "index.js",
-        "rootDir": "react_db_client/components/form/form-fields/field-read-only"
-    },
-    "components/form/form-fields/field-select": {
-        "scope": "samnbuk.react_db_client",
-        "version": "0.2.109",
-        "mainFile": "index.js",
-        "rootDir": "react_db_client/components/form/form-fields/field-select"
-    },
-    "components/form/form-fields/field-select-search": {
-        "scope": "samnbuk.react_db_client",
-        "version": "0.2.106",
-        "mainFile": "index.js",
-        "rootDir": "react_db_client/components/form/form-fields/field-select-search"
-    },
-    "components/form/form-fields/field-text": {
-        "scope": "samnbuk.react_db_client",
-        "version": "0.2.15",
-        "mainFile": "index.js",
-        "rootDir": "react_db_client/components/form/form-fields/field-text"
-    },
-    "components/form/form-fields/field-text-area": {
-        "scope": "samnbuk.react_db_client",
-        "version": "0.2.15",
-        "mainFile": "index.js",
-        "rootDir": "react_db_client/components/form/form-fields/field-text-area"
-    },
     "components/form/lib": {
         "scope": "samnbuk.react_db_client",
         "version": "0.0.14",
@@ -230,12 +158,6 @@
         "version": "0.2.139",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/item-editor"
-    },
-    "components/item-list": {
-        "scope": "samnbuk.react_db_client",
-        "version": "0.2.26",
-        "mainFile": "index.ts",
-        "rootDir": "react_db_client/components/item-list"
     },
     "components/loading-panel": {
         "scope": "samnbuk.react_db_client",

@@ -200,9 +200,6 @@ importers:
   react_db_client/components/filter-manager:
     specifiers: {}
 
-  react_db_client/components/form/form:
-    specifiers: {}
-
   react_db_client/components/form/form-components/bubble-selector:
     specifiers: {}
 
@@ -212,39 +209,6 @@ importers:
   react_db_client/components/form/form-components/toggle-box:
     specifiers: {}
 
-  react_db_client/components/form/form-fields/field-bool:
-    specifiers: {}
-
-  react_db_client/components/form/form-fields/field-date:
-    specifiers: {}
-
-  react_db_client/components/form/form-fields/field-file:
-    specifiers: {}
-
-  react_db_client/components/form/form-fields/field-multi-select:
-    specifiers: {}
-
-  react_db_client/components/form/form-fields/field-number:
-    specifiers: {}
-
-  react_db_client/components/form/form-fields/field-object-ref:
-    specifiers: {}
-
-  react_db_client/components/form/form-fields/field-read-only:
-    specifiers: {}
-
-  react_db_client/components/form/form-fields/field-select:
-    specifiers: {}
-
-  react_db_client/components/form/form-fields/field-select-search:
-    specifiers: {}
-
-  react_db_client/components/form/form-fields/field-text:
-    specifiers: {}
-
-  react_db_client/components/form/form-fields/field-text-area:
-    specifiers: {}
-
   react_db_client/components/form/lib:
     specifiers: {}
 
@@ -252,9 +216,6 @@ importers:
     specifiers: {}
 
   react_db_client/components/item-editor:
-    specifiers: {}
-
-  react_db_client/components/item-list:
     specifiers: {}
 
   react_db_client/components/loading-panel:
