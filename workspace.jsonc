@@ -53,8 +53,8 @@
     "policy": {
       "dependencies": {
         "@babel/plugin-syntax-flow": "7.16.7",
-        "@form-extendable/component": "0.1.50",
-        "@form-extendable/components.component-map": "0.1.40",
+        "@form-extendable/component": "0.1.51",
+        "@form-extendable/components.component-map": "0.1.41",
         "@form-extendable/lib": "0.1.12",
         "@form-extendable/styles": "0.0.14",
         "@teambit/design.ui.external-link": "0.0.344",
@@ -67,8 +67,10 @@
         "@types/styled-components": "^5.1.26",
         "classnames": "2.3.1",
         "mathjs": "10.6.1",
+        "react": "^17",
         "react-base-table": "1.13.0",
         "react-data-grid": "7.0.0-beta.12",
+        "react-dom": "^17",
         "react-is": "^16.x.x",
         "react-json-view": "^1.21.3",
         "react-router-dom": "^6.4.1",
@@ -112,8 +114,6 @@
         "lodash": "^4.17.11",
         "prettier": "^2.6.2",
         "prop-types": "^15.6.1",
-        "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-        "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
         "typescript": ">=2.8.0"
       }
     },
