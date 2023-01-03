@@ -10,11 +10,11 @@ const ENV = process.env.NODE_ENV;
 const demoCallFn = async () => 'DEMO RESPONSE';
 
 export type ICallback<ResponseType, Args> = (response: ResponseType, args: Args) => any;
-export type ICallFn<Args> = (args: Args) => Promise<any>;
+export type ICallFn<Args extends Array<any>> = (...args: Args) => Promise<any>;
 
-export interface IUseAsyncRequestProps<ResponseType, Args> {
+export interface IUseAsyncRequestProps<ResponseType, Args extends Array<any>> {
   id?: string;
-  args: Args | null;
+  args?: Args | null;
   callFn: ICallFn<Args>;
   cleanupFunc?: () => void;
   callOnInit?: boolean;
@@ -39,8 +39,8 @@ export interface IResultState {
 export interface IUseAsyncRequestReturn<ResponseType, Args> {
   resultState: IResultState;
   response?: ResponseType;
-  reload: (Args) => void;
-  call: (Args) => void;
+  reload: (Args?, callback?: ICallback<ResponseType, Args>) => void;
+  call: (Args?, callback?: ICallback<ResponseType, Args>) => void;
   loading: boolean;
   hasLoaded: boolean;
   error?: AsyncRequestError;

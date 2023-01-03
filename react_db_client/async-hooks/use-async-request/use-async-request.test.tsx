@@ -3,6 +3,10 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import { useAsyncRequest } from '.';
 
 describe('Data loader hook', () => {
+  test('should allow any call fn', () => {
+    () => useAsyncRequest({ callFn: async () => {} });
+    () => useAsyncRequest({ callFn: async (a, b, c) => {} });
+  });
   test('should delay data loading till reload is called', async () => {
     const demoData = 'hello';
     const args = ['products', 'filter'];
@@ -13,7 +17,7 @@ describe('Data loader hook', () => {
     expect(result.current.response).toEqual(null);
     expect(result.current.loading).toEqual(false);
     expect(result.current.hasLoaded).toEqual(false);
-    expect(result.current.error).toEqual(null);
+    expect(result.current.error).toEqual(undefined);
     expect(mockLoadFn).toHaveBeenCalledTimes(0);
 
     act(() => {
@@ -31,7 +35,7 @@ describe('Data loader hook', () => {
     expect(result.current.loading).toEqual(false);
     expect(result.current.hasLoaded).toEqual(true);
     expect(result.current.response).toEqual(demoData);
-    expect(result.current.error).toEqual(null);
+    expect(result.current.error).toEqual(undefined);
   });
 
   test('should load data immediately', async () => {
@@ -50,7 +54,7 @@ describe('Data loader hook', () => {
     expect(result.current.loading).toEqual(false);
     expect(result.current.hasLoaded).toEqual(true);
     expect(result.current.response).toEqual(demoData);
-    expect(result.current.error).toEqual(null);
+    expect(result.current.error).toEqual(undefined);
   });
 
   test('should allow args override', async () => {
@@ -63,7 +67,7 @@ describe('Data loader hook', () => {
     expect(result.current.response).toEqual(null);
     expect(result.current.loading).toEqual(false);
     expect(result.current.hasLoaded).toEqual(false);
-    expect(result.current.error).toEqual(null);
+    expect(result.current.error).toEqual(undefined);
 
     act(() => {
       result.current.reload(['hello']);
@@ -78,7 +82,7 @@ describe('Data loader hook', () => {
     expect(result.current.loading).toEqual(false);
     expect(result.current.hasLoaded).toEqual(true);
     expect(result.current.response).toEqual(demoData);
-    expect(result.current.error).toEqual(null);
+    expect(result.current.error).toEqual(undefined);
   });
 
   test('should handle multiple async calls', async () => {
@@ -110,13 +114,13 @@ describe('Data loader hook', () => {
     expect(result.current.loading).toEqual(false);
     expect(result.current.hasLoaded).toEqual(true);
     expect(result.current.response).toEqual(demoData[2]);
-    expect(result.current.error).toEqual(null);
+    expect(result.current.error).toEqual(undefined);
   });
 
   test('should handle multiple async calls and only return last called', async () => {
     const args = ['products', 'filter'];
     const demoData = ['call 0 reponse', 'call 1 reponse', 'call 2 reponse'];
-    const r = [];
+    const r = [] as ((value?: unknown) => void)[];
 
     const delayedPromise = () =>
       new Promise((res) => {
@@ -199,7 +203,7 @@ describe('Data loader hook', () => {
     expect(result.current.loading).toEqual(false);
     expect(result.current.hasLoaded).toEqual(true);
     expect(result.current.response).toEqual(null);
-    expect(result.current.error).toEqual('Failed to load');
+    expect(result.current.error).toEqual(new Error('Failed to load'));
   });
   test('should update call count', async () => {
     const demoData = 'hello';
@@ -217,7 +221,7 @@ describe('Data loader hook', () => {
 
     expect(result.current.hasLoaded).toEqual(true);
     expect(result.current.response).toEqual(demoData);
-    expect(result.current.error).toEqual(null);
+    expect(result.current.error).toEqual(undefined);
     expect(result.current.callCount).toEqual(1);
     act(() => {
       result.current.reload([0]);
