@@ -4,9 +4,69 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import merge from 'lodash/merge';
-import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
+import {
+  IDocument,
+  TAsyncDeleteDocument,
+  TAsyncGetDocument,
+  TAsyncPostDocument,
+  TAsyncPutDocument,
+  Uid,
+} from '@react_db_client/constants.client-types';
+import {
+  useAsyncRequest,
+  ICallback,
+  AsyncRequestError,
+} from '@react_db_client/async-hooks.use-async-request';
 import { generateUid } from '@react_db_client/helpers.generate-uid';
-import { updateDict } from './helpers';
+import cloneDeep from 'lodash/cloneDeep';
+
+export interface IDeleteResponse {
+  ok?: boolean;
+}
+
+export interface ISaveResponse {
+  ok?: boolean;
+}
+
+export interface IUseAsyncObjectManagerArgs<DocType extends IDocument> {
+  activeUid?: null | Uid;
+  collection: string;
+  isNew?: boolean;
+  inputAdditionalData?: null | Partial<DocType>;
+  schema?: string | 'all';
+  populate?: 'all' | string[];
+  loadOnInit?: boolean;
+  reloadOnSave?: boolean;
+  onSavedCallback?: (uid: Uid, response: any, combinedData: Partial<DocType>) => void;
+  saveErrorCallback?: (e: AsyncRequestError) => void /* Returns a AsyncRequestError */;
+  onDeleteCallback?: ICallback<IDeleteResponse, [string, Uid]>;
+  asyncGetDocument: TAsyncGetDocument<DocType>;
+  asyncPutDocument: TAsyncPutDocument<DocType>;
+  asyncPostDocument: TAsyncPostDocument<DocType>;
+  asyncDeleteDocument: TAsyncDeleteDocument;
+}
+
+export interface IUseAsyncObjectManagerReturn<DocType extends IDocument> {
+  loadedData: null | Partial<DocType>;
+  saveData: () => void;
+  updateData: (newData: Partial<DocType>) => void;
+  updateFormData: (field: Uid, value: any, save?: boolean, nested?: boolean) => void;
+  resetData: () => void;
+  reload: () => void;
+  deleteObject: () => void;
+  saveResponse: null | ISaveResponse;
+  deleteResponse?: null | IDeleteResponse;
+  loadingData: boolean;
+  savingData: boolean;
+  deletingData: boolean;
+  data: Partial<DocType>;
+  initialData: Partial<DocType>;
+  uid: Uid;
+  callCount: number;
+  hasLoaded: boolean;
+  unsavedChanges: boolean;
+  isNew: boolean;
+}
 
 /**
  * Async React request hook
@@ -32,11 +92,11 @@ import { updateDict } from './helpers';
  *   - `deletingData` {bool} - true when deleting data
  *   - `data` {any} - the data returned from api and combined with additional data
  *   - `uid` {string} - the active uid
- *   - `callCount` {number} - number of times called
+ *   - `callCount` {number} - number of timesi called
  *   - `hasLoaded` {bool} - true if we have loaded data
  * }
  */
-export const useAsyncObjectManager = ({
+export const useAsyncObjectManager = <DocType extends IDocument>({
   activeUid,
   collection,
   isNew: isNewIn = false,
@@ -53,19 +113,19 @@ export const useAsyncObjectManager = ({
   asyncPutDocument,
   asyncPostDocument,
   asyncDeleteDocument,
-}) => {
+}: IUseAsyncObjectManagerArgs<DocType>): IUseAsyncObjectManagerReturn<DocType> => {
   const [isNew, setIsNew] = useState(!activeUid || isNewIn);
   const [uid] = useState(isNew || !activeUid ? generateUid(collection) : activeUid);
   const [editData, setEditData] = useState({});
   const [editDataKey, setEditDataKey] = useState(0);
   const [unsavedChanges, setUnsavedChanges] = useState(false); // TODO: Implement this
   const [resetToData, setResetToData] = useState({});
-  const loadArgs = useMemo(
+  const loadArgs = useMemo<[string, Uid, string, 'all' | string[]]>(
     () => [collection, uid, schema, populate],
     [collection, uid, schema, populate]
   );
 
-  const [loadedData, setLoadedData] = useState(null);
+  const [loadedData, setLoadedData] = useState<null | Partial<DocType>>(null);
 
   const loadedDataCallback = useCallback((newLoadedData) => {
     setLoadedData(newLoadedData);
@@ -82,7 +142,6 @@ export const useAsyncObjectManager = ({
     hasLoaded,
   } = useAsyncRequest({
     id: 'loadAsync',
-    // TODO: Add populate
     args: loadArgs,
     callFn: asyncGetDocument,
     callOnInit: loadOnInit && !isNew,
@@ -91,7 +150,12 @@ export const useAsyncObjectManager = ({
   });
 
   const combinedData = useMemo(() => {
-    const _combinedData = merge(loadedData, inputAdditionalData, { uid }, editData);
+    const _combinedData = merge(
+      { ...loadedData },
+      { ...inputAdditionalData },
+      { uid },
+      { ...editData }
+    );
     return _combinedData;
   }, [loadedData, inputAdditionalData, uid, editData, editDataKey]);
 
@@ -129,7 +193,6 @@ export const useAsyncObjectManager = ({
     ]
   );
 
-
   const saveFn = useMemo(
     () => (isNew ? asyncPostDocument : asyncPutDocument),
     [asyncPutDocument, asyncPostDocument, isNew]
@@ -148,14 +211,17 @@ export const useAsyncObjectManager = ({
   });
 
   /* Handle Deleting Data */
-  const deleteFn = useMemo(() => (isNew ? async () => {} : asyncDeleteDocument), [isNew, asyncDeleteDocument]);
-  const deleteArgs = useMemo(() => [collection, uid], [collection, uid]);
+  const deleteFn = useMemo(
+    () => (isNew ? async () => {} : asyncDeleteDocument),
+    [isNew, asyncDeleteDocument]
+  );
+  const deleteArgs = useMemo<[string, Uid]>(() => [collection, uid], [collection, uid]);
 
   const {
     response: deleteResponse,
     call: deleteAsync,
     loading: deletingData,
-  } = useAsyncRequest({
+  } = useAsyncRequest<IDeleteResponse, typeof deleteArgs>({
     id: 'deleteAsync',
     args: deleteArgs,
     callFn: deleteFn,
@@ -171,7 +237,7 @@ export const useAsyncObjectManager = ({
 
   useEffect(() => {
     if (deleteResponse && deleteResponse.ok) {
-      if (onDeleteCallback) onDeleteCallback(uid, deleteResponse);
+      if (onDeleteCallback) onDeleteCallback(deleteResponse, [collection, uid]);
     }
   }, [deleteResponse, onDeleteCallback, uid]);
 
@@ -185,17 +251,27 @@ export const useAsyncObjectManager = ({
   const updateFormData = useCallback(
     (field, value, save = false, nested = false) => {
       setUnsavedChanges(true);
-      const saveAsyncInner = async (newData) => {
-        const dataToSave = {
-          ...loadedData,
-          ...inputAdditionalData,
-          uid,
-          ...newData,
-        };
-        saveAsync([collection, uid, dataToSave]);
-      };
       setEditData((prev) => {
-        return updateDict(prev, saveAsyncInner)(field, value, save, nested);
+        let dataCopy = cloneDeep(prev);
+        if (nested) {
+          const nestedLayers = nested.split('.');
+          const nestedData = nestedLayers
+            .reverse()
+            .reduce((acc, v) => ({ [v]: acc }), { [field]: value });
+          dataCopy = merge(dataCopy, nestedData);
+        } else {
+          dataCopy = { ...dataCopy, [field]: value };
+        }
+        if (save) {
+          const dataToSave = {
+            ...loadedData,
+            ...inputAdditionalData,
+            uid,
+            ...dataCopy,
+          };
+          saveAsync([collection, uid, dataToSave]);
+        }
+        return dataCopy;
       });
       setEditDataKey((prev) => prev + 1);
     },

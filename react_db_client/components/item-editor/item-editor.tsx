@@ -15,6 +15,7 @@ import {
   Uid,
 } from '@react_db_client/constants.client-types';
 import { mapFields } from './field-mapper';
+import { AsyncRequestError } from '@react_db_client/async-hooks.use-async-request';
 
 export interface IParam extends ILabelled {}
 export type TFieldComponent = unknown;
@@ -32,7 +33,7 @@ export interface IItemEditorProps<ResultType extends IDocument> {
   asyncPostDocument: TAsyncPostDocument<ResultType>;
   asyncDeleteDocument: TAsyncDeleteDocument;
   componentMap: TComponentMap;
-  saveErrorCallback?: (message: string, e: Error) => void;
+  saveErrorCallback?: (e: AsyncRequestError) => void;
   onCancel?: () => void;
   submitBtnText?: string;
 }

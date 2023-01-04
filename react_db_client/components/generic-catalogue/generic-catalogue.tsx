@@ -24,10 +24,11 @@ import {
   IItemEditorProps,
   ItemEditor as ItemEditorDefault,
 } from '@react_db_client/components.item-editor';
-import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
+import { AsyncRequestError, useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
 import { Emoji } from '@react_db_client/components.emoji';
 import { generateUid } from '@react_db_client/helpers.generate-uid';
 import { IHeading as StyledSelectListHeading } from '@react_db_client/components.styled-select-list';
+import { GenericCatalogueError } from './error-handling';
 
 export type TResultHeading<V> = THeading<V> & StyledSelectListHeading;
 
@@ -42,7 +43,7 @@ export interface IGenericCatalogueProps<ResultType extends IDocument> {
   additionalSaveData?: Partial<ResultType>;
   availableFilters: { [key: string]: FilterOption<any, boolean> };
   ItemEditor: React.FC<IItemEditorProps<ResultType>>;
-  errorCallback?: (message: string, e: Error) => void;
+  errorCallback?: (e: AsyncRequestError | GenericCatalogueError) => void;
   notificationDispatch: (message: string) => void;
   customParsers?: { [k: string]: CustomParser };
   previewHeadings?: THeading<unknown>[];
@@ -99,7 +100,8 @@ export const GenericCatalogue = <ResultType extends IDocument>({
           setReloadDataKey((prev) => prev + 1);
         })
         .catch((e) => {
-          if (errorCallback) errorCallback(`Error deleting ${itemName}`, e);
+          if (errorCallback)
+            errorCallback(new GenericCatalogueError(`Error deleting ${itemName}`, e));
         });
     }
   }, [handleDelete, selectedUid, errorCallback, collection, itemName]);

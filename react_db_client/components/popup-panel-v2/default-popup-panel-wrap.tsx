@@ -14,7 +14,7 @@ export interface IPopupContentWrapProps {
   classNames?: string;
   id: string;
   children: React.ReactNode;
-  title?: string;
+  title?: string | React.ReactNode;
 }
 
 export const PopupContentWrap = ({ classNames, id, children, title }: IPopupContentWrapProps) => {
@@ -32,8 +32,15 @@ export const PopupContentWrap = ({ classNames, id, children, title }: IPopupCont
       <PopupPanelStyle className="popupPanel" data-testid="rdc-popupPanel">
         <PopupPanelContentStyle className="popupPanel_content">{children}</PopupPanelContentStyle>
         <PopupPanelTopBar className="popupPanel_topBar">
-          <PopupPanelTitle className="popupPanel_title">{title}</PopupPanelTitle>
-          <PopupPanelCloseBtn className="popupPanel_closeBtn" type="button" onClick={handleClose}>
+          <PopupPanelTitle className="popupPanel_title" data-testid="rdc-popupPanel-title">
+            {title}
+          </PopupPanelTitle>
+          <PopupPanelCloseBtn
+            className="popupPanel_closeBtn"
+            type="button"
+            onClick={handleClose}
+            aria-name="Close popup"
+          >
             X
           </PopupPanelCloseBtn>
         </PopupPanelTopBar>

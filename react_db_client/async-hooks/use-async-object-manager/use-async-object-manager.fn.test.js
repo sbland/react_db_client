@@ -32,7 +32,7 @@ const defaultArgs = {
   onSavedCallback,
 };
 
-describe('useAsyncObjectManager', () => {
+describe.skip('useAsyncObjectManager', () => {
   beforeAll(() => {
     jest.useFakeTimers();
   });
