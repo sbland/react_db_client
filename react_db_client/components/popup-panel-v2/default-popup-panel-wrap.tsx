@@ -39,7 +39,7 @@ export const PopupContentWrap = ({ classNames, id, children, title }: IPopupCont
             className="popupPanel_closeBtn"
             type="button"
             onClick={handleClose}
-            aria-name="Close popup"
+            aria-label="Close popup"
           >
             X
           </PopupPanelCloseBtn>
