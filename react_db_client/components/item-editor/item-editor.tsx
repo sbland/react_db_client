@@ -2,7 +2,7 @@ import React, { useCallback, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { useAsyncObjectManager } from '@react_db_client/async-hooks.use-async-object-manager';
-import { Form, FormField } from '@form-extendable/component';
+import { Form, FormField, IFormProps } from '@form-extendable/component';
 import { TComponentMap, THeading } from '@form-extendable/lib';
 
 import {
@@ -24,7 +24,7 @@ export interface IItemEditorProps<ResultType extends IDocument> {
   id: Uid;
   inputUid?: Uid | null;
   isNew: boolean;
-  onSubmitCallback: (uid: Uid) => void;
+  onSubmitCallback: (data: ResultType) => void;
   additionalData?: Partial<ResultType>;
   params: THeading<unknown>[];
   collection: string;
@@ -36,6 +36,7 @@ export interface IItemEditorProps<ResultType extends IDocument> {
   saveErrorCallback?: (e: AsyncRequestError) => void;
   onCancel?: () => void;
   submitBtnText?: string;
+  formProps?: Partial<IFormProps>;
 }
 
 /**
@@ -57,8 +58,16 @@ export const ItemEditor = <ResultType extends IDocument>({
   componentMap,
   saveErrorCallback,
   submitBtnText = 'Save Item',
+  formProps = {},
 }: IItemEditorProps<ResultType>) => {
   const [overridenFields, setOverridenFields] = useState<string[]>([]);
+
+  const onSavedCallback = React.useCallback(
+    (uid: Uid, response: any, data: ResultType) => {
+      onSubmitCallback(data);
+    },
+    [onSubmitCallback]
+  );
 
   const {
     saveData,
@@ -71,7 +80,7 @@ export const ItemEditor = <ResultType extends IDocument>({
     collection,
     isNew: !inputUid || isNew,
     inputAdditionalData: additionalData,
-    onSavedCallback: onSubmitCallback,
+    onSavedCallback,
     loadOnInit: true,
     asyncGetDocument,
     asyncPutDocument,
@@ -124,6 +133,7 @@ export const ItemEditor = <ResultType extends IDocument>({
           submitBtnText={submitBtnText}
           componentMap={componentMap}
           FormField={FormField}
+          {...formProps}
         />
       </div>
     </div>

@@ -40,7 +40,6 @@ export const SelectionPreview = ({
     : [];
   return (
     <div className="flexHoriz">
-      <h3>Selection Preview</h3>
       <SelectionPreviewList>
         {cellData.map(([uid, label, value]) => {
           return (

@@ -37,7 +37,7 @@ export interface IUseAsyncObjectManagerArgs<DocType extends IDocument> {
   populate?: 'all' | string[];
   loadOnInit?: boolean;
   reloadOnSave?: boolean;
-  onSavedCallback?: (uid: Uid, response: any, combinedData: Partial<DocType>) => void;
+  onSavedCallback?: (uid: Uid, response: any, combinedData: DocType) => void;
   saveErrorCallback?: (e: AsyncRequestError) => void /* Returns a AsyncRequestError */;
   onDeleteCallback?: ICallback<IDeleteResponse, [string, Uid]>;
   asyncGetDocument: TAsyncGetDocument<DocType>;
@@ -125,7 +125,7 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
     [collection, uid, schema, populate]
   );
 
-  const [loadedData, setLoadedData] = useState<null | Partial<DocType>>(null);
+  const [loadedData, setLoadedData] = useState<null | DocType>(null);
 
   const loadedDataCallback = useCallback((newLoadedData) => {
     setLoadedData(newLoadedData);

@@ -160,9 +160,9 @@ export const GenericCatalogue = <ResultType extends IDocument>({
   );
 
   const onSubmitCallback = useCallback(
-    (uid) => {
+    (data: ResultType) => {
       notificationDispatch(`${itemName} saved`);
-      setSelectedUid(uid);
+      setSelectedUid(data.uid);
       if (closePopupOnItemSave) setShowEditor(false);
       setReloadDataKey((prev) => prev + 1);
     },

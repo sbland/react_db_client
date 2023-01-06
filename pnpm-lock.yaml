@@ -7,10 +7,10 @@ importers:
       '@babel/core': ^7.0.0-0
       '@babel/plugin-syntax-flow': 7.16.7
       '@babel/runtime': 7.12.18
-      '@form-extendable/component': 0.1.54
-      '@form-extendable/components.component-map': 0.1.44
-      '@form-extendable/lib': 0.1.12
-      '@form-extendable/styles': 0.0.14
+      '@form-extendable/component': 0.1.63
+      '@form-extendable/components.component-map': 0.1.53
+      '@form-extendable/lib': 0.1.15
+      '@form-extendable/styles': 0.0.20
       '@teambit/design.ui.external-link': 0.0.344
       '@teambit/documenter.theme.theme-compositions': 4.1.1
       '@teambit/documenter.ui.copy-box': 4.1.1
@@ -76,8 +76,8 @@ importers:
       '@babel/core': registry.npmjs.org/@babel/core/7.20.7
       '@babel/plugin-syntax-flow': registry.npmjs.org/@babel/plugin-syntax-flow/7.16.7_@babel+core@7.20.7
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.12.18
-      '@form-extendable/component': registry.npmjs.org/@form-extendable/component/0.1.54_bngcpodjyw6bilioomlsvtih64
-      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.12_sfoxds7t5ydpegc3knd667wn6m
+      '@form-extendable/component': registry.npmjs.org/@form-extendable/component/0.1.63_dlpx4uyrrxdfleeznfkcssuvem
+      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.15_sfoxds7t5ydpegc3knd667wn6m
       '@teambit/design.ui.external-link': registry.npmjs.org/@teambit/design.ui.external-link/0.0.344_sfoxds7t5ydpegc3knd667wn6m
       '@teambit/documenter.theme.theme-compositions': registry.npmjs.org/@teambit/documenter.theme.theme-compositions/4.1.1_sfoxds7t5ydpegc3knd667wn6m
       '@teambit/documenter.ui.copy-box': registry.npmjs.org/@teambit/documenter.ui.copy-box/4.1.1_sfoxds7t5ydpegc3knd667wn6m
@@ -129,8 +129,8 @@ importers:
       styled-components: registry.npmjs.org/styled-components/5.3.6_d5kzqcx725xkmyluugjzy5jwom
       typescript: registry.npmjs.org/typescript/4.9.4
     devDependencies:
-      '@form-extendable/components.component-map': registry.npmjs.org/@form-extendable/components.component-map/0.1.44_grv4ir6hnwrai42fsiss5xyqhu
-      '@form-extendable/styles': registry.npmjs.org/@form-extendable/styles/0.0.14_d5kzqcx725xkmyluugjzy5jwom
+      '@form-extendable/components.component-map': registry.npmjs.org/@form-extendable/components.component-map/0.1.53_yekof2jfbpnz4l2p56dycluu2m
+      '@form-extendable/styles': registry.npmjs.org/@form-extendable/styles/0.0.20_d5kzqcx725xkmyluugjzy5jwom
       '@testing-library/user-event': registry.npmjs.org/@testing-library/user-event/14.4.3_ua4wuun3fnehcjqtqj2e2ldgpe
       '@types/jest': registry.npmjs.org/@types/jest/26.0.20
       '@types/node': registry.npmjs.org/@types/node/12.20.4
@@ -1054,37 +1054,40 @@ packages:
       - supports-color
     dev: false
 
-  registry.npmjs.org/@form-extendable/component/0.1.54_bngcpodjyw6bilioomlsvtih64:
-    resolution: {integrity: sha512-ZwpNNkjyplWUMNsZMdquBYhdoboL25AADrLFiNK9mvH8phe5MuvUjET1bHLtCUAd2NzHctq7Vh4ms/hicfJ/CQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/component/-/component-0.1.54.tgz}
-    id: registry.npmjs.org/@form-extendable/component/0.1.54
+  registry.npmjs.org/@form-extendable/component/0.1.63_dlpx4uyrrxdfleeznfkcssuvem:
+    resolution: {integrity: sha512-6u9hEZXwm68ZLm+pX7AN9pN2dSxMGYPjWn5C41ulxvdtkdbFC3A0MfyadxzGvvtMchHLK0EgSGcTfmPWPxtbag==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/component/-/component-0.1.63.tgz}
+    id: registry.npmjs.org/@form-extendable/component/0.1.63
     name: '@form-extendable/component'
-    version: 0.1.54
+    version: 0.1.63
     peerDependencies:
       '@testing-library/react': '*'
+      '@testing-library/user-event': '*'
       react: '*'
       react-dom: '*'
     peerDependenciesMeta:
       '@testing-library/react':
+        optional: true
+      '@testing-library/user-event':
         optional: true
       react:
         optional: true
       react-dom:
         optional: true
     dependencies:
-      '@form-extendable/components.component-map': registry.npmjs.org/@form-extendable/components.component-map/0.1.44_grv4ir6hnwrai42fsiss5xyqhu
-      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.12_sfoxds7t5ydpegc3knd667wn6m
-      '@form-extendable/utils': registry.npmjs.org/@form-extendable/utils/0.1.14_cuf6fvcrkey6ktqfghqvi47tva
+      '@form-extendable/components.component-map': registry.npmjs.org/@form-extendable/components.component-map/0.1.53_yekof2jfbpnz4l2p56dycluu2m
+      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.15_sfoxds7t5ydpegc3knd667wn6m
+      '@form-extendable/utils': registry.npmjs.org/@form-extendable/utils/0.1.18_vspn3ajiabior74xdl7uv22oam
       '@react_db_client/components.emoji': registry.npmjs.org/@react_db_client/components.emoji/0.1.11_ffy3bvkuhiwnciom6ihgqtkp3i
       '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.1_sfoxds7t5ydpegc3knd667wn6m
       '@react_db_client/helpers.func-tools': registry.npmjs.org/@react_db_client/helpers.func-tools/0.1.9_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
+      '@testing-library/user-event': registry.npmjs.org/@testing-library/user-event/14.4.3_ua4wuun3fnehcjqtqj2e2ldgpe
       core-js: registry.npmjs.org/core-js/3.27.1
       lodash: registry.npmjs.org/lodash/4.17.21
       prop-types: registry.npmjs.org/prop-types/15.8.1
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
     transitivePeerDependencies:
-      - '@testing-library/dom'
       - '@testing-library/react-hooks'
       - enzyme
       - enzyme-adapter-react-16
@@ -1093,11 +1096,11 @@ packages:
       - supports-color
     dev: false
 
-  registry.npmjs.org/@form-extendable/components.component-map/0.1.44_grv4ir6hnwrai42fsiss5xyqhu:
-    resolution: {integrity: sha512-ZwBpVq6ri6MshiVybGvI0FNtO8M9Y/w+Q+Xq/Hps+N2OFapQIcKwiP3Pk9+sTy6dDOU1C1hjcpDsIhpGPOByLg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/components.component-map/-/components.component-map-0.1.44.tgz}
-    id: registry.npmjs.org/@form-extendable/components.component-map/0.1.44
+  registry.npmjs.org/@form-extendable/components.component-map/0.1.53_yekof2jfbpnz4l2p56dycluu2m:
+    resolution: {integrity: sha512-e2mY9Eyk7q7wc3FLbJRRa5a07fvb0o7wE8Ms4npjC46+V/niiLlWaJrCT6m2+dX5KRphkNnYeaxiovltvwPVlw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/components.component-map/-/components.component-map-0.1.53.tgz}
+    id: registry.npmjs.org/@form-extendable/components.component-map/0.1.53
     name: '@form-extendable/components.component-map'
-    version: 0.1.44
+    version: 0.1.53
     peerDependencies:
       react: '*'
       react-dom: '*'
@@ -1107,25 +1110,25 @@ packages:
       react-dom:
         optional: true
     dependencies:
-      '@form-extendable/fields.field-bool': registry.npmjs.org/@form-extendable/fields.field-bool/0.1.20_yk6fazyyvdjwwmwlu5obngxriq
-      '@form-extendable/fields.field-date': registry.npmjs.org/@form-extendable/fields.field-date/0.1.19_cuf6fvcrkey6ktqfghqvi47tva
-      '@form-extendable/fields.field-file': registry.npmjs.org/@form-extendable/fields.field-file/0.1.35_xgkxemnsswnca4nssheue4xgte
-      '@form-extendable/fields.field-multi-select': registry.npmjs.org/@form-extendable/fields.field-multi-select/0.1.17_ibkyuy3fqbjnjhagtzo6zy4uuq
-      '@form-extendable/fields.field-number': registry.npmjs.org/@form-extendable/fields.field-number/0.1.22_cuf6fvcrkey6ktqfghqvi47tva
-      '@form-extendable/fields.field-read-only': registry.npmjs.org/@form-extendable/fields.field-read-only/0.1.14_cuf6fvcrkey6ktqfghqvi47tva
-      '@form-extendable/fields.field-select': registry.npmjs.org/@form-extendable/fields.field-select/0.1.22_wvbkby5zzdvnhmasxzthugttzi
-      '@form-extendable/fields.field-select-search': registry.npmjs.org/@form-extendable/fields.field-select-search/0.1.24_zucnihhldqxjm4ykc6kmlfijpy
-      '@form-extendable/fields.field-text': registry.npmjs.org/@form-extendable/fields.field-text/0.1.19_cuf6fvcrkey6ktqfghqvi47tva
-      '@form-extendable/fields.field-text-area': registry.npmjs.org/@form-extendable/fields.field-text-area/0.1.19_cuf6fvcrkey6ktqfghqvi47tva
-      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.12_sfoxds7t5ydpegc3knd667wn6m
+      '@form-extendable/fields.field-bool': registry.npmjs.org/@form-extendable/fields.field-bool/0.1.27_yk6fazyyvdjwwmwlu5obngxriq
+      '@form-extendable/fields.field-date': registry.npmjs.org/@form-extendable/fields.field-date/0.1.26_cuf6fvcrkey6ktqfghqvi47tva
+      '@form-extendable/fields.field-file': registry.npmjs.org/@form-extendable/fields.field-file/0.1.44_yekof2jfbpnz4l2p56dycluu2m
+      '@form-extendable/fields.field-multi-select': registry.npmjs.org/@form-extendable/fields.field-multi-select/0.1.25_bqivfuoam5n5p5ylgmjxcdpx24
+      '@form-extendable/fields.field-number': registry.npmjs.org/@form-extendable/fields.field-number/0.1.30_vspn3ajiabior74xdl7uv22oam
+      '@form-extendable/fields.field-read-only': registry.npmjs.org/@form-extendable/fields.field-read-only/0.1.17_cuf6fvcrkey6ktqfghqvi47tva
+      '@form-extendable/fields.field-select': registry.npmjs.org/@form-extendable/fields.field-select/0.1.29_wvbkby5zzdvnhmasxzthugttzi
+      '@form-extendable/fields.field-select-search': registry.npmjs.org/@form-extendable/fields.field-select-search/0.1.32_f7mu3gsyek6vwssojc4gsg7pem
+      '@form-extendable/fields.field-text': registry.npmjs.org/@form-extendable/fields.field-text/0.1.26_cuf6fvcrkey6ktqfghqvi47tva
+      '@form-extendable/fields.field-text-area': registry.npmjs.org/@form-extendable/fields.field-text-area/0.1.26_cuf6fvcrkey6ktqfghqvi47tva
+      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.15_sfoxds7t5ydpegc3knd667wn6m
       '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.1_sfoxds7t5ydpegc3knd667wn6m
       core-js: registry.npmjs.org/core-js/3.27.1
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
     transitivePeerDependencies:
-      - '@testing-library/dom'
       - '@testing-library/react'
       - '@testing-library/react-hooks'
+      - '@testing-library/user-event'
       - enzyme
       - enzyme-adapter-react-16
       - jest
@@ -1133,11 +1136,11 @@ packages:
       - react-is
       - supports-color
 
-  registry.npmjs.org/@form-extendable/fields.field-bool/0.1.20_yk6fazyyvdjwwmwlu5obngxriq:
-    resolution: {integrity: sha512-hc+OyysuS/soqn7Tbnz8DJ3kaPZWwNPUIpF7qT1CA4+6HaSuux8MMpNG5UlcXcKkDKK8+J8bbX5xICsLvXppGg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-bool/-/fields.field-bool-0.1.20.tgz}
-    id: registry.npmjs.org/@form-extendable/fields.field-bool/0.1.20
+  registry.npmjs.org/@form-extendable/fields.field-bool/0.1.27_yk6fazyyvdjwwmwlu5obngxriq:
+    resolution: {integrity: sha512-vn0KwJfbIIqebMIfqj1ZLrtbe8G22aqzJlCXL0w4Us8koI2ecakrjXqQQBOpuWdlvXBkQ4SVgSByCQjf7wOfhQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-bool/-/fields.field-bool-0.1.27.tgz}
+    id: registry.npmjs.org/@form-extendable/fields.field-bool/0.1.27
     name: '@form-extendable/fields.field-bool'
-    version: 0.1.20
+    version: 0.1.27
     peerDependencies:
       '@testing-library/react': '*'
       react: '*'
@@ -1150,8 +1153,8 @@ packages:
       react-dom:
         optional: true
     dependencies:
-      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.12_sfoxds7t5ydpegc3knd667wn6m
-      '@form-extendable/styles': registry.npmjs.org/@form-extendable/styles/0.0.14_d5kzqcx725xkmyluugjzy5jwom
+      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.15_sfoxds7t5ydpegc3knd667wn6m
+      '@form-extendable/styles': registry.npmjs.org/@form-extendable/styles/0.0.20_d5kzqcx725xkmyluugjzy5jwom
       '@react_db_client/components.form.form-components.toggle-box': registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/0.2.27_ffy3bvkuhiwnciom6ihgqtkp3i
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
       core-js: registry.npmjs.org/core-js/3.27.1
@@ -1162,11 +1165,11 @@ packages:
     transitivePeerDependencies:
       - react-is
 
-  registry.npmjs.org/@form-extendable/fields.field-date/0.1.19_cuf6fvcrkey6ktqfghqvi47tva:
-    resolution: {integrity: sha512-FesMVF+EfVgAtYpT1KI8I6bRv7YnXRbGr80p4OmWVh3NHms4xdWXyGz2xcoXimJfuYaHEhN+lBbFjwi525Iw8Q==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-date/-/fields.field-date-0.1.19.tgz}
-    id: registry.npmjs.org/@form-extendable/fields.field-date/0.1.19
+  registry.npmjs.org/@form-extendable/fields.field-date/0.1.26_cuf6fvcrkey6ktqfghqvi47tva:
+    resolution: {integrity: sha512-f3P8yD5yQmoeK92Rvndl6DdOfYnsmtXWqXGCaHZZ2AvTT8BgnstkUl2dHHnm9EMdRGMEYfHIzNpeS33cxNx4rA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-date/-/fields.field-date-0.1.26.tgz}
+    id: registry.npmjs.org/@form-extendable/fields.field-date/0.1.26
     name: '@form-extendable/fields.field-date'
-    version: 0.1.19
+    version: 0.1.26
     peerDependencies:
       '@testing-library/react': '*'
       react: '*'
@@ -1179,36 +1182,40 @@ packages:
       react-dom:
         optional: true
     dependencies:
-      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.12_sfoxds7t5ydpegc3knd667wn6m
+      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.15_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
       core-js: registry.npmjs.org/core-js/3.27.1
       prop-types: registry.npmjs.org/prop-types/15.8.1
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
 
-  registry.npmjs.org/@form-extendable/fields.field-file/0.1.35_xgkxemnsswnca4nssheue4xgte:
-    resolution: {integrity: sha512-BcZtX+2VExClrOesHoabEQEm1wupgNc0B9gaN84RWKx6qB+HcvEZdXKGZjcKcQFoZiyy9j68MHltUo7ApK6Deg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-file/-/fields.field-file-0.1.35.tgz}
-    id: registry.npmjs.org/@form-extendable/fields.field-file/0.1.35
+  registry.npmjs.org/@form-extendable/fields.field-file/0.1.44_yekof2jfbpnz4l2p56dycluu2m:
+    resolution: {integrity: sha512-jTKtpMVPpR3ScSyUneCU0cYEmozm5iY6xtL8ULQGOyKkdLcY9W7KV0+6kEyX0drCE7V60bVe/GMNGIOvkmtB6Q==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-file/-/fields.field-file-0.1.44.tgz}
+    id: registry.npmjs.org/@form-extendable/fields.field-file/0.1.44
     name: '@form-extendable/fields.field-file'
-    version: 0.1.35
+    version: 0.1.44
     peerDependencies:
       '@testing-library/react': '*'
+      '@testing-library/user-event': '*'
       react: '*'
       react-dom: '*'
     peerDependenciesMeta:
       '@testing-library/react':
+        optional: true
+      '@testing-library/user-event':
         optional: true
       react:
         optional: true
       react-dom:
         optional: true
     dependencies:
-      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.12_sfoxds7t5ydpegc3knd667wn6m
-      '@form-extendable/styles': registry.npmjs.org/@form-extendable/styles/0.0.14_d5kzqcx725xkmyluugjzy5jwom
+      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.15_sfoxds7t5ydpegc3knd667wn6m
+      '@form-extendable/styles': registry.npmjs.org/@form-extendable/styles/0.0.20_d5kzqcx725xkmyluugjzy5jwom
       '@react_db_client/components.emoji': registry.npmjs.org/@react_db_client/components.emoji/0.1.11_ffy3bvkuhiwnciom6ihgqtkp3i
-      '@react_db_client/components.file-manager': registry.npmjs.org/@react_db_client/components.file-manager/0.2.114_dasisdqkaxzznzqjflqm5mxcki
+      '@react_db_client/components.file-manager': registry.npmjs.org/@react_db_client/components.file-manager/0.2.115_dasisdqkaxzznzqjflqm5mxcki
       '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.1_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
+      '@testing-library/user-event': registry.npmjs.org/@testing-library/user-event/14.4.3_ua4wuun3fnehcjqtqj2e2ldgpe
       core-js: registry.npmjs.org/core-js/3.27.1
       prop-types: registry.npmjs.org/prop-types/15.8.1
       react: registry.npmjs.org/react/17.0.2
@@ -1223,10 +1230,72 @@ packages:
       - react-is
       - supports-color
 
-  registry.npmjs.org/@form-extendable/fields.field-multi-select/0.1.17_ibkyuy3fqbjnjhagtzo6zy4uuq:
-    resolution: {integrity: sha512-kCIDtyF1QpnbGsX0Q2FaDHd/J9c6kYGp8uh+iyw018LNIf7D2njlzrPR4IDuyfTo8CvrLn02nmK2Dz1wTlGPlQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-multi-select/-/fields.field-multi-select-0.1.17.tgz}
-    id: registry.npmjs.org/@form-extendable/fields.field-multi-select/0.1.17
+  registry.npmjs.org/@form-extendable/fields.field-multi-select/0.1.25_bqivfuoam5n5p5ylgmjxcdpx24:
+    resolution: {integrity: sha512-wQd786fbTWzwZBz+6IBCyrZUZgqEjsfaaiFhRup6Y51PAV2F5/wD5SIvtChK73i4feM3OdcO/KLDPVjGxo+1Xw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-multi-select/-/fields.field-multi-select-0.1.25.tgz}
+    id: registry.npmjs.org/@form-extendable/fields.field-multi-select/0.1.25
     name: '@form-extendable/fields.field-multi-select'
+    version: 0.1.25
+    peerDependencies:
+      '@testing-library/react': '*'
+      '@testing-library/user-event': '*'
+      react: '*'
+      react-dom: '*'
+    peerDependenciesMeta:
+      '@testing-library/react':
+        optional: true
+      '@testing-library/user-event':
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.15_sfoxds7t5ydpegc3knd667wn6m
+      '@react_db_client/components.form.form-components.bubble-selector': registry.npmjs.org/@react_db_client/components.form.form-components.bubble-selector/0.2.11_ffy3bvkuhiwnciom6ihgqtkp3i
+      '@react_db_client/components.form.form-components.multi-select-dropdown': registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/0.2.20_ffy3bvkuhiwnciom6ihgqtkp3i
+      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.1_sfoxds7t5ydpegc3knd667wn6m
+      '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
+      '@testing-library/user-event': registry.npmjs.org/@testing-library/user-event/14.4.3_ua4wuun3fnehcjqtqj2e2ldgpe
+      core-js: registry.npmjs.org/core-js/3.27.1
+      prop-types: registry.npmjs.org/prop-types/15.8.1
+      react: registry.npmjs.org/react/17.0.2
+      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
+    transitivePeerDependencies:
+      - react-is
+
+  registry.npmjs.org/@form-extendable/fields.field-number/0.1.30_vspn3ajiabior74xdl7uv22oam:
+    resolution: {integrity: sha512-SeRDsnte/HzcQDkPjhOMaVkpJ3nxjVG0LBcGbKaobCkW/+8z8D30FvV4PML5lzp5UeJKohNp+krU8X3UX+tNPQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-number/-/fields.field-number-0.1.30.tgz}
+    id: registry.npmjs.org/@form-extendable/fields.field-number/0.1.30
+    name: '@form-extendable/fields.field-number'
+    version: 0.1.30
+    peerDependencies:
+      '@testing-library/react': '*'
+      '@testing-library/user-event': '*'
+      react: '*'
+      react-dom: '*'
+    peerDependenciesMeta:
+      '@testing-library/react':
+        optional: true
+      '@testing-library/user-event':
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.15_sfoxds7t5ydpegc3knd667wn6m
+      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.1_sfoxds7t5ydpegc3knd667wn6m
+      '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
+      '@testing-library/user-event': registry.npmjs.org/@testing-library/user-event/14.4.3_ua4wuun3fnehcjqtqj2e2ldgpe
+      core-js: registry.npmjs.org/core-js/3.27.1
+      prop-types: registry.npmjs.org/prop-types/15.8.1
+      react: registry.npmjs.org/react/17.0.2
+      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
+
+  registry.npmjs.org/@form-extendable/fields.field-read-only/0.1.17_cuf6fvcrkey6ktqfghqvi47tva:
+    resolution: {integrity: sha512-zr0MJWRdJf8onXyjfepW0mpVwUEPS0dXKlzqyoLfs404Z6ngrZVsv5mxroUwLsnflyHoYz7eYk8VM+/ysAPBnA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-read-only/-/fields.field-read-only-0.1.17.tgz}
+    id: registry.npmjs.org/@form-extendable/fields.field-read-only/0.1.17
+    name: '@form-extendable/fields.field-read-only'
     version: 0.1.17
     peerDependencies:
       '@testing-library/react': '*'
@@ -1240,87 +1309,34 @@ packages:
       react-dom:
         optional: true
     dependencies:
-      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.12_sfoxds7t5ydpegc3knd667wn6m
-      '@react_db_client/components.form.form-components.bubble-selector': registry.npmjs.org/@react_db_client/components.form.form-components.bubble-selector/0.2.11_ffy3bvkuhiwnciom6ihgqtkp3i
-      '@react_db_client/components.form.form-components.multi-select-dropdown': registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/0.2.20_ffy3bvkuhiwnciom6ihgqtkp3i
-      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.1_sfoxds7t5ydpegc3knd667wn6m
-      '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
-      '@testing-library/user-event': registry.npmjs.org/@testing-library/user-event/14.4.3_ua4wuun3fnehcjqtqj2e2ldgpe
-      core-js: registry.npmjs.org/core-js/3.27.1
-      prop-types: registry.npmjs.org/prop-types/15.8.1
-      react: registry.npmjs.org/react/17.0.2
-      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
-    transitivePeerDependencies:
-      - '@testing-library/dom'
-      - react-is
-
-  registry.npmjs.org/@form-extendable/fields.field-number/0.1.22_cuf6fvcrkey6ktqfghqvi47tva:
-    resolution: {integrity: sha512-FY9hhGfqC6xv4wJ5K+L2qAeRdFoON2ZWDf9PDblxH1bYgwDslpVcdI815icAKEDkwqpE5aRGPfvTV5KdXlxMDw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-number/-/fields.field-number-0.1.22.tgz}
-    id: registry.npmjs.org/@form-extendable/fields.field-number/0.1.22
-    name: '@form-extendable/fields.field-number'
-    version: 0.1.22
-    peerDependencies:
-      '@testing-library/react': '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react':
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.12_sfoxds7t5ydpegc3knd667wn6m
-      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.1_sfoxds7t5ydpegc3knd667wn6m
-      '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
-      core-js: registry.npmjs.org/core-js/3.27.1
-      prop-types: registry.npmjs.org/prop-types/15.8.1
-      react: registry.npmjs.org/react/17.0.2
-      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
-
-  registry.npmjs.org/@form-extendable/fields.field-read-only/0.1.14_cuf6fvcrkey6ktqfghqvi47tva:
-    resolution: {integrity: sha512-gKnGhUhWoWBibRQmYgBqFrQQi4PmhWGWFntqNaS9fhXrKUC/PSpsSAs7bMUtfiD2PSVLt1nbEEDTymc/ijnBtw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-read-only/-/fields.field-read-only-0.1.14.tgz}
-    id: registry.npmjs.org/@form-extendable/fields.field-read-only/0.1.14
-    name: '@form-extendable/fields.field-read-only'
-    version: 0.1.14
-    peerDependencies:
-      '@testing-library/react': '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react':
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.12_sfoxds7t5ydpegc3knd667wn6m
+      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.15_sfoxds7t5ydpegc3knd667wn6m
       '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.1_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
       core-js: registry.npmjs.org/core-js/3.27.1
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
 
-  registry.npmjs.org/@form-extendable/fields.field-select-search/0.1.24_zucnihhldqxjm4ykc6kmlfijpy:
-    resolution: {integrity: sha512-2RqxYzW5KWP9aSMgMp5nMiab7RjwWsVuzV3HW8SOf+YdxLP1/E1MmQmSxQOPsFky4Za9F0f98NGrnxTxRA9BWQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-select-search/-/fields.field-select-search-0.1.24.tgz}
-    id: registry.npmjs.org/@form-extendable/fields.field-select-search/0.1.24
+  registry.npmjs.org/@form-extendable/fields.field-select-search/0.1.32_f7mu3gsyek6vwssojc4gsg7pem:
+    resolution: {integrity: sha512-fzVWMP0yXlMAVXa3VI0cS68WZl5DTToddoM8X+rS6beRHzMqvOnQvOu3pCwH7EYpKPC14LLuAPUQf9Qho4QIMg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-select-search/-/fields.field-select-search-0.1.32.tgz}
+    id: registry.npmjs.org/@form-extendable/fields.field-select-search/0.1.32
     name: '@form-extendable/fields.field-select-search'
-    version: 0.1.24
+    version: 0.1.32
     peerDependencies:
       '@testing-library/react': '*'
+      '@testing-library/user-event': '*'
       react: '*'
       react-dom: '*'
     peerDependenciesMeta:
       '@testing-library/react':
+        optional: true
+      '@testing-library/user-event':
         optional: true
       react:
         optional: true
       react-dom:
         optional: true
     dependencies:
-      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.12_sfoxds7t5ydpegc3knd667wn6m
+      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.15_sfoxds7t5ydpegc3knd667wn6m
       '@react_db_client/components.search-and-select-dropdown': registry.npmjs.org/@react_db_client/components.search-and-select-dropdown/0.2.107_xexwvo3qohmitcnv2k4wtdrkrq
       '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.1_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1330,15 +1346,14 @@ packages:
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
     transitivePeerDependencies:
-      - '@testing-library/dom'
       - '@testing-library/react-hooks'
       - react-is
 
-  registry.npmjs.org/@form-extendable/fields.field-select/0.1.22_wvbkby5zzdvnhmasxzthugttzi:
-    resolution: {integrity: sha512-ehjGOJSreU56tbGz8PoBHK2coqqOSZM1MeetKvBx8Dna0CzGWSiYd5S9TOY8qWWNOhZNsK7h3hUujdrDEsBfow==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-select/-/fields.field-select-0.1.22.tgz}
-    id: registry.npmjs.org/@form-extendable/fields.field-select/0.1.22
+  registry.npmjs.org/@form-extendable/fields.field-select/0.1.29_wvbkby5zzdvnhmasxzthugttzi:
+    resolution: {integrity: sha512-nvr7ra6lEhPHVdqdd6B0JKEzAYshEQFfLORaIMMsYMMcobcZb3iqe20v10HyipQkS/EHQ4ip3fbnqn9mMMnSIg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-select/-/fields.field-select-0.1.29.tgz}
+    id: registry.npmjs.org/@form-extendable/fields.field-select/0.1.29
     name: '@form-extendable/fields.field-select'
-    version: 0.1.22
+    version: 0.1.29
     peerDependencies:
       '@testing-library/react': '*'
       react: '*'
@@ -1351,7 +1366,7 @@ packages:
       react-dom:
         optional: true
     dependencies:
-      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.12_sfoxds7t5ydpegc3knd667wn6m
+      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.15_sfoxds7t5ydpegc3knd667wn6m
       '@react_db_client/components.form.form-components.toggle-box': registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/0.2.27_ffy3bvkuhiwnciom6ihgqtkp3i
       '@react_db_client/components.search-and-select-dropdown': registry.npmjs.org/@react_db_client/components.search-and-select-dropdown/0.2.107_xexwvo3qohmitcnv2k4wtdrkrq
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1363,11 +1378,11 @@ packages:
       - '@testing-library/react-hooks'
       - react-is
 
-  registry.npmjs.org/@form-extendable/fields.field-text-area/0.1.19_cuf6fvcrkey6ktqfghqvi47tva:
-    resolution: {integrity: sha512-qn3Af1rob4HtR3waeqx4fDy/VozA2EcepW6/SIajYtlEHLlCKn9FPYVpUMIot9NDNM+WQMjNKt/bBl5P/g8ljg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-text-area/-/fields.field-text-area-0.1.19.tgz}
-    id: registry.npmjs.org/@form-extendable/fields.field-text-area/0.1.19
+  registry.npmjs.org/@form-extendable/fields.field-text-area/0.1.26_cuf6fvcrkey6ktqfghqvi47tva:
+    resolution: {integrity: sha512-ZpEVVT5MWxW4YAiQjG3syEXOENLu3WWgVUaQzQPxQdcxObNxiuEsDDduDWySYyuQM82aLf8MPGUFQLaKzEF/vg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-text-area/-/fields.field-text-area-0.1.26.tgz}
+    id: registry.npmjs.org/@form-extendable/fields.field-text-area/0.1.26
     name: '@form-extendable/fields.field-text-area'
-    version: 0.1.19
+    version: 0.1.26
     peerDependencies:
       '@testing-library/react': '*'
       react: '*'
@@ -1380,18 +1395,18 @@ packages:
       react-dom:
         optional: true
     dependencies:
-      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.12_sfoxds7t5ydpegc3knd667wn6m
+      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.15_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
       core-js: registry.npmjs.org/core-js/3.27.1
       prop-types: registry.npmjs.org/prop-types/15.8.1
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
 
-  registry.npmjs.org/@form-extendable/fields.field-text/0.1.19_cuf6fvcrkey6ktqfghqvi47tva:
-    resolution: {integrity: sha512-9whq6KyHUuMmReKGkRP3tuPY7JMc6nIol8MNSmUvGq4uUQG4mKxUKewNDfWCyjz9iWkG7b2UohIg+TQe37KYGQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-text/-/fields.field-text-0.1.19.tgz}
-    id: registry.npmjs.org/@form-extendable/fields.field-text/0.1.19
+  registry.npmjs.org/@form-extendable/fields.field-text/0.1.26_cuf6fvcrkey6ktqfghqvi47tva:
+    resolution: {integrity: sha512-hIV0oBeLlAiaL78QpRXlOSNTHeJVyK3c3SnSIpaO0XiDpoEMZ4ZjNQ3+bUL9ftVq+4aFaXbJ7bThIVTnmYOj2w==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/fields.field-text/-/fields.field-text-0.1.26.tgz}
+    id: registry.npmjs.org/@form-extendable/fields.field-text/0.1.26
     name: '@form-extendable/fields.field-text'
-    version: 0.1.19
+    version: 0.1.26
     peerDependencies:
       '@testing-library/react': '*'
       react: '*'
@@ -1404,18 +1419,18 @@ packages:
       react-dom:
         optional: true
     dependencies:
-      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.12_sfoxds7t5ydpegc3knd667wn6m
+      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.15_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
       core-js: registry.npmjs.org/core-js/3.27.1
       prop-types: registry.npmjs.org/prop-types/15.8.1
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
 
-  registry.npmjs.org/@form-extendable/lib/0.1.12_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-z+dsGzL5hsu51yNtzWCjonAppPQDyaBxXgYKwH3zi3+ai9cxB5YRgpQQRT4cfhl/Ygua0as8nT4K6tmXBsSRng==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/lib/-/lib-0.1.12.tgz}
-    id: registry.npmjs.org/@form-extendable/lib/0.1.12
+  registry.npmjs.org/@form-extendable/lib/0.1.15_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-4VxvH4q7JRvJ7Pcoj5+I/oJ3K6YfPjMLyGHeyvhzIcXqhhM6VQSrnxQxcaTg2PN+LZFgSMPsYg4NwpUAKd7YJA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/lib/-/lib-0.1.15.tgz}
+    id: registry.npmjs.org/@form-extendable/lib/0.1.15
     name: '@form-extendable/lib'
-    version: 0.1.12
+    version: 0.1.15
     peerDependencies:
       react: '*'
       react-dom: '*'
@@ -1430,11 +1445,11 @@ packages:
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
 
-  registry.npmjs.org/@form-extendable/styles/0.0.14_d5kzqcx725xkmyluugjzy5jwom:
-    resolution: {integrity: sha512-9wRi7nVHRJZf2vthbhAN4VbV4TyujdXfo+tW0G90paqyfxlAIO8YI+NqqPnB6It4oq4cVjDB4FUEG9YMbptx5g==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/styles/-/styles-0.0.14.tgz}
-    id: registry.npmjs.org/@form-extendable/styles/0.0.14
+  registry.npmjs.org/@form-extendable/styles/0.0.20_d5kzqcx725xkmyluugjzy5jwom:
+    resolution: {integrity: sha512-916N2/bBw0s0QWlpSuFIooGR2wpMVnrmCKVsH5Q6bWOElYQMGgl7ACY2LgZ40tXSIJaKg9lAY+hzlWcc9OqxRg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/styles/-/styles-0.0.20.tgz}
+    id: registry.npmjs.org/@form-extendable/styles/0.0.20
     name: '@form-extendable/styles'
-    version: 0.0.14
+    version: 0.0.20
     peerDependencies:
       react: '*'
       react-dom: '*'
@@ -1452,25 +1467,29 @@ packages:
     transitivePeerDependencies:
       - react-is
 
-  registry.npmjs.org/@form-extendable/utils/0.1.14_cuf6fvcrkey6ktqfghqvi47tva:
-    resolution: {integrity: sha512-Cjfs9TN9D0ZMv8QGbkYwUiU6aYVqI0ZiXYf3cNNusdXgOqUhyx6tu6p/ovR/neYA9XBb9wSbUKSvF6P3KjHmHA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/utils/-/utils-0.1.14.tgz}
-    id: registry.npmjs.org/@form-extendable/utils/0.1.14
+  registry.npmjs.org/@form-extendable/utils/0.1.18_vspn3ajiabior74xdl7uv22oam:
+    resolution: {integrity: sha512-5mRjaGruVFZ5LcVa2dNcCj57XChQliewKYl4ObeiFSRsUfoIHvAONAzlOMhQO5eex4ML03o3gS6RqGlkuM6XgQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@form-extendable/utils/-/utils-0.1.18.tgz}
+    id: registry.npmjs.org/@form-extendable/utils/0.1.18
     name: '@form-extendable/utils'
-    version: 0.1.14
+    version: 0.1.18
     peerDependencies:
       '@testing-library/react': '*'
+      '@testing-library/user-event': '*'
       react: '*'
       react-dom: '*'
     peerDependenciesMeta:
       '@testing-library/react':
+        optional: true
+      '@testing-library/user-event':
         optional: true
       react:
         optional: true
       react-dom:
         optional: true
     dependencies:
-      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.12_sfoxds7t5ydpegc3knd667wn6m
+      '@form-extendable/lib': registry.npmjs.org/@form-extendable/lib/0.1.15_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
+      '@testing-library/user-event': registry.npmjs.org/@testing-library/user-event/14.4.3_ua4wuun3fnehcjqtqj2e2ldgpe
       core-js: registry.npmjs.org/core-js/3.27.1
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
@@ -2022,11 +2041,11 @@ packages:
     transitivePeerDependencies:
       - react-is
 
-  registry.npmjs.org/@react_db_client/components.file-manager/0.2.114_dasisdqkaxzznzqjflqm5mxcki:
-    resolution: {integrity: sha512-D2sZ4UC7tC6Qjz/DXoz7qW2uA6HCDJVNsZUtiNXX83byjhVY9HnzrCVHFbEEjMSrLVtFkxfW3puszhdwP/vSow==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.file-manager/-/components.file-manager-0.2.114.tgz}
-    id: registry.npmjs.org/@react_db_client/components.file-manager/0.2.114
+  registry.npmjs.org/@react_db_client/components.file-manager/0.2.115_dasisdqkaxzznzqjflqm5mxcki:
+    resolution: {integrity: sha512-d8lU9bD+90CzxFBIFLIK8USDyHFslZiOvERMSchBE239Zxg1dFG7OpsL+XUBsgLLIpKoSI/838pA6LqlqLprIg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.file-manager/-/components.file-manager-0.2.115.tgz}
+    id: registry.npmjs.org/@react_db_client/components.file-manager/0.2.115
     name: '@react_db_client/components.file-manager'
-    version: 0.2.114
+    version: 0.2.115
     peerDependencies:
       '@testing-library/react': '*'
       prop-types: '*'
@@ -2043,7 +2062,7 @@ packages:
         optional: true
     dependencies:
       '@react_db_client/components.file-uploader': registry.npmjs.org/@react_db_client/components.file-uploader/0.2.68_k6ag2mnojiqlcq3rjjn3apkz3i
-      '@react_db_client/components.search-and-select': registry.npmjs.org/@react_db_client/components.search-and-select/0.4.13_dasisdqkaxzznzqjflqm5mxcki
+      '@react_db_client/components.search-and-select': registry.npmjs.org/@react_db_client/components.search-and-select/0.4.14_dasisdqkaxzznzqjflqm5mxcki
       '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.1_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
       core-js: registry.npmjs.org/core-js/3.27.1
@@ -2259,11 +2278,11 @@ packages:
       - '@testing-library/react-hooks'
       - react-is
 
-  registry.npmjs.org/@react_db_client/components.search-and-select/0.4.13_dasisdqkaxzznzqjflqm5mxcki:
-    resolution: {integrity: sha512-6zwHQQ6SP7qmJ9OyQ5XE2XjbSFDp7Y1RMPaCwZbL8ioFfQfW553j/3oM7HbFt/LTSJFWs5E59Fbq8bvy0zjapw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.search-and-select/-/components.search-and-select-0.4.13.tgz}
-    id: registry.npmjs.org/@react_db_client/components.search-and-select/0.4.13
+  registry.npmjs.org/@react_db_client/components.search-and-select/0.4.14_dasisdqkaxzznzqjflqm5mxcki:
+    resolution: {integrity: sha512-H8OVDlgcsChi2hya/oCN9CLp6b1W0qngr0uxHDdHEgZ/7/rn0xwH4FC2UEYssdTiKrHwjM2maQgdla5XOu2FKw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.search-and-select/-/components.search-and-select-0.4.14.tgz}
+    id: registry.npmjs.org/@react_db_client/components.search-and-select/0.4.14
     name: '@react_db_client/components.search-and-select'
-    version: 0.4.13
+    version: 0.4.14
     peerDependencies:
       '@testing-library/react': '*'
       '@testing-library/react-hooks': '*'
@@ -2288,7 +2307,7 @@ packages:
       '@react_db_client/async-hooks.use-async-request': registry.npmjs.org/@react_db_client/async-hooks.use-async-request/0.2.17_luehxw54bce33737cdwjefsuwi
       '@react_db_client/components.emoji': registry.npmjs.org/@react_db_client/components.emoji/0.1.11_ffy3bvkuhiwnciom6ihgqtkp3i
       '@react_db_client/components.filter-manager': registry.npmjs.org/@react_db_client/components.filter-manager/0.2.57_weliznrezyk3qhp7eun2l6kba4
-      '@react_db_client/components.selection-preview': registry.npmjs.org/@react_db_client/components.selection-preview/0.4.3_ffy3bvkuhiwnciom6ihgqtkp3i
+      '@react_db_client/components.selection-preview': registry.npmjs.org/@react_db_client/components.selection-preview/0.4.4_ffy3bvkuhiwnciom6ihgqtkp3i
       '@react_db_client/components.styled-select-list': registry.npmjs.org/@react_db_client/components.styled-select-list/0.4.6_k6ag2mnojiqlcq3rjjn3apkz3i
       '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.1_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -2306,11 +2325,11 @@ packages:
       - react-is
       - supports-color
 
-  registry.npmjs.org/@react_db_client/components.selection-preview/0.4.3_ffy3bvkuhiwnciom6ihgqtkp3i:
-    resolution: {integrity: sha512-n9fn1CaW8aJqM/i+Wcbp2kAhb6926FWMTPhnW7wNs1J6gBnpr3I+5KK+Seq6x6Vz8Dg2G9k7IJkHhVHSadF3qw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.selection-preview/-/components.selection-preview-0.4.3.tgz}
-    id: registry.npmjs.org/@react_db_client/components.selection-preview/0.4.3
+  registry.npmjs.org/@react_db_client/components.selection-preview/0.4.4_ffy3bvkuhiwnciom6ihgqtkp3i:
+    resolution: {integrity: sha512-1iPrI9OTwwWI1q9EGyfR+PsCjsjy4ffdt9ZVaXNGYQXCjEZOonABswBWbqXA5MhHtZD0IjmpLFae4X+pLCmgFw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.selection-preview/-/components.selection-preview-0.4.4.tgz}
+    id: registry.npmjs.org/@react_db_client/components.selection-preview/0.4.4
     name: '@react_db_client/components.selection-preview'
-    version: 0.4.3
+    version: 0.4.4
     peerDependencies:
       '@testing-library/react': '*'
       prop-types: '*'
