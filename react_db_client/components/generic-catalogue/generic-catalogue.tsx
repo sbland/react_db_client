@@ -147,7 +147,7 @@ export const GenericCatalogue = <ResultType extends IDocument>({
         collection,
         filters,
         // TODO: Filter preview only headings out
-        resultsHeadings.map((item) => item.uid),
+        resultsHeadings.map((item) => String(item.uid)),
         sortByA,
         searchString,
         false,
