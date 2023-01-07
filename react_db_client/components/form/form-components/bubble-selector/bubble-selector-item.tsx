@@ -20,6 +20,7 @@ export const BubbleSelectorItem = ({
       type="button"
       className={isSelected ? 'button-two selected' : 'button-one notSelected'}
       onClick={() => handleSelect(uid)}
+      data-testid={`bubbleSelector-item-${isSelected ? "selected" : "unselected"}`}
     >
       {label}
     </button>

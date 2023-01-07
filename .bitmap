@@ -125,7 +125,7 @@
     },
     "components/form/form-components/bubble-selector": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.11",
+        "version": "0.2.12",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/form/form-components/bubble-selector"
     },
