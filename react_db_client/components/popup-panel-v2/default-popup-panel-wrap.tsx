@@ -23,10 +23,11 @@ export const PopupContentWrap = ({ classNames, id, children, title }: IPopupCont
   const handleClose = () => {
     closePopup(id);
   };
+
   return (
     <PopupPanelWrapStyle
       className={`popupPanelWrap ${classNames}`}
-      data-testid={`popupid_${id}`}
+      data-testid={`popupid_${id}_content`}
       onKeyDown={(e) => e.key === 'Escape' && handleClose()}
     >
       <PopupPanelStyle className="popupPanel" data-testid="rdc-popupPanel">

@@ -61,7 +61,7 @@ export const PopupPanelRender = ({
       <PopupPanelClosePanelStyle
         onKeyDown={(e) => e.key === 'Escape' && closePopup(id)}
         onClick={() => closePopup(id)}
-        aria-label="Close popup"
+        aria-label="Close the popup"
         data-testid={'popupPanel_closeBtn'}
       />
       <PopupPanelContentPanelStyle data-testid={'popupPanel_content'} isOpen={open || false}>
@@ -87,16 +87,21 @@ export function PopupPanel({
   const { open, root, z } = popupRegister[id] || { open: false, root: null, z: null };
 
   React.useEffect(() => {
-    registerPopup(id, popupRoot, deleteRootOnUnmount, zIndex);
+    registerPopup({
+      id,
+      root: popupRoot,
+      deleteRootOnUnmount,
+      z: zIndex,
+      onCloseCallback: onClose,
+    });
     return () => {
       deregisterPopup(id);
     };
-  }, []);
+  }, [id, popupRoot, zIndex, onClose, registerPopup, deregisterPopup]);
 
   const handleClose = React.useCallback(() => {
     closePopup(id);
-    if (onClose) onClose();
-  }, [id, closePopup]);
+  }, [id, closePopup, onClose]);
 
   if (!root) return <></>;
   return (

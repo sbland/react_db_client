@@ -23,7 +23,7 @@
     },
     "components/are-you-sure-btn": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.22",
+        "version": "0.2.23",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/are-you-sure-btn"
     },
@@ -149,7 +149,7 @@
     },
     "components/generic-catalogue": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.191",
+        "version": "0.2.192",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/generic-catalogue"
     },
@@ -179,7 +179,7 @@
     },
     "components/popup-panel-v2": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.0.29",
+        "version": "0.0.30",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/popup-panel-v2"
     },

@@ -1,32 +1,27 @@
 import React from 'react';
-import styled from 'styled-components';
 import { PopupPanel } from './popup-panel';
 import { PopupPanelContext, PopupProvider } from './popup-panel-provider';
+import { PopupContentWrap } from './default-popup-panel-wrap';
 
 const OpenPopupButton = ({ id }) => {
   const { openPopup } = React.useContext(PopupPanelContext);
   return <button onClick={() => openPopup(id)}>Open</button>;
 };
 
-const ExamplePanel = styled.div`
-  background: grey;
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  right: 1rem;
-  bottom: 1rem;
-`;
-
 export const BasicPopupPanel = () => {
   const id = 'popupRoot';
+  const [hasClosed, setHasClosed] = React.useState(false);
   return (
     <div style={{ position: 'relative' }}>
       <PopupProvider>
         <OpenPopupButton id={id} />
-        <PopupPanel id={id} deleteRootOnUnmount>
-          <ExamplePanel>Hello I'm open!</ExamplePanel>
+        <PopupPanel id={id} deleteRootOnUnmount onClose={() => setHasClosed(true)}>
+          <PopupContentWrap id={id} title="example popup">
+            Hello I'm open!
+          </PopupContentWrap>
         </PopupPanel>
       </PopupProvider>
+      <p>{hasClosed ? 'Has been closed' : 'Has not been closed'}</p>
     </div>
   );
 };
@@ -46,10 +41,9 @@ export const PopupPanelUnmountOnHide = () => {
           Open
         </button>
         <PopupProvider>
-          {/* <OpenPopupButton id={id} /> */}
           {isOpen && (
             <PopupPanel id={id} deleteRootOnUnmount>
-              <ExamplePanel>Hello I'm open!</ExamplePanel>
+              <PopupContentWrap id={id}>Hello I'm open!</PopupContentWrap>
             </PopupPanel>
           )}
         </PopupProvider>
