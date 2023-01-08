@@ -68,6 +68,8 @@ export const SelectDropwdownItem = styled.li`
   height: ${({ theme }) => theme.reactDbClientTheme.typography.lineHeight};
   button {
     height: ${({ theme }) => theme.reactDbClientTheme.typography.lineHeight};
+    line-height: ${({ theme }) => theme.reactDbClientTheme.typography.lineHeight};
+    font-size: ${({ theme }) => theme.reactDbClientTheme.typography.fontSize};
     pointer-events: all;
     cursor: pointer;
     margin: 0;
@@ -99,14 +101,16 @@ SelectDropwdownItem.defaultProps = {
 export const DropdownBtn = styled.button`
   position: absolute;
   margin: 0;
-  right: 3px;
-  top: 3px;
-  bottom: 3px;
+  right: 0;
+  top: 0;
+  bottom: 0;
   width: $unit * 1.5;
   text-align: center;
   border: none;
   background: none;
-  lineHeight: ${({ theme }) => theme.reactDbClientTheme.typography.lineHeight}
+  line-height: ${({ theme }) => theme.reactDbClientTheme.typography.lineHeight}
+  font-size: ${({ theme }) => theme.reactDbClientTheme.typography.fontSize}
+
   &:focus {
     ${({ theme }) => theme.reactDbClientTheme.buttons.onFocus}
   }

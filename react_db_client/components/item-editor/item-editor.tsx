@@ -26,7 +26,7 @@ export interface IItemEditorProps<ResultType extends IDocument> {
   isNew: boolean;
   onSubmitCallback: (data: ResultType) => void;
   additionalData?: Partial<ResultType>;
-  params: THeading<unknown>[];
+  params: THeading<any>[];
   collection: string;
   asyncGetDocument: TAsyncGetDocument<ResultType>;
   asyncPutDocument: TAsyncPutDocument<ResultType>;
@@ -37,6 +37,7 @@ export interface IItemEditorProps<ResultType extends IDocument> {
   onCancel?: () => void;
   submitBtnText?: string;
   formProps?: Partial<IFormProps>;
+  groupFieldsOrientation?: 'horiz' | 'vert';
 }
 
 /**
@@ -59,6 +60,7 @@ export const ItemEditor = <ResultType extends IDocument>({
   saveErrorCallback,
   submitBtnText = 'Save Item',
   formProps = {},
+  groupFieldsOrientation = 'vert',
 }: IItemEditorProps<ResultType>) => {
   const [overridenFields, setOverridenFields] = useState<string[]>([]);
 
@@ -91,8 +93,8 @@ export const ItemEditor = <ResultType extends IDocument>({
   });
 
   const mappedFields = useMemo(
-    () => mapFields(params, overridenFields, uid, collection),
-    [params, overridenFields, uid, collection]
+    () => mapFields(params, overridenFields, groupFieldsOrientation, uid, collection),
+    [params, overridenFields, groupFieldsOrientation, uid, collection]
   );
 
   const handleUpdate = useCallback(

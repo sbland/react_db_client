@@ -1,4 +1,5 @@
-import {filterTypes} from '@react_db_client/constants.client-types';
+import { THeading } from '@form-extendable/lib';
+import { filterTypes, Uid } from '@react_db_client/constants.client-types';
 
 export const injectFileFieldProps = (collection, id) => (param) => {
   let modifiedParam = { ...param };
@@ -19,7 +20,7 @@ export const injectHighlightOverriden = (overridenFields) => (param) => {
   return modifiedParam;
 };
 
-export const reduceGroupFields = (acc, v) => {
+export const reduceGroupFields = (groupFieldsOrientation: 'horiz' | 'vert') => (acc, v) => {
   const currentSection = acc[acc.length - 1];
   const currentSectionChildCount = currentSection.children.length;
   const currentGroup =
@@ -29,7 +30,7 @@ export const reduceGroupFields = (acc, v) => {
       uid: `group-${v.group}`,
       label: '',
       type: filterTypes.embedded,
-      orientation: 'horiz',
+      orientation: groupFieldsOrientation,
       children: [],
     });
   }
@@ -60,21 +61,25 @@ export const groupFields = (fields) => {
  * @param {*} overridenFields
  * @param {*} productId
  */
-export const mapFields = (params, overridenFields, id, collection) =>
+export const mapFields = (
+  params: THeading<any>[],
+  overridenFields: string[],
+  groupFieldsOrientation: 'horiz' | 'vert',
+  id: Uid,
+  collection: string
+) =>
   Object.keys(params)
     // filter out standard specific fields
-    // TODO: Do this in product editor
-    // .filter((key) => !key.includes(standard === 'bsen' ? 'ansi' : 'bsen'))
     .map((key) => params[key])
     .map(injectFileFieldProps(collection, id))
     .map(injectHighlightOverriden(overridenFields))
     // group fields
-    .reduce(reduceGroupFields, [
+    .reduce(reduceGroupFields(groupFieldsOrientation), [
       {
         uid: 'group-0',
         label: '',
         type: filterTypes.embedded,
-        orientation: 'horiz',
+        orientation: groupFieldsOrientation,
         children: [],
       },
     ])

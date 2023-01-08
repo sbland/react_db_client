@@ -50,7 +50,7 @@ export const demoParams: THeading<unknown>[] = [
   {
     uid: 'documentation',
     label: 'Documentation',
-    type: EFilterType.file,
+    type: EFilterType.fileMultiple,
     fileType: EFileType.DOCUMENT,
     multiple: true,
     group: 6,
