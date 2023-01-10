@@ -41,6 +41,7 @@ export const FileManager: React.FC<IFileManagerProps> = ({
         <br />
         {/* TODO: Should refresh on file upload */}
         <SearchAndSelect<IFile>
+          id="file-manager-sas"
           searchFunction={asyncGetFiles}
           initialFilters={[]}
           handleSelect={handleSelect}

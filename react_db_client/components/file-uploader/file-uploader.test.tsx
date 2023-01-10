@@ -54,6 +54,16 @@ describe('File uploader', () => {
       expect(asyncFileUpload).toHaveBeenCalledWith(exampleFile, 'image', expect.any(Function));
       expect(onUpload).toHaveBeenCalledWith([`Uploaded ${exampleFile.name}`]);
     });
+
+    test('should call asyncFileUpload with file data then close on upload', async () => {
+      render(<compositions.BasicFileUploaderHideOnUpload />);
+      const uploadBtn = screen.getByLabelText('Upload');
+      const exampleFile: File = new File(['hello'], 'hello.png', { type: 'image/png' });
+      await UserEvent.upload(uploadBtn, exampleFile);
+      await waitFor(() => expect(asyncFileUpload).toHaveBeenCalled());
+      expect(asyncFileUpload).toHaveBeenCalledWith(exampleFile, 'image', expect.any(Function));
+      expect(onUpload).toHaveBeenCalledWith([`Uploaded ${exampleFile.name}`]);
+    });
     test.todo('should call on Upload when asyncFileUpload complete');
   });
 });

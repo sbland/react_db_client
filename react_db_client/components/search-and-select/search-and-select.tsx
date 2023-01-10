@@ -77,6 +77,7 @@ export const EmptyArray = [];
  * @returns
  */
 export const SearchAndSelect = <ResultType extends IDocument>({
+  id,
   initialFilters,
   availableFilters, // same as field data
   searchFunction,
@@ -238,7 +239,7 @@ export const SearchAndSelect = <ResultType extends IDocument>({
 
   return (
     <SearchAndSelectStyles>
-      <div className="searchAndSelect sas_wrap sectionWrapper">
+      <div className="searchAndSelect sas_wrap sectionWrapper" data-testid={`rdc-sas-${id}`}>
         <section
           className="sas_filtersSection"
           style={{

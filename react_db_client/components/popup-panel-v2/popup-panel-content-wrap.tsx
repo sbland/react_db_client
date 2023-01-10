@@ -1,3 +1,4 @@
+import { Uid } from '@react_db_client/constants.client-types';
 import React from 'react';
 import { PopupPanelContext } from './popup-panel-provider';
 import {
@@ -12,7 +13,7 @@ import {
 
 export interface IPopupContentWrapProps {
   classNames?: string;
-  id: string;
+  id: Uid;
   children: React.ReactNode;
   title?: string | React.ReactNode;
 }

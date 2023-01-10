@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { useState, useMemo } from 'react';
 import { IHeading, StyledSelectList } from '@react_db_client/components.styled-select-list';
 import { EFileType, filterTypes, IFile } from '@react_db_client/constants.client-types';
-// import ItemList from '../ItemList/ItemList';
 
 import { useFileUploader } from './file-uploader-hook';
 import { FileUploaderButtonsWrap, FileUploaderSelectButton } from './styles';
@@ -20,9 +19,7 @@ const fileTypesToInputAccept = (fileType: EFileType) => {
   }
 };
 
-const fileListHeadings: IHeading[] = [
-  { uid: 'name', label: 'Name', type: filterTypes.text },
-];
+const fileListHeadings: IHeading[] = [{ uid: 'name', label: 'Name', type: filterTypes.text }];
 
 export interface IFileUploaderProps {
   fileType: EFileType;
@@ -35,10 +32,17 @@ export const FileUploader = ({
   onUpload,
   asyncFileUpload,
 }: IFileUploaderProps) => {
-  const [selectedFiles, setSelectedFiles] = useState<IFile[]>([]);
   const [fileType, setFileType] = useState(fileTypeIn || EFileType.IMAGE);
 
-  const { uploadFiles, uploading, uploadProgress, uploadComplete, error } = useFileUploader({
+  const {
+    selectedFiles,
+    handleFilesSelectedForUpload,
+    uploadFiles,
+    uploading,
+    uploadProgress,
+    uploadComplete,
+    error,
+  } = useFileUploader({
     fileType,
     asyncFileUpload,
     onUpload,
@@ -50,18 +54,6 @@ export const FileUploader = ({
     if (uploadComplete) return 'Upload complete';
     return '';
   }, [error, uploading, uploadComplete, uploadProgress, selectedFiles]);
-
-  const handleFilesSelected = (e) => {
-    const newSelectedFiles: IFile[] = [...e.target.files].map((f: File) => ({
-      uid: f.name,
-      name: f.name,
-      label: f.name,
-      data: f,
-      filePath: '',
-      fileType,
-    }));
-    setSelectedFiles(newSelectedFiles);
-  };
 
   return (
     <div className="fileUploader">
@@ -82,7 +74,7 @@ export const FileUploader = ({
             type="file"
             accept={fileTypesToInputAccept(fileType)}
             // multiple={multiple}
-            onChange={handleFilesSelected}
+            onChange={(e) => handleFilesSelectedForUpload(e.target.files)}
             // onInput={console.log}
             // value={selectedFilesRaw}
             // disabled={uploading}
@@ -94,7 +86,6 @@ export const FileUploader = ({
           type="button"
           disabled={!selectedFiles || selectedFiles.length === 0 || uploading}
           className="button-two uploadBtn"
-          // className={(selected) ? 'button-two' : 'button-one'}
           onClick={() => uploadFiles(selectedFiles)}
         >
           Upload
@@ -107,26 +98,17 @@ export const FileUploader = ({
           <option value={EFileType.DOCUMENT}>Document</option>
         </select>
       )}
+      <p>Files ready to upload:</p>
       <StyledSelectList
         listInput={selectedFiles || []}
         headings={fileListHeadings}
+        // TODO: Handle remove from selection
         handleSelect={(uid) => {}}
         currentSelection={undefined}
         // limitHeight
         selectionField="uid"
         // autoWidth
       />
-      {/* <ItemList
-        items={
-          !selectedFiles
-            ? []
-            : selectedFiles.map((s) => ({
-                uid: s.name,
-                name: s.name,
-                type: 'button',
-              }))
-        }
-      /> */}
     </div>
   );
 };

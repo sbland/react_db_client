@@ -22,3 +22,13 @@ export const BasicFileUploaderSimple = () => (
     <FileUploaderSimple {...defaultProps} />
   </CompositionWrapDefault>
 );
+
+export const BasicFileUploaderHideOnUpload = () => {
+  const [showFileUploader, setShowFileUploader] = React.useState(true);
+  if (!showFileUploader) return <></>;
+  return (
+    <CompositionWrapDefault height="40rem" width="50rem">
+      <FileUploaderSimple {...defaultProps} onUpload={() => setShowFileUploader(false)} />
+    </CompositionWrapDefault>
+  );
+};

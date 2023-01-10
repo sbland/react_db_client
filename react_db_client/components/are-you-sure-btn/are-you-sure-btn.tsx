@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { PopupPanelContext, PopupPanel } from '@react_db_client/components.popup-panel-v2';
+import {
+  PopupPanelContext,
+  PopupPanel,
+  PopupContentWrap,
+} from '@react_db_client/components.popup-panel-v2';
 
 const popupId = 'areYouSureBtn_popupPanel';
 
@@ -38,27 +42,29 @@ export const AreYouSureBtn = ({
 
   return (
     <>
-      <PopupPanel id={popupId} onClose={handleCancel}>
-        <div className="areYouSurePanel_wrap">
-          <h1>Are You Sure?</h1>
-          <div>
-            <button
-              type="button"
-              className="areYouSure_cancelBtn button-one"
-              onClick={handleCancel}
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              className="areYouSure_acceptBtn button-two"
-              onClick={handleAccept}
-            >
-              {confirmMessage}
-            </button>
+      <PopupPanel id={popupId}>
+        <PopupContentWrap id={popupId} title="Are you sure?">
+          <div className="areYouSurePanel_wrap">
+            <h1>Are You Sure?</h1>
+            <div>
+              <button
+                type="button"
+                className="areYouSure_cancelBtn button-one"
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="areYouSure_acceptBtn button-two"
+                onClick={handleAccept}
+              >
+                {confirmMessage}
+              </button>
+            </div>
+            {notes && <div>{notes}</div>}
           </div>
-          {notes && <div>{notes}</div>}
-        </div>
+        </PopupContentWrap>
       </PopupPanel>
       <button
         disabled={disabled}
