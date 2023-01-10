@@ -1,7 +1,7 @@
 import React from 'react';
 import { PopupPanel } from './popup-panel';
 import { PopupPanelContext, PopupProvider } from './popup-panel-provider';
-import { PopupContentWrap } from './default-popup-panel-wrap';
+import { PopupContentWrap } from './popup-panel-content-wrap';
 
 const OpenPopupButton = ({ id }) => {
   const { openPopup } = React.useContext(PopupPanelContext);

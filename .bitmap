@@ -11,55 +11,49 @@
 {
     "async-hooks/use-async-object-manager": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.25",
+        "version": "0.2.26",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/async-hooks/use-async-object-manager"
     },
     "async-hooks/use-async-request": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.17",
+        "version": "0.2.18",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/async-hooks/use-async-request"
     },
-    "components/are-you-sure-btn": {
-        "scope": "samnbuk.react_db_client",
-        "version": "0.2.23",
-        "mainFile": "index.ts",
-        "rootDir": "react_db_client/components/are-you-sure-btn"
-    },
     "components/column-manager": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.4.4",
+        "version": "0.4.5",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/column-manager"
     },
     "components/custom-select-dropdown": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.31",
+        "version": "0.2.32",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/custom-select-dropdown"
     },
     "components/datatable-legacy": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.0.93",
+        "version": "0.0.96",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable-legacy"
     },
     "components/datatable/cell": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.128",
+        "version": "0.1.131",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/cell"
     },
     "components/datatable/cell-types": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.125",
+        "version": "0.1.128",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/cell-types"
     },
     "components/datatable/components": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.128",
+        "version": "0.1.131",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/components"
     },
@@ -83,7 +77,7 @@
     },
     "components/datatable/main": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.130",
+        "version": "0.1.133",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/main"
     },
@@ -95,7 +89,7 @@
     },
     "components/datatable/ui": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.128",
+        "version": "0.1.131",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/ui"
     },
@@ -107,31 +101,31 @@
     },
     "components/file-manager": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.116",
+        "version": "0.2.119",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/file-manager"
     },
     "components/file-uploader": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.69",
+        "version": "0.2.72",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/file-uploader"
     },
     "components/filter-manager": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.57",
+        "version": "0.2.58",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/filter-manager"
     },
     "components/form/form-components/bubble-selector": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.12",
+        "version": "0.2.13",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/form/form-components/bubble-selector"
     },
     "components/form/form-components/multi-select-dropdown": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.20",
+        "version": "0.2.21",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/form/form-components/multi-select-dropdown"
     },
@@ -161,25 +155,25 @@
     },
     "components/popup-panel": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.9",
+        "version": "0.2.10",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/popup-panel"
     },
     "components/popup-panel-v2": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.0.30",
+        "version": "0.0.33",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/popup-panel-v2"
     },
     "components/search-and-select": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.4.15",
+        "version": "0.4.18",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/search-and-select"
     },
     "components/search-and-select-dropdown": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.108",
+        "version": "0.2.109",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/search-and-select-dropdown"
     },
@@ -191,7 +185,7 @@
     },
     "components/styled-select-list": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.4.7",
+        "version": "0.4.8",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/styled-select-list"
     },
