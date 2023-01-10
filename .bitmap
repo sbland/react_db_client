@@ -147,18 +147,6 @@
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/form/lib"
     },
-    "components/generic-catalogue": {
-        "scope": "samnbuk.react_db_client",
-        "version": "0.2.192",
-        "mainFile": "index.ts",
-        "rootDir": "react_db_client/components/generic-catalogue"
-    },
-    "components/item-editor": {
-        "scope": "samnbuk.react_db_client",
-        "version": "0.2.160",
-        "mainFile": "index.ts",
-        "rootDir": "react_db_client/components/item-editor"
-    },
     "components/loading-panel": {
         "scope": "samnbuk.react_db_client",
         "version": "0.1.2",
