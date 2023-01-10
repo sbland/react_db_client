@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CustomSelectDropdown } from '@react_db_client/components.custom-select-dropdown';
-import { getRoot } from '@react_db_client/helpers.get-root';
+import { getRoot } from '@react_db_client/helpers.html-helpers';
 
 /**
  * Data Cell Select

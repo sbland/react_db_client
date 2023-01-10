@@ -60,15 +60,24 @@ export const PopupPanelContext = React.createContext(defaultState);
 
 const EMPTY_OBJECT = {};
 
-export const PopupProvider = ({ initialState = defaultState, children }: IPopupProviderProps) => {
+export const PopupProvider = ({
+  initialState = defaultState,
+  children,
+}: IPopupProviderProps) => {
   const popupCount = React.useRef(0);
   const [popupRegister, setPopupRegister] = React.useState(
     initialState.popupRegister || EMPTY_OBJECT
   );
 
   const registerPopup = React.useCallback(
-    ({ id, root: popupRoot, deleteRootOnUnmount, z, onCloseCallback }: IRegisterPopupArgs) => {
-      const root = getRoot(popupRoot || id, id);
+    ({
+      id,
+      root: popupRoot,
+      deleteRootOnUnmount,
+      z,
+      onCloseCallback,
+    }: IRegisterPopupArgs) => {
+      const root = getRoot(popupRoot || String(id), String(id));
       setPopupRegister((prev) => ({
         ...prev,
         [id]: {
@@ -98,16 +107,24 @@ export const PopupProvider = ({ initialState = defaultState, children }: IPopupP
   const openPopup = (id: TPopupId) => {
     popupCount.current += 1;
     if (popupRegister[id] !== undefined)
-      setPopupRegister((prev) => ({ ...prev, [id]: { ...prev[id], open: true } }));
+      setPopupRegister((prev) => ({
+        ...prev,
+        [id]: { ...prev[id], open: true },
+      }));
     else {
-      throw new Error(`Attempted to open popup that isn't registered! Id is ${id}`);
+      throw new Error(
+        `Attempted to open popup that isn't registered! Id is ${id}`
+      );
     }
   };
 
   const closePopup = (id: TPopupId) => {
     popupCount.current -= 1;
     if (popupRegister[id] !== undefined) {
-      setPopupRegister((prev) => ({ ...prev, [id]: { ...prev[id], open: false } }));
+      setPopupRegister((prev) => ({
+        ...prev,
+        [id]: { ...prev[id], open: false },
+      }));
       popupRegister[id].onCloseCallback();
     }
   };
@@ -128,5 +145,9 @@ export const PopupProvider = ({ initialState = defaultState, children }: IPopupP
     popupRegister,
   };
 
-  return <PopupPanelContext.Provider value={mergedValue}>{children}</PopupPanelContext.Provider>;
+  return (
+    <PopupPanelContext.Provider value={mergedValue}>
+      {children}
+    </PopupPanelContext.Provider>
+  );
 };

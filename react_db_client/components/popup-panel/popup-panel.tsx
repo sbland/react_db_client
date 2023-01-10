@@ -45,7 +45,7 @@ export const PopupPanel = ({
   popupRoot,
 }: IPopupPanelProps) => {
   const [z] = useState(popupCount);
-  const _popupRoot = useGetRoot(popupRoot || id);
+  const _popupRoot = useGetRoot(popupRoot || String(id), String(id));
   // const _popupRoot = getRoot(popupRoot || id);
 
   useEffect(() => {

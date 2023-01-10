@@ -64,10 +64,16 @@ const Wrapper = () => (
   />
 );
 export const defaultPopupMenu = () => (
-  <PopupMenu items={demoItems} position={{ x: 0, y: 0 }} onCloseCallback={() => {}} />
+  <PopupMenu
+    id="exampleMenu"
+    items={demoItems}
+    position={{ x: 0, y: 0 }}
+    onCloseCallback={() => {}}
+  />
 );
 export const defaultPopupMenuOpen = () => (
   <PopupMenu
+    id="exampleMenu"
     items={demoItems}
     isOpenOverride
     onCloseCallback={() => {}}
@@ -76,6 +82,7 @@ export const defaultPopupMenuOpen = () => (
 );
 export const interactivePopupMenu = () => (
   <RightClickWrapper
+    id="example_popup"
     items={[
       { uid: 'A', label: 'Item A', onClick: () => {} },
       { uid: 'B', label: 'Item B', onClick: () => {} },
@@ -101,6 +108,7 @@ export const interactiveMultiplePopupMenu = () => (
     }}
   >
     <RightClickWrapper
+      id="example_popup"
       items={[
         { uid: 'A', label: 'Item A', onClick: () => {} },
         { uid: 'B', label: 'Item B', onClick: () => {} },
@@ -118,6 +126,7 @@ export const interactiveMultiplePopupMenu = () => (
       />
     </RightClickWrapper>
     <RightClickWrapper
+      id="example_popup"
       items={[
         { uid: 'C', label: 'Item C', onClick: () => {} },
         { uid: 'D', label: 'Item D', onClick: () => {} },
@@ -138,6 +147,7 @@ export const interactiveMultiplePopupMenu = () => (
 );
 export const interactiveEmbeddedPopupMenu = () => (
   <RightClickWrapper
+    id="example_popup"
     items={[
       { uid: 'A', label: 'Item A', onClick: () => {} },
       { uid: 'B', label: 'Item B', onClick: () => {} },

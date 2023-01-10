@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import { getRoot } from '@react_db_client/helpers.get-root';
 import { Uid } from '@react_db_client/constants.client-types';
 
 import {
@@ -13,6 +12,7 @@ import {
   PopupMenuStyle,
   PopupMenuWrapStyle,
 } from './styles';
+import { getRoot } from '@react_db_client/helpers.html-helpers';
 
 export interface IItem {
   uid: Uid;
@@ -51,6 +51,7 @@ export interface IPopupMenuProps {
   position: { x: number; y: number };
   items: IItem[];
   popupRoot?: string | HTMLElement;
+  id: Uid;
 }
 
 /**
@@ -68,10 +69,11 @@ export const PopupMenu = ({
   position,
   items,
   popupRoot,
+  id,
 }: IPopupMenuProps) => {
   const [isOpen, setIsOpen] = useState(isOpenOverride);
 
-  const _popupRoot = getRoot(popupRoot);
+  const _popupRoot = getRoot(popupRoot || String(id), String(id));
 
   useEffect(() => {
     setIsOpen(isOpenOverride);
@@ -137,9 +139,10 @@ export interface IRightClickWrapperProps {
   children: React.ReactElement;
   items: IItem[];
   popupRoot?: string | HTMLElement;
+  id: Uid;
 }
 
-export const RightClickWrapper = ({ children, items, popupRoot }: IRightClickWrapperProps) => {
+export const RightClickWrapper = ({ children, items, popupRoot, id }: IRightClickWrapperProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const handleContextMenu = (e) => {
@@ -172,6 +175,7 @@ export const RightClickWrapper = ({ children, items, popupRoot }: IRightClickWra
         </PopupMenuRightClickWrapStyle>
       )}
       <PopupMenu
+        id={id}
         isOpenOverride={isOpen}
         onCloseCallback={() => setIsOpen(false)}
         items={items}

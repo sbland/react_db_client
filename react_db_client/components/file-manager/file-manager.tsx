@@ -35,13 +35,13 @@ export const FileManager: React.FC<IFileManagerProps> = ({
   if (collectionId || documentId) throw new Error('No longer need collection id and doc id');
 
   return (
-    <div className="fileManager_wrap sectionWrapper">
+    <div className="fileManager_wrap sectionWrapper" data-testid="rdc-file-manager">
       <section>
         <h2>Select File</h2>
         <br />
         {/* TODO: Should refresh on file upload */}
         <SearchAndSelect<IFile>
-          id="file-manager-sas"
+          id="file-manager-existing-files"
           searchFunction={asyncGetFiles}
           initialFilters={[]}
           handleSelect={handleSelect}

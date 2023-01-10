@@ -35,6 +35,7 @@ export const ListItem = <ItemType extends IItem>({
         className={`styledList_itemBtn ${isSelected ? 'styledList_itemBtnSelected' : ''}`}
         selected={isSelected}
         data-isselected={isSelected}
+        aria-label={data.label}
       >
         {headings.map((heading, i) => (
           <StyledListItemCell
