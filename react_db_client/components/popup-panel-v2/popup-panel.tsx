@@ -64,7 +64,10 @@ export const PopupPanelRender = ({
         aria-label="Close the popup"
         data-testid={'popupPanel_closeBtn'}
       />
-      <PopupPanelContentPanelStyle data-testid={'popupPanel_content'} isOpen={open || false}>
+      <PopupPanelContentPanelStyle
+        data-testid={'popupPanel_content'}
+        isOpen={open || false}
+      >
         {(renderWhenClosed || open) && children}
       </PopupPanelContentPanelStyle>
     </PopupPanelWrapStyle>,
@@ -81,10 +84,19 @@ export function PopupPanel({
   zIndex,
   onClose,
 }: IPopupPanelProps) {
-  const { registerPopup, deregisterPopup, baseZIndex, popupRegister, closePopup } =
-    React.useContext(PopupPanelContext);
+  const {
+    registerPopup,
+    deregisterPopup,
+    baseZIndex,
+    popupRegister,
+    closePopup,
+  } = React.useContext(PopupPanelContext);
 
-  const { open, root, z } = popupRegister[id] || { open: false, root: null, z: null };
+  const { open, root, z } = popupRegister[id] || {
+    open: false,
+    root: null,
+    z: null,
+  };
 
   React.useEffect(() => {
     registerPopup({
@@ -94,14 +106,17 @@ export function PopupPanel({
       z: zIndex,
       onCloseCallback: onClose,
     });
-    return () => {
+  }, [id, popupRoot, zIndex, onClose, registerPopup]);
+
+  React.useEffect(() => {
+    return function cleanup() {
       deregisterPopup(id);
     };
-  }, [id, popupRoot, zIndex, onClose, registerPopup, deregisterPopup]);
+  }, []);
 
   const handleClose = React.useCallback(() => {
     closePopup(id);
-  }, [id, closePopup, onClose]);
+  }, [id, closePopup]);
 
   if (!root) return <></>;
   return (

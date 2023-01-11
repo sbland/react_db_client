@@ -16,14 +16,23 @@ export interface IPopupContentWrapProps {
   id: Uid;
   children: React.ReactNode;
   title?: string | React.ReactNode;
+  handleClose?: () => void;
 }
 
-export const PopupContentWrap = ({ classNames, id, children, title }: IPopupContentWrapProps) => {
+export const PopupContentWrap = ({
+  classNames,
+  id,
+  children,
+  title,
+  handleClose: handleCloseOverride,
+}: IPopupContentWrapProps) => {
   const { closePopup } = React.useContext(PopupPanelContext);
 
-  const handleClose = () => {
-    closePopup(id);
-  };
+  const handleClose =
+    handleCloseOverride ||
+    (() => {
+      closePopup(id);
+    });
 
   return (
     <PopupPanelWrapStyle
@@ -32,9 +41,14 @@ export const PopupContentWrap = ({ classNames, id, children, title }: IPopupCont
       onKeyDown={(e) => e.key === 'Escape' && handleClose()}
     >
       <PopupPanelStyle className="popupPanel" data-testid="rdc-popupPanel">
-        <PopupPanelContentStyle className="popupPanel_content">{children}</PopupPanelContentStyle>
+        <PopupPanelContentStyle className="popupPanel_content">
+          {children}
+        </PopupPanelContentStyle>
         <PopupPanelTopBar className="popupPanel_topBar">
-          <PopupPanelTitle className="popupPanel_title" data-testid="rdc-popupPanel-title">
+          <PopupPanelTitle
+            className="popupPanel_title"
+            data-testid="rdc-popupPanel-title"
+          >
             {title}
           </PopupPanelTitle>
           <PopupPanelCloseBtn
