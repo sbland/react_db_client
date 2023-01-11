@@ -101,13 +101,13 @@
     },
     "components/file-manager": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.122",
+        "version": "0.2.123",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/file-manager"
     },
     "components/file-uploader": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.73",
+        "version": "0.2.74",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/file-uploader"
     },

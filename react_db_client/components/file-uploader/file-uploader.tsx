@@ -1,7 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { useState, useMemo } from 'react';
-import { IHeading, StyledSelectList } from '@react_db_client/components.styled-select-list';
-import { EFileType, filterTypes, IFile } from '@react_db_client/constants.client-types';
+import {
+  IHeading,
+  StyledSelectList,
+} from '@react_db_client/components.styled-select-list';
+import {
+  EFileType,
+  filterTypes,
+  IFile,
+} from '@react_db_client/constants.client-types';
 
 import { useFileUploader } from './file-uploader-hook';
 import { FileUploaderButtonsWrap, FileUploaderSelectButton } from './styles';
@@ -19,12 +26,18 @@ const fileTypesToInputAccept = (fileType: EFileType) => {
   }
 };
 
-const fileListHeadings: IHeading[] = [{ uid: 'name', label: 'Name', type: filterTypes.text }];
+const fileListHeadings: IHeading[] = [
+  { uid: 'name', label: 'Name', type: filterTypes.text },
+];
 
 export interface IFileUploaderProps {
   fileType: EFileType;
   onUpload: (responses: unknown) => void;
-  asyncFileUpload: (data: File, fileType: EFileType, callback: () => void) => Promise<void>;
+  asyncFileUpload: (
+    data: File,
+    fileType: EFileType,
+    callback: () => void
+  ) => Promise<void>;
 }
 
 export const FileUploader = ({
@@ -41,6 +54,7 @@ export const FileUploader = ({
     uploading,
     uploadProgress,
     uploadComplete,
+    totalFilesToUpload,
     error,
   } = useFileUploader({
     fileType,
@@ -50,10 +64,11 @@ export const FileUploader = ({
 
   const message = useMemo(() => {
     if (error) return error;
-    if (uploading) return `Uploading ${uploadProgress} of ${selectedFiles.length}`;
+    if (uploading)
+      return `Uploading ${uploadProgress} of ${totalFilesToUpload}`;
     if (uploadComplete) return 'Upload complete';
     return '';
-  }, [error, uploading, uploadComplete, uploadProgress, selectedFiles]);
+  }, [error, uploading, uploadComplete, uploadProgress, totalFilesToUpload]);
 
   return (
     <div className="fileUploader">
@@ -61,7 +76,7 @@ export const FileUploader = ({
       <FileUploaderButtonsWrap className="fileUploader_btnsWrap">
         <label
           className={`button ${
-            (selectedFiles && selectedFiles.length > 0) || uploading ? 'button-one' : 'button-two'
+            totalFilesToUpload || uploading ? 'button-one' : 'button-two'
           } fileUploader_selectBtn`}
         >
           Select Files
@@ -93,7 +108,10 @@ export const FileUploader = ({
       </FileUploaderButtonsWrap>
       {/* If file type not defined provide option to user */}
       {!fileTypeIn && (
-        <select onChange={(e) => setFileType(e.target.value as EFileType)} value={fileType}>
+        <select
+          onChange={(e) => setFileType(e.target.value as EFileType)}
+          value={fileType}
+        >
           <option value={EFileType.IMAGE}>Image</option>
           <option value={EFileType.DOCUMENT}>Document</option>
         </select>

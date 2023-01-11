@@ -8,7 +8,11 @@ const ENV = process.env.NODE_ENV;
 export interface IUseFileUploaderArgs {
   fileType: EFileType;
   onUpload: (responses: unknown) => void;
-  asyncFileUpload: (data: File, fileType: EFileType, callback: () => void) => Promise<void>;
+  asyncFileUpload: (
+    data: File,
+    fileType: EFileType,
+    callback: () => void
+  ) => Promise<void>;
 }
 
 export interface IUseFileUploaderReturn {
@@ -19,6 +23,7 @@ export interface IUseFileUploaderReturn {
   error: string;
   selectedFiles: IFile[];
   handleFilesSelectedForUpload: (newFiles: FileList | null) => void;
+  totalFilesToUpload: null | number;
 }
 
 const promiseAllInSeries = async (iterable) => {
@@ -40,16 +45,20 @@ export const useFileUploader = ({
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [uploadComplete, setUploadComplete] = useState(false);
+  const [totalFilesToUpload, setTotalFilesToUpload] = useState<number | null>(
+    null
+  );
   // handle upload selected
   useEffect(() => {
-    if (filesToUpload && !uploading) {
+    if (filesToUpload && !uploading && !error) {
       setUploading(true);
       setUploadProgress(filesToUpload.length);
       const promises = filesToUpload.map((file) => async () => {
         if (!file.data) throw Error('Missing file data');
         await asyncFileUpload(file.data, fileType, () => {});
-        setFilesToUpload((prev) => prev?.filter((f) => f.name !== file.name) || null);
-        setSelectedFiles((prev) => prev?.filter((f) => f.name !== file.name) || null);
+        setFilesToUpload(
+          (prev) => prev?.filter((f) => f.name !== file.name) || null
+        );
         setUploadProgress((prev) => prev - 1);
         return `Uploaded ${file.name}`;
       });
@@ -60,6 +69,7 @@ export const useFileUploader = ({
           setFilesToUpload(null);
           setSelectedFiles([]);
           onUpload(responses);
+          setTotalFilesToUpload(filesToUpload.length);
         })
         .catch((e) => {
           setUploadComplete(true);
@@ -74,6 +84,8 @@ export const useFileUploader = ({
   }, [filesToUpload, uploading, fileType, onUpload, uploadProgress]);
 
   const uploadFiles = (fileList: IFile[]) => {
+    setError(null);
+    setTotalFilesToUpload(fileList.length);
     setFilesToUpload(fileList);
   };
 
@@ -97,5 +109,6 @@ export const useFileUploader = ({
     error,
     selectedFiles,
     handleFilesSelectedForUpload,
+    totalFilesToUpload,
   } as IUseFileUploaderReturn;
 };
