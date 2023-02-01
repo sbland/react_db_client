@@ -77,6 +77,8 @@ export interface IColumnManagerProps {
   setColumnWidths: (newWidths: number[]) => void;
   minWidth?: number;
   maxWidth?: number;
+  minTableWidth?: number;
+  fillContainer?: boolean;
   showEdges?: boolean;
   liveDragging?: boolean;
   innerRef?: React.RefObject<HTMLDivElement>;
@@ -154,7 +156,7 @@ export const ColumnWidthManagerRender = ({
           >
             <div
               style={{
-                width: 1,
+                width: 2,
                 position: 'absolute',
                 top: 0,
                 bottom: 0,
@@ -175,7 +177,8 @@ export const ColumnWidthManagerRender = ({
           className="columnResizeCanvas"
           style={{
             display: resizingColumn || debug ? 'inherit' : 'none',
-            background: (debug && 'yellow') || (liveDragging ? 'none' : 'rgba(255,255,255,0.7)'),
+            background:
+              (debug && 'rgba(100,100,0,0.2)') || (liveDragging ? 'none' : 'rgba(255,255,255,0.7)'),
             outline: debug ? '1px solid grey' : 'none',
             width: tableWidth + 100,
           }}
@@ -214,6 +217,7 @@ export const ColumnWidthManager: React.FC<IColumnManagerProps> = ({
   maxWidth = 99999999,
   showEdges = false,
   liveDragging = false,
+  minTableWidth = 0,
   // innerRef,
   widthPadding = 100,
   debug = false,
@@ -230,6 +234,7 @@ export const ColumnWidthManager: React.FC<IColumnManagerProps> = ({
   } = useColumnWidthManager({
     columnWidths,
     setColumnWidths,
+    minTableWidth,
     minWidth,
     maxWidth,
     liveDragging,

@@ -5,7 +5,31 @@ import { useColumnManager } from './column-manager-hook';
 
 export const ColumnManagerHandle = () => {
   const [columnWidths, setColumnWidths] = useState([10, 20, 30]);
-  const ref = React.useRef<HTMLDivElement>(null);
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  return (
+    <>
+      <CompositionWrapDefault width="16rem" height="16rem" horizontal ref={containerRef}>
+        <ColumnWidthManager
+          tableWidth={columnWidths.reduce((acc, v) => acc + v)}
+          columnWidths={columnWidths}
+          setColumnWidths={setColumnWidths}
+          minWidth={5}
+          showEdges
+          debug
+          // ref={ref}
+        />
+      </CompositionWrapDefault>
+      {columnWidths.map((c, i) => (
+        <div key={i} style={{ height: 10, width: c, border: '1px solid red' }} />
+      ))}
+      {columnWidths.reduce((acc, v) => acc + v)}
+    </>
+  );
+};
+
+export const ColumnManagerHandleAutoWidth = () => {
+  const [columnWidths, setColumnWidths] = useState([10, 20, 30]);
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   return (
@@ -74,7 +98,8 @@ export const ColumnManagerHandleLive = () => {
 };
 
 export const ColumnManagerHook = () => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement| null>(null);
+  const [useAutoWidth, setUseAutoWidth] = React.useState(false);
   const [headings, setHeadings] = useState([
     {
       uid: 'a',
@@ -105,15 +130,11 @@ export const ColumnManagerHook = () => {
     });
   };
 
-  const {
-    columnWidths,
-    setColumnWidths,
-    // tableWidth
-  } = useColumnManager({
+  const { columnWidths, setColumnWidths, tableWidth } = useColumnManager({
     headingsDataList: headings,
     minWidth: 100,
     maxWidth: 1000,
-    autoWidth: true,
+    autoWidth: useAutoWidth,
     containerRef: ref,
   });
 
@@ -121,21 +142,25 @@ export const ColumnManagerHook = () => {
     <div>
       <div>
         <button onClick={addHeading}>add heading</button>
+        <button onClick={() => setUseAutoWidth((prev) => !prev)}>
+          {useAutoWidth ? 'AutoWidth on ' : 'AutoWidth off'}
+        </button>
       </div>
       <div>
         Column widths:{' '}
         {columnWidths.map((w, i) => (
           <p key={i}>{w}</p>
         ))}
-        Table Width: {columnWidths.reduce((acc, v) => acc + v)}
+        Table Width: {columnWidths.reduce((acc, v) => acc + v)} or {tableWidth}
       </div>
 
-      <CompositionWrapDefault width="16rem" height="16rem" horizontal ref={ref}>
+      <CompositionWrapDefault width="20rem" height="16rem" horizontal ref={ref}>
         <ColumnWidthManager
           tableWidth={columnWidths.reduce((acc, v) => acc + v)}
           columnWidths={columnWidths}
           setColumnWidths={setColumnWidths}
           minWidth={5}
+          minTableWidth={ref.current?.clientWidth|| 300}
           showEdges
           liveDragging
           debug

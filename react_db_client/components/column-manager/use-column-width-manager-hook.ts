@@ -6,6 +6,7 @@ export interface IUseColumnWidthManagerArgs {
   minWidth?: number;
   maxWidth?: number;
   liveDragging?: boolean;
+  minTableWidth?: number;
 }
 
 export interface IUseColumnWidthManagerReturn {
@@ -23,6 +24,7 @@ export const useColumnWidthManager = ({
   columnWidths,
   setColumnWidths,
   minWidth = 10,
+  minTableWidth = 0,
   maxWidth = 99999999,
   liveDragging = false,
 }: IUseColumnWidthManagerArgs): IUseColumnWidthManagerReturn => {
@@ -60,8 +62,24 @@ export const useColumnWidthManager = ({
   };
 
   const endDragging = () => {
-    setColumnWidths(columnWidthOverrideRef.current);
-    setLiveColumnWidths(columnWidthOverrideRef.current);
+    const newWidths = [...columnWidthOverrideRef.current];
+
+    // Catch if full width is smaller than min width
+    if (minTableWidth) {
+      const newTableWidth = newWidths.reduce((acc, v) => acc + v);
+      if (newTableWidth < minTableWidth) {
+        const otherColumnsWidth = [...newWidths]
+          .slice(0, newWidths.length - 1)
+          .reduce((acc, v) => acc + v);
+        const lastColumnWidth = minTableWidth - otherColumnsWidth;
+        newWidths[newWidths.length - 1] = lastColumnWidth;
+      }
+    }
+
+    setColumnWidths(newWidths);
+    setLiveColumnWidths(newWidths);
+    columnWidthOverrideRef.current = [...newWidths];
+
     setResizingColumn(false);
     setCurrentColumnn(-1);
     setHandlePosition(-1);
