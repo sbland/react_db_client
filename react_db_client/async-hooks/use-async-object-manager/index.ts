@@ -1,7 +1,5 @@
 export { useAsyncObjectManager } from './use-async-object-manager';
-export {
-  IDeleteResponse,
-  ISaveResponse,
+export type {
   IUseAsyncObjectManagerArgs,
   IUseAsyncObjectManagerReturn,
 } from './use-async-object-manager';

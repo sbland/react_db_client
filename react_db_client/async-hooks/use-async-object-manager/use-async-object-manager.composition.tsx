@@ -6,7 +6,7 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 
-import { demoDbData, demoLoadedData, IDemoDoc } from './demo-data';
+import { demoDbData, demoLoadedData, IDemoDoc, inputAdditionalData } from './demo-data';
 
 import {
   IUseAsyncObjectManagerArgs,
@@ -14,6 +14,8 @@ import {
   useAsyncObjectManager,
 } from './use-async-object-manager';
 import cloneDeep from 'lodash/cloneDeep';
+import { JSONStringifySorted } from './test-utils';
+import { Uid } from '@react_db_client/constants.client-types';
 
 const sleep = (delay) =>
   new Promise((res: (value?: any) => void) => {
@@ -22,13 +24,16 @@ const sleep = (delay) =>
     }, delay);
   });
 
-interface IVizProps extends IUseAsyncObjectManagerReturn<IDemoDoc> {}
+interface IVizProps
+  extends IUseAsyncObjectManagerReturn<IDemoDoc>,
+    IUseHandleCallbacksReturn,
+    ReturnType<typeof useDemoDatabase> {}
 
 const Viz = ({
   loadedData,
   saveData,
   updateData,
-  updateFormData,
+  updateField,
   resetData,
   reload,
   deleteObject,
@@ -40,6 +45,15 @@ const Viz = ({
   data,
   uid,
   callCount,
+  dbData,
+  asyncGetDocument,
+  asyncPutDocument,
+  asyncPostDocument,
+  asyncDeleteDocument,
+  saveError,
+  onSavedCallbackResponse,
+  saveErrorCallbackResponse,
+  onDeleteCallbackResponse,
 }: IVizProps) => (
   <div>
     {uid}
@@ -49,24 +63,68 @@ const Viz = ({
     <div>{loadingData ? 'loading data' : 'Loaded data'}</div>
     <div>
       Loaded data:
-      <span>{JSON.stringify(loadedData)}</span>
+      <span data-testid="loadedData">{JSONStringifySorted(loadedData)}</span>
     </div>
     <div>
       data:
-      <span>{JSON.stringify(data)}</span>
+      <span data-testid="data">{JSONStringifySorted(data)}</span>
     </div>
-    <div>Callcount: {callCount}</div>
+    <div>
+      Callcount: <span data-testid="callcount">{callCount}</span>
+    </div>
     <p>
       <label htmlFor="goodbyeInput">Goodbye Input</label>
       <input
         id="goodbyeInput"
-        onChange={(e) => updateFormData('goodbye', e.target.value, false)}
+        onChange={(e) => updateField('goodbye', e.target.value, false)}
         value={data?.goodbye || ''}
       />
     </p>
     <p>
       <button onClick={() => saveData()}>Save</button>
     </p>
+
+    <div>
+      <h1>Db data</h1>
+      <p data-testid="dbData">{JSON.stringify(dbData)}</p>
+    </div>
+    <div>
+      <h1>Db overrides</h1>
+      <p>
+        <label htmlFor="goodbyeInputDb">Goodbye Input Db</label>
+        <input
+          id="goodbyeInputDb"
+          onChange={(e) => {
+            asyncPostDocument('demoCollection', demoLoadedData.uid, {
+              ...dbData.demoCollection[demoLoadedData.uid],
+              goodbye: e.target.value,
+            });
+          }}
+          value={dbData.demoCollection[demoLoadedData.uid]?.goodbye || ''}
+        />
+      </p>
+    </div>
+    <div>
+      <h1>Responses</h1>
+      <div>
+        <p data-testid="saveResponse">{saveResponse?.ok || JSON.stringify(saveResponse)}</p>
+        <p data-testid="saveError">{saveError && saveError.message}</p>
+      </div>
+    </div>
+    <div>
+      <h1>Callbacks</h1>
+      {onSavedCallbackResponse && (
+        <p data-testid="onSavedCallbackResponse">{JSON.stringify(onSavedCallbackResponse)}</p>
+      )}
+      {saveErrorCallbackResponse && (
+        <p data-testid="saveErrorCallbackResponse">
+          {saveErrorCallbackResponse.message || 'UNKNOWN ERROR'}
+        </p>
+      )}
+      {onDeleteCallbackResponse && (
+        <p data-testid="onDeleteCallbackResponse">{JSON.stringify(onDeleteCallbackResponse)}</p>
+      )}
+    </div>
   </div>
 );
 
@@ -74,13 +132,14 @@ const defaultArgs: IUseAsyncObjectManagerArgs<IDemoDoc> = {
   activeUid: demoLoadedData.uid,
   collection: 'demoCollection',
   isNew: false,
-  inputAdditionalData: {},
+  inputAdditionalData,
   schema: 'all',
   loadOnInit: false,
+
   asyncGetDocument: async () => ({} as any),
-  asyncPutDocument: async () => {},
-  asyncPostDocument: async () => {},
-  asyncDeleteDocument: async () => {},
+  asyncPutDocument: async () => ({ ok: true } as any),
+  asyncPostDocument: async () => ({ ok: true } as any),
+  asyncDeleteDocument: async () => ({ ok: true } as any),
 };
 
 const useDemoDatabase = () => {
@@ -91,166 +150,116 @@ const useDemoDatabase = () => {
   };
   const asyncPutDocument = async (collection, uid, objData) => {
     await sleep(100);
+    if (objData.goodbye === 'ERROR') {
+      throw new Error('You asked for an error?');
+    }
     setData((prev) => ({
       ...prev,
-      [collection]: { ...prev[collection], [uid]: { ...prev[collection][uid], ...objData } },
+      [collection]: {
+        ...prev[collection],
+        [uid]: { ...prev[collection][uid], ...objData },
+      },
     }));
+    return { ok: true };
   };
   const asyncPostDocument = async (collection, uid, newData) => {
     await sleep(100);
-    setData((prev) => ({ ...prev, [collection]: { ...prev[collection], [uid]: newData } }));
+    setData((prev) => ({
+      ...prev,
+      [collection]: { ...prev[collection], [uid]: newData },
+    }));
+    return { ok: true };
   };
   const asyncDeleteDocument = async (collection, uid) => {
     await sleep(100);
-    setData((prev) => ({ ...prev, [collection]: { ...prev[collection], [uid]: undefined } }));
+    setData((prev) => ({
+      ...prev,
+      [collection]: { ...prev[collection], [uid]: undefined },
+    }));
+    return { ok: true };
   };
 
-  // console.info(data);
-
   return {
-    data,
+    dbData: data,
     asyncGetDocument,
     asyncPutDocument,
     asyncPostDocument,
     asyncDeleteDocument,
+  };
+};
+
+interface IUseHandleCallbacksReturn {
+  onSavedCallbackResponse: Uid;
+  saveErrorCallbackResponse;
+  onDeleteCallbackResponse;
+}
+const useHandleCallbacks = () => {
+  const [onSavedCallbackResponse, setonSavedCallbackResponse] = React.useState<any>(null);
+  const [saveErrorCallbackResponse, setsaveErrorCallbackResponse] = React.useState(null);
+  const [onDeleteCallbackResponse, setonDeleteCallbackResponse] = React.useState(null);
+
+  const onSavedCallback = (uid: Uid, response: any, combinedData: any) => {
+    setsaveErrorCallbackResponse(null);
+    setonSavedCallbackResponse([uid, response, combinedData]);
+  };
+  const saveErrorCallback = (e) => {
+    setonSavedCallbackResponse(null);
+    setsaveErrorCallbackResponse(e);
+  };
+  const onDeleteCallback = (e) => {
+    setonDeleteCallbackResponse(e);
+  };
+
+  return {
+    onSavedCallback,
+    saveErrorCallback,
+    onDeleteCallback,
+    onSavedCallbackResponse,
+    saveErrorCallbackResponse,
+    onDeleteCallbackResponse,
   };
 };
 
 export const AsyncTest = () => {
-  const {
-    data: dbData,
-    asyncGetDocument,
-    asyncPutDocument,
-    asyncPostDocument,
-    asyncDeleteDocument,
-  } = useDemoDatabase();
-  const {
-    loadedData,
-    saveData,
-    updateData,
-    updateFormData,
-    resetData,
-    reload,
-    deleteObject,
-    saveResponse,
-    deleteResponse,
-    loadingData,
-    savingData,
-    deletingData,
-    data,
-    uid,
-    callCount,
-    hasLoaded,
-    initialData,
-    unsavedChanges,
-    isNew,
-  } = useAsyncObjectManager({
+  const handleCallbacks = useHandleCallbacks();
+  const database = useDemoDatabase();
+  const asyncOut = useAsyncObjectManager({
     ...defaultArgs,
-    asyncGetDocument,
-    asyncPutDocument,
-    asyncPostDocument,
-    asyncDeleteDocument,
+    ...database,
+    ...handleCallbacks,
   });
 
-  return (
-    <>
-      <Viz
-        loadedData={loadedData}
-        saveData={saveData}
-        updateData={updateData}
-        updateFormData={updateFormData}
-        resetData={resetData}
-        reload={reload}
-        deleteObject={deleteObject}
-        saveResponse={saveResponse}
-        deleteResponse={deleteResponse}
-        loadingData={loadingData}
-        savingData={savingData}
-        deletingData={deletingData}
-        data={data}
-        uid={uid}
-        callCount={callCount}
-        initialData={initialData}
-        hasLoaded={hasLoaded}
-        unsavedChanges={unsavedChanges}
-        isNew={isNew}
-      />
-      <div>
-        <h1>Db data</h1>
-        <p data-testid="dbData">{JSON.stringify(dbData)}</p>
-      </div>
-    </>
-  );
+  return <Viz {...asyncOut} {...database} {...handleCallbacks} />;
 };
 
 AsyncTest.waitForReady = async () => {};
 
-export const AsyncTestLoadOnInit = () => {
-  const {
-    data: dbData,
-    asyncGetDocument,
-    asyncPutDocument,
-    asyncPostDocument,
-    asyncDeleteDocument,
-  } = useDemoDatabase();
-  const {
-    loadedData,
-    saveData,
-    updateData,
-    updateFormData,
-    resetData,
-    reload,
-    deleteObject,
-    saveResponse,
-    deleteResponse,
-    loadingData,
-    savingData,
-    deletingData,
-    data,
-    uid,
-    callCount,
-    initialData,
-    hasLoaded,
-    unsavedChanges,
-    isNew,
-  } = useAsyncObjectManager({
+export const AsyncTestNewObject = () => {
+  const handleCallbacks = useHandleCallbacks();
+  const database = useDemoDatabase();
+  const asyncOut = useAsyncObjectManager({
     ...defaultArgs,
-    loadOnInit: true,
-    asyncGetDocument,
-    asyncPutDocument,
-    asyncPostDocument,
-    asyncDeleteDocument,
-  });
-  return (
-    <>
-      <Viz
-        loadedData={loadedData}
-        saveData={saveData}
-        updateData={updateData}
-        updateFormData={updateFormData}
-        resetData={resetData}
-        reload={reload}
-        deleteObject={deleteObject}
-        saveResponse={saveResponse}
-        deleteResponse={deleteResponse}
-        loadingData={loadingData}
-        savingData={savingData}
-        deletingData={deletingData}
-        data={data}
-        uid={uid}
-        callCount={callCount}
-        initialData={initialData}
-        hasLoaded={hasLoaded}
-        unsavedChanges={unsavedChanges}
-        isNew={isNew}
-      />
+    inputAdditionalData,
+    activeUid: undefined,
+    ...database,
+    ...handleCallbacks,
+  } as any); // TODO: Fix types
 
-      <div>
-        <h1>Db data</h1>
-        <p data-testid="dbData">{JSON.stringify(dbData)}</p>
-      </div>
-    </>
-  );
+  return <Viz {...asyncOut} {...database} {...handleCallbacks} />;
+};
+
+AsyncTestNewObject.waitForReady = async () => {};
+
+export const AsyncTestLoadOnInit = () => {
+  const handleCallbacks = useHandleCallbacks();
+  const database = useDemoDatabase();
+  const asyncOut = useAsyncObjectManager({
+    ...defaultArgs,
+    ...database,
+    loadOnInit: true,
+    ...handleCallbacks,
+  }as any); // TODO: Fix types
+  return <Viz {...asyncOut} {...database} {...handleCallbacks} />;
 };
 
 AsyncTestLoadOnInit.waitForReady = async () => {
