@@ -2,7 +2,7 @@ import React from 'react';
 import { screen, render, within } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import { ISearchAndSelectProps, SearchAndSelect } from './search-and-select';
-import { demoResultData, demoHeadingsData, IResultExample, extraResult } from './demo-data';
+import { demoResultData, demoHeadingsData, IResultExample } from './demo-data';
 import * as compositions from './search-and-select.composition';
 
 const searchFunction = jest.fn().mockImplementation(async () => demoResultData);
@@ -10,6 +10,7 @@ const handleSelect = jest.fn();
 Date.now = jest.fn(() => 123); //14.02.2017
 
 const defaultProps: ISearchAndSelectProps<IResultExample> = {
+  id: 'Example SAS',
   searchFunction,
   initialFilters: [],
   availableFilters: {},
@@ -56,14 +57,18 @@ describe('SearchAndSelect', () => {
       test('should return selection when selecting from results', async () => {
         render(<compositions.SearchExampleForTests />);
         await compositions.SearchExampleForTests.waitForReady();
-        const liveUpdateButton = screen.getByRole('button', { name: /Live Update/ });
+        const liveUpdateButton = screen.getByRole('button', {
+          name: /Live Update/,
+        });
         await UserEvent.click(liveUpdateButton);
         await screen.findByText(demoResultData[0].uid);
         const resultsList = screen
           .getAllByRole('list')
           .find((c) => within(c).queryByText(demoResultData[0].name));
         expect(resultsList).toBeInTheDocument();
-        const resultsListItems = within(resultsList as HTMLUListElement).getAllByRole('listitem');
+        const resultsListItems = within(
+          resultsList as HTMLUListElement
+        ).getAllByRole('listitem');
         expect(resultsListItems.length).toBeGreaterThan(0);
         const firstItem = within(resultsListItems[0]).getByRole('button');
         await UserEvent.click(firstItem);
@@ -73,14 +78,18 @@ describe('SearchAndSelect', () => {
       test('should return selection when selecting from results with alt id', async () => {
         render(<compositions.SearchExampleForTestsAltReturnField />);
         await compositions.SearchExampleForTestsAltReturnField.waitForReady();
-        const liveUpdateButton = screen.getByRole('button', { name: /Live Update/ });
+        const liveUpdateButton = screen.getByRole('button', {
+          name: /Live Update/,
+        });
         await UserEvent.click(liveUpdateButton);
         await screen.findByText(demoResultData[0].uid);
         const resultsList = screen
           .getAllByRole('list')
           .find((c) => within(c).queryByText(demoResultData[0].name));
         expect(resultsList).toBeInTheDocument();
-        const resultsListItems = within(resultsList as HTMLUListElement).getAllByRole('listitem');
+        const resultsListItems = within(
+          resultsList as HTMLUListElement
+        ).getAllByRole('listitem');
         expect(resultsListItems.length).toBeGreaterThan(0);
         const firstItem = within(resultsListItems[0]).getByRole('button');
         await UserEvent.click(firstItem);

@@ -54,7 +54,10 @@ const getDefaultValue = (type: EFilterType) => {
 export type TFilterId = Uid;
 export type TFilterOptId = Uid;
 
-export interface IFilterOptionsArgs<VType, IsCustomType extends true | false = false> {
+export interface IFilterOptionsArgs<
+  VType,
+  IsCustomType extends true | false = false
+> {
   uid: TFilterOptId;
   field?: Uid;
   label: string;
@@ -69,7 +72,10 @@ export interface IFilterOptionsArgs<VType, IsCustomType extends true | false = f
 /**
  * Filter Options Objects describe a filter that can be applied.
  */
-export class FilterOption<VType = any, IsCustomType extends true | false = boolean> {
+export class FilterOption<
+  VType = any,
+  IsCustomType extends true | false = boolean
+> {
   uid: TFilterOptId;
   field: Uid;
   label: string;
@@ -111,7 +117,9 @@ export class FilterOption<VType = any, IsCustomType extends true | false = boole
   }
 }
 
-export interface IFilterObjectClassConstructorArgs<IsCustomType extends true | false = false> {
+export interface IFilterObjectClassConstructorArgs<
+  IsCustomType extends true | false = false
+> {
   uid?: TFilterId;
   field?: Uid;
   label?: string;
@@ -125,7 +133,11 @@ export interface IFilterObjectClassConstructorArgs<IsCustomType extends true | f
 /**
  * A FilterObjectClass instance describes a filter that has been applied.
  */
-export class FilterObjectClass<VType = any, IsCustomType extends true | false = boolean> {
+export class FilterObjectClass<
+  VType = any,
+  IsCustomType extends true | false = boolean
+> {
+  isValidFilter?: boolean;
   uid: TFilterId;
   field: Uid;
   value: VType;
@@ -163,7 +175,9 @@ export class FilterObjectClass<VType = any, IsCustomType extends true | false = 
     this.operator = operator || getDefaultComparison(type as EFilterType);
     this.type = type;
     this.filterOptionId = filterOptionId || field;
-    this.isCustomType = (isCustomType as IsCustomType) || (false as IsCustomType);
+    this.isCustomType =
+      (isCustomType as IsCustomType) || (false as IsCustomType);
+    this.isValidFilter = true;
     Object.freeze(this);
   }
 

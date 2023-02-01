@@ -7,25 +7,36 @@ import {
   FilterOption,
   EFilterType,
   EComparisons,
+  Uid,
 } from '@react_db_client/constants.client-types';
-import { StyledSelectList } from '@react_db_client/components.styled-select-list';
-import { FilterId, FilterPanel } from '@react_db_client/components.filter-manager';
+import {
+  StyledSelectList,
+  IStyledSelectListProps,
+} from '@react_db_client/components.styled-select-list';
+import {
+  FilterId,
+  FilterPanel,
+} from '@react_db_client/components.filter-manager';
 import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
 import { Emoji } from '@react_db_client/components.emoji';
-import { SelectionPreview } from '@react_db_client/components.selection-preview';
-
+import {
+  SelectionPreview,
+  ISelectionPreviewProps,
+} from '@react_db_client/components.selection-preview';
 import { useSelectionManager } from './useSelectionManager';
 import { SearchAndSelectStyles } from './styles';
 import { CustomParser, IHeading, TSearchAndSelectSearchFunction } from './lib';
 
-export interface ISearchAndSelectProps<ResultType extends IDocument>
-  extends React.HTMLProps<HTMLInputElement> {
+export interface ISearchAndSelectProps<ResultType extends IDocument> {
+  id: Uid;
   initialFilters?: FilterObjectClass[];
   availableFilters: { [key: string]: FilterOption };
   searchFunction: TSearchAndSelectSearchFunction<ResultType>;
   headings: IHeading[];
   previewHeadings: IHeading[];
-  handleSelect: (data: null | ResultType) => void | ((data: null | ResultType[]) => void);
+  handleSelect: (
+    data: null | ResultType
+  ) => void | ((data: null | ResultType[]) => void);
   selectionOverride?: ResultType[];
   autoUpdate?: boolean;
   allowFilters?: boolean;
@@ -35,19 +46,20 @@ export interface ISearchAndSelectProps<ResultType extends IDocument>
   searchFieldTargetField?: string;
   acceptSelectionBtnText?: string;
   showRefreshBtn?: boolean;
-  limitResultHeight?: number;
   sortBy?: 'uid' | string;
   reverseSort?: boolean;
   reloadKey?: null | number;
   loadOnInit?: boolean;
   noEmptySearch?: boolean;
   liveUpdate?: boolean;
-  autoWidth?: boolean;
   customParsers?: { [key: string]: CustomParser };
   labelField?: 'label' | string;
   allowSelectionPreview?: boolean;
   autoPreview?: boolean;
   initialSearchValue?: string;
+  selectionPreviewProps?: Partial<ISelectionPreviewProps>;
+  styledSelectListProps?: Partial<IStyledSelectListProps<ResultType>>;
+  searchInputProps?: Partial<React.HTMLProps<HTMLInputElement>>;
 }
 export const EmptyArray = [];
 
@@ -60,21 +72,6 @@ export const EmptyArray = [];
  * The searchFunction argument should be an async function with the following sig:
  * async (activeFilters: <Array[FilterType]>, sortBy: String, searchValue: String) => arrayOf({ uid: <String>})
  *
- * @param {*} {
- *   initialFilters,
- *   availableFilters, // same as field data
- *   searchFunction,
- *   headings,
- *   handleSelect, // (returnFieldOnSelect, selectedData) => {}
- *   selectionOverride,
- *   autoUpdate,
- *   forceUpdate,
- *   allowFilters,
- *   allowMultiple,
- *   returnFieldOnSelect, - The field of the selection to pass to handle select. Default 'uid'
- *   reverseSort
- * }
- * @returns
  */
 export const SearchAndSelect = <ResultType extends IDocument>({
   id,
@@ -94,25 +91,27 @@ export const SearchAndSelect = <ResultType extends IDocument>({
   searchFieldTargetField,
   acceptSelectionBtnText,
   showRefreshBtn,
-  limitResultHeight,
   sortBy: sortByOverride,
   reverseSort = false,
   reloadKey,
   loadOnInit,
   noEmptySearch,
   liveUpdate,
-  autoWidth, // Auto calc column width
   customParsers,
   labelField = 'label',
   allowSelectionPreview,
   autoPreview,
   initialSearchValue = '',
-  ...inputProps
+  selectionPreviewProps = {},
+  styledSelectListProps = {},
+  searchInputProps = {},
 }: ISearchAndSelectProps<ResultType>) => {
   const [showPreview, setShowPreview] = useState(autoPreview);
   const [shouldReload, setShouldReload] = useState(loadOnInit);
   const [singleLoad, setSingleLoad] = useState(false);
-  const [activeFilters, setActiveFilters] = useState(initialFilters || EmptyArray);
+  const [activeFilters, setActiveFilters] = useState(
+    initialFilters || EmptyArray
+  );
   const [searchValue, setSearchValue] = useState(initialSearchValue);
   const [sortBy] = useState(sortByOverride);
   const [canLoad, setCanLoad] = useState(loadOnInit); // flag to stop loading on init
@@ -164,8 +163,10 @@ export const SearchAndSelect = <ResultType extends IDocument>({
       setSingleLoad(false);
       if (!noEmptySearch || activeFilters.length > 0 || searchValue) {
         setShouldReload(false);
-        if (searchFieldTargetField) reload([activeFilters, sortBy, null, reverseSort]);
-        if (!searchFieldTargetField) reload([activeFilters, sortBy, searchValue, reverseSort]);
+        if (searchFieldTargetField)
+          reload([activeFilters, sortBy, null, reverseSort]);
+        if (!searchFieldTargetField)
+          reload([activeFilters, sortBy, searchValue, reverseSort]);
       }
     }
   }, [
@@ -196,7 +197,9 @@ export const SearchAndSelect = <ResultType extends IDocument>({
 
     setActiveFilters((prev) => {
       // Remove previous search string filter and create a new one
-      const filtersCopy = prev ? [...prev.filter((f) => f.uid !== 'search')] : [];
+      const filtersCopy = prev
+        ? [...prev.filter((f) => f.uid !== 'search')]
+        : [];
       if (newSearchString && searchFieldTargetField) {
         filtersCopy.push(
           new FilterObjectClass({
@@ -220,7 +223,9 @@ export const SearchAndSelect = <ResultType extends IDocument>({
   };
 
   const handleDeleteFilter = (index) => {
-    setActiveFilters((prevFilterData) => prevFilterData.filter((f, i) => i !== index));
+    setActiveFilters((prevFilterData) =>
+      prevFilterData.filter((f, i) => i !== index)
+    );
     if (!canLoad) setCanLoad(true);
     setShouldReload(true);
   };
@@ -239,7 +244,10 @@ export const SearchAndSelect = <ResultType extends IDocument>({
 
   return (
     <SearchAndSelectStyles>
-      <div className="searchAndSelect sas_wrap sectionWrapper" data-testid={`rdc-sas-${id}`}>
+      <div
+        className="searchAndSelect sas_wrap sectionWrapper"
+        data-testid={`rdc-sas-${id}`}
+      >
         <section
           className="sas_filtersSection"
           style={{
@@ -259,11 +267,16 @@ export const SearchAndSelect = <ResultType extends IDocument>({
           {allowFilters && (
             <FilterPanel
               filterData={activeFilters}
-              addFilter={(newFilterData: FilterObjectClass) => handleAddFilter(newFilterData)}
-              deleteFilter={(filterId: FilterId) => handleDeleteFilter(filterId)}
-              updateFilter={(filterId: FilterId, newFilterData: FilterObjectClass) =>
-                handleUpdateFilter(filterId, newFilterData)
+              addFilter={(newFilterData: FilterObjectClass) =>
+                handleAddFilter(newFilterData)
               }
+              deleteFilter={(filterId: FilterId) =>
+                handleDeleteFilter(filterId)
+              }
+              updateFilter={(
+                filterId: FilterId,
+                newFilterData: FilterObjectClass
+              ) => handleUpdateFilter(filterId, newFilterData)}
               clearFilters={handleClearFilters}
               updateFieldTarget={() => {}} // TODO: Implement this
               updateOperator={() => {}} // TODO: Implement this
@@ -281,6 +294,7 @@ export const SearchAndSelect = <ResultType extends IDocument>({
             >
               <label>Search: </label>
               <input
+                id={String(id)}
                 className="searchField"
                 style={{ flexGrow: 1 }}
                 aria-label="search"
@@ -288,7 +302,7 @@ export const SearchAndSelect = <ResultType extends IDocument>({
                 placeholder="search..."
                 value={searchValue}
                 onChange={handleSearchFieldInput}
-                {...inputProps}
+                {...searchInputProps}
               />
             </div>
           )}
@@ -326,17 +340,18 @@ export const SearchAndSelect = <ResultType extends IDocument>({
                 cursor: loading ? 'progress' : 'default',
               }}
             >
-              <StyledSelectList
+              <StyledSelectList<ResultType>
                 listInput={results || []}
                 headings={headings}
                 handleSelect={
-                  loading ? () => {} : (uid, data) => handleItemSelect(data, returnFieldOnSelect)
+                  loading
+                    ? ((() => {}) as any)
+                    : (uid, data) => handleItemSelect(data, returnFieldOnSelect)
                 }
                 currentSelection={currentSelectionUid}
-                limitHeight={limitResultHeight}
                 selectionField="uid"
-                autoWidth={autoWidth}
-                customParsers={customParsers}
+                customParsers={customParsers || {}}
+                {...styledSelectListProps}
               />
             </div>
             {loading && (
@@ -352,7 +367,9 @@ export const SearchAndSelect = <ResultType extends IDocument>({
                 No results found. Try adjusting the filters above.
               </div>
             )}
-            {!loading && error && <div className="sas_resultsList-empty">{error.message}</div>}
+            {!loading && error && (
+              <div className="sas_resultsList-empty">{error.message}</div>
+            )}
 
             {showPreview && (
               <section className="selectionPreviewWrap">
@@ -360,6 +377,7 @@ export const SearchAndSelect = <ResultType extends IDocument>({
                   headings={previewHeadings}
                   currentSelectionData={currentSelection[0] || {}}
                   customParsers={customParsers}
+                  {...selectionPreviewProps}
                 />
               </section>
             )}
@@ -379,7 +397,11 @@ export const SearchAndSelect = <ResultType extends IDocument>({
               </button>
             )}
 
-            <button type="button" className="button-one selectAllBtn" onClick={selectAll}>
+            <button
+              type="button"
+              className="button-one selectAllBtn"
+              onClick={selectAll}
+            >
               Select All
             </button>
             <button
@@ -398,7 +420,6 @@ export const SearchAndSelect = <ResultType extends IDocument>({
 
 SearchAndSelect.propTypes = {
   searchFunction: PropTypes.func.isRequired,
-  initialFilters: PropTypes.arrayOf(PropTypes.instanceOf(FilterObjectClass)),
   availableFilters: PropTypes.objectOf(
     PropTypes.shape({
       uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,

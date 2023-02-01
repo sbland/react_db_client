@@ -5,12 +5,13 @@ import styled from 'styled-components';
 // TODO: Replace #777771 with primary color
 
 export const StyledListStyle = styled.div`
+  z-index: 1; // Stops the scroll bar jumping on top of popups
   width: 100%;
   display: flex;
   flex-direction: column;
   position: relative;
-  width: '100%',
-  overflow: 'auto',
+  width: 100%;
+  overflow: auto;
   padding-bottom: 0.2rem;
 `;
 

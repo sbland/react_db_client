@@ -15,7 +15,7 @@ import {
 } from './styles';
 import { IHeading, IItem } from './lib';
 
-export interface IStyledSelectList<ItemType extends IItem> {
+export interface IStyledSelectListProps<ItemType extends IItem> {
   listInput: IItem[];
   headings: IHeading[];
   handleSelect: (uid: Uid, data: ItemType) => void;
@@ -26,7 +26,7 @@ export interface IStyledSelectList<ItemType extends IItem> {
   minWidth?: number;
   maxWidth?: number;
   customParsers: { [k: string]: (valIn: any) => any };
-  liveColumnWidthDragging: boolean;
+  liveColumnWidthDragging?: boolean;
 }
 
 /**
@@ -44,7 +44,7 @@ export const StyledSelectList = <ItemType extends IItem>({
   minWidth = 100,
   customParsers,
   liveColumnWidthDragging,
-}: IStyledSelectList<ItemType>) => {
+}: IStyledSelectListProps<ItemType>) => {
   const containerRef = useRef(null);
   const { columnWidths, setColumnWidths, tableWidth } = useColumnManager({
     headingsDataList: headings,
@@ -71,7 +71,8 @@ export const StyledSelectList = <ItemType extends IItem>({
     liveDragging: liveColumnWidthDragging,
   });
 
-  const handleSelect = (selectedUid, selectedData) => handleSelectTop(selectedUid, selectedData);
+  const handleSelect = (selectedUid, selectedData) =>
+    handleSelectTop(selectedUid, selectedData);
 
   const mapHeadings = headings.map((heading, i) => (
     <StyledSelectListHeadingStyle
@@ -94,7 +95,9 @@ export const StyledSelectList = <ItemType extends IItem>({
           tableWidth={tableWidth}
           customParsers={customParsers}
           isSelected={
-            (currentSelection && currentSelection.indexOf(item[selectionField]) >= 0) || false
+            (currentSelection &&
+              currentSelection.indexOf(item[selectionField]) >= 0) ||
+            false
           }
           key={item.uid}
         />
@@ -118,7 +121,9 @@ export const StyledSelectList = <ItemType extends IItem>({
       ref={containerRef}
       data-testid="styledSelectList"
     >
-      <StyledListHeadingStyle style={{ width: tableWidth }}>{mapHeadings}</StyledListHeadingStyle>
+      <StyledListHeadingStyle style={{ width: tableWidth }}>
+        {mapHeadings}
+      </StyledListHeadingStyle>
       <StyledListItems
         limitHeight={limitHeight ? true : false}
         style={{ zIndex: 10, width: tableWidth }}
@@ -160,7 +165,9 @@ StyledSelectList.propTypes = {
   /** func to handle selecting an item (selectedUid, selectedData) => {} */
   handleSelect: PropTypes.func.isRequired,
   /** override current selection */
-  currentSelection: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
+  currentSelection: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  ),
   /** Limit the list height */
   limitHeight: PropTypes.number,
   /** Field to return on selection */

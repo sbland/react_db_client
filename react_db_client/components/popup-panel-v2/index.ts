@@ -1,12 +1,16 @@
 export {
+  defaultState,
+  PopupPanelContext,
+  EPopupRegisterAction,
+  PopupProvider,
+} from './popup-panel-provider';
+export type {
   TPopupId,
   IPopupElementState,
   IRegisterPopupArgs,
   IPopupPanelContext,
   IPopupProviderProps,
-  defaultState,
-  PopupPanelContext,
-  PopupProvider,
+  ActionArgs,
 } from './popup-panel-provider';
 export { PopupPanel, PopupPanelRender } from './popup-panel';
 export type { IPopupPanelProps, IPopupPanelRenderProps } from './popup-panel';

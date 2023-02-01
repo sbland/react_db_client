@@ -2,7 +2,11 @@ export * from './filter-types';
 
 export * from './comparisons';
 
-export { FilterObjectSimpleClass, FilterObjectClass, FilterOption } from './filter-object-class';
+export {
+  FilterObjectSimpleClass,
+  FilterObjectClass,
+  FilterOption,
+} from './filter-object-class';
 
 export * from './file';
 
@@ -19,4 +23,6 @@ export type {
   TAsyncPostDocument,
   TAsyncDeleteDocument,
   TAsyncCopyDocument,
+  IDeleteResponse,
+  ISaveResponse,
 } from './api-queries';

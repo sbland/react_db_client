@@ -1,30 +1,29 @@
-import { filterTypes } from '@react_db_client/constants.client-types';
+import { EFilterType } from '@react_db_client/constants.client-types';
 
 export const defaultProps = {
-    headings: [
-      {
-        uid: 'uid',
-        label: 'Uid',
-        type: filterTypes.text,
-      },
-      {
-        uid: 'label',
-        label: 'Label',
-        type: filterTypes.text,
-      },
-      {
-        uid: 'other',
-        label: 'Other',
-        type: 'other',
-      },
-    ],
-    currentSelectionData: {
-      label: 'Foo',
-      uid: 'foo',
-      other: 'custom',
+  headings: [
+    {
+      uid: 'uid',
+      label: 'Uid',
+      type: EFilterType.text,
     },
-    customParsers: {
-      other: (value) => `{${value}}`,
+    {
+      uid: 'label',
+      label: 'Label',
+      type: EFilterType.text,
     },
-  };
-
+    {
+      uid: 'other',
+      label: 'Other',
+      type: 'other',
+    },
+  ],
+  currentSelectionData: {
+    label: 'Foo',
+    uid: 'foo',
+    other: 'custom',
+  },
+  customParsers: {
+    other: (value) => `{${value}}`,
+  },
+};

@@ -85,11 +85,12 @@ export const PopupPanelContentStyle = styled.div`
   margin-bottom: 1rem;
   position: absolute;
   overflow-y: auto;
-  top: 2rem;
+  top: 0;
   right: 0;
   left: 0;
   bottom: 0;
   padding: 1rem;
+  padding-top: 2rem;
   background: #fafafa;
   section {
     background: #fafafa;

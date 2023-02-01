@@ -1,19 +1,45 @@
-import React, { useLayoutEffect, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  useLayoutEffect,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
-import { FilterObjectClass, EComparisons } from '@react_db_client/constants.client-types';
-import { AsyncRequestError, useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
+import {
+  FilterObjectClass,
+  EComparisons,
+} from '@react_db_client/constants.client-types';
+import {
+  AsyncRequestError,
+  useAsyncRequest,
+} from '@react_db_client/async-hooks.use-async-request';
 import { CustomSelectDropdown } from '@react_db_client/components.custom-select-dropdown';
 import { useCombinedRefs } from '@react_db_client/hooks.use-combined-ref';
 import { EFilterType } from '@react_db_client/constants.client-types';
 
 import { LoadingIcon } from './loading-icon';
-import { DropdownBtn, SasDropLoadingWrap, SasDropWrap, SearchFieldWrapStyle } from './styles';
+import {
+  DropdownBtn,
+  SasDropLoadingWrap,
+  SasDropWrap,
+  SearchFieldWrapStyle,
+} from './styles';
 
-export interface ISearchAndSelectDropdownProps<Item> extends React.HTMLProps<HTMLInputElement> {
+export interface IItem {
+  uid: string | number;
+  label: string;
+}
+
+export type SelectFn<T extends IItem> = (selectedData: T) => void;
+
+export interface ISearchAndSelectDropdownProps<Item extends IItem>
+  extends React.HTMLProps<HTMLInputElement> {
   searchFunction: (filters?: FilterObjectClass[]) => Promise<Item[]>;
   handleSelect: (selectedData: Item) => void;
   debug?: boolean;
-  initialValue?: string | Item;
+  initialValue?: null | string | Item;
   searchFieldTargetField?: string;
   labelField?: string | string[];
   className?: string;
@@ -24,11 +50,6 @@ export interface ISearchAndSelectDropdownProps<Item> extends React.HTMLProps<HTM
   allowMultiple?: boolean;
   valid?: boolean;
   searchFieldRef?: React.MutableRefObject<HTMLInputElement | null> | null;
-}
-
-export interface IItem {
-  uid: string | number;
-  label: string;
 }
 
 // TODO: Provide default search function
@@ -59,24 +80,32 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
     ...additionalProps
   } = props;
   if (allowMultiple) throw Error('Multiple Selection Is Not Implemented');
-  const [searchValue, setSearchValue] = useState<string | null>(null);
+  const [searchValue, setSearchValue] = useState<string | number | null>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [waitForInput, setWaitForInput] = useState(false);
   const firstItemRef = useRef<HTMLElement | null>(null);
   const searchFieldRef = useRef<HTMLInputElement>(null);
-  const searchFieldRefsCombined = useCombinedRefs(searchFieldRefFromParent, searchFieldRef);
-  const searchTimeout: React.MutableRefObject<ReturnType<typeof setTimeout> | null> = useRef(null);
+  const searchFieldRefsCombined = useCombinedRefs(
+    searchFieldRefFromParent,
+    searchFieldRef
+  );
+  const searchTimeout: React.MutableRefObject<ReturnType<
+    typeof setTimeout
+  > | null> = useRef(null);
 
   const [results, setResults] = useState<Item[]>([]);
-  const isTypingTypingRef: React.MutableRefObject<ReturnType<typeof setTimeout> | null> =
-    React.useRef(null);
+  const isTypingTypingRef: React.MutableRefObject<ReturnType<
+    typeof setTimeout
+  > | null> = React.useRef(null);
   const [isTyping, setIsTyping] = React.useState(false);
 
   React.useEffect(() => {
     setSearchValue(
-      initialValue === null || initialValue === undefined || typeof initialValue !== 'object'
+      initialValue === null ||
+        initialValue === undefined ||
+        typeof initialValue !== 'object'
         ? initialValue || ''
         : initialValue[searchFieldTargetField]
     );
@@ -169,7 +198,14 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
       results?.length > 0
     )
       setShowResults(true);
-  }, [isTyping, isFocused, searchValue, allowEmptySearch, results, waitForInput]);
+  }, [
+    isTyping,
+    isFocused,
+    searchValue,
+    allowEmptySearch,
+    results,
+    waitForInput,
+  ]);
 
   useLayoutEffect(() => {
     if (autoFocusOnFirstItem && mappedResults && firstItemRef?.current) {
@@ -225,7 +261,9 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
         if (!selectedData) throw Error('Selected item not found');
         setIsFocused(false);
         setShowResults(false);
-        setSearchValue(selectedData[Array.isArray(labelField) ? labelField[0] : labelField]);
+        setSearchValue(
+          selectedData[Array.isArray(labelField) ? labelField[0] : labelField]
+        );
         goBackToSearchField();
         setWaitForInput(true);
         handleSelect(selectedData);
@@ -356,12 +394,17 @@ SearchAndSelectDropdown.propTypes = {
    */
   handleSelect: PropTypes.func.isRequired,
   /* Initial search field value */
-  initialValue: PropTypes.oneOfType([ValueTypes, PropTypes.arrayOf(ValueTypes)]),
+  initialValue: PropTypes.oneOfType([
+    ValueTypes,
+    PropTypes.arrayOf(ValueTypes),
+  ]),
   /* the target field that the search string applies to */
   searchFieldTargetField: PropTypes.string,
   /* The field in the returned data to use as the label */
-  labelField: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)])
-    .isRequired,
+  labelField: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+  ]).isRequired,
   /* Additional classnames */
   className: PropTypes.string,
   /* Search field placeholder */

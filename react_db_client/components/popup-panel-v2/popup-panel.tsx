@@ -2,7 +2,10 @@ import { Uid } from '@react_db_client/constants.client-types';
 import React, { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
-import { PopupPanelContext } from './popup-panel-provider';
+import {
+  EPopupRegisterAction,
+  PopupPanelContext,
+} from './popup-panel-provider';
 import {
   PopupPanelClosePanelStyle,
   PopupPanelContentPanelStyle,
@@ -67,6 +70,7 @@ export const PopupPanelRender = ({
       <PopupPanelContentPanelStyle
         data-testid={'popupPanel_content'}
         isOpen={open || false}
+        onKeyDown={(e) => e.key === 'Escape' && closePopup(id)}
       >
         {(renderWhenClosed || open) && children}
       </PopupPanelContentPanelStyle>
@@ -84,46 +88,59 @@ export function PopupPanel({
   zIndex,
   onClose,
 }: IPopupPanelProps) {
-  const {
-    registerPopup,
-    deregisterPopup,
-    baseZIndex,
-    popupRegister,
-    closePopup,
-  } = React.useContext(PopupPanelContext);
+  const { dispatchPopupRegister, state } = React.useContext(PopupPanelContext);
+  const { popupRegister, baseZIndex } = state;
 
-  const { open, root, z } = popupRegister[id] || {
-    open: false,
-    root: null,
-    z: null,
-  };
+  const [open, setOpen] = React.useState(false);
+  const [root, setRoot] = React.useState<HTMLElement | null>(null);
+  const [localZ, setLocalZ] = React.useState(-1);
 
   React.useEffect(() => {
-    registerPopup({
-      id,
-      root: popupRoot,
-      deleteRootOnUnmount,
-      z: zIndex,
-      onCloseCallback: onClose,
+    dispatchPopupRegister({
+      type: EPopupRegisterAction.REGISTER_POPUP,
+      args: {
+        id,
+        root: popupRoot,
+        deleteRootOnUnmount,
+        z: zIndex,
+      },
     });
-  }, [id, popupRoot, zIndex, onClose, registerPopup]);
+  }, [id, popupRoot, zIndex, dispatchPopupRegister, deleteRootOnUnmount]);
+
+  React.useEffect(() => {
+    if (popupRegister[id]?.open && !open) {
+      setRoot(popupRegister[id].root || null);
+      setLocalZ(popupRegister[id].z || -1);
+      setOpen(true);
+    }
+    if (!popupRegister[id]?.open && open) {
+      if (onClose) onClose();
+      setOpen(false);
+    }
+  }, [id, open, popupRegister, dispatchPopupRegister, onClose]);
 
   React.useEffect(() => {
     return function cleanup() {
-      deregisterPopup(id);
+      dispatchPopupRegister({
+        type: EPopupRegisterAction.DEREGISTER_POPUP,
+        args: id,
+      });
     };
-  }, []);
+  }, [dispatchPopupRegister]);
 
   const handleClose = React.useCallback(() => {
-    closePopup(id);
-  }, [id, closePopup]);
+    dispatchPopupRegister({
+      type: EPopupRegisterAction.CLOSE_POPUP,
+      args: id,
+    });
+  }, [id, dispatchPopupRegister]);
 
   if (!root) return <></>;
   return (
     <PopupPanelRender
       id={id}
       baseZIndex={baseZIndex}
-      z={z}
+      z={localZ}
       open={open}
       closePopup={handleClose}
       renderWhenClosed={renderWhenClosed}

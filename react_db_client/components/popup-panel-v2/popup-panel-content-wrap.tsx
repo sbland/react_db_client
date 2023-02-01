@@ -1,6 +1,9 @@
 import { Uid } from '@react_db_client/constants.client-types';
 import React from 'react';
-import { PopupPanelContext } from './popup-panel-provider';
+import {
+  EPopupRegisterAction,
+  PopupPanelContext,
+} from './popup-panel-provider';
 import {
   PopupPanelCloseBtn,
   PopupPanelContentStyle,
@@ -26,12 +29,15 @@ export const PopupContentWrap = ({
   title,
   handleClose: handleCloseOverride,
 }: IPopupContentWrapProps) => {
-  const { closePopup } = React.useContext(PopupPanelContext);
+  const { dispatchPopupRegister } = React.useContext(PopupPanelContext);
 
   const handleClose =
     handleCloseOverride ||
     (() => {
-      closePopup(id);
+      dispatchPopupRegister({
+        type: EPopupRegisterAction.CLOSE_POPUP,
+        args: id,
+      });
     });
 
   return (

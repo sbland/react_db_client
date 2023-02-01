@@ -1,4 +1,8 @@
-import { EFilterType, filterTypes, Uid } from '@react_db_client/constants.client-types';
+import {
+  EFilterType,
+  ILabelled,
+  Uid,
+} from '@react_db_client/constants.client-types';
 import { switchF, tryF } from '@react_db_client/helpers.func-tools';
 
 /**
@@ -7,7 +11,11 @@ import { switchF, tryF } from '@react_db_client/helpers.func-tools';
  * @param {number} step decimal number to limit decimal places
  * @returns number
  */
-export const formatValue = (v: number, step: number = 0.01, strict: boolean = false): number => {
+export const formatValue = (
+  v: number,
+  step: number = 0.01,
+  strict: boolean = false
+): number => {
   const [whole] = v.toFixed(100).split('.');
   if (!Number(v) && !strict) return 0;
   // match accuracy of step size
@@ -18,7 +26,8 @@ export const formatValue = (v: number, step: number = 0.01, strict: boolean = fa
     // Has no decimal places
     const accuracy = step.toString().length;
     const vLength = whole.length;
-    if (vLength >= step.toString().length) return Math.round(Number(whole) / step) * step;
+    if (vLength >= step.toString().length)
+      return Math.round(Number(whole) / step) * step;
     const vSuff = v
       .toString()
       .split('.')[0]
@@ -35,7 +44,10 @@ export const formatValue = (v: number, step: number = 0.01, strict: boolean = fa
  * @param {object} data data with default values and type
  * @returns
  */
-export const getDefaultValue = <T extends any>(data: { defaultValue?: T; type?: EFilterType }): T | '' => {
+export const getDefaultValue = <T extends any>(data: {
+  defaultValue?: T;
+  type?: EFilterType;
+}): T | '' => {
   if (data.defaultValue !== undefined) return data.defaultValue;
   if (data.type === EFilterType.number) return 0 as T;
   if (data.type === EFilterType.bool) return false as T;
@@ -47,7 +59,9 @@ export const sanitizeNumber = (
   cellData: any,
   columnData: { step?: number } = {}
 ): number | 'Invalid' =>
-  !Number.isNaN(Number(cellData)) ? formatValue(Number(cellData), columnData.step) : 'Invalid';
+  !Number.isNaN(Number(cellData))
+    ? formatValue(Number(cellData), columnData.step)
+    : 'Invalid';
 
 export const sanitizeCellData = <T>(
   cellData: any,
@@ -64,11 +78,15 @@ export const sanitizeCellData = <T>(
     {
       // TODO: textLong
       object: () =>
-        cellData !== null ? cellData.label || cellData.name : getDefaultValue(columnData),
+        cellData !== null
+          ? cellData.label || cellData.name
+          : getDefaultValue(columnData),
       number: () => sanitizeNumber(cellData, columnData),
       string: () =>
-        columnData.type === filterTypes.number ? sanitizeNumber(cellData, columnData) : cellData,
-      undefined: () => (columnData.type === filterTypes.number ? 0 : ''),
+        columnData.type === EFilterType.number
+          ? sanitizeNumber(cellData, columnData)
+          : cellData,
+      undefined: () => (columnData.type === EFilterType.number ? 0 : ''),
     },
     () => cellData
   );
@@ -103,9 +121,9 @@ export const stringifyNumber = (
   return `${whole}.${formattedPoint}`;
 };
 
-export const stringifyText = (data: null | string, _metaData) =>
+export const stringifyText = (data: null | string) =>
   data === null || data === undefined ? '' : data;
-export const stringifyBool = (data: boolean, _metaData) => (data ? 'Yes' : 'No');
+export const stringifyBool = (data: boolean) => (data ? 'Yes' : 'No');
 export const stringifyDict = (
   data: { label?: string; name?: string },
   metaData: { labelField?: string }
@@ -114,6 +132,15 @@ export const stringifyDict = (
   if (metaData.labelField) return data[metaData.labelField] || '';
   return data.label || data.name || 'Invalid Object';
 };
+export const stringifyLabelledObject = (data: null | ILabelled, _metaData) => {
+  return data ? data.label || 'MISSING LABEL' : '';
+};
+
+export const stringifyList =
+  (stringifyFn) => (data: null | string[], metaData) =>
+    data === null || data === undefined
+      ? ''
+      : data.map((v) => stringifyFn(v, metaData)).join(',');
 
 export const stringifyDate = (data: Date, _metaData) =>
   tryF(
@@ -162,13 +189,16 @@ export const stringifyData = (
       [EFilterType.textLong]: () => stringifyText,
       [EFilterType.button]: () => stringifyText,
       [EFilterType.select]: () => stringifyText, // TODO: Should this use label instead of just data?
+      [EFilterType.selectMulti]: () => stringifyList(stringifyLabelledObject), // TODO: Should this use label instead of just data?
       [EFilterType.number]: () => stringifyNumber,
       [EFilterType.bool]: () => stringifyBool,
       [EFilterType.toggle]: () => stringifyBool,
       [EFilterType.dict]: () => stringifyDict,
       [EFilterType.date]: () => stringifyDate,
       [EFilterType.image]: () => stringifyImage,
-      [EFilterType.reference]: () => stringifyDict,
+      [EFilterType.file]: () => stringifyLabelledObject,
+      [EFilterType.fileMultiple]: () => stringifyList(stringifyLabelledObject),
+      [EFilterType.reference]: () => stringifyLabelledObject,
       link: () => stringifyText,
       /* Note: Custom parsers override the above defaults */
       ...Object.entries(customParsers).reduce((acc, [key, customParser]) => {
@@ -177,7 +207,10 @@ export const stringifyData = (
       }, {}),
     },
     () => {
-      if (strict) throw Error(`Missing parser for ${metaData.uid} of type ${metaData.type}`);
+      if (strict)
+        throw Error(
+          `Missing parser for ${metaData.uid} of type ${metaData.type}`
+        );
       return (d) => d;
     }
   );

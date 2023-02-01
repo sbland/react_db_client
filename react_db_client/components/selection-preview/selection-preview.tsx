@@ -21,12 +21,14 @@ export interface ISelectionPreviewProps {
   headings: IHeading[];
   currentSelectionData: { [id: string]: any };
   customParsers?: { [key: string]: CustomParser };
+  listStyleOverride?: Partial<React.CSSProperties>;
 }
 
 export const SelectionPreview = ({
   headings,
   currentSelectionData,
   customParsers,
+  listStyleOverride = {},
 }: ISelectionPreviewProps) => {
   const cellData = currentSelectionData
     ? headings.map((heading) => {
@@ -40,7 +42,7 @@ export const SelectionPreview = ({
     : [];
   return (
     <div className="flexHoriz">
-      <SelectionPreviewList>
+      <SelectionPreviewList style={{ ...listStyleOverride }}>
         {cellData.map(([uid, label, value]) => {
           return (
             <SelectionPreviewListItem key={uid}>
