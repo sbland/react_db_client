@@ -6,8 +6,7 @@ import {
 } from '@react_db_client/components.styled-select-list';
 import {
   EFileType,
-  filterTypes,
-  IFile,
+  EFilterType,
 } from '@react_db_client/constants.client-types';
 
 import { useFileUploader } from './file-uploader-hook';
@@ -27,7 +26,7 @@ const fileTypesToInputAccept = (fileType: EFileType) => {
 };
 
 const fileListHeadings: IHeading[] = [
-  { uid: 'name', label: 'Name', type: filterTypes.text },
+  { uid: 'name', label: 'Name', type: EFilterType.text },
 ];
 
 export interface IFileUploaderProps {
