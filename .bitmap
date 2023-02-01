@@ -9,6 +9,12 @@
  */
 
 {
+    "async-hooks/use-async-auth-hook": {
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.4",
+        "mainFile": "index.ts",
+        "rootDir": "react_db_client/async-hooks/use-async-auth-hook"
+    },
     "async-hooks/use-async-object-manager": {
         "scope": "samnbuk.react_db_client",
         "version": "0.2.27",
