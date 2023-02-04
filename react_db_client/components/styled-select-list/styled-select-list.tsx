@@ -4,6 +4,7 @@ import {
   useColumnManager,
   useColumnWidthManager,
   ColumnWidthManagerRender,
+  IColumnManagerProps,
 } from '@react_db_client/components.column-manager';
 import { Uid } from '@react_db_client/constants.client-types';
 import { ListItem } from './list-item';
@@ -27,6 +28,7 @@ export interface IStyledSelectListProps<ItemType extends IItem> {
   maxWidth?: number;
   customParsers: { [k: string]: (valIn: any) => any };
   liveColumnWidthDragging?: boolean;
+  columnWidthManagerProps?: Partial<IColumnManagerProps>;
 }
 
 /**
@@ -44,6 +46,7 @@ export const StyledSelectList = <ItemType extends IItem>({
   minWidth = 100,
   customParsers,
   liveColumnWidthDragging,
+  columnWidthManagerProps = {},
 }: IStyledSelectListProps<ItemType>) => {
   const containerRef = useRef(null);
   const { columnWidths, setColumnWidths, tableWidth } = useColumnManager({
@@ -71,8 +74,7 @@ export const StyledSelectList = <ItemType extends IItem>({
     liveDragging: liveColumnWidthDragging,
   });
 
-  const handleSelect = (selectedUid, selectedData) =>
-    handleSelectTop(selectedUid, selectedData);
+  const handleSelect = (selectedUid, selectedData) => handleSelectTop(selectedUid, selectedData);
 
   const mapHeadings = headings.map((heading, i) => (
     <StyledSelectListHeadingStyle
@@ -95,9 +97,7 @@ export const StyledSelectList = <ItemType extends IItem>({
           tableWidth={tableWidth}
           customParsers={customParsers}
           isSelected={
-            (currentSelection &&
-              currentSelection.indexOf(item[selectionField]) >= 0) ||
-            false
+            (currentSelection && currentSelection.indexOf(item[selectionField]) >= 0) || false
           }
           key={item.uid}
         />
@@ -121,9 +121,7 @@ export const StyledSelectList = <ItemType extends IItem>({
       ref={containerRef}
       data-testid="styledSelectList"
     >
-      <StyledListHeadingStyle style={{ width: tableWidth }}>
-        {mapHeadings}
-      </StyledListHeadingStyle>
+      <StyledListHeadingStyle style={{ width: tableWidth }}>{mapHeadings}</StyledListHeadingStyle>
       <StyledListItems
         limitHeight={limitHeight ? true : false}
         style={{ zIndex: 10, width: tableWidth }}
@@ -140,6 +138,7 @@ export const StyledSelectList = <ItemType extends IItem>({
         endDragging={endDragging}
         handlePosition={handlePosition}
         tableWidth={tableWidth}
+        {...columnWidthManagerProps}
       />
     </StyledListStyle>
   );
@@ -165,9 +164,7 @@ StyledSelectList.propTypes = {
   /** func to handle selecting an item (selectedUid, selectedData) => {} */
   handleSelect: PropTypes.func.isRequired,
   /** override current selection */
-  currentSelection: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-  ),
+  currentSelection: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
   /** Limit the list height */
   limitHeight: PropTypes.number,
   /** Field to return on selection */

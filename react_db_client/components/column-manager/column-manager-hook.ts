@@ -75,17 +75,11 @@ export const useColumnManager = ({
   // -- Column widths state
   const [columnWidths, setColumnWidths] = useState(() => resetColumnWidths(headingsDataList));
 
-  // React.useEffect(() => {
-  //   if (autoWidth && containerRef?.current) {
-  //     setColumnWidths(resetColumnWidths(headingsDataList));
-  //   }
-  // }, [containerRef, autoWidth]);
-
   React.useLayoutEffect(() => {
     if (autoWidth && containerRef?.current) {
       setColumnWidths(resetColumnWidths(headingsDataList));
     }
-  }, [containerRef, autoWidth]);
+  }, [containerRef, autoWidth, resetColumnWidths]);
 
   useEffect(() => {
     if (headingsDataList.length !== columnCount) {
