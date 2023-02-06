@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import ReactDOM from 'react-dom';
 import cloneDeep from 'lodash/cloneDeep';
 import PropTypes from 'prop-types';
+import { Uid } from '@react_db_client/constants.client-types';
 import { wrapWithErrorBoundary } from '@react_db_client/helpers.error-handling';
 import { FilterObjectClass } from '@react_db_client/constants.client-types';
 import { SelectionPreview } from '@react_db_client/components.selection-preview';
@@ -9,14 +10,44 @@ import { SelectionPreview } from '@react_db_client/components.selection-preview'
 import useColumnVisabilityManager from './TableColumnManager/ColumnVisabilityManager';
 import DataTableUi from './DataTableUi';
 import useDataManager from './DataManager/DataManager';
-import DataTableConfigConnector, { DataTableContext } from './DataTableConfig/DataTableConfig';
+import DataTableConfigConnector, {
+  DataTableContext,
+  IDataTableConfig,
+} from './DataTableConfig/DataTableConfig';
 import DataTableTopMenu from './DataTableTopMenu/DataTableTopMenu';
 import DataTableBottomMenu from './DataTableBottomMenu/DataTableBottomMenu';
 import useConditionalStylingManager from './ConditionalStylingManager/ConditionalStylingManager';
 import { useSelectionManager } from './SelectionManagerHook';
 import { RowErrors } from './errorTypes';
 
-export const DataTableWrapperFunc = ({
+export interface IDataTableWrapperProps {
+  id: Uid;
+  data;
+  headings;
+  previewHeadings?;
+  sortByOverride?;
+  filterOverride?;
+  saveData?;
+  updateTotals?;
+  updatedDataHook?;
+  autoSave?;
+  styleRule?;
+  styleOverride?;
+  errorStyleOverride?;
+  maxTableHeight?;
+  maxTableWidth?;
+  bottomMenuRefOverride?;
+  onSelectionChange?;
+  selectionOverride?;
+  customFieldComponents?;
+  customFilters?;
+  customFiltersComponents?;
+  customPreviewParsers?;
+  disableEditing?;
+}
+
+export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
+  id,
   data,
   headings,
   previewHeadings,
@@ -54,7 +85,7 @@ export const DataTableWrapperFunc = ({
   const [sortBy, setSortBy] = useState(sortByOverride);
   const [autoFilter, setAutoFilter] = useState(true);
   const [autoSort, setAutoSort] = useState(true);
-  const [bottomMenuRef, setBottomMenuRef] = useState(null);
+  const [bottomMenuRef, setBottomMenuRef] = useState<HTMLDivElement | null>(null);
   const [showSelectionPreview, setShowSelectionPreview] = useState(autoShowPreview);
 
   useEffect(() => {
@@ -182,8 +213,8 @@ export const DataTableWrapperFunc = ({
   }, [currentSelectionIds, data]);
 
   return (
-    <div className={className}>
-      {/* {showTopMenu && (
+    <div className={className} data-testid={`dataTableWrapper-${id}`}>
+      {showTopMenu && (
         <DataTableTopMenu
           hiddenColumnIds={hiddenColumnIds}
           clearFilters={handleClearFilters}
@@ -203,7 +234,7 @@ export const DataTableWrapperFunc = ({
           customFiltersComponents={customFiltersComponents}
           invalidRowsMessages={invalidRowsMessages}
         />
-      )} */}
+      )}
       {showTable && (
         <DataTableUi
           headingsData={visableColumns}
@@ -237,7 +268,7 @@ export const DataTableWrapperFunc = ({
             handleSaveBtnClick={handleSaveBtnClick}
             handleResetBtnClick={handleResetBtnClick}
             handleAddRowBtnClick={handleAddRowBtnClick}
-            currentSelectionIds={currentSelectionIds}
+            // currentSelectionIds={currentSelectionIds}
             handleShowPreviewBtnClick={() => setShowSelectionPreview((prev) => !prev)}
             previewShown={showSelectionPreview}
           />,
@@ -248,7 +279,7 @@ export const DataTableWrapperFunc = ({
           headings={previewHeadings}
           currentSelectionData={currentSelection}
           customParsers={customPreviewParsers}
-          maxHeight={200}
+          // maxHeight={200}
         />
       )}
     </div>
@@ -279,6 +310,7 @@ DataTableWrapperFunc.propTypes = {
       natural: PropTypes.bool,
     })
   ),
+  // @ts-ignore
   config: PropTypes.shape({}),
   sortByOverride: PropTypes.shape({
     heading: PropTypes.string.isRequired,
@@ -310,6 +342,7 @@ DataTableWrapperFunc.propTypes = {
 
 DataTableWrapperFunc.defaultProps = {
   previewHeadings: [],
+  // @ts-ignore
   config: {},
   sortByOverride: null,
   filterOverride: [],
@@ -339,8 +372,16 @@ DataTableWrapperFunc.defaultProps = {
   disableEditing: false,
 };
 
-const DataTableWrapper = DataTableConfigConnector({})(
-  wrapWithErrorBoundary(DataTableWrapperFunc, 'Data Table failed to render', () => {})
-);
+const DataTableWrapper: React.FC<IDataTableWrapperProps & { config: Partial<IDataTableConfig> }> =
+  DataTableConfigConnector({})(
+    wrapWithErrorBoundary(
+      DataTableWrapperFunc,
+      'Data Table failed to render',
+      () => {},
+      null,
+      null,
+      null
+    )
+  ) as React.FC<IDataTableWrapperProps & { config: Partial<IDataTableConfig> }>;
 
 export default DataTableWrapper;
