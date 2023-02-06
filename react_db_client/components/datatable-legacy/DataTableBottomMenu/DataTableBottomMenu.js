@@ -24,7 +24,7 @@ const DataTableBottomMenu = ({
             onClick={handleSaveBtnClick}
             style={{ width: '2rem' }}
           >
-            {<Emoji emoj="💾" label="Save" />}
+            <Emoji emoj="💾" label="Save" />
           </button>
           <button
             type="button"
@@ -33,7 +33,7 @@ const DataTableBottomMenu = ({
             onClick={handleResetBtnClick}
             style={{ width: '2rem' }}
           >
-            <Emoji emoj="❌" />
+            <Emoji emoj="❌" label="Reset" />
           </button>
         </>
       )}
