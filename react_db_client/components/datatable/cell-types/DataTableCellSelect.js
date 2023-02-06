@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CustomSelectDropdown } from '@react_db_client/components.custom-select-dropdown';
+import { getRoot } from '@react_db_client/helpers.get-root';
 import { DefaultCellInnerStyle } from './style';
-import { useCallback } from 'react';
 
 /**
  * Data Cell Select
@@ -13,31 +13,48 @@ import { useCallback } from 'react';
  * }
  * @returns
  */
-export const DataTableCellSelect = ({
-  columnData: { options } = {},
+const DataTableCellSelect = ({
+  columnData: { options },
   cellData,
   acceptValue,
   resetValue,
   focused,
   editMode,
 }) => {
-  const acceptValueLocal = useCallback(
-    (v) => {
-      acceptValue(v);
-    },
-    [acceptValue]
-  );
+  const targetRef = React.useRef(null);
+  const [position, setPosition] = React.useState({ top: 0, left: 0 });
 
-  const rejectValue = useCallback(() => {
+  const acceptValueLocal = (v) => {
+    acceptValue(v);
+  };
+
+  const rejectValue = () => {
     resetValue();
-  }, [resetValue]);
+  };
+  const containerRef = getRoot('selectContainer');
 
-  if (!options) return <div>MISSING OPTIONS</div>;
+  useEffect(() => {
+    if (targetRef.current) {
+      /* Setup the floating dropdown popup */
+      const targetPos = targetRef.current.getBoundingClientRect();
+      const containerPos = containerRef.getBoundingClientRect();
+
+      const dropDownPos = {
+        top: targetPos.y - containerPos.y + targetPos.height,
+        left: targetPos.x - containerPos.x,
+      };
+      containerRef.style.cssText = `
+        position: relative;
+      `;
+
+      setPosition(dropDownPos);
+    }
+  }, [containerRef]);
 
   const displayValue = cellData && options && options.find((opt) => opt.uid === cellData)?.label;
 
   return (
-    <DefaultCellInnerStyle className="dataTableCellData dataTableCellData-select">
+    <DefaultCellInnerStyle className="dataTableCellData dataTableCellData-select" ref={targetRef}>
       {/* TODO: Implement search dropdown */}
       {/* <div
         style={{
@@ -64,6 +81,8 @@ export const DataTableCellSelect = ({
         handleClose={() => rejectValue()}
         goBackToSearchField={() => rejectValue()}
         position="absolute"
+        absolutePosition={position}
+        containerRef={containerRef}
       />
     </DefaultCellInnerStyle>
   );

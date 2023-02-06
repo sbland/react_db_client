@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CustomSelectDropdown } from '@react_db_client/components.custom-select-dropdown';
-import { getRoot } from '@react_db_client/helpers.html-helpers';
+import { getRoot } from '@react_db_client/helpers.get-root';
+import { DefaultCellInnerStyle } from './style';
 
 /**
  * Data Cell Select
@@ -20,6 +21,9 @@ const DataTableCellSelect = ({
   focused,
   editMode,
 }) => {
+  const targetRef = React.useRef(null);
+  const [position, setPosition] = React.useState({ top: 0, left: 0 });
+
   const acceptValueLocal = (v) => {
     acceptValue(v);
   };
@@ -27,12 +31,30 @@ const DataTableCellSelect = ({
   const rejectValue = () => {
     resetValue();
   };
+  const containerRef = getRoot('selectContainer');
+
+  useEffect(() => {
+    if (targetRef.current) {
+      /* Setup the floating dropdown popup */
+      const targetPos = targetRef.current.getBoundingClientRect();
+      const containerPos = containerRef.getBoundingClientRect();
+
+      const dropDownPos = {
+        top: targetPos.y - containerPos.y + targetPos.height,
+        left: targetPos.x - containerPos.x,
+      };
+      containerRef.style.cssText = `
+        position: relative;
+      `;
+
+      setPosition(dropDownPos);
+    }
+  }, [containerRef]);
 
   const displayValue = cellData && options && options.find((opt) => opt.uid === cellData)?.label;
 
-  const containerRef = getRoot('selectContainer');
   return (
-    <div className="dataTableCellData dataTableCellData-select">
+    <DefaultCellInnerStyle className="dataTableCellData dataTableCellData-select" ref={targetRef}>
       {/* TODO: Implement search dropdown */}
       {/* <div
         style={{
@@ -58,9 +80,11 @@ const DataTableCellSelect = ({
         firstItemRef={{ current: {} }}
         handleClose={() => rejectValue()}
         goBackToSearchField={() => rejectValue()}
+        position="absolute"
+        absolutePosition={position}
         containerRef={containerRef}
       />
-    </div>
+    </DefaultCellInnerStyle>
   );
 };
 
