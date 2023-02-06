@@ -4,7 +4,7 @@ import { Emoji } from '@react_db_client/components.emoji';
 
 import { DataTableContext } from '../DataTableConfig/DataTableConfig';
 
-const DataTableBottomMenu = ({
+export const DataTableBottomMenu = ({
   unsavedChanges,
   handleSaveBtnClick,
   handleResetBtnClick,

@@ -15,7 +15,13 @@ import DataTableCellNumber from './CellTypes/DataTableCellNumber';
 
 const DEMO_TABLE_DATA = Object.values(demoTableData);
 
-const DEMO_CONFIG = { ...dataTableDefaultConfig, allowSelection: true };
+const DEMO_CONFIG = {
+  ...dataTableDefaultConfig,
+  allowSelection: true,
+  // allowFilters: false,
+  // allowHiddenColumns: false,
+  // allowSelection: false,
+};
 const DEMO_SORT_BY = { heading: 'count', direction: 1, map: null };
 
 const DEMO_HEADINGS = demoHeadingsData;
@@ -26,7 +32,7 @@ const customFieldComponents = {
 const customFilters = {
   custom: customFilter,
 };
-const customFiltersComponents = { custom: () => "CUSTOM" };
+const customFiltersComponents = { custom: () => 'CUSTOM' };
 // const customFiltersComponents = { custom: FilterTypes.FilterNumber };
 
 const defaultProps = {

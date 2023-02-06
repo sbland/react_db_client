@@ -52,7 +52,7 @@ export const FiltersList = ({
     filterData &&
     Array.isArray(filterData) &&
     filterData.map((filter, i) => {
-      const filterTypeComponent = filterElements[i];
+      const filterTypeComponent = filterElements[i] || <>MISSING COMPONENT FOR {filter.field}</>;
       const { field: fieldId, type } = filter;
       const { operators = null } = fieldId != null ? fieldsData[fieldId] || {} : {};
       const comparisonOptions: EComparisons[] =
@@ -117,6 +117,7 @@ export const FiltersList = ({
         </FilterListItemStyle>
       );
     });
+
   return (
     <div>
       <FilterListHeadingsStyle>

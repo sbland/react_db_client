@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 let hidePanelTimeout = null;
 const HIDETIME = 300;
 
-const HiddenColumnsPanel = ({
+export const HiddenColumnsPanel = ({
   headings,
   hiddenColumnIds,
   handleUnhideColumn,

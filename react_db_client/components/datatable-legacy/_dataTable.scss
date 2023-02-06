@@ -59,12 +59,14 @@ $filterPanelsZindex: 5;
   // }
 }
 
+
+
 .dataTable_rowsInsideWrap,
 .dataTable_headingsInsideWrap,
 .dataTable_totalsInsideWrap,
 .dataTable_newRowInsideWrap {
   display: flex;
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
   position: relative;
   box-shadow: 0 0.1rem 5px 5px rgba(0, 0, 0, 0.1);
 }

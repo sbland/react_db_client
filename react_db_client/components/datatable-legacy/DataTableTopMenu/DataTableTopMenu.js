@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { FilterManager } from '@react_db_client/components.filter-manager';
+import { FilterPanel } from '@react_db_client/components.filter-manager';
 import { FilterObjectClass } from '@react_db_client/constants.client-types';
 
 import { arrayToObj } from '../Helpers/objectArrayHelpers';
-import HiddenColumnsPanel from '../HiddenColumnsPanel/HiddenColumnsPanel';
+import { HiddenColumnsPanel } from '../HiddenColumnsPanel/HiddenColumnsPanel';
 import { DataTableContext } from '../DataTableConfig/DataTableConfig';
 
-const DataTableTopMenu = ({
+export const DataTableTopMenu = ({
   hiddenColumnIds,
   addFilter,
   deleteFilter,
@@ -34,7 +34,7 @@ const DataTableTopMenu = ({
       {allowFilters && (
         <>
           {/* TODO: This should be popup panel */}
-          <FilterManager
+          <FilterPanel
             filterData={filterData}
             clearFilters={clearFilters}
             addFilter={(newFilterData) => addFilter(newFilterData)}

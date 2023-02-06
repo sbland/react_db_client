@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CustomSelectDropdown } from '@react_db_client/components.custom-select-dropdown';
-import { getRoot } from '@react_db_client/helpers.get-root';
+import { getRoot } from '@react_db_client/helpers.html-helpers';
 import { DefaultCellInnerStyle } from './style';
 
 /**
@@ -33,7 +33,7 @@ const DataTableCellSelect = ({
   };
   const containerRef = getRoot('selectContainer');
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (targetRef.current) {
       /* Setup the floating dropdown popup */
       const targetPos = targetRef.current.getBoundingClientRect();

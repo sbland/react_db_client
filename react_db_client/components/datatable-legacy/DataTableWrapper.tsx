@@ -14,8 +14,8 @@ import DataTableConfigConnector, {
   DataTableContext,
   IDataTableConfig,
 } from './DataTableConfig/DataTableConfig';
-import DataTableTopMenu from './DataTableTopMenu/DataTableTopMenu';
-import DataTableBottomMenu from './DataTableBottomMenu/DataTableBottomMenu';
+import { DataTableTopMenu } from './DataTableTopMenu/DataTableTopMenu';
+import { DataTableBottomMenu } from './DataTableBottomMenu/DataTableBottomMenu';
 import useConditionalStylingManager from './ConditionalStylingManager/ConditionalStylingManager';
 import { useSelectionManager } from './SelectionManagerHook';
 import { RowErrors } from './errorTypes';

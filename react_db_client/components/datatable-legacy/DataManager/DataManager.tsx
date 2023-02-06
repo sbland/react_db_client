@@ -24,6 +24,7 @@ const handleUpdateEvalField = (heading, prevRowData, colId, newVal) => {
   const updatedRowData = patterns.reduce((acc, patternFull) => {
     if (!patternFull) throw Error('Missing Pattern');
     const [targetField, pattern] = patternFull.split('=');
+    if (!pattern) throw new Error(`Pattern is invalid: ${patternFull}`);
     const patternFixed = pattern.replace('$_', `$${heading.uid}`);
     const newData = { ...acc };
     newData[targetField.replace('$', '')] = evaluateRow(patternFixed, prevRowDataWithNewValue);

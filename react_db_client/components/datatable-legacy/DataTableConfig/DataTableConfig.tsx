@@ -67,7 +67,7 @@ export const dataTableDefaultConfig: IDataTableConfig = {
 
 export const DataTableContext = React.createContext(dataTableDefaultConfig);
 
-const DataTableConfigConnector = (defaults) => (Component) => {
+export const DataTableConfigConnector = (defaults) => (Component) => {
   const DataTableConfigManager = (props) => {
     const { config: configIn } = props;
 
