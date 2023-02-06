@@ -52,7 +52,9 @@ export const DataTableCellText = ({
 
   const onBlur = () => {
     // if (!ignoreNextBlur) acceptValueLocal();
-    acceptValueLocal();
+    if (focused) {
+      acceptValueLocal();
+    }
     // setIgnoreNextBlur(false);
   };
 
@@ -60,24 +62,23 @@ export const DataTableCellText = ({
     type === 'textLong' ? 'dataTableCellData-textLong' : 'dataTableCellData-text',
   ].join(' ');
 
-  const showTextEditor = focused && editMode && type === 'text';
-  const showTextAreaEditor = focused && editMode && type === 'textLong';
+  const isEditing = focused && editMode;
   return (
     <DefaultCellInnerStyle className={`dataTableCellData ${classNames}`}>
-      <input
-        style={{
-          display: showTextEditor ? 'block' : 'none',
-          height: '100%',
-          width: '100%',
-        }}
-        className="cellInput-text"
-        ref={refText}
-        type="text"
-        onChange={handleInputChange}
-        value={cellData || ''}
-        onBlur={onBlur}
-        onKeyDown={onKeyPress}
-      />
+      {type === 'text' && (
+        <input
+          style={{
+            display: isEditing ? 'block' : 'none',
+          }}
+          className="cellInput-text"
+          ref={refText}
+          type="text"
+          onChange={handleInputChange}
+          value={cellData || ''}
+          onBlur={onBlur}
+          onKeyDown={onKeyPress}
+        />
+      )}
       {/* <input
         style={{
           display: showTextAreaEditor ? 'block' : 'none',
@@ -91,44 +92,14 @@ export const DataTableCellText = ({
         onKeyDown={onKeyPress}
       /> */}
       {/* // Disabled text area as does not fit well */}
-      <textarea
-        style={{
-          display: showTextAreaEditor ? 'block' : 'none',
-          position: 'absolute',
-          width: '100%',
-          minHeight: '5rem',
-          minWidth: '20rem',
-          left: 0,
-          top: 0,
-          whiteSpace: 'normal',
-          resize: 'none',
-          zIndex: 10,
-          overflow: 'hidden',
-        }}
-        className="cellInput-textarea"
-        ref={refArea}
-        type="text"
-        onChange={handleInputChange}
-        value={cellData || ''}
-        onBlur={onBlur}
-        onKeyDown={onKeyPress}
-        wrap="hard"
-        rows="10"
-        cols="20"
-      />
-      {(!editMode || !focused) && (
-        <span className={`dataTableCellData_text ${classNames}`}>{cellData}</span>
-      )}
-      {/* TODO: Make text resize to fit content on focus */}
-      {focused && !editMode && (
-        <div
+      {type === 'textLong' && (
+        <textarea
           style={{
-            display: showTextAreaEditor ? 'block' : 'none',
+            display: isEditing ? 'block' : 'none',
             position: 'absolute',
-            width: 'auto',
+            width: '100%',
             minHeight: '5rem',
             minWidth: '20rem',
-            maxWidth: '30rem',
             left: 0,
             top: 0,
             whiteSpace: 'normal',
@@ -136,11 +107,19 @@ export const DataTableCellText = ({
             zIndex: 10,
             overflow: 'hidden',
           }}
-          className={`dataTableCellData_text focusedtextCell ${classNames}`}
-        >
-          {cellData}
-        </div>
+          className="cellInput-textarea"
+          ref={refArea}
+          type="text"
+          onChange={handleInputChange}
+          value={cellData || ''}
+          onBlur={onBlur}
+          onKeyDown={onKeyPress}
+          wrap="hard"
+          rows="10"
+          cols="20"
+        />
       )}
+      {!isEditing && <div className={`dataTableCellData_text ${classNames}`}>{cellData}</div>}
     </DefaultCellInnerStyle>
   );
 };
@@ -161,3 +140,5 @@ DataTableCellText.propTypes = {
 DataTableCellText.defaultProps = {
   cellData: '',
 };
+
+export default DataTableCellText;

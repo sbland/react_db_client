@@ -63,7 +63,9 @@ export const DataTableCellNumber = ({
 
   const onBlur = () => {
     // if (!ignoreNextBlur) acceptValueLocal();
-    acceptValueLocal();
+    if (focused) {
+      acceptValueLocal();
+    }
     // setIgnoreNextBlur(false);
   };
 
@@ -72,11 +74,7 @@ export const DataTableCellNumber = ({
 
   return (
     <DefaultCellInnerStyle className="dataTableCellData dataTableCellData-number">
-      {(!editMode || !focused) && (
-        <span className="dataTableCellData_number">
-          {formatedValue}
-        </span>
-      )}
+      {(!editMode || !focused) && <span className="dataTableCellData_number">{formatedValue}</span>}
       <input
         style={{
           display: showEditor ? 'block' : 'none',
