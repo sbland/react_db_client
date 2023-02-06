@@ -2,21 +2,13 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { PopupPanel } from '@react_db_client/components.popup-panel';
 import { SearchAndSelect } from '@react_db_client/components.search-and-select';
-import { filterTypes } from '@react_db_client/constants.client-types';
+import { filterTypes, filterTypesList } from '@react_db_client/constants.client-types';
 import { DefaultCellInnerStyle } from './style';
-// TODO: Make sure apiGetDocuments is passes to this component
-// import { apiGetDocuments } from '../../../Api/Api';
 
-export const SelectEntityPanel = ({
-  apiGetDocuments,
-  currentSelection,
-  collection,
-  headings,
-  handleSubmit,
-}) => (
-  <DefaultCellInnerStyle className="entitySelector">
+const SelectEntityPanel = ({ currentSelection, headings, handleSubmit, searchFunction }) => (
+  <div className="entitySelector">
     <SearchAndSelect
-      searchFunction={(filters) => apiGetDocuments(collection, filters)}
+      searchFunction={searchFunction}
       initialFilters={[
         {
           uid: 'searchphrase',
@@ -54,7 +46,7 @@ export const SelectEntityPanel = ({
         ]
       }
     />
-  </DefaultCellInnerStyle>
+  </div>
 );
 
 SelectEntityPanel.propTypes = {
@@ -78,21 +70,26 @@ SelectEntityPanel.propTypes = {
  * }
  * @returns
  */
-export const DataTableCellEntity = ({
-  columnData: { collection, headings },
+const DataTableCellEntity = ({
+  columnData: { collection, headings, searchFunction },
   cellData,
   updateData,
 }) => {
   const [editMode, setEditMode] = useState(false);
   return (
-    <div className="dataTableCellData dataTableCellData-select">
+    <DefaultCellInnerStyle className="dataTableCellData dataTableCellData-select">
       {editMode && (
-        <PopupPanel isOpen={editMode} handleClose={() => setEditMode(false)}>
+        <PopupPanel
+          id="datatableCellPopup"
+          isOpen={editMode}
+          handleClose={() => setEditMode(false)}
+        >
           <SelectEntityPanel
             currentSelection={cellData}
             collection={collection}
             headings={headings}
             handleSubmit={updateData}
+            searchFunction={searchFunction}
           />
         </PopupPanel>
       )}
@@ -101,7 +98,7 @@ export const DataTableCellEntity = ({
           {cellData}
         </button>
       )}
-    </div>
+    </DefaultCellInnerStyle>
   );
 };
 
@@ -114,7 +111,7 @@ DataTableCellEntity.propTypes = {
       PropTypes.shape({
         uid: PropTypes.string.isRequired,
         label: PropTypes.string.isRequired,
-        type: PropTypes.oneOf(Object.keys(filterTypes)).isRequired,
+        type: PropTypes.oneOf(filterTypesList).isRequired,
       })
     ),
   }).isRequired,
@@ -123,3 +120,5 @@ DataTableCellEntity.propTypes = {
 DataTableCellEntity.defaultProps = {
   cellData: 0,
 };
+
+export default DataTableCellEntity;

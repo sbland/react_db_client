@@ -78,7 +78,11 @@ const DataTableCellEntity = ({
   return (
     <div className="dataTableCellData dataTableCellData-select">
       {editMode && (
-        <PopupPanel isOpen={editMode} handleClose={() => setEditMode(false)}>
+        <PopupPanel
+          id="datatableCellPopup"
+          isOpen={editMode}
+          handleClose={() => setEditMode(false)}
+        >
           <SelectEntityPanel
             currentSelection={cellData}
             collection={collection}
