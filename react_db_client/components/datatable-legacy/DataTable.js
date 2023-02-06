@@ -2,10 +2,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { tableDataShape } from './inputDataShapes';
-import './_dataTable.scss';
-import './_dataTable_condensed.scss';
 import DataTableConfigConnector from './DataTableConfig/DataTableConfig';
 import DataTableWrapper from './DataTableWrapper';
+import './_dataTable.scss';
+import './_dataTable_condensed.scss';
 
 /** Data Table Component
  * Converts an array of objects to a table by mapping against a column schema(headingsData)
@@ -86,6 +86,6 @@ DataTableFunc.defaultProps = {
   config: {},
 };
 
-const DataTable = DataTableConfigConnector({})(DataTableFunc);
+export const DataTableSimple = DataTableConfigConnector({})(DataTableFunc);
 
-export default DataTable;
+export default DataTableSimple;

@@ -18,11 +18,35 @@ import './_dataTable_condensed.scss';
 import { RowStyleContext } from './RowStyleContext';
 
 const MIN_TABLE_HEIGHT = 30;
+
+export interface IDataTableUiProps {
+  headingsData;
+  tableData;
+  totalsData;
+  updateSortBy;
+  addFilter;
+  updateValue;
+  acceptValue;
+  resetValue;
+  deleteRow;
+  rowStyles; // per row style overrides
+  handleHideColumn;
+  maxTableHeight;
+  maxTableWidth;
+  currentSelectionIds;
+  addToSelection;
+  removeFromSelection;
+  handleAddRow;
+  customFieldComponents;
+  disabled;
+  invalidRowsMessages;
+}
+
 /** Data Table Component
  * Converts an array of objects to a table by mapping against a column schema(headingsData)
  *
  */
-export const DataTableUi = ({
+export const DataTableUi: React.FC<IDataTableUiProps> = ({
   headingsData,
   tableData,
   totalsData,
@@ -50,7 +74,6 @@ export const DataTableUi = ({
     maxWidth,
     showTotals,
     limitHeight,
-    allowEditRow,
     allowRowDelete,
     allowRowEditPanel,
     hasBtnsColumn,
@@ -60,7 +83,7 @@ export const DataTableUi = ({
     allowColumnResize,
     allowCellFocus,
   } = useContext(DataTableContext);
-  const gridRef = useRef(null);
+  const gridRef = useRef<any>(null);
 
   const columnCount = headingsData.length;
   const rowCount = tableData.length;
@@ -68,9 +91,6 @@ export const DataTableUi = ({
 
   const { columnWidths, setColumnWidths, tableWidth } = useColumnWidthManager({
     headingsDataList: headingsData,
-    allowRowDelete,
-    allowRowEditPanel,
-    allowEditRow,
     minWidth,
     maxWidth,
     btnColumnBtnCount: allowRowDelete + allowRowEditPanel + allowSelection,
@@ -234,11 +254,9 @@ export const DataTableUi = ({
     <div
       className="dataTable"
       data-testid="dataTable"
-      style={
-        {
-          maxWidth: `${tableWidth}px`,
-        }
-      }
+      style={{
+        maxWidth: `${tableWidth}px`,
+      }}
     >
       {allowColumnResize && (
         <DataTableColumnWidthManager

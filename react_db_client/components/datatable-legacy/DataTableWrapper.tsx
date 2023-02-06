@@ -9,7 +9,7 @@ import { SelectionPreview } from '@react_db_client/components.selection-preview'
 
 import useColumnVisabilityManager from './TableColumnManager/ColumnVisabilityManager';
 import DataTableUi from './DataTableUi';
-import useDataManager from './DataManager/DataManager';
+import { useDataManager } from './DataManager';
 import DataTableConfigConnector, {
   DataTableContext,
   IDataTableConfig,
@@ -372,16 +372,17 @@ DataTableWrapperFunc.defaultProps = {
   disableEditing: false,
 };
 
-export const DataTableWrapper: React.FC<IDataTableWrapperProps & { config: Partial<IDataTableConfig> }> =
-  DataTableConfigConnector({})(
-    wrapWithErrorBoundary(
-      DataTableWrapperFunc,
-      'Data Table failed to render',
-      () => {},
-      null,
-      null,
-      null
-    )
-  ) as React.FC<IDataTableWrapperProps & { config: Partial<IDataTableConfig> }>;
+export const DataTableWrapper: React.FC<
+  IDataTableWrapperProps & { config: Partial<IDataTableConfig> }
+> = DataTableConfigConnector({})(
+  wrapWithErrorBoundary(
+    DataTableWrapperFunc,
+    'Data Table failed to render',
+    () => {},
+    null,
+    null,
+    null
+  )
+) as React.FC<IDataTableWrapperProps & { config: Partial<IDataTableConfig> }>;
 
 export default DataTableWrapper;

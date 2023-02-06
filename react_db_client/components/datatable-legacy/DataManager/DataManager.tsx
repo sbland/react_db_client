@@ -90,7 +90,7 @@ type RowData = any;
  * }
  * @returns
  */
-const useDataManager = ({
+export const useDataManager = ({
   data: dataIn,
   headings,
   filters,
