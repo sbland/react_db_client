@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { validateValue, formatValue } from '@react_db_client/helpers.data-processing';
+import { DefaultCellInnerStyle } from './style';
 
 /**
  * Data Cell Number
@@ -11,7 +12,7 @@ import { validateValue, formatValue } from '@react_db_client/helpers.data-proces
  * }
  * @returns
  */
-const DataTableCellNumber = ({
+export const DataTableCellNumber = ({
   columnData: { min, max, uid, defaultValue, step = 0.01 },
   cellData,
   updateData,
@@ -22,7 +23,6 @@ const DataTableCellNumber = ({
   editMode,
 }) => {
   const ref = useRef(null);
-  // const [ignoreNextBlur, setIgnoreNextBlur] = useState(false);
 
   // get row data max for this cell
   const minApplied = min != null ? min : rowData[`${uid}-min`];
@@ -62,7 +62,9 @@ const DataTableCellNumber = ({
 
   const onBlur = () => {
     // if (!ignoreNextBlur) acceptValueLocal();
-    acceptValueLocal();
+    if (focused) {
+      acceptValueLocal();
+    }
     // setIgnoreNextBlur(false);
   };
 
@@ -70,8 +72,8 @@ const DataTableCellNumber = ({
   const showEditor = focused && editMode;
 
   return (
-    <div className="dataTableCellData dataTableCellData-number">
-      {(!editMode || !focused) && <div className="dataTableCellData_text">{formatedValue}</div>}
+    <DefaultCellInnerStyle className="dataTableCellData dataTableCellData-number">
+      {(!editMode || !focused) && <span className="dataTableCellData_number">{formatedValue}</span>}
       <input
         style={{
           display: showEditor ? 'block' : 'none',
@@ -90,7 +92,7 @@ const DataTableCellNumber = ({
         onBlur={onBlur}
         onKeyDown={onKeyPress}
       />
-    </div>
+    </DefaultCellInnerStyle>
   );
 };
 

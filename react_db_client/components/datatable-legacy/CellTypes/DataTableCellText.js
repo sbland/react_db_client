@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { DefaultCellInnerStyle } from './style';
 
-const DataTableCellText = ({
+export const DataTableCellText = ({
   columnData: { type },
   cellData,
   updateData,
@@ -51,7 +52,9 @@ const DataTableCellText = ({
 
   const onBlur = () => {
     // if (!ignoreNextBlur) acceptValueLocal();
-    acceptValueLocal();
+    if (focused) {
+      acceptValueLocal();
+    }
     // setIgnoreNextBlur(false);
   };
 
@@ -59,22 +62,23 @@ const DataTableCellText = ({
     type === 'textLong' ? 'dataTableCellData-textLong' : 'dataTableCellData-text',
   ].join(' ');
 
-  const showTextEditor = focused && editMode && type === 'text';
-  const showTextAreaEditor = focused && editMode && type === 'textLong';
+  const isEditing = focused && editMode;
   return (
-    <div className={`dataTableCellData ${classNames}`}>
-      <input
-        style={{
-          display: showTextEditor ? 'block' : 'none',
-        }}
-        className="cellInput-text"
-        ref={refText}
-        type="text"
-        onChange={handleInputChange}
-        value={cellData || ''}
-        onBlur={onBlur}
-        onKeyDown={onKeyPress}
-      />
+    <DefaultCellInnerStyle className={`dataTableCellData ${classNames}`}>
+      {type === 'text' && (
+        <input
+          style={{
+            display: isEditing ? 'block' : 'none',
+          }}
+          className="cellInput-text"
+          ref={refText}
+          type="text"
+          onChange={handleInputChange}
+          value={cellData || ''}
+          onBlur={onBlur}
+          onKeyDown={onKeyPress}
+        />
+      )}
       {/* <input
         style={{
           display: showTextAreaEditor ? 'block' : 'none',
@@ -88,35 +92,35 @@ const DataTableCellText = ({
         onKeyDown={onKeyPress}
       /> */}
       {/* // Disabled text area as does not fit well */}
-      <textarea
-        style={{
-          display: showTextAreaEditor ? 'block' : 'none',
-          position: 'absolute',
-          width: '100%',
-          minHeight: '5rem',
-          minWidth: '20rem',
-          left: 0,
-          top: 0,
-          whiteSpace: 'normal',
-          resize: 'none',
-          zIndex: 10,
-          overflow: 'hidden',
-        }}
-        className="cellInput-textarea"
-        ref={refArea}
-        type="text"
-        onChange={handleInputChange}
-        value={cellData || ''}
-        onBlur={onBlur}
-        onKeyDown={onKeyPress}
-        wrap="hard"
-        rows="10"
-        cols="20"
-      />
-      {(!editMode || !focused) && (
-        <div className={`dataTableCellData_text ${classNames}`}>{cellData}</div>
+      {type === 'textLong' && (
+        <textarea
+          style={{
+            display: isEditing ? 'block' : 'none',
+            position: 'absolute',
+            width: '100%',
+            minHeight: '5rem',
+            minWidth: '20rem',
+            left: 0,
+            top: 0,
+            whiteSpace: 'normal',
+            resize: 'none',
+            zIndex: 10,
+            overflow: 'hidden',
+          }}
+          className="cellInput-textarea"
+          ref={refArea}
+          type="text"
+          onChange={handleInputChange}
+          value={cellData || ''}
+          onBlur={onBlur}
+          onKeyDown={onKeyPress}
+          wrap="hard"
+          rows="10"
+          cols="20"
+        />
       )}
-    </div>
+      {!isEditing && <div className={`dataTableCellData_text ${classNames}`}>{cellData}</div>}
+    </DefaultCellInnerStyle>
   );
 };
 
