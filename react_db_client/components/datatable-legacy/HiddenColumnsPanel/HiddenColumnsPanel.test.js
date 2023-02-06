@@ -4,15 +4,15 @@ import HiddenColumnsPanel from './HiddenColumnsPanel';
 
 const hiddenColumnIds = ['abc', 'def'];
 const headings = [
-  {uid: 'abc', label: 'ABC'},
-  {uid: 'def', label: 'DEF'},
-]
+  { uid: 'abc', label: 'ABC' },
+  { uid: 'def', label: 'DEF' },
+];
 
 describe('Data Table - HiddenColumn Panel', () => {
   test('Snapshot', () => {
     const component = shallow(
       <HiddenColumnsPanel
-      headings={headings}
+        headings={headings}
         hiddenColumnIds={hiddenColumnIds}
         setHiddenColumnIds={() => {}}
         showPanelOverride
@@ -23,7 +23,7 @@ describe('Data Table - HiddenColumn Panel', () => {
   });
   const wrapper = mount(
     <HiddenColumnsPanel
-    headings={headings}
+      headings={headings}
       hiddenColumnIds={hiddenColumnIds}
       setHiddenColumnIds={() => {}}
       showPanelOverride

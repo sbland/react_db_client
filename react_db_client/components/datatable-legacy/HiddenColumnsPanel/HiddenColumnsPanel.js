@@ -56,7 +56,7 @@ const HiddenColumnsPanel = ({
 };
 
 HiddenColumnsPanel.propTypes = {
-  headings: PropTypes.objectOf(
+  headings: PropTypes.arrayOf(
     PropTypes.shape({
       uid: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
