@@ -1,18 +1,18 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useMemo } from 'react';
 import {
-  comparisons,
-  filterTypes,
+  EComparisons,
+  EFilterType,
   FilterObjectClass,
 } from '@react_db_client/constants.client-types';
+import React, { useEffect, useMemo } from 'react';
 
 export const demoFilterString = new FilterObjectClass({
   uid: 'demoFilterString',
   field: 'name',
   value: 'Foo',
   label: 'Demo Filter String',
-  operator: comparisons.contains,
-  type: filterTypes.text,
+  operator: EComparisons.CONTAINS,
+  type: EFilterType.text,
 });
 export const demoFilterNumber = new FilterObjectClass({
   uid: 'demoFilterNumber',
@@ -20,8 +20,8 @@ export const demoFilterNumber = new FilterObjectClass({
   label: 'Demo Filter Number',
   value: 0,
   step: 1,
-  operator: comparisons.greaterThan,
-  type: filterTypes.number,
+  operator: EComparisons.GREATER_THAN,
+  type: EFilterType.number,
 });
 // export const demoFilterExpression = new FilterObjectClass({
 //   uid: 'demoFilterExpression',
@@ -36,8 +36,8 @@ export const demoFilterSelect = new FilterObjectClass({
   field: 'select',
   label: 'Demo Filter Select',
   value: 'a',
-  operator: comparisons.contains,
-  type: filterTypes.select,
+  operator: EComparisons.CONTAINS,
+  type: EFilterType.select,
 });
 
 export const demoFiltersData = [demoFilterString, demoFilterNumber];
@@ -96,12 +96,12 @@ export const demoHeadingsDataSimple = [
   {
     uid: 'name',
     label: 'Name',
-    type: filterTypes.text,
+    type: EFilterType.text,
   },
   {
     uid: 'count',
     label: 'Count',
-    type: filterTypes.number,
+    type: EFilterType.number,
     defaultValue: 7,
     step: 1,
   },
@@ -109,9 +109,19 @@ export const demoHeadingsDataSimple = [
     uid: 'eval',
     label: 'Eval',
     evaluateType: 'number',
-    type: filterTypes.number,
+    type: EFilterType.number,
     expression: '$count + 1',
     expressionReversed: '$count=$_ - 1',
+  },
+  {
+    uid: 'select',
+    label: 'Select',
+    type: 'select',
+    options: [
+      { uid: 'a', label: 'A' },
+      { uid: 'b', label: 'B' },
+      { uid: 'c', label: 'C' },
+    ],
   },
 ];
 
@@ -331,7 +341,7 @@ export const demoHeadingsData = [
     evaluateType: 'number',
     expression: '$count * $multiplier',
     expressionReversed: '$count=$_ / $multiplier',
-    reverseExpression: '$count * $multiplier',
+    expressionReversed: '$count * $multiplier',
     showTotals: true,
   },
   {
@@ -339,7 +349,7 @@ export const demoHeadingsData = [
     label: 'Is Validated',
     evaluateType: 'string',
     type: 'string',
-    operator: comparisons.equals,
+    operator: EComparisons.EQUALS,
     target: 'a',
     field: 'select',
     invert: true,
@@ -350,6 +360,7 @@ export const demoHeadingsData = [
     evaluateType: 'number',
     type: 'number',
     expression: '$nothing',
+    expressionReversed: '$nothing',
   },
   {
     uid: 'invalidb',
@@ -357,6 +368,7 @@ export const demoHeadingsData = [
     type: 'number',
     evaluateType: 'number',
     expression: '$invalid * 2',
+    expressionReversed: '$invalid / 2',
   },
   {
     uid: 'select',
@@ -419,7 +431,7 @@ export const CustomField = ({ acceptValue, cellData, editMode, focused }) => {
 };
 
 // eslint-disable-next-line no-unused-vars
-export const customFilter = (value, expression, targetValue, item) => {
+export const customFilter = (value, expression, targetValue) => {
   if (Math.abs(value - targetValue) < 0.3) return true;
   return false;
 };

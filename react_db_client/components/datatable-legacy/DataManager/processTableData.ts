@@ -1,5 +1,5 @@
 import { evaluate } from 'mathjs';
-import { comparisons, filterTypes } from '@react_db_client/constants.client-types';
+import { EComparisons, EFilterType, Uid } from '@react_db_client/constants.client-types';
 
 import { RowErrors } from '../errorTypes';
 
@@ -23,7 +23,7 @@ export const generateNewRowData = (headings, inputData = {}) => {
   return newRowData;
 };
 
-export const calculateColumnTotals = (tableData, columnIds) => {
+export const calculateColumnTotals = (tableData, columnIds): { [k: Uid]: number } => {
   const result = {};
   columnIds.forEach((col) => {
     let sum = 0;
@@ -40,12 +40,12 @@ export const calculateColumnTotals = (tableData, columnIds) => {
   return result;
 };
 
-export const replaceColumnIdsInExpression = (pattern, rowData) => {
+export const replaceColumnIdsInExpression = (pattern: string, rowData) => {
   // 2. replace variables in pattern
   let patternReplaced = pattern;
   let invalid = false;
 
-  const colMatches = Array.from(new Set(pattern.match(/(\$[A-Za-z0-9]+)/g)));
+  const colMatches: string[] = Array.from(new Set(pattern.match(/(\$[A-Za-z0-9]+)/g)));
   colMatches.forEach((match) => {
     const reg = new RegExp(`(\\${match})(?=[^a-zA-Z0-9]|$)`, 'g');
     const val = rowData[match.replace('$', '')];
@@ -81,7 +81,13 @@ const stringContains = (val, searchTerm) => val.search(new RegExp(searchTerm)) !
  * @param {*} rowData
  * @returns
  */
-export const evaluateStrRow = (field, operator, target, invert, rowData) => {
+export const evaluateStrRow = (
+  field: Uid,
+  operator: EComparisons,
+  target: string,
+  invert: boolean,
+  rowData: any
+) => {
   // 2. replace variables in pattern
   if (!field) throw Error('Missing field');
   if (!operator) throw Error('Missing operator');
@@ -90,14 +96,14 @@ export const evaluateStrRow = (field, operator, target, invert, rowData) => {
   const value = rowData[field];
   if (value === undefined || value === null) return 'INVALID';
 
-  let result = null;
+  let result: boolean;
 
   // 3. Evaluate for row
   switch (operator) {
-    case comparisons.equals:
+    case EComparisons.EQUALS:
       result = value === target;
       break;
-    case comparisons.contains:
+    case EComparisons.CONTAINS:
       result = stringContains(value, target);
       break;
     default:
@@ -147,7 +153,7 @@ export const sortTableData = (data, sortBy) => {
       if (aVal === '' || aVal === null || aVal === undefined || aVal === 'INVALID') return 1;
       if (bVal === '' || bVal === null || bVal === undefined || bVal === 'INVALID') return -1;
 
-      if (type === filterTypes.number) {
+      if (type === EFilterType.number) {
         return Number(aVal) - Number(bVal);
       }
       // TODO: Add checks for other filterTypes
