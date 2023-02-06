@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 const DataTableCellButton = ({
@@ -53,6 +53,8 @@ DataTableCellButton.propTypes = {
   ]),
   columnData: PropTypes.shape({
     action: PropTypes.func,
+    uid: PropTypes.string.isRequired,
+    btnLabel: PropTypes.node,
   }).isRequired,
   rowData: PropTypes.shape({}).isRequired,
   focused: PropTypes.bool.isRequired,
