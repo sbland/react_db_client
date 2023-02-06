@@ -10,6 +10,7 @@ const DataTableColumnWidthManager = ({
   setColumnWidths,
   minWidth,
   maxWidth,
+  tableWidth,
 }) => {
   const dataTableRef = useRef(null);
 
@@ -21,7 +22,6 @@ const DataTableColumnWidthManager = ({
 
   const columnEdgePositions = columnWidths.map((cwidth) => {
     widthSum += cwidth;
-
     return widthSum;
   });
 
@@ -46,6 +46,7 @@ const DataTableColumnWidthManager = ({
   return (
     <div
       ref={dataTableRef}
+      style={{width: tableWidth}}
       className="DataTable_columnWidthManager"
       onMouseMove={(e) => {
         if (!resizingColumn) {

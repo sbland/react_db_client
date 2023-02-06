@@ -29,7 +29,7 @@ $defaultBoxShadow: 1px 1px 20px 10px rgba(100, 100, 100, 0.1);
     .dataTableCell_wrap {
       min-width: ($unit & 10);
       outline-width: $border-thickness;
-      padding: $border-thickness;
+      // padding: $border-thickness;
 
       border-top-width: $border-thickness;
       border-bottom-width: $border-thickness;

@@ -124,8 +124,16 @@ const DataTableRows = ({
   }
 
   return (
-    <div className={outsideWrapClassName} style={outsideWrapStyleOverride}>
-      <div className={insideWrapClassName} style={insideWrapStyleOverride}>
+    <div
+      data-testid="datatable-legacy-outsideWrap"
+      className={outsideWrapClassName}
+      style={outsideWrapStyleOverride}
+    >
+      <div
+        data-testid="datatable-legacy-insideWrap"
+        className={insideWrapClassName}
+        style={insideWrapStyleOverride}
+      >
         {mapRows}
       </div>
     </div>

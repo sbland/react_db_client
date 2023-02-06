@@ -236,7 +236,7 @@ export const DataTableUi = ({
       data-testid="dataTable"
       style={
         {
-          // width: `${tableWidth}px`,
+          maxWidth: `${tableWidth}px`,
         }
       }
     >
@@ -246,6 +246,7 @@ export const DataTableUi = ({
           columnWidths={columnWidths}
           minWidth={minWidth}
           maxWidth={maxWidth}
+          tableWidth={tableWidth}
         />
       )}
       {showHeadings && (
@@ -272,7 +273,7 @@ export const DataTableUi = ({
             )}
             rowCount={rowCount}
             rowHeight={() => 22}
-            width={tableWidthMin}
+            width={tableWidth}
             itemData={getCellData}
           >
             {Cell}

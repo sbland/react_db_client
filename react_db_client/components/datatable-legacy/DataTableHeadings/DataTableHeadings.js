@@ -121,6 +121,7 @@ export const DataTableHeadings = ({
   const insideWrapClassName = ['dataTable_headingsInsideWrap'].join(' ');
   const insideWrapStyleOverride = {
     width: `${tableWidth}px`,
+    maxWidth: `${tableWidth}px`,
     // position: 'relative',
   };
 

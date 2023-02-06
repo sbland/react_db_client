@@ -372,7 +372,7 @@ DataTableWrapperFunc.defaultProps = {
   disableEditing: false,
 };
 
-const DataTableWrapper: React.FC<IDataTableWrapperProps & { config: Partial<IDataTableConfig> }> =
+export const DataTableWrapper: React.FC<IDataTableWrapperProps & { config: Partial<IDataTableConfig> }> =
   DataTableConfigConnector({})(
     wrapWithErrorBoundary(
       DataTableWrapperFunc,

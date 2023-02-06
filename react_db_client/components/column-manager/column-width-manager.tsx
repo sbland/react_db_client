@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useColumnWidthManager } from './use-column-width-manager-hook';
@@ -102,6 +102,9 @@ export interface IColumnWidthManagerRenderProps {
   debug?: boolean;
 }
 
+const EDGE_WIDTH = 10;
+const COLUMN_RESIZE_CANVAS_PADDING = 10;
+
 export const ColumnWidthManagerRender = ({
   resizeColumn,
   resizingColumn,
@@ -120,6 +123,7 @@ export const ColumnWidthManagerRender = ({
 }: IColumnWidthManagerRenderProps) => {
   // TODO: Can we remove container ref
   const containerRef: React.RefObject<HTMLObjectElement> = React.useRef(null);
+  const containerWidth = liveColumnWidths.reduce((acc, v) => acc + v, 0) + widthPadding;
   return (
     <ColumnManagerStyles
       className="columnWidthManager_styles"
@@ -133,7 +137,7 @@ export const ColumnWidthManagerRender = ({
         className="columnWidthManager"
         style={{
           pointerEvents: resizingColumn ? 'all' : 'none',
-          width: liveColumnWidths.reduce((acc, v) => acc + v, 0) + widthPadding,
+          width: containerWidth,
           outline: debug ? '1px solid yellow' : 'none',
         }}
         ref={containerRef}
@@ -146,8 +150,8 @@ export const ColumnWidthManagerRender = ({
               top: 0,
               bottom: 0,
               zIndex: 1000,
-              width: 10,
-              left: `${columnEdgePositions[i] - 5}px`,
+              width: EDGE_WIDTH,
+              left: `${columnEdgePositions[i] - EDGE_WIDTH / 2}px`,
               pointerEvents: resizingColumn ? 'none' : 'all',
               cursor: 'crosshair',
             }}
@@ -180,7 +184,7 @@ export const ColumnWidthManagerRender = ({
             background:
               (debug && 'rgba(100,100,0,0.2)') || (liveDragging ? 'none' : 'rgba(255,255,255,0.7)'),
             outline: debug ? '1px solid grey' : 'none',
-            width: tableWidth + 100,
+            width: `${tableWidth + COLUMN_RESIZE_CANVAS_PADDING}px`,
           }}
           onMouseUp={() => {
             endDragging();
@@ -197,7 +201,7 @@ export const ColumnWidthManagerRender = ({
         <div
           className="columnResizeHandle"
           style={{
-            left: `${handlePosition - 5}px`,
+            left: `${handlePosition - EDGE_WIDTH / 2}px`,
             pointerEvents: `${resizingColumn ? 'none' : 'all'}`,
             cursor: 'crosshair',
           }}

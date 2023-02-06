@@ -59,8 +59,6 @@ $filterPanelsZindex: 5;
   // }
 }
 
-
-
 .dataTable_rowsInsideWrap,
 .dataTable_headingsInsideWrap,
 .dataTable_totalsInsideWrap,
@@ -192,7 +190,6 @@ $filterPanelsZindex: 5;
 .dataTableCell_wrap {
   background: $white;
   outline: 1px $grey-10 solid;
-  padding: $cellPadding;
 
   display: flex;
   justify-content: space-between;
