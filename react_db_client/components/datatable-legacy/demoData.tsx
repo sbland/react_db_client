@@ -3,6 +3,8 @@ import {
   EComparisons,
   EFilterType,
   FilterObjectClass,
+  FilterOption,
+  Uid,
 } from '@react_db_client/constants.client-types';
 import React, { useEffect, useMemo } from 'react';
 
@@ -19,7 +21,7 @@ export const demoFilterNumber = new FilterObjectClass({
   field: 'count',
   label: 'Demo Filter Number',
   value: 0,
-  step: 1,
+  // step: 1,
   operator: EComparisons.GREATER_THAN,
   type: EFilterType.number,
 });
@@ -123,6 +125,12 @@ export const demoHeadingsDataSimple = [
       { uid: 'c', label: 'C' },
     ],
   },
+  {
+    uid: 'hidden',
+    label: 'Hidden',
+    type: 'text',
+    hidden: true,
+  },
 ];
 
 export const demoHeadingsSimpleHiddenIds = demoHeadingsDataSimple
@@ -133,8 +141,8 @@ export const demoDataSimpleTotals = {
   count: 7,
 };
 
-export const demoTableData = {
-  a: {
+export const demoTableData = [
+  {
     uid: 'a',
     natid: '100a',
     name: 'Foo',
@@ -146,7 +154,7 @@ export const demoTableData = {
     hiddenDemoNumber: 3,
     hiddenDemo: 'Hide me',
   },
-  ab: {
+  {
     // Note string "4" here to check we can pass string numbers without issues
     uid: 'ab',
     natid: '10a',
@@ -156,7 +164,7 @@ export const demoTableData = {
     hiddenDemoNumber: 3,
     hiddenDemo: 'Hide me',
   },
-  b: {
+  {
     uid: 'b',
     natid: '50a',
     name: 'Bar',
@@ -164,7 +172,7 @@ export const demoTableData = {
     hiddenDemoNumber: 3,
     hiddenDemo: 'Hide me',
   },
-  c: {
+  {
     uid: 'c',
     name: 'C',
     count: 3,
@@ -173,13 +181,13 @@ export const demoTableData = {
     hiddenDemoNumber: 3,
     hiddenDemo: 'Hide me',
   },
-  d: {
+  {
     uid: 'd',
     name: '',
     hiddenDemoNumber: 3,
     hiddenDemo: 'Hide me',
   },
-};
+];
 
 export const demoTotals = {
   uid: 'na',
@@ -341,14 +349,14 @@ export const demoHeadingsData = [
     evaluateType: 'number',
     expression: '$count * $multiplier',
     expressionReversed: '$count=$_ / $multiplier',
-    expressionReversed: '$count * $multiplier',
+    // expressionReversed: '$count * $multiplier',
     showTotals: true,
   },
   {
     uid: 'validated',
     label: 'Is Validated',
     evaluateType: 'string',
-    type: 'string',
+    type: EFilterType.bool,
     operator: EComparisons.EQUALS,
     target: 'a',
     field: 'select',
@@ -383,27 +391,27 @@ export const demoHeadingsData = [
   {
     uid: 'internalRoom',
     label: 'Internal Room',
-    type: 'entity',
+    type: EFilterType.reference,
     collection: 'rooms',
   },
   {
     uid: 'longHeading',
     label: 'Long Heading which is really really long',
-    type: 'entity',
+    type: 'text',
     collection: 'rooms',
   },
   {
     uid: 'customfield',
     label: 'Custom',
     type: 'custom',
-    isCustom: true,
+    isCustomType: true,
     showTotals: true,
   },
   {
     uid: 'customfieldeval',
     label: 'Custom Eval',
     type: 'customeval',
-    isCustom: true,
+    isCustomType: true,
     showTotals: true,
 
     expression: '$customfield + 1',
@@ -452,3 +460,8 @@ export const customFilter = (value, expression, targetValue) => {
 //     </div>
 //   );
 // };
+
+export const availableFilters = demoHeadingsData.reduce(
+  (acc, h) => ({ ...acc, [h.uid]: new FilterOption({ ...h, field: h.field || h.uid }) }),
+  {} as { [k: Uid]: FilterOption }
+);

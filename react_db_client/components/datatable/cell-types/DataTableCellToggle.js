@@ -17,7 +17,7 @@ export const DataTableCellToggle = ({
   }, [editMode, focused, cellData, acceptValue]);
   return (
     <DefaultCellInnerStyle className="dataTableCellData dataTableCellData-text">
-      <ToggleBox stateIn={cellData} onChange={acceptValue} />
+      <ToggleBox id="datatableCellToggle" stateIn={cellData} onChange={acceptValue} />
     </DefaultCellInnerStyle>
   );
 };

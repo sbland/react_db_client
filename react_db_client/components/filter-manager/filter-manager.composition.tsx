@@ -20,6 +20,7 @@ export const FilterManagerWithText = () => {
     updateFieldTarget,
     updateOperator,
     filters,
+    fieldsData,
   } = useManageFilters({
     fieldsData: demoFieldsData,
     initialFilterData: demoFiltersData,
@@ -33,9 +34,9 @@ export const FilterManagerWithText = () => {
       }}
     >
       <FilterPanel
-        filterData={filters}
+        filters={filters}
         showPanelOverride
-        fieldsData={demoFieldsData}
+        fieldsData={fieldsData}
         addFilter={addFilter}
         deleteFilter={deleteFilter}
         updateFilter={updateFilter}
@@ -59,6 +60,7 @@ export const AllTypes = () => {
     updateFieldTarget,
     updateOperator,
     filters,
+    fieldsData,
   } = useManageFilters({
     fieldsData: allTypeFieldsData,
     initialFilterData: allTypeFilters,
@@ -71,13 +73,13 @@ export const AllTypes = () => {
       }}
     >
       <FilterPanel
-        filterData={filters}
+        filters={filters}
         addFilter={addFilter}
         deleteFilter={deleteFilter}
         updateFilter={updateFilter}
         clearFilters={clearFilters}
         showPanelOverride
-        fieldsData={allTypeFieldsData}
+        fieldsData={fieldsData}
         updateFieldTarget={updateFieldTarget}
         updateOperator={updateOperator}
       />

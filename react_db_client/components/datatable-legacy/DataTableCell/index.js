@@ -1,3 +1,2 @@
-import DataTableCell from './DataTableCell';
-
-export default DataTableCell;
+export { Cell as DataTableCell } from './DataTableCell';
+export { DataTableCellHoverWrap } from './CellWrappers';

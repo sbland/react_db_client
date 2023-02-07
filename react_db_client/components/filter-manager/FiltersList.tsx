@@ -47,6 +47,7 @@ export const FiltersList = ({
     updateFilter,
     customFiltersComponents,
   });
+  if (!Array.isArray(filterData)) throw Error('filterData must be array!');
 
   const mappedFilters =
     filterData &&
@@ -57,7 +58,6 @@ export const FiltersList = ({
       const { operators = null } = fieldId != null ? fieldsData[fieldId] || {} : {};
       const comparisonOptions: EComparisons[] =
         operators != null ? operators : filterTypesComparisons[type];
-
       if (!comparisonOptions)
         throw Error(`comparisonOptions not found for field: "${fieldId}" type: "${type}"`);
 

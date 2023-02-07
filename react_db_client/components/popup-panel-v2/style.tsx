@@ -42,28 +42,8 @@ export const PopupPanelContentPanelStyle = styled.div<IPopupProps>`
   width: 0;
   height: 0;
   pointer-events: none;
-  & > * {
+  & > *{
     pointer-events: initial;
-
-    @keyframes expand {
-      0% {
-        transform: scale(90%);
-      }
-      100% {
-        transform: scale(100%);
-      }
-    }
-
-    @keyframes contract {
-      0% {
-        transform: scale(110%);
-      }
-      100% {
-        transform: scale(100%);
-      }
-    }
-    animation: ${({ isOpen }) =>
-      isOpen ? '0.15s ease-out 0s 1 expand' : '0.15s ease-out 0s 1 contract'};
   }
 `;
 

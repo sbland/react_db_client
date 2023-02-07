@@ -243,7 +243,7 @@ export const AsyncTestNewObject = () => {
     activeUid: undefined,
     ...database,
     ...handleCallbacks,
-  } as any); // TODO: Fix types
+  });
 
   return <Viz {...asyncOut} {...database} {...handleCallbacks} />;
 };
@@ -258,7 +258,7 @@ export const AsyncTestLoadOnInit = () => {
     ...database,
     loadOnInit: true,
     ...handleCallbacks,
-  }as any); // TODO: Fix types
+  });
   return <Viz {...asyncOut} {...database} {...handleCallbacks} />;
 };
 

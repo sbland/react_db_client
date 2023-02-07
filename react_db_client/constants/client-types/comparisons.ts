@@ -52,7 +52,7 @@ export const comparisonMetaData: Record<EComparisons, IComparison> = {
   },
   [EComparisons.REGEX]: {
     uid: EComparisons.REGEX,
-    label: 'contains',
+    label: 'contains(regex)',
     operator: EOperator.REGEX,
   },
   [EComparisons.EMPTY]: {
@@ -62,12 +62,12 @@ export const comparisonMetaData: Record<EComparisons, IComparison> = {
   },
   [EComparisons.GREATER_THAN]: {
     uid: EComparisons.GREATER_THAN,
-    label: 'Greater than',
+    label: 'is greater than',
     operator: EOperator.GREATER_THAN,
   },
   [EComparisons.LESS_THAN]: {
     uid: EComparisons.LESS_THAN,
-    label: 'Less than',
+    label: 'is less than',
     operator: EOperator.LESS_THAN,
   },
   [EComparisons.AFTER]: {

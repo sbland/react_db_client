@@ -23,6 +23,7 @@ export const DataTableCellNumber = ({
   editMode,
 }) => {
   const ref = useRef(null);
+  // const [ignoreNextBlur, setIgnoreNextBlur] = useState(false);
 
   // get row data max for this cell
   const minApplied = min != null ? min : rowData[`${uid}-min`];
@@ -68,12 +69,15 @@ export const DataTableCellNumber = ({
     // setIgnoreNextBlur(false);
   };
 
-  const formatedValue = Number(cellData) && formatValue(Number(cellData), step);
+  const formattedValue = Number(cellData) && formatValue(Number(cellData), step);
+  const formattedValueOrNull = Number.isNaN(formattedValue) ? null : formattedValue;
   const showEditor = focused && editMode;
 
   return (
     <DefaultCellInnerStyle className="dataTableCellData dataTableCellData-number">
-      {(!editMode || !focused) && <span className="dataTableCellData_number">{formatedValue}</span>}
+      {(!editMode || !focused) && (
+        <span className="dataTableCellData_number">{formattedValueOrNull}</span>
+      )}
       <input
         style={{
           display: showEditor ? 'block' : 'none',
@@ -87,7 +91,7 @@ export const DataTableCellNumber = ({
         max={maxApplied}
         min={minApplied}
         onChange={handleInputChange}
-        value={formatedValue || ''}
+        value={formattedValueOrNull || ''}
         step={step}
         onBlur={onBlur}
         onKeyDown={onKeyPress}

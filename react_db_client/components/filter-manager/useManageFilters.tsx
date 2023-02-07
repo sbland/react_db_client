@@ -1,8 +1,9 @@
 import {
   EComparisons,
+  EFilterType,
   FilterObjectClass,
   FilterOption,
-  filterTypes,
+  Uid,
 } from '@react_db_client/constants.client-types';
 import React from 'react';
 import { FilterId, TFilterFunc } from './lib';
@@ -31,6 +32,7 @@ export interface IUseManageFiltersArgs {
   fieldsData: { [key: string]: FilterOption };
   initialFilterData?: FilterObjectClass[];
   customFilters?: { [key: string]: TFilterFunc };
+  searchFieldTargetField?: Uid;
 }
 
 export interface IUseManageFiltersOutput {
@@ -40,16 +42,18 @@ export interface IUseManageFiltersOutput {
   clearFilters: () => void;
   updateFieldTarget: (filterIndex: FilterId, fieldId: string | number) => void;
   updateOperator: (filterId: FilterId, newOperator: EComparisons) => void;
+  setSearchStringFilter: (searchString: string) => void;
   filters: FilterObjectClass[];
+  fieldsData: { [key: string]: FilterOption };
 }
 
 export const useManageFilters = ({
   fieldsData,
   initialFilterData = [],
   customFilters = {},
+  searchFieldTargetField = 'label',
 }: IUseManageFiltersArgs): IUseManageFiltersOutput => {
   const [filters, setFilters] = React.useState(initialFilterData);
-
   const addFilter = React.useCallback((filterData: FilterObjectClass) => {
     setFilters((prev) => {
       return [...prev, filterData];
@@ -79,7 +83,7 @@ export const useManageFilters = ({
     (index: FilterId, fieldId: string) => {
       if (!fieldsData[fieldId]) throw Error('Missing Field Data');
       const { uid, type } = fieldsData[fieldId];
-      const isCustomType = !(fieldsData[fieldId].type in filterTypes);
+      // const isCustomType = !(fieldsData[fieldId].type in filterTypes);
 
       const newFilter = new FilterObjectClass({
         ...fieldsData[fieldId],
@@ -103,6 +107,29 @@ export const useManageFilters = ({
     updateFilter(filterId, newFilterData);
   };
 
+  const setSearchStringFilter = React.useCallback(
+    (newSearchString) => {
+      setFilters((prev) => {
+        // Remove previous search string filter and create a new one
+        const filtersCopy = prev ? [...prev.filter((f) => f.uid !== 'search')] : [];
+        if (newSearchString && searchFieldTargetField) {
+          filtersCopy.push(
+            new FilterObjectClass({
+              uid: 'search',
+              field: searchFieldTargetField,
+              value: newSearchString,
+              operator: EComparisons.CONTAINS,
+              type: EFilterType.text,
+            })
+          );
+          return filtersCopy;
+        }
+        return filtersCopy;
+      });
+    },
+    [searchFieldTargetField]
+  );
+
   return {
     filters,
     addFilter,
@@ -111,5 +138,7 @@ export const useManageFilters = ({
     clearFilters,
     updateFieldTarget,
     updateOperator,
+    fieldsData,
+    setSearchStringFilter,
   } as IUseManageFiltersOutput;
 };

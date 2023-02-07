@@ -16,7 +16,7 @@ const FilterString = ({ filter, updateFilter }: IFilterComponentProps) => {
     <input
       type="text"
       className="filterInput"
-      value={filter.value}
+      value={filter.value || ''}
       onChange={updateValue}
       disabled={filter.operator === comparisons.empty}
       aria-label={`Filter ${filter.label} text input`}

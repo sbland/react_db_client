@@ -1,22 +1,34 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { FilterPanel } from '@react_db_client/components.filter-manager';
-import { FilterObjectClass } from '@react_db_client/constants.client-types';
+import { FilterPanel, IUseManageFiltersOutput } from '@react_db_client/components.filter-manager';
+import { FilterObjectClass, Uid } from '@react_db_client/constants.client-types';
 
 import { arrayToObj } from '../Helpers/objectArrayHelpers';
 import { HiddenColumnsPanel } from '../HiddenColumnsPanel/HiddenColumnsPanel';
 import { DataTableContext } from '../DataTableConfig/DataTableConfig';
 
-export const DataTableTopMenu = ({
+export interface IDataTableTopMenuProps {
+  hiddenColumnIds: Uid[];
+  filterManager: IUseManageFiltersOutput;
+  setAutoFilter;
+  setAutoSort;
+  handleHideColumn;
+  headings;
+  autoFilter;
+  autoSort;
+  clearSelection;
+  selectAll;
+  customFilters;
+  customFiltersComponents;
+  invalidRowsMessages;
+}
+
+export const DataTableTopMenu: React.FC<IDataTableTopMenuProps> = ({
   hiddenColumnIds,
-  addFilter,
-  deleteFilter,
-  updateFilter,
-  clearFilters,
+  filterManager,
   setAutoFilter,
   setAutoSort,
   handleHideColumn,
-  filterData,
   headings,
   autoFilter,
   autoSort,
@@ -35,12 +47,7 @@ export const DataTableTopMenu = ({
         <>
           {/* TODO: This should be popup panel */}
           <FilterPanel
-            filterData={filterData}
-            clearFilters={clearFilters}
-            addFilter={(newFilterData) => addFilter(newFilterData)}
-            deleteFilter={(filterId) => deleteFilter(filterId)}
-            updateFilter={(filterId, newFilterData) => updateFilter(filterId, newFilterData)}
-            fieldsData={arrayToObj(headings, 'uid')}
+            {...filterManager}
             customFilters={customFilters}
             customFiltersComponents={customFiltersComponents}
             floating
@@ -108,19 +115,21 @@ export const DataTableTopMenu = ({
 
 DataTableTopMenu.propTypes = {
   hiddenColumnIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  addFilter: PropTypes.func.isRequired,
-  deleteFilter: PropTypes.func.isRequired,
-  updateFilter: PropTypes.func.isRequired,
-  clearFilters: PropTypes.func.isRequired,
+  filterManager: PropTypes.shape({
+    filters: PropTypes.arrayOf(PropTypes.instanceOf(FilterObjectClass)).isRequired,
+    addFilter: PropTypes.func.isRequired,
+    deleteFilter: PropTypes.func.isRequired,
+    updateFilter: PropTypes.func.isRequired,
+    clearFilters: PropTypes.func.isRequired,
+    fieldsData: PropTypes.objectOf(
+      PropTypes.shape({
+        // TODO: Add headings shape
+      })
+    ).isRequired,
+  }).isRequired,
   setAutoFilter: PropTypes.func.isRequired,
   setAutoSort: PropTypes.func.isRequired,
   handleHideColumn: PropTypes.func.isRequired,
-  filterData: PropTypes.arrayOf(PropTypes.instanceOf(FilterObjectClass)).isRequired,
-  headings: PropTypes.arrayOf(
-    PropTypes.shape({
-      // TODO: Add headings shape
-    })
-  ).isRequired,
   autoFilter: PropTypes.bool.isRequired,
   autoSort: PropTypes.bool.isRequired,
   clearSelection: PropTypes.func.isRequired,

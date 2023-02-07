@@ -12,7 +12,7 @@ import { AddFilterButton } from './add-filter-button';
 import { FilterId, TFilterFunc, IFilterComponentProps } from './lib';
 
 export interface IFilterPanelProps {
-  filterData: FilterObjectClass[];
+  filters: FilterObjectClass[];
   addFilter: (filter: FilterObjectClass) => void;
   deleteFilter: (filterId: FilterId) => void;
   updateFilter: (filterId: FilterId, newFilterData: FilterObjectClass) => void;
@@ -43,7 +43,7 @@ export interface IFilterPanelProps {
  * }
  */
 export const FilterPanel = ({
-  filterData,
+  filters: filterData,
   addFilter,
   deleteFilter,
   updateFilter,
@@ -69,7 +69,7 @@ export const FilterPanel = ({
 
   const panelClassName = ['filterPanel_panel', floating ? 'floating' : ''].join(' ');
   return (
-    <div className="filterManager">
+    <div className="filterManager" data-testid="rdc-filterManger">
       <button
         type="button"
         className="button-one openFiltersButton"
@@ -89,7 +89,7 @@ export const FilterPanel = ({
           deleteFilter={(filterIndex) => deleteFilter(filterIndex)}
           updateFilter={(filterIndex, newFilterData) => updateFilter(filterIndex, newFilterData)}
           fieldsData={fieldsData}
-          customFilters={customFilters}
+          // customFilters={customFilters}
           customFiltersComponents={customFiltersComponents}
           updateFieldTarget={updateFieldTarget}
           updateOperator={updateOperator}
@@ -117,7 +117,7 @@ export const FilterPanel = ({
 };
 
 FilterPanel.propTypes = {
-  filterData: PropTypes.arrayOf(PropTypes.instanceOf(FilterObjectClass)).isRequired,
+  filters: PropTypes.arrayOf(PropTypes.instanceOf(FilterObjectClass)).isRequired,
   addFilter: PropTypes.func.isRequired,
   deleteFilter: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,

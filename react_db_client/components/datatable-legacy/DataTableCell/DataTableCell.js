@@ -14,12 +14,12 @@ Cell - Interface between react window and data table cell
 
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import '../_dataTable.scss';
 import { DataTableContext } from '../DataTableConfig/DataTableConfig';
 import { RowStyleContext } from '../RowStyleContext';
 import { DataTableCellHoverWrap, DataTableDataCell, EditColumnCell } from './CellWrappers';
+import '../_dataTable.scss';
 
-const Cell = ({ columnIndex, rowIndex, style, data }) => {
+export const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const {
     className,
     tableData,

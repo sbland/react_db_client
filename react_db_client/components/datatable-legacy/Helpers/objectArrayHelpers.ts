@@ -1,7 +1,9 @@
 export const objToArray = (obj) => Object.keys(obj).map((key) => obj[key]);
-export const arrayToObj = (arr, idName) => {
-  if (!Array.isArray(arr)) return null;
-  const obj = {};
+export const arrayToObj =<El,> (arr: El[], idName: string) => {
+  if (!Array.isArray(arr)) {
+    throw new Error('Input must be array!');
+  }
+  const obj: {[k: string]: El} = {};
   arr.forEach((e) => {
     const id = e[idName];
     obj[id] = e;
@@ -67,11 +69,11 @@ export const flattenProps = (obj) =>
       return newData;
     }, {});
 
-export const getObjectKeySet = (objs) => {
+export const getObjectKeySet = (objs: any[]) => {
   objs.forEach((obj) => {
     if (!obj || typeof obj !== 'object') throw Error('Input is not an object!');
   });
-  const keyArray = flattenArray(objs.map((obj) => Object.keys(obj)));
+  const keyArray: string[] = flattenArray(objs.map((obj) => Object.keys(obj)));
   return Array.from(new Set(keyArray));
 };
 

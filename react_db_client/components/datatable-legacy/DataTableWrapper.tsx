@@ -1,8 +1,8 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
-import cloneDeep from 'lodash/cloneDeep';
 import PropTypes from 'prop-types';
-import { Uid } from '@react_db_client/constants.client-types';
+import { FilterOption, Uid } from '@react_db_client/constants.client-types';
+import { useManageFilters } from '@react_db_client/components.filter-manager';
 import { wrapWithErrorBoundary } from '@react_db_client/helpers.error-handling';
 import { FilterObjectClass } from '@react_db_client/constants.client-types';
 import { SelectionPreview } from '@react_db_client/components.selection-preview';
@@ -26,7 +26,8 @@ export interface IDataTableWrapperProps {
   headings;
   previewHeadings?;
   sortByOverride?;
-  filterOverride?;
+  availableFilters?: { [k: string]: FilterOption };
+  filterOverride?: FilterObjectClass[];
   saveData?;
   updateTotals?;
   updatedDataHook?;
@@ -50,6 +51,7 @@ export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
   id,
   data,
   headings,
+  availableFilters,
   previewHeadings,
   sortByOverride,
   filterOverride,
@@ -81,18 +83,18 @@ export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
     autoShowPreview,
   } = useContext(DataTableContext);
 
-  const [filterData, setFilterData] = useState(filterOverride || []);
   const [sortBy, setSortBy] = useState(sortByOverride);
   const [autoFilter, setAutoFilter] = useState(true);
   const [autoSort, setAutoSort] = useState(true);
   const [bottomMenuRef, setBottomMenuRef] = useState<HTMLDivElement | null>(null);
   const [showSelectionPreview, setShowSelectionPreview] = useState(autoShowPreview);
 
-  useEffect(() => {
-    if (filterOverride) {
-      setFilterData(filterOverride);
-    }
-  }, [filterOverride]);
+  const filterManager = useManageFilters({
+    fieldsData: availableFilters || {},
+    initialFilterData: filterOverride || [],
+    customFilters,
+  });
+  const { filters, addFilter } = filterManager;
 
   const {
     // dataUnProcessed,
@@ -111,7 +113,7 @@ export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
   } = useDataManager({
     data,
     headings,
-    filters: filterData,
+    filters,
     sortBy,
     calculateTotals,
     autoSave,
@@ -158,30 +160,6 @@ export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
     [sortBy, headings]
   );
 
-  const handleAddFilter = (newFilterObj) => {
-    setFilterData((prev) => prev.concat([newFilterObj]));
-  };
-
-  const handleDeleteFilter = (index) => {
-    setFilterData((prevFilterData) => {
-      const newFilterData = cloneDeep(prevFilterData);
-      newFilterData.splice(index, 1);
-      return newFilterData;
-    });
-  };
-
-  const handleUpdateFilter = (index, newFilter) => {
-    setFilterData((prevFilterData) => {
-      const newFilterData = cloneDeep(prevFilterData);
-      newFilterData[index] = newFilter;
-      return newFilterData;
-    });
-  };
-
-  const handleClearFilters = () => {
-    setFilterData([]);
-  };
-
   const handleSaveBtnClick = () => {
     handleSaveData();
   };
@@ -217,14 +195,10 @@ export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
       {showTopMenu && (
         <DataTableTopMenu
           hiddenColumnIds={hiddenColumnIds}
-          clearFilters={handleClearFilters}
-          addFilter={(newFilterData) => handleAddFilter(newFilterData)}
-          deleteFilter={(filterId) => handleDeleteFilter(filterId)}
-          updateFilter={(filterId, newFilterData) => handleUpdateFilter(filterId, newFilterData)}
+          filterManager={filterManager}
           setAutoFilter={setAutoFilter}
           setAutoSort={setAutoSort}
           handleHideColumn={handleHideColumn}
-          filterData={filterData}
           headings={headings}
           autoFilter={autoFilter}
           autoSort={autoSort}
@@ -241,7 +215,7 @@ export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
           tableData={dataProcessed}
           totalsData={totals}
           updateSortBy={updateSortBy}
-          addFilter={handleAddFilter}
+          addFilter={addFilter}
           updateValue={updateValue}
           acceptValue={acceptValue}
           resetValue={resetValue}
@@ -314,7 +288,7 @@ DataTableWrapperFunc.propTypes = {
   config: PropTypes.shape({}),
   sortByOverride: PropTypes.shape({
     heading: PropTypes.string.isRequired,
-    direction: PropTypes.bool.isRequired,
+    direction: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]).isRequired,
     map: PropTypes.arrayOf(PropTypes.string), // TODO: Check this is correct
     natural: PropTypes.bool,
   }),

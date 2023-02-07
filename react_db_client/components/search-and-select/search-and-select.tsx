@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import cloneDeep from 'lodash/cloneDeep';
 import {
   FilterObjectClass,
   IDocument,
   FilterOption,
-  EFilterType,
-  EComparisons,
   Uid,
 } from '@react_db_client/constants.client-types';
 import {
@@ -14,8 +11,9 @@ import {
   IStyledSelectListProps,
 } from '@react_db_client/components.styled-select-list';
 import {
-  FilterId,
   FilterPanel,
+  TFilterFunc,
+  useManageFilters,
 } from '@react_db_client/components.filter-manager';
 import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
 import { Emoji } from '@react_db_client/components.emoji';
@@ -34,9 +32,7 @@ export interface ISearchAndSelectProps<ResultType extends IDocument> {
   searchFunction: TSearchAndSelectSearchFunction<ResultType>;
   headings: IHeading[];
   previewHeadings: IHeading[];
-  handleSelect: (
-    data: null | ResultType
-  ) => void | ((data: null | ResultType[]) => void);
+  handleSelect: (data: null | ResultType) => void | ((data: null | ResultType[]) => void);
   selectionOverride?: ResultType[];
   autoUpdate?: boolean;
   allowFilters?: boolean;
@@ -60,6 +56,7 @@ export interface ISearchAndSelectProps<ResultType extends IDocument> {
   selectionPreviewProps?: Partial<ISelectionPreviewProps>;
   styledSelectListProps?: Partial<IStyledSelectListProps<ResultType>>;
   searchInputProps?: Partial<React.HTMLProps<HTMLInputElement>>;
+  customFilters?: { [k: string]: TFilterFunc<any> };
 }
 export const EmptyArray = [];
 
@@ -105,13 +102,16 @@ export const SearchAndSelect = <ResultType extends IDocument>({
   selectionPreviewProps = {},
   styledSelectListProps = {},
   searchInputProps = {},
+  customFilters = {},
 }: ISearchAndSelectProps<ResultType>) => {
   const [showPreview, setShowPreview] = useState(autoPreview);
   const [shouldReload, setShouldReload] = useState(loadOnInit);
   const [singleLoad, setSingleLoad] = useState(false);
-  const [activeFilters, setActiveFilters] = useState(
-    initialFilters || EmptyArray
-  );
+  const filterManager = useManageFilters({
+    fieldsData: availableFilters || {},
+    initialFilterData: initialFilters || EmptyArray,
+    customFilters,
+  });
   const [searchValue, setSearchValue] = useState(initialSearchValue);
   const [sortBy] = useState(sortByOverride);
   const [canLoad, setCanLoad] = useState(loadOnInit); // flag to stop loading on init
@@ -128,12 +128,6 @@ export const SearchAndSelect = <ResultType extends IDocument>({
     callOnInit: false,
     reloadKey: searchFunction,
   });
-
-  /* Reset the active filters if initial filters changes */
-  useEffect(() => {
-    setActiveFilters(initialFilters || EmptyArray);
-    if (autoUpdate) setShouldReload(true);
-  }, [initialFilters]);
 
   const {
     handleItemSelect,
@@ -161,17 +155,16 @@ export const SearchAndSelect = <ResultType extends IDocument>({
   useEffect(() => {
     if (canLoad && shouldReload && (autoUpdate || singleLoad)) {
       setSingleLoad(false);
-      if (!noEmptySearch || activeFilters.length > 0 || searchValue) {
+      if (!noEmptySearch || filterManager.filters.length > 0 || searchValue) {
         setShouldReload(false);
-        if (searchFieldTargetField)
-          reload([activeFilters, sortBy, null, reverseSort]);
+        if (searchFieldTargetField) reload([filterManager.filters, sortBy, null, reverseSort]);
         if (!searchFieldTargetField)
-          reload([activeFilters, sortBy, searchValue, reverseSort]);
+          reload([filterManager.filters, sortBy, searchValue, reverseSort]);
       }
     }
   }, [
     shouldReload,
-    activeFilters,
+    filterManager,
     sortBy,
     searchValue,
     reload,
@@ -189,65 +182,17 @@ export const SearchAndSelect = <ResultType extends IDocument>({
 
   const handleSearchFieldInput = (e) => {
     const newSearchString = e.target.value;
-
     setSearchValue(newSearchString);
+    filterManager.setSearchStringFilter(newSearchString);
+
     /* We block loading until user input received */
     if (!canLoad) setCanLoad(true);
     setShouldReload(true);
-
-    setActiveFilters((prev) => {
-      // Remove previous search string filter and create a new one
-      const filtersCopy = prev
-        ? [...prev.filter((f) => f.uid !== 'search')]
-        : [];
-      if (newSearchString && searchFieldTargetField) {
-        filtersCopy.push(
-          new FilterObjectClass({
-            uid: 'search',
-            field: searchFieldTargetField,
-            value: newSearchString,
-            operator: EComparisons.CONTAINS,
-            type: EFilterType.text,
-          })
-        );
-        return filtersCopy;
-      }
-      return filtersCopy;
-    });
   };
-
-  const handleAddFilter = (newFilterObj) => {
-    setActiveFilters((prev) => prev.concat([newFilterObj]));
-    if (!canLoad) setCanLoad(true);
-    setShouldReload(true);
-  };
-
-  const handleDeleteFilter = (index) => {
-    setActiveFilters((prevFilterData) =>
-      prevFilterData.filter((f, i) => i !== index)
-    );
-    if (!canLoad) setCanLoad(true);
-    setShouldReload(true);
-  };
-
-  const handleUpdateFilter = (index, newFilter) => {
-    setActiveFilters((prevFilterData) => {
-      const newFilterData = cloneDeep(prevFilterData);
-      newFilterData[index] = newFilter;
-      return newFilterData;
-    });
-    if (!canLoad) setCanLoad(true);
-    setShouldReload(true);
-  };
-
-  const handleClearFilters = () => setActiveFilters([]);
 
   return (
     <SearchAndSelectStyles>
-      <div
-        className="searchAndSelect sas_wrap sectionWrapper"
-        data-testid={`rdc-sas-${id}`}
-      >
+      <div className="searchAndSelect sas_wrap sectionWrapper" data-testid={`rdc-sas-${id}`}>
         <section
           className="sas_filtersSection"
           style={{
@@ -264,25 +209,7 @@ export const SearchAndSelect = <ResultType extends IDocument>({
               Show Preview
             </button>
           )}
-          {allowFilters && (
-            <FilterPanel
-              filterData={activeFilters}
-              addFilter={(newFilterData: FilterObjectClass) =>
-                handleAddFilter(newFilterData)
-              }
-              deleteFilter={(filterId: FilterId) =>
-                handleDeleteFilter(filterId)
-              }
-              updateFilter={(
-                filterId: FilterId,
-                newFilterData: FilterObjectClass
-              ) => handleUpdateFilter(filterId, newFilterData)}
-              clearFilters={handleClearFilters}
-              updateFieldTarget={() => {}} // TODO: Implement this
-              updateOperator={() => {}} // TODO: Implement this
-              fieldsData={availableFilters}
-            />
-          )}
+          {allowFilters && <FilterPanel {...filterManager} />}
 
           {showSearchField && (
             <div
@@ -367,9 +294,7 @@ export const SearchAndSelect = <ResultType extends IDocument>({
                 No results found. Try adjusting the filters above.
               </div>
             )}
-            {!loading && error && (
-              <div className="sas_resultsList-empty">{error.message}</div>
-            )}
+            {!loading && error && <div className="sas_resultsList-empty">{error.message}</div>}
 
             {showPreview && (
               <section className="selectionPreviewWrap">
@@ -397,11 +322,7 @@ export const SearchAndSelect = <ResultType extends IDocument>({
               </button>
             )}
 
-            <button
-              type="button"
-              className="button-one selectAllBtn"
-              onClick={selectAll}
-            >
+            <button type="button" className="button-one selectAllBtn" onClick={selectAll}>
               Select All
             </button>
             <button

@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ToggleBox } from '@react_db_client/components.form.form-components.toggle-box';
+import { DefaultCellInnerStyle } from './style';
 
-const DataTableCellToggle = ({
+export const DataTableCellToggle = ({
   cellData,
   // updateData,  //Update data not needed for toggle
   acceptValue,
@@ -15,14 +16,18 @@ const DataTableCellToggle = ({
     }
   }, [editMode, focused, cellData, acceptValue]);
   return (
-    <div className="dataTableCellData dataTableCellData-text">
-      <ToggleBox stateIn={cellData} onChange={acceptValue} />
-    </div>
+    <DefaultCellInnerStyle className="dataTableCellData dataTableCellData-text">
+      <ToggleBox
+        id="datatableCellToggle"
+        stateIn={cellData === 'INVALID' ? false : cellData}
+        onChange={acceptValue}
+      />
+    </DefaultCellInnerStyle>
   );
 };
 
 DataTableCellToggle.propTypes = {
-  cellData: PropTypes.oneOfType([PropTypes.bool]),
+  cellData: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['INVALID'])]),
   columnData: PropTypes.shape({
     readOnly: PropTypes.bool,
   }).isRequired,

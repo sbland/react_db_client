@@ -26,7 +26,7 @@ const updateFieldTarget = jest.fn();
 const updateOperator = jest.fn();
 
 const defaultProps: IFilterPanelProps = {
-  filterData: demoFiltersData,
+  filters: demoFiltersData,
   addFilter,
   deleteFilter,
   updateFilter,
