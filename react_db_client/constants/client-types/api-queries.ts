@@ -13,7 +13,7 @@ export interface ISaveResponse {
 export type TAsyncGetDocument<ResultType extends IDocument> = (
   collection: string,
   uid: Uid,
-  schemaRequest?: string,
+  schemaRequest?: string | string[],
   populate?: 'all' | string[]
 ) => Promise<ResultType>;
 export type TAsyncGetDocuments<ResultType extends IDocument> = (
