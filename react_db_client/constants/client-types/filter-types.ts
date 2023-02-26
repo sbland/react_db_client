@@ -20,6 +20,7 @@ export enum EFilterType {
   button = 'button',
   dict = 'dict',
   video = 'video',
+  table = 'table',
 }
 
 export const filterTypes: Record<EFilterType, string> = {
@@ -42,6 +43,7 @@ export const filterTypes: Record<EFilterType, string> = {
   button: 'button',
   dict: 'dict',
   video: 'video',
+  table: 'table',
 };
 
 export const filterTypesDefaults: Record<EFilterType, any> = {
@@ -60,6 +62,7 @@ export const filterTypesDefaults: Record<EFilterType, any> = {
   fileMultiple: [],
   image: null,
   embedded: null,
+  table: [],
   // TODO: Below should not be filter types
   button: null,
   dict: null,
@@ -75,7 +78,11 @@ export const filterTypesComparisons: Record<EFilterType, EComparisons[]> = {
   bool: [EComparisons.EQUALS],
   toggle: [EComparisons.EQUALS],
   date: [EComparisons.AFTER, EComparisons.BEFORE],
-  number: [EComparisons.EQUALS, EComparisons.GREATER_THAN, EComparisons.LESS_THAN],
+  number: [
+    EComparisons.EQUALS,
+    EComparisons.GREATER_THAN,
+    EComparisons.LESS_THAN,
+  ],
   uid: [EComparisons.INVALID],
   reference: [EComparisons.INVALID],
   file: [EComparisons.CONTAINS],
@@ -85,6 +92,7 @@ export const filterTypesComparisons: Record<EFilterType, EComparisons[]> = {
   button: [EComparisons.INVALID],
   dict: [EComparisons.INVALID],
   video: [EComparisons.INVALID],
+  table: [EComparisons.INVALID],
 };
 
 export const filterTypesList = Object.keys(filterTypes);
