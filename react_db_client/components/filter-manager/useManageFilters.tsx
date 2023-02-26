@@ -45,6 +45,7 @@ export interface IUseManageFiltersOutput {
   setSearchStringFilter: (searchString: string) => void;
   filters: FilterObjectClass[];
   fieldsData: { [key: string]: FilterOption };
+  setFilters: (filter: FilterObjectClass[]) => void;
 }
 
 export const useManageFilters = ({
@@ -54,6 +55,7 @@ export const useManageFilters = ({
   searchFieldTargetField = 'label',
 }: IUseManageFiltersArgs): IUseManageFiltersOutput => {
   const [filters, setFilters] = React.useState(initialFilterData);
+
   const addFilter = React.useCallback((filterData: FilterObjectClass) => {
     setFilters((prev) => {
       return [...prev, filterData];
@@ -78,6 +80,15 @@ export const useManageFilters = ({
       return newFilters;
     });
   }, []);
+
+  React.useEffect(() => {
+    /* If input filter data changes then reset filters */
+    if (initialFilterData) {
+      setFilters(initialFilterData);
+    } else {
+      clearFilters();
+    }
+  }, [initialFilterData]);
 
   const updateFieldTarget = React.useCallback(
     (index: FilterId, fieldId: string) => {
@@ -140,5 +151,6 @@ export const useManageFilters = ({
     updateOperator,
     fieldsData,
     setSearchStringFilter,
+    setFilters,
   } as IUseManageFiltersOutput;
 };
