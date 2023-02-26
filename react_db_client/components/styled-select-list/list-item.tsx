@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { stringifyData } from '@react_db_client/helpers.data-processing';
 import { Uid } from '@react_db_client/constants.client-types';
 
-import { StyledListItemBtnStyle, StyledListItemCell, StyledListItemStyle } from './styles';
+import {
+  StyledListItemBtnStyle,
+  StyledListItemCell,
+  StyledListItemStyle,
+} from './styles';
 import { IHeading, IItem } from './lib';
 
 export interface IListItemProps<ItemType extends IItem> {
@@ -32,7 +36,9 @@ export const ListItem = <ItemType extends IItem>({
         type="button"
         onClick={() => handleSelect(data.uid, data)}
         style={{ width: tableWidth }}
-        className={`styledList_itemBtn ${isSelected ? 'styledList_itemBtnSelected' : ''}`}
+        className={`styledList_itemBtn ${
+          isSelected ? 'styledList_itemBtnSelected' : ''
+        }`}
         selected={isSelected}
         data-isselected={isSelected}
         aria-label={data.label}
@@ -40,6 +46,7 @@ export const ListItem = <ItemType extends IItem>({
         {headings.map((heading, i) => (
           <StyledListItemCell
             key={heading.uid}
+            data-testid={`SaS_item_cell_${heading.uid}`}
             style={{
               width: columnWidths[i],
             }}
