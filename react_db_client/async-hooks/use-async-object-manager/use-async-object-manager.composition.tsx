@@ -265,3 +265,20 @@ export const AsyncTestLoadOnInit = () => {
 AsyncTestLoadOnInit.waitForReady = async () => {
   await screen.findByText('Loaded data');
 };
+
+export const AsyncTestSaveAll = () => {
+  const handleCallbacks = useHandleCallbacks();
+  const database = useDemoDatabase();
+  const asyncOut = useAsyncObjectManager({
+    ...defaultArgs,
+    ...database,
+    loadOnInit: true,
+    saveAllOnSave: true,
+    ...handleCallbacks,
+  });
+  return <Viz {...asyncOut} {...database} {...handleCallbacks} />;
+};
+
+AsyncTestSaveAll.waitForReady = async () => {
+  await screen.findByText('Loaded data');
+};

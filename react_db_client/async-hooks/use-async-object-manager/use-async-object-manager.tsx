@@ -34,6 +34,7 @@ export interface IUseAsyncObjectManagerArgs<DocType extends IDocument> {
   loadOnInit?: boolean;
   autoSave?: boolean;
   reloadOnSave?: boolean;
+  saveAllOnSave?: boolean;
   onSavedCallback?: (uid: Uid, response: any, combinedData: DocType) => void;
   saveErrorCallback?: (
     e: AsyncRequestError
@@ -42,7 +43,7 @@ export interface IUseAsyncObjectManagerArgs<DocType extends IDocument> {
   asyncGetDocument: TAsyncGetDocument<DocType>;
   asyncPutDocument: TAsyncPutDocument<DocType>;
   asyncPostDocument: TAsyncPostDocument<DocType>;
-  asyncDeleteDocument: TAsyncDeleteDocument;
+  asyncDeleteDocument?: TAsyncDeleteDocument;
 }
 
 export interface IUseAsyncObjectManagerReturn<DocType extends IDocument> {
@@ -59,7 +60,7 @@ export interface IUseAsyncObjectManagerReturn<DocType extends IDocument> {
   reload: () => void;
   deleteObject: () => void;
   saveResponse?: ISaveResponse;
-  deleteResponse?: null | IDeleteResponse;
+  deleteResponse?: void | null | IDeleteResponse;
   loadingData: boolean;
   savingData: boolean;
   deletingData: boolean;
@@ -74,6 +75,8 @@ export interface IUseAsyncObjectManagerReturn<DocType extends IDocument> {
   isNew: boolean;
 }
 
+const NO_OP_ASYNC = async () => {};
+
 export const useAsyncObjectManager = <DocType extends IDocument>({
   activeUid,
   collection,
@@ -84,6 +87,7 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
   loadOnInit = true,
   autoSave = false,
   reloadOnSave = false,
+  saveAllOnSave = false,
   onSavedCallback: onSavedCallbackIn /* Returns a message string */,
   saveErrorCallback /* Returns a AsyncRequestError */,
   onDeleteCallback,
@@ -105,7 +109,7 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
   const [savingNewDataState, asyncSaveNewData, asyncSaveNewDataReset] =
     useAsyncFnReset(asyncPostDocument, [asyncPostDocument]);
   const [deletingDataState, asyncDeleteData, asyncDeleteDataReset] =
-    useAsyncFnReset(asyncDeleteDocument);
+    useAsyncFnReset(asyncDeleteDocument || NO_OP_ASYNC);
   const [loadedDataState, callLoadData] = useAsyncFn(
     async () => asyncGetDocument(collection, uid, schema, populate),
     [collection, uid, schema, populate, asyncGetDocument]
@@ -201,11 +205,17 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
   React.useEffect(() => {
     if (shouldSave) {
       setShouldSave(false);
-      const dataToSave: DocType = {
-        ...inputAdditionalData,
-        ...(newData || ({} as DocType)),
-        uid,
-      };
+      const dataToSave: DocType = saveAllOnSave
+        ? {
+            ...inputAdditionalData,
+            ...((combinedData as DocType) || ({} as DocType)),
+            uid,
+          }
+        : {
+            ...inputAdditionalData,
+            ...(newData || ({} as DocType)),
+            uid,
+          };
       asyncSaveDataReset();
       asyncSaveNewDataReset();
       const postCall = isNew ? asyncSaveNewData : asyncSaveData;
@@ -224,6 +234,7 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
     asyncSaveDataReset,
     asyncSaveNewDataReset,
     inputAdditionalData,
+    combinedData,
   ]);
 
   const updateField = (field, value, save?: boolean, nested?: string) => {

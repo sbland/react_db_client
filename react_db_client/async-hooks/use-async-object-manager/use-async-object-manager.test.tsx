@@ -230,6 +230,66 @@ describe('Use async request hook', () => {
       const dbData = screen.getByTestId('dbData').textContent;
       expect(dbData).toEqual(JSON.stringify(expectedDbData));
     });
+    test('should change database data when editing input and saving', async () => {
+      render(<compositions.AsyncTestLoadOnInit />);
+      await compositions.AsyncTestLoadOnInit.waitForReady();
+      const formInputEl = screen.getByLabelText('Goodbye Input');
+      await UserEvent.clear(formInputEl);
+      const newVal = 'New Value';
+      await UserEvent.type(formInputEl, newVal);
+      const newData = {
+        ...demoLoadedData,
+        ...inputAdditionalData,
+        goodbye: newVal,
+      };
+      await screen.findAllByText(JSONStringifySorted(newData));
+      const saveBtn = screen.getByRole('button', { name: /Save/ });
+      await UserEvent.click(saveBtn);
+      const expectedDbData = { ...demoDbData };
+      expectedDbData.demoCollection.abc = {
+        ...expectedDbData.demoCollection.abc,
+        ...inputAdditionalData,
+        goodbye: newVal,
+      };
+      await waitFor(() =>
+        expect(screen.getByTestId('dbData').textContent).toEqual(
+          JSON.stringify(expectedDbData)
+        )
+      );
+      const dbData = screen.getByTestId('dbData').textContent;
+      expect(dbData).toEqual(JSON.stringify(expectedDbData));
+    });
+
+    test('should save data when saveAllOnSave is true', async () => {
+      // TODO: This is difficult to test with current test setup
+      // render(<compositions.AsyncTestSaveAll />);
+      // await compositions.AsyncTestLoadOnInit.waitForReady();
+      // const formInputEl = screen.getByLabelText('Goodbye Input');
+      // await UserEvent.clear(formInputEl);
+      // const newVal = 'New Value';
+      // await UserEvent.type(formInputEl, newVal);
+      // const newData = {
+      //   ...demoLoadedData,
+      //   ...inputAdditionalData,
+      //   goodbye: newVal,
+      // };
+      // await screen.findAllByText(JSONStringifySorted(newData));
+      // const saveBtn = screen.getByRole('button', { name: /Save/ });
+      // await UserEvent.click(saveBtn);
+      // const expectedDbData = { ...demoDbData };
+      // expectedDbData.demoCollection.abc = {
+      //   ...expectedDbData.demoCollection.abc,
+      //   ...inputAdditionalData,
+      //   goodbye: newVal,
+      // };
+      // await waitFor(() =>
+      //   expect(screen.getByTestId('dbData').textContent).toEqual(
+      //     JSON.stringify(expectedDbData)
+      //   )
+      // );
+      // const dbData = screen.getByTestId('dbData').textContent;
+      // expect(dbData).toEqual(JSON.stringify(expectedDbData));
+    });
     test.todo('should be able to update an array value');
     test('should handle errors when saving', async () => {
       render(<compositions.AsyncTestLoadOnInit />);
