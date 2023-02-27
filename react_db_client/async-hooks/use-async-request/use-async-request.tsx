@@ -28,6 +28,7 @@ export interface IFnArgs<ResponseType, Args> {
   args: Args;
   callback: ICallback<ResponseType, Args>;
 }
+
 export interface IResultState {
   isLoading: boolean;
   latestLoadingId: number;
@@ -36,11 +37,12 @@ export interface IResultState {
   error?: AsyncRequestError;
   callCount: number;
 }
+
 export interface IUseAsyncRequestReturn<ResponseType, Args> {
   resultState: IResultState;
   response?: ResponseType;
-  reload: (Args?, callback?: ICallback<ResponseType, Args>) => void;
-  call: (Args?, callback?: ICallback<ResponseType, Args>) => void;
+  reload: (Args?: Args, callback?: ICallback<ResponseType, Args>) => void;
+  call: (Args?: Args, callback?: ICallback<ResponseType, Args>) => void;
   loading: boolean;
   hasLoaded: boolean;
   error?: AsyncRequestError;
@@ -101,7 +103,7 @@ export const useAsyncRequest = <ResponseType, Args extends Array<any>>({
   }, [callbackIn]);
 
   const reload = useCallback(
-    (argsUpdated: Args, callbackOverride?: ICallback<ResponseType, Args>) => {
+    (argsUpdated?: Args, callbackOverride?: ICallback<ResponseType, Args>) => {
       setArgs((prev) => argsUpdated || prev);
       setCallback((prev) => callbackOverride || prev);
       setAllowLoad(true);
@@ -109,6 +111,7 @@ export const useAsyncRequest = <ResponseType, Args extends Array<any>>({
     },
     []
   );
+
   useEffect(() => {
     setForceLoad(true);
   }, [reloadKey]);
