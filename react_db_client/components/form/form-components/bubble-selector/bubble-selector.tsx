@@ -78,7 +78,7 @@ export const BubbleSelector = ({
   const sortFn = isSorted
     ? (a: IOpt, b: IOpt) =>
         String(a?.label).toLowerCase() > String(b.label).toLowerCase() ? 1 : -1
-    : () => 1;
+    : () => -1;
 
   const mapAllItems = allItems
     .sort(sortFn)
