@@ -19,7 +19,7 @@ export type CustomParser = (value: any) => any;
 
 export interface ISelectionPreviewProps {
   headings: IHeading[];
-  currentSelectionData: { [id: string]: any };
+  currentSelectionData?: { [id: string]: any };
   customParsers?: { [key: string]: CustomParser };
   listStyleOverride?: Partial<React.CSSProperties>;
 }

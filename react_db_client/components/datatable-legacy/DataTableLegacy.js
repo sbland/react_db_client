@@ -86,6 +86,6 @@ DataTableFunc.defaultProps = {
   config: {},
 };
 
-export const DataTableSimple = DataTableConfigConnector({})(DataTableFunc);
+export const DataTableLegacy = DataTableConfigConnector({})(DataTableFunc);
 
-export default DataTableSimple;
+export default DataTableLegacy;

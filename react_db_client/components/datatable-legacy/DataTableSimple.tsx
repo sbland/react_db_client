@@ -1,23 +1,35 @@
 /* A simple wrapper around the datatable that sets some presets */
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { Uid } from '@react_db_client/constants.client-types';
 import { headingDataShape, tableDataShape } from './inputDataShapes';
+import DataTableWrapper, { IDataTableWrapperProps, IHeading, IRow } from './DataTableWrapper';
+import { IDataTableConfig } from './DataTableConfig/DataTableConfig';
 import './_dataTable.scss';
-import DataTableWrapper from './DataTableWrapper';
 
+export interface IDataTableSimpleProps extends Partial<IDataTableWrapperProps> {
+  id: Uid;
+  headingsData: IHeading[];
+  tableData: IRow[];
+  showTotals?: boolean;
+  config?: Partial<IDataTableConfig>;
+  tableHeight: unknown;
+}
 /** Data Table Component
  * Converts an array of objects to a table by mapping against a column schema(headingsData)
  *
  */
-const DataTableSimple = ({
+export const DataTableSimple: React.FC<IDataTableSimpleProps> = ({
+  id,
   headingsData: headingsDataList,
   tableData,
   showTotals,
-  config,
+  config={},
   tableHeight,
+  ...additionalProps
 }) => (
   <DataTableWrapper
+    id={id}
     headings={headingsDataList}
     data={tableData}
     maxTableHeight={tableHeight}
@@ -32,6 +44,7 @@ const DataTableSimple = ({
       showTotals,
       ...config,
     }}
+    {...additionalProps}
   />
 );
 

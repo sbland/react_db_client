@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { FilterOption, Uid } from '@react_db_client/constants.client-types';
@@ -20,10 +20,21 @@ import useConditionalStylingManager from './ConditionalStylingManager/Conditiona
 import { useSelectionManager } from './SelectionManagerHook';
 import { RowErrors } from './errorTypes';
 
+
+export interface IHeading {
+  uid: Uid;
+  label: string;
+  natural?: boolean;
+}
+
+export interface IRow {
+  uid: Uid;
+}
+
 export interface IDataTableWrapperProps {
   id: Uid;
-  data;
-  headings;
+  data: IRow[];
+  headings: IHeading[];
   previewHeadings?;
   sortByOverride?;
   availableFilters?: { [k: string]: FilterOption };
@@ -153,7 +164,7 @@ export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
       const newSortByData = {
         heading: headingToSortBy,
         direction: sortBy?.heading === headingToSortBy ? !sortBy.direction : 1,
-        natural: headingData.natural,
+        natural: headingData?.natural,
       };
       setSortBy(newSortByData);
     },

@@ -10,4 +10,6 @@ export {
 } from './DataTableConfig';
 export { useDataManager, SAVE_ACTIONS } from './DataManager';
 export type { IUseDataManagerArgs, ESaveAction } from './DataManager';
-export { DataTableSimple } from './DataTable';
+export { DataTableSimple } from './DataTableSimple';
+export type { IDataTableSimpleProps } from './DataTableSimple';
+export { DataTableLegacy } from './DataTableLegacy';
