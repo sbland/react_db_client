@@ -54,6 +54,7 @@
       "dependencies": {
         "@babel/plugin-syntax-flow": "7.16.7",
         "@react_db_client/async-hooks.use-async-auth-hook": "0.0.4",
+        "@react_db_client/async-hooks.use-async-object-manager": "0.2.58",
         "@teambit/design.ui.external-link": "0.0.347",
         "@teambit/documenter.theme.theme-compositions": "4.1.1",
         "@teambit/documenter.ui.copy-box": "4.1.1",
@@ -152,7 +153,7 @@
       "teambit.react/react": {},
       "teambit.pkg/pkg": {
         "packageManagerPublishArgs": [
-          "--access public"
+          // "--access public"
           // "--otp=039502@react_db_client/components.emoji"
         ],
         "packageJson": {
