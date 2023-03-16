@@ -2,10 +2,7 @@ import { Uid } from '@react_db_client/constants.client-types';
 import React, { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
-import {
-  EPopupRegisterAction,
-  PopupPanelContext,
-} from './popup-panel-provider';
+import { EPopupRegisterAction, PopupPanelContext } from './popup-panel-provider';
 import {
   PopupPanelClosePanelStyle,
   PopupPanelContentPanelStyle,
@@ -27,6 +24,7 @@ export interface IPopupPanelProps {
   deleteRootOnUnmount?: boolean;
   zIndex?: number;
   onClose?: () => void;
+  closePanelBackground?: boolean;
 }
 
 export interface IPopupPanelRenderProps {
@@ -41,6 +39,7 @@ export interface IPopupPanelRenderProps {
   open?: boolean;
   closePopup: (Uid) => void;
   root: HTMLElement;
+  closePanelBackground: boolean;
 }
 
 export const PopupPanelRender = ({
@@ -52,6 +51,7 @@ export const PopupPanelRender = ({
   renderWhenClosed,
   children,
   root,
+  closePanelBackground,
 }: IPopupPanelRenderProps) => {
   return ReactDOM.createPortal(
     <PopupPanelWrapStyle
@@ -61,12 +61,15 @@ export const PopupPanelRender = ({
         display: open ? 'inherit' : 'none',
       }}
     >
-      <PopupPanelClosePanelStyle
-        onKeyDown={(e) => e.key === 'Escape' && closePopup(id)}
-        onClick={() => closePopup(id)}
-        aria-label="Close the popup"
-        data-testid={'popupPanel_closeBtn'}
-      />
+      {closePanelBackground && (
+        <PopupPanelClosePanelStyle
+          onKeyDown={(e) => e.key === 'Escape' && closePopup(id)}
+          onClick={() => closePopup(id)}
+          aria-label="Close the popup"
+          data-testid={'popupPanel_closeBtn'}
+        />
+      )}
+
       <PopupPanelContentPanelStyle
         data-testid={'popupPanel_content'}
         isOpen={open || false}
@@ -87,6 +90,7 @@ export function PopupPanel({
   deleteRootOnUnmount,
   zIndex,
   onClose,
+  closePanelBackground = true,
 }: IPopupPanelProps) {
   const { dispatchPopupRegister, state } = React.useContext(PopupPanelContext);
   const { popupRegister, baseZIndex } = state;
@@ -146,6 +150,7 @@ export function PopupPanel({
       renderWhenClosed={renderWhenClosed}
       children={children}
       root={root}
+      closePanelBackground={closePanelBackground}
     />
   );
 }

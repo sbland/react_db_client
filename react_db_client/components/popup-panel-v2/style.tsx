@@ -13,10 +13,12 @@ export const PopupPanelWrapStyle = styled.div`
   overflow: hidden;
   margin: 0;
   padding: 0;
+  pointer-events: none;
 `;
 
 export const PopupPanelClosePanelStyle = styled.button`
   position: absolute;
+  pointer-events: initial;
   cursor: pointer;
   left: 0;
   right: 0;
