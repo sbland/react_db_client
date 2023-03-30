@@ -145,9 +145,6 @@ importers:
   react_db_client/async-hooks/use-async-object-manager:
     specifiers: {}
 
-  react_db_client/async-hooks/use-async-object-manager-v2:
-    specifiers: {}
-
   react_db_client/async-hooks/use-async-request:
     specifiers: {}
 
@@ -223,16 +220,13 @@ importers:
   react_db_client/components/popup-panel-v2:
     specifiers: {}
 
-  react_db_client/components/popup-panel-v2b:
-    specifiers: {}
-
-  react_db_client/components/popup-panel-v2c:
-    specifiers: {}
-
   react_db_client/components/search-and-select:
     specifiers: {}
 
   react_db_client/components/search-and-select-dropdown:
+    specifiers: {}
+
+  react_db_client/components/search-and-select-v2:
     specifiers: {}
 
   react_db_client/components/selection-preview:
@@ -296,12 +290,6 @@ importers:
     specifiers: {}
 
   react_db_client/testing/enzyme-setup:
-    specifiers: {}
-
-  react_db_client/tmp/v1:
-    specifiers: {}
-
-  react_db_client/tmp/v2:
     specifiers: {}
 
 packages:
