@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { PopupPanel } from '@react_db_client/components.popup-panel';
-import { SearchAndSelect } from '@react_db_client/components.search-and-select';
+import { SearchAndSelect } from '@react_db_client/components.search-and-select-v2';
 import { filterTypes, filterTypesList } from '@react_db_client/constants.client-types';
 import { DefaultCellInnerStyle } from './style';
 

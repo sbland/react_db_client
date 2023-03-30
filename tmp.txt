@@ -1,0 +1,391 @@
+- loading aspects...
+- teambit.workspace/workspace, loading components (total: 3)
+- teambit.workspace/workspace, loading components (1/3). samnbuk.react_db_client/generator/stylesheet@0.1.2
+- teambit.workspace/workspace, loading components (2/3). samnbuk.react_db_client/generator/helper@0.1.2
+- teambit.workspace/workspace, loading components (3/3). samnbuk.react_db_client/generator/field-template@0.2.2
+- teambit.workspace/workspace, loading components (completed in 579ms)
+- running command "log"...
+tag 0.2.58 (08e6ce7d2b0a8fc6938205a224042c88becb775b)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-02-27 12:02:24
+
+      update async request args type (bump dependencies versions)
+
+tag 0.2.57 (aa9e5cc100aee4ad1f747e5b85bdb4d26130ab55)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-02-26 21:32:11
+
+      update async request hook
+
+tag 0.2.56 (8dcd522f746c120fb23c3254472fa159f0e7ddea)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-02-26 21:18:30
+
+      update dependencies
+
+tag 0.2.55 (3f87d5bbea24c0ab8c4be2a04bff5758b27c7469)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-02-26 21:10:36
+
+      update dependencies
+
+tag 0.2.53 (06da9a62b4eafeb9803db3034b93353ebcf594a5)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-02-22 08:05:15
+
+      update async object manager - make some async functions optional
+
+tag 0.2.52 (c56614bea3aab4a54cc2c2a38b3c5851009a4d6d)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-02-21 17:00:40
+
+      add saveAllOnSave option to async object manager
+
+tag 0.2.50 (bdf462be9121a73937708c2bc350e32d29c0bf8f)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-02-09 07:52:45
+
+      update client types api queries (bump dependencies versions)
+
+tag 0.2.49 (3e7722818666faa1b796a6115818b770e22db45a)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-02-09 07:42:27
+
+      implement table client type (bump dependencies versions)
+
+tag 0.2.48 (2a0ce1422c08374b7ff60c8b7dda932c8b1b00c6)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-02-08 00:28:07
+
+      update dependencies
+
+tag 0.2.47 (fe21e4108faa7e0ac30580a99a57f07d5401d549)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-02-08 00:20:15
+
+      Update peer deps
+
+tag 0.2.46 (c33137428daa2e477d290fa2d05f0caa5db38b3e)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-02-07 23:05:40
+
+      update dependencies
+
+tag 0.2.45 (1bd3a82bf369a9ab87491117e057d65ca44a3c23)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-02-07 22:00:42
+
+      fix datatable legacy filters
+
+tag 0.2.44 (c50029c5d244145e976b73cd9209dd57263b1701)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-02-04 21:48:55
+
+      async-hooks/use-async-object-manager,linting
+
+tag 0.2.43 (8492859ee71c6afb19d19cce154dc4e79af0d844)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-02-04 21:33:08
+
+      update async object manager
+
+tag 0.2.42 (27390fe2d0341f9790b8568024684f2b1eb93d0b)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-02-01 15:55:20
+
+      add fill container to column manager
+
+tag 0.2.41 (d555019f5031467528184a8c06183f46e370006d)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-23 17:00:10
+
+      fix async object manager error handling
+
+tag 0.2.40 (f2bfc4de33b7a39385417622e5529db69a206360)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-23 10:01:08
+
+      fix async error handling
+
+tag 0.2.39 (02c5341c0d0f6d876906995e455bb95eba22c47f)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-22 21:56:45
+
+      fix item editor error handling
+
+tag 0.2.38 (d4a50d0cb9b6a8b5b38a7078c445e42a7578c99f)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-18 15:17:44
+
+tag 0.2.37 (c1d928db17b9f98ca2253cc6c6c73875493999be)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-18 15:00:46
+
+      update field lib (bump dependencies versions)
+
+tag 0.2.36 (ada7d1666330caa040c2e6d61c92055ddbf3573a)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-17 15:46:14
+
+      update popup
+
+tag 0.2.35 (ce06d9d40c9b1738737b26c9b1ae297d1bcb5237)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-17 02:03:13
+
+      minor updates
+
+tag 0.2.34 (17a94b1115e2fc10b119c07294e7022c6699e22a)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-17 00:34:18
+
+      fix form saving in item editor
+
+tag 0.2.33 (136f7c96b625d51c49920d0eb5a0abcdc2fefe22)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-15 16:38:50
+
+      update async hooks
+
+tag 0.2.32 (6eb9bea73b45259ce560416bdc7c65fca719c2a5)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-15 12:12:35
+
+      update async hooks
+
+tag 0.2.31 (d5f6cd5177bb65c5232afd8a87ad10c2813a4772)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-15 01:01:48
+
+      update async hooks
+
+tag 0.2.30 (b37b3647021bceef03eb82cc559f75d524501d07)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-14 23:56:14
+
+      update async hooks
+
+tag 0.2.29 (82509e3a2f5b58e09da09d2c53fdcb2309994095)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-14 23:46:25
+
+      update async hooks
+
+tag 0.2.28 (5a4e63a73aace710d79b94a746a1107624b16743)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-14 22:56:47
+
+      update async hooks
+
+tag 0.2.27 (9c5b4b897a9e491fa98c21745f47ba14dbac88a7)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-10 22:02:39
+
+      update prop types and styled list
+
+tag 0.2.26 (78920a629eb8167ffe799e18f643381a66c7ad22)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-08 22:16:59
+
+      update deps fix peer deps
+
+tag 0.2.25 (4adfe37959a0e7eaccaea330d95404010c9987db)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-05 00:59:12
+
+      update item editor
+
+tag 0.2.24 (ef2f095c4cc157b539c7f763c2f2d4aa3e9707dc)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-04 22:48:18
+
+      update async and popup
+
+tag 0.2.23 (84b306c2dcf1af25abaa8321f9427d35df84e275)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-03 21:57:41
+
+      update async object manager
+
+tag 0.2.22 (e2fa024795a12a3b4c9531eae2a8a271459e59cd)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-03 14:00:24
+
+      update popup panel v2 (bump dependencies versions)
+
+tag 0.2.21 (9d95e6aeabd9f7ebb1c70a7b8c347e22d028c658)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-03 13:32:46
+
+      update async request hook with fn tests (bump dependencies versions)
+
+tag 0.2.20 (958512f5c473395ef581399df630c21961b2c58b)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2023-01-03 11:49:04
+
+      update async request hook types (bump dependencies versions)
+
+tag 0.2.19 (b5611d941f59a61b48d7dbb37f7fe14856b6107b)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2022-11-11 12:04:32
+
+      Update deps
+
+tag 0.2.18 (a0bb9057a7956d9c53b903d237634710c79207e7)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2022-10-22 19:45:15
+
+      add fn name to async error (bump dependencies versions)
+
+tag 0.2.17 (629a3aef856417d8ceccec0998e21f0af60bc8f2)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2022-10-14 01:43:40
+
+      update-search-and-select (bump dependencies versions)
+
+tag 0.2.16 (09b1b5c778aa367fe0a600e3713befd985ead5cc)
+author: samnbuk <sbland.co.uk@gmail.com>
+date: 2022-10-10 08:28:25
+
+      type-fixes-1 (bump dependencies versions)
+
+tag 0.2.15 (3afc809cb6d840323e7eb203efb7d10625dfee70)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-08-01 08:50:02
+
+tag 0.2.14 (c0bdb1878ba670fc1bd9eec6926bc7a79b527380)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-08-01 00:45:35
+
+tag 0.2.13 (f4eb29693b15ead7dfecbd76ae4ad46b97def4e0)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-07-31 22:20:04
+
+tag 0.2.12 (b31960f8163d8f7a92648f46310061d7c16d64ee)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-07-26 09:33:38
+
+      bump dependencies versions
+
+tag 0.2.11 (d76f88884c1e1a91273656a2acb1ec8d7c23d028)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-07-24 18:54:07
+
+      bump dependencies versions
+
+tag 0.2.10 (671c3fbd5967f416d0800907d1d5a5f1716370ee)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-07-24 13:39:29
+
+      bump dependencies versions
+
+tag 0.2.9 (ba9458587ce1a2725547a7f7028549006ab26f9f)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-07-24 13:35:39
+
+tag 0.2.8 (a305e51dc2e1dd41ec8b8f5b76eef3618594d86c)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-07-24 12:53:45
+
+      bump dependencies versions
+
+tag 0.2.7 (22c8ff392e9ebfae8c10f64abf99c9aac5a0c185)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-07-24 11:57:56
+
+tag 0.2.6 (5759cdf317fd3f692dc80a323a98a9a7fddd3d39)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-07-23 19:43:40
+
+      bump dependencies versions
+
+tag 0.2.5 (3592c157b66c2771c5b264c770aa1777e58b6de9)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-05-28 10:38:11
+
+      minor sas dropdown updates (bump dependencies versions)
+
+tag 0.2.4 (f2cb946bb1ddc8e6a6f2cc050a32470bf07faf65)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-05-28 00:43:00
+
+      convert search and select dropdown to typescript (bump dependencies versions)
+
+tag 0.2.3 (c1eaa6548ab0d466b2cda62e1919f2236c5465b7)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-05-27 23:04:00
+
+      move helpers to npm
+
+tag 0.2.2 (cdd7595ef4fe1efd656a3d8a40bda493e9ce8ea7)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-05-27 22:48:02
+
+      update search-and-select-dropdown dependencies
+
+tag 0.2.1 (6c136a3bc6f04ab8532418929d33cd923493ffd6)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-05-27 22:33:47
+
+tag 0.2.0 (c00783fb540c06fc1b93d60bc44843ea53d31d75)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-05-27 22:29:40
+
+tag 0.1.4 (444cf1ebdbcc94d28736a1c57dc29efe80807bab)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-04-21 09:11:08
+
+tag 0.1.3 (8f13e7146604b967c69d09e1f4d88f732c72f41f)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-02-13 08:49:40
+
+tag 0.1.2 (255a22e17697974072b861812d0c40dc30890699)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-02-12 07:33:26
+
+       (bump dependencies versions)
+
+tag 0.1.1 (f090a9f490e860708f09bde18a7532698bbda079)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-02-12 07:29:19
+
+tag 0.1.0 (6e7cf6711c7483eafe790b182717d39ae23c42ff)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-02-09 20:44:37
+
+tag 0.0.8 (b2c5ae52c40b22a1fc45f5e2ecb609f17951dcd7)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2022-02-09 17:35:57
+
+       (bump dependencies versions)
+
+tag 0.0.7 (e8ce67177517f15490884429ee7ce60f79ef627b)
+author: sam_bland <sbland.co.uk@gmail.com>
+date: 2022-01-26 11:50:50
+
+tag 0.0.6 (741391dbdfcbd46568ce4408c5463e0307ddbf43)
+author: sam_bland <sbland.co.uk@gmail.com>
+date: 2022-01-26 07:02:27
+
+tag 0.0.5 (994ed5c1ca85da3abaa5f8c442edf42cd35d5c34)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2021-12-19 14:47:58
+
+tag 0.0.4 (43a60258062d9d800c4976127eff16e5e7830ddc)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2021-12-19 10:05:14
+
+tag 0.0.3 (0a9a2075100e73864a5cf1980cf7f17b86f26bdf)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2021-12-08 22:02:46
+
+       (bump dependencies versions)
+
+tag 0.0.2 (7140ed05f7d7567c55a778fa8d40d777e4efcff4)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2021-12-03 22:27:27
+
+tag 0.0.1 (e2b913779d846ac9602947f2a6c382bcc2dc7d9d)
+author: sam bland <sbland.co.uk@gmail.com>
+date: 2021-12-03 14:07:04
+

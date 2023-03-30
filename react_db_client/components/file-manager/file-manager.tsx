@@ -5,7 +5,7 @@ import { FileUploader } from '@react_db_client/components.file-uploader';
 import {
   SearchAndSelect,
   TSearchAndSelectSearchFunction,
-} from '@react_db_client/components.search-and-select';
+} from '@react_db_client/components.search-and-select-v2';
 import { searchResultHeadings, searchResultImageHeadings } from './logic';
 
 export interface IFileManagerProps {
