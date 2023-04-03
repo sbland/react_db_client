@@ -21,6 +21,7 @@ import {
   SelectionPreview,
   ISelectionPreviewProps,
 } from '@react_db_client/components.selection-preview';
+import { useDebounce } from '@react_db_client/hooks.use-debounce';
 import { useSelectionManager } from './useSelectionManager';
 import { SearchAndSelectStyles } from './styles';
 import { CustomParser, IHeading, TSearchAndSelectSearchFunction } from './lib';
@@ -52,6 +53,7 @@ export interface ISearchAndSelectProps<ResultType extends IDocument> {
   labelField?: 'label' | string;
   allowSelectionPreview?: boolean;
   autoPreview?: boolean;
+  debounceTimeout?: number;
   initialSearchValue?: string;
   showResultsStats?: boolean;
   selectionPreviewProps?: Partial<ISelectionPreviewProps>;
@@ -99,6 +101,7 @@ export const SearchAndSelect = <ResultType extends IDocument>({
   labelField = 'label',
   allowSelectionPreview,
   autoPreview,
+  debounceTimeout = 0,
   initialSearchValue = '',
   showResultsStats = false,
   selectionPreviewProps = {},
@@ -120,7 +123,7 @@ export const SearchAndSelect = <ResultType extends IDocument>({
 
   const {
     response: results,
-    reload,
+    reload: reloadFinal,
     loading,
     // hasLoaded,
     error,
@@ -129,6 +132,11 @@ export const SearchAndSelect = <ResultType extends IDocument>({
     callFn: searchFunction,
     callOnInit: false,
     reloadKey: searchFunction,
+  });
+
+  const reload = useDebounce({
+    fn: async (...args) => reloadFinal(...args),
+    timeout: debounceTimeout,
   });
 
   const {

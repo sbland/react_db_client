@@ -12,34 +12,24 @@ import {
   demoResultsDataMany,
   IResultExample,
 } from './demo-data';
-import {
-  demoFiltersData,
-  demoFieldsData,
-} from '@react_db_client/constants.demo-data';
-import {
-  FilterObjectClass,
-  IDocument,
-  ILabelled,
-} from '@react_db_client/constants.client-types';
+import { demoFiltersData, demoFieldsData } from '@react_db_client/constants.demo-data';
+import { FilterObjectClass, IDocument, ILabelled } from '@react_db_client/constants.client-types';
 
 const Switch = ({ liveUpdate, setLiveUpdate, text }) => (
   <button
     type="button"
     className={liveUpdate ? 'button-two' : 'button-one'}
+    style={liveUpdate ? { background: 'green' } : { background: 'red' }}
     onClick={() => setLiveUpdate(!liveUpdate)}
   >
     {text}
   </button>
 );
 
-const defaultSearchFn = async (
-  filter?: FilterObjectClass[]
-): Promise<IResultExample[]> =>
+const defaultSearchFn = async (filter?: FilterObjectClass[]): Promise<IResultExample[]> =>
   new Promise((resolve) => setTimeout(() => resolve(demoResultData), 2000));
 
-const defaultSearchFnNoTimeout = async (
-  filter?: FilterObjectClass[]
-): Promise<IResultExample[]> =>
+const defaultSearchFnNoTimeout = async (filter?: FilterObjectClass[]): Promise<IResultExample[]> =>
   new Promise((resolve) => resolve(demoResultData));
 
 defaultSearchFn.waitForReady = async () => {
@@ -49,9 +39,7 @@ defaultSearchFn.waitForReady = async () => {
 };
 
 const searchFnManyResults = async (): Promise<IResultExample[]> =>
-  new Promise((resolve) =>
-    setTimeout(() => resolve(demoResultsDataMany), 2000)
-  );
+  new Promise((resolve) => setTimeout(() => resolve(demoResultsDataMany), 2000));
 
 const defaultProps: ISearchAndSelectProps<ILabelled> = {
   id: 'Example SAS',
@@ -62,20 +50,24 @@ const defaultProps: ISearchAndSelectProps<ILabelled> = {
   headings: demoHeadingsData,
   previewHeadings: demoPreviewHeadingsData,
   showResultsStats: true,
+  debounceTimeout: 300,
 };
 
 export const SearchExampleForTests = () => {
   const [liveUpdate, setLiveUpdate] = useState(false);
+  const [selection, setSelection] = React.useState<Array<any>>([]);
   const props = {
     ...defaultProps,
     handleSelect: alert,
     searchFunction: defaultSearchFnNoTimeout,
     autoUpdate: liveUpdate,
+    liveUpdate,
   };
   return (
     <div>
       <Switch {...{ liveUpdate, setLiveUpdate }} text="Live Update" />
-      <SearchAndSelect {...props} />
+      <SearchAndSelect {...props} allowMultiple handleSelect={(v) => setSelection(v as any)} />
+      <div data-testid="sas-composition-selectionState">{JSON.stringify(selection)}</div>
     </div>
   );
 };
@@ -88,17 +80,20 @@ SearchExampleForTests.forTests = true;
 
 export const SearchExampleForTestsAltReturnField = () => {
   const [liveUpdate, setLiveUpdate] = useState(false);
+  const [selection, setSelection] = React.useState<Array<any>>([]);
   const props = {
     ...defaultProps,
     handleSelect: alert,
     searchFunction: defaultSearchFnNoTimeout,
     autoUpdate: liveUpdate,
     returnFieldOnSelect: 'name',
+    liveUpdate,
   };
   return (
     <div>
       <Switch {...{ liveUpdate, setLiveUpdate }} text="Live Update" />
-      <SearchAndSelect {...props} />
+      <SearchAndSelect {...props} allowMultiple handleSelect={(v) => setSelection(v as any)} />
+      <div data-testid="sas-composition-selectionState">{JSON.stringify(selection)}</div>
     </div>
   );
 };
@@ -162,9 +157,7 @@ export const DemoDataMulti = () => {
 
 export const DemoDataMultiAutoupdate = () => {
   const [liveUpdate, setLiveUpdate] = useState(false);
-  const [selection, setSelection] = useState<IDocument | IDocument[] | null>(
-    null
-  );
+  const [selection, setSelection] = useState<IDocument | IDocument[] | null>(null);
   const props = {
     ...defaultProps,
     autoUpdate: liveUpdate,
@@ -175,17 +168,11 @@ export const DemoDataMultiAutoupdate = () => {
       <Switch {...{ liveUpdate, setLiveUpdate }} text="Live Update" />
       <SearchAndSelect
         {...props}
-        handleSelect={(data: IDocument | null | IDocument[]) =>
-          setSelection(data)
-        }
+        handleSelect={(data: IDocument | null | IDocument[]) => setSelection(data)}
         liveUpdate
         allowMultiple={true}
       />
-      <button
-        type="button"
-        className="button-one"
-        onClick={() => alert(selection)}
-      >
+      <button type="button" className="button-one" onClick={() => alert(selection)}>
         Accept selection
       </button>
       {JSON.stringify(selection)}
@@ -238,11 +225,7 @@ export const SelectionPreview = () => {
   return (
     <div>
       <Switch {...{ liveUpdate, setLiveUpdate }} text="Live Update" />
-      <SearchAndSelect
-        allowSelectionPreview
-        {...props}
-        previewHeadings={demoPreviewHeadingsData}
-      />
+      <SearchAndSelect allowSelectionPreview {...props} previewHeadings={demoPreviewHeadingsData} />
     </div>
   );
 };

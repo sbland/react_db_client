@@ -121,6 +121,7 @@ export const useSelectionManager = <ResultType extends IDocument>({
 
   const selectAll = () => {
     setCurrentSelection(results);
+    (handleSelect as unknown as (data: null | ResultType[]) => void)(results as ResultType[]);
   };
 
   const clearSelection = () => {
