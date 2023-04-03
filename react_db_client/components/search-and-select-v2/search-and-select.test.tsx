@@ -66,9 +66,7 @@ describe('SearchAndSelect', () => {
           .getAllByRole('list')
           .find((c) => within(c).queryByText(demoResultData[0].name));
         expect(resultsList).toBeInTheDocument();
-        const resultsListItems = within(
-          resultsList as HTMLUListElement
-        ).getAllByRole('listitem');
+        const resultsListItems = within(resultsList as HTMLUListElement).getAllByRole('listitem');
         expect(resultsListItems.length).toBeGreaterThan(0);
         const firstItem = within(resultsListItems[0]).getByRole('button');
         await UserEvent.click(firstItem);
@@ -87,13 +85,22 @@ describe('SearchAndSelect', () => {
           .getAllByRole('list')
           .find((c) => within(c).queryByText(demoResultData[0].name));
         expect(resultsList).toBeInTheDocument();
-        const resultsListItems = within(
-          resultsList as HTMLUListElement
-        ).getAllByRole('listitem');
+        const resultsListItems = within(resultsList as HTMLUListElement).getAllByRole('listitem');
         expect(resultsListItems.length).toBeGreaterThan(0);
         const firstItem = within(resultsListItems[0]).getByRole('button');
         await UserEvent.click(firstItem);
         expect(mockAlert).toHaveBeenCalledWith(demoResultData[0]);
+      });
+    });
+    describe('showing results stats', () => {
+      test('should show the total number of results returned', async () => {
+        render(<compositions.SearchExampleForTests />);
+        await compositions.SearchExampleForTests.waitForReady();
+        const liveUpdateButton = screen.getByRole('button', {
+          name: /Live Update/,
+        });
+        await UserEvent.click(liveUpdateButton);
+        await screen.findByText('Showing 99 of 99 results');
       });
     });
   });

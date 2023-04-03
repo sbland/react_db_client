@@ -53,6 +53,7 @@ export interface ISearchAndSelectProps<ResultType extends IDocument> {
   allowSelectionPreview?: boolean;
   autoPreview?: boolean;
   initialSearchValue?: string;
+  showResultsStats?: boolean;
   selectionPreviewProps?: Partial<ISelectionPreviewProps>;
   styledSelectListProps?: Partial<IStyledSelectListProps<ResultType>>;
   searchInputProps?: Partial<React.HTMLProps<HTMLInputElement>>;
@@ -99,6 +100,7 @@ export const SearchAndSelect = <ResultType extends IDocument>({
   allowSelectionPreview,
   autoPreview,
   initialSearchValue = '',
+  showResultsStats = false,
   selectionPreviewProps = {},
   styledSelectListProps = {},
   searchInputProps = {},
@@ -333,6 +335,11 @@ export const SearchAndSelect = <ResultType extends IDocument>({
               Clear Selection
             </button>
           </section>
+        )}
+        {showResultsStats && results && (
+          <p>
+            Showing {results.length} of {results.length}
+          </p>
         )}
       </div>
     </SearchAndSelectStyles>

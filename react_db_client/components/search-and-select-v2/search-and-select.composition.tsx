@@ -61,6 +61,7 @@ const defaultProps: ISearchAndSelectProps<ILabelled> = {
   handleSelect: (data) => alert(`Selected: ${data}`),
   headings: demoHeadingsData,
   previewHeadings: demoPreviewHeadingsData,
+  showResultsStats: true,
 };
 
 export const SearchExampleForTests = () => {
