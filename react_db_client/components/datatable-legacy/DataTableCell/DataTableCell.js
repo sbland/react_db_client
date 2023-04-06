@@ -45,6 +45,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
     useContext(DataTableContext);
   // const [navigationMode, setNavigationMode] = useState(true);
   const [editMode, setEditMode] = useState(false);
+  const [keyPressInProgress, setKeyPressInProgress] = useState(false);
 
   const cellWrapNavBtnRef = useRef(null);
   const cellDataBtnRef = useRef(null);
@@ -86,13 +87,16 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
 
   const handleCellAccept = useCallback(
     (newValue) => {
-      setNavigationMode(true);
+      if (keyPressInProgress) return;
+      console.info('setEdit false');
       setEditMode(false);
+      setNavigationMode(true);
       handleValueAccept(newValue, rowData.uid, rowIndex, headingData.uid);
       handleMoveFocusToTargetRow(rowIndex, columnIndex);
       cellWrapNavBtnRef.current.focus();
     },
     [
+      keyPressInProgress,
       handleValueAccept,
       handleMoveFocusToTargetRow,
       headingData.uid,
@@ -126,12 +130,14 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
   ]);
 
   const handleCellHoverMouse = () => {
-    if (navigationMode) handleMoveFocusToTargetRow(rowIndex, columnIndex);
+    if (navigationMode && !editMode) handleMoveFocusToTargetRow(rowIndex, columnIndex);
   };
 
   const handleSelectCell = useCallback(() => {
     const { readOnly } = headingData;
-    if (!readOnly && navigationMode && !disabled) {
+    setNavigationMode(false);
+    if (!readOnly && navigationMode && !editMode && !disabled) {
+      console.info('SELECTED CELL');
       setNavigationMode(false);
       setEditMode(true);
     } else if (!navigationMode) {
@@ -146,6 +152,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
     setNavigationMode,
     navigationMode,
     disabled,
+    editMode,
   ]);
 
   const classNames = [
@@ -158,7 +165,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
 
   const onCellWrapBtnKeyPress = useCallback(
     (e) => {
-      if (navigationMode) {
+      if (navigationMode && !editMode) {
         switch (e.key) {
           case 'ArrowRight':
             e.preventDefault();
@@ -178,6 +185,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
             break;
           case 'Enter':
             e.preventDefault();
+            console.info('Pressed enter');
             handleSelectCell();
             break;
           default:
@@ -286,10 +294,13 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
           data-testid={`cell_${columnIndex}_${rowIndex} cell_${headingData.uid}`}
           className={`${classNames} navigationButton cellWrapBtn button-reset`}
           onClick={() => handleSelectCell()}
+          onFocus={() => setNavigationMode(true)}
           style={{ width: '100%' }}
           onKeyDown={(e) => {
             onCellWrapBtnKeyPress(e);
+            setKeyPressInProgress(true);
           }}
+          onKeyUp={() => setKeyPressInProgress(false)}
           role="presentation"
           tabIndex={`${columnIndex + rowIndex * 10}`}
         >

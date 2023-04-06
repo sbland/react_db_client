@@ -87,7 +87,7 @@ export const DataTableUi: React.FC<IDataTableUiProps> = ({
 
   const columnCount = headingsData.length;
   const rowCount = tableData.length;
-  const [navigationMode, setNavigationMode] = useState(true);
+  const [navigationMode, setNavigationMode] = useState(false);
 
   const { columnWidths, setColumnWidths, tableWidth } = useColumnWidthManager({
     headingsDataList: headingsData,
@@ -257,6 +257,8 @@ export const DataTableUi: React.FC<IDataTableUiProps> = ({
       style={{
         maxWidth: `${tableWidth}px`,
       }}
+      onMouseOver={() => setNavigationMode(true)}
+      onMouseLeave={() => setNavigationMode(false)}
     >
       {allowColumnResize && (
         <DataTableColumnWidthManager
