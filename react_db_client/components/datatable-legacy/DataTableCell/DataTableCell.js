@@ -43,7 +43,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
   } = data;
   const { allowRowDelete, allowRowEditPanel, allowSelection, hasBtnsColumn } =
     useContext(DataTableContext);
-  // const [navigationMode, setNavigationMode] = useState(true);
   const [editMode, setEditMode] = useState(false);
   const [keyPressInProgress, setKeyPressInProgress] = useState(false);
 
@@ -88,7 +87,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const handleCellAccept = useCallback(
     (newValue) => {
       if (keyPressInProgress) return;
-      console.info('setEdit false');
       setEditMode(false);
       setNavigationMode(true);
       handleValueAccept(newValue, rowData.uid, rowIndex, headingData.uid);
@@ -137,7 +135,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
     const { readOnly } = headingData;
     setNavigationMode(false);
     if (!readOnly && navigationMode && !editMode && !disabled) {
-      console.info('SELECTED CELL');
       setNavigationMode(false);
       setEditMode(true);
     } else if (!navigationMode) {
