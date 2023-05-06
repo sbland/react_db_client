@@ -18,9 +18,15 @@ const defaultProps: IFileManagerProps = {
 export const BasicFileManager = () => {
   const [savedFiles, setSavedFiles] = React.useState(demoSearchResults);
   const [selection, setSelection] = React.useState<IFile | null>(null);
-  const handleFileUpload = async (data: File, fileType: EFileType, callback: () => void) => {
-    asyncFileUpload(data, fileType, callback);
+  const handleFileUpload = async (
+    data: File,
+    fileType: EFileType,
+    callback: () => void,
+    metaData: Partial<IFile>
+  ) => {
+    asyncFileUpload(data, fileType, callback, metaData);
     const fileMetaData: IFile = {
+      ...metaData,
       uid: data.name,
       label: data.name,
       name: data.name,
@@ -52,8 +58,13 @@ BasicFileManager.waitForReady = async () => {
 export const BasicFileManagerMultiple = () => {
   const [savedFiles, setSavedFiles] = React.useState(demoSearchResults);
   const [selection, setSelection] = React.useState<IFile[]>([]);
-  const handleFileUpload = async (data: File, fileType: EFileType, callback: () => void) => {
-    asyncFileUpload(data, fileType, callback);
+  const handleFileUpload = async (
+    data: File,
+    fileType: EFileType,
+    callback: () => void,
+    metaData: Partial<IFile>
+  ) => {
+    asyncFileUpload(data, fileType, callback, metaData);
     const fileMetaData: IFile = {
       uid: data.name,
       label: data.name,

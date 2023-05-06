@@ -1,10 +1,35 @@
 import React from 'react';
-import { screen, render, within, waitFor } from '@testing-library/react';
+import { screen, render, within, waitFor, act } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import * as compositions from './file-manager.composition';
 import { demoSearchResults } from './demo-data';
+import { asyncFileUpload } from './demo-api';
+import { EFileType } from '@react_db_client/constants.client-types';
+
+jest.mock('./demo-api');
 
 Date.now = jest.fn(() => 123); // 14.02.2017
+
+const mockImage = {
+  src: null,
+  onload: () => {},
+  onerror: () => {},
+  width: 100,
+  height: 200,
+};
+let images: typeof mockImage[] = [];
+
+beforeEach(() => {
+  images = [];
+  (asyncFileUpload as jest.Mock).mockClear().mockImplementation(async () => {});
+  global.URL.createObjectURL = jest.fn().mockImplementation(() => 'testURL');
+  // @ts-ignore
+  window.Image = function () {
+    const image = { ...mockImage };
+    images.push(image);
+    return image;
+  };
+});
 
 describe('file-manager', () => {
   let realWindow;
@@ -67,6 +92,11 @@ describe('file-manager', () => {
       ).toEqual(1);
 
       const uploadBtn = screen.getByRole('button', { name: 'Upload' });
+      await waitFor(() => expect(uploadBtn).toBeDisabled());
+      act(() => {
+        images.forEach((image) => image.onload());
+      });
+      await waitFor(() => expect(uploadBtn).not.toBeDisabled());
       await UserEvent.click(uploadBtn);
 
       expect(
@@ -95,8 +125,12 @@ describe('file-manager', () => {
       await UserEvent.upload(selectFilesBtn, exampleFile);
 
       const uploadBtn = screen.getByRole('button', { name: 'Upload' });
+      await waitFor(() => expect(uploadBtn).toBeDisabled());
+      act(() => {
+        images.forEach((image) => image.onload());
+      });
+      await waitFor(() => expect(uploadBtn).not.toBeDisabled());
       await UserEvent.click(uploadBtn);
-
       const loadedFilesList = screen
         .getAllByRole('list')
         .find((c) =>
@@ -118,6 +152,51 @@ describe('file-manager', () => {
       // TODO: Check that after successful upload it clears the ready to upload list
       // const readyToUploadList =
     });
+    test('should include image dimensions in async file upload when uploadin an image', async () => {
+      render(<compositions.BasicFileManager />);
+      await compositions.BasicFileManager.waitForReady();
+
+      const selectFilesBtn = screen.getByLabelText('Select Files');
+      const exampleFile: File = new File(['hello'], 'hello.png', {
+        type: 'image/png',
+      });
+
+      await UserEvent.upload(selectFilesBtn, exampleFile);
+
+      const uploadBtn = screen.getByRole('button', { name: 'Upload' });
+      await waitFor(() => expect(uploadBtn).toBeDisabled());
+      act(() => {
+        images.forEach((image) => image.onload());
+      });
+      await waitFor(() => expect(uploadBtn).not.toBeDisabled());
+      await UserEvent.click(uploadBtn);
+
+      const loadedFilesList = screen
+        .getAllByRole('list')
+        .find((c) =>
+          within(c).queryByText(demoSearchResults[0].name)
+        ) as HTMLUListElement;
+      await within(loadedFilesList).findByText(exampleFile.name);
+      const newItem = within(loadedFilesList)
+        .getAllByRole('listitem')
+        .find((el) =>
+          within(el).queryByText(exampleFile.name)
+        ) as HTMLUListElement;
+      const newItemBtn = within(newItem).getByRole('button');
+      await UserEvent.click(newItemBtn);
+      await waitFor(() =>
+        expect(screen.getByTestId('curSel').textContent).toEqual(
+          exampleFile.name
+        )
+      );
+      const data = exampleFile;
+      expect(asyncFileUpload).toHaveBeenCalledWith(
+        data,
+        EFileType.IMAGE,
+        expect.any(Function),
+        { width: images[0].width, height: images[0].height, name: 'hello.png' }
+      );
+    });
     test('should be able to upload multiple files', async () => {
       render(<compositions.BasicFileManagerMultiple />);
       await compositions.BasicFileManager.waitForReady();
@@ -132,6 +211,11 @@ describe('file-manager', () => {
       const exampleFiles = [exampleFileA, exampleFileB];
       await UserEvent.upload(selectFilesBtn, exampleFiles);
       const uploadBtn = screen.getByRole('button', { name: 'Upload' });
+      await waitFor(() => expect(uploadBtn).toBeDisabled());
+      act(() => {
+        images.forEach((image) => image.onload());
+      });
+      await waitFor(() => expect(uploadBtn).not.toBeDisabled());
       await UserEvent.click(uploadBtn);
 
       const loadedFilesList = screen

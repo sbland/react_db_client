@@ -1,7 +1,6 @@
 /* A react hook async request */
-
+import { useState, useEffect, useMemo } from 'react';
 import { EFileType, IFile } from '@react_db_client/constants.client-types';
-import { useState, useEffect } from 'react';
 
 const ENV = process.env.NODE_ENV;
 
@@ -11,7 +10,8 @@ export interface IUseFileUploaderArgs {
   asyncFileUpload: (
     data: File,
     fileType: EFileType,
-    callback: () => void
+    callback: () => void,
+    metaData: Partial<IFile>
   ) => Promise<void>;
 }
 
@@ -24,6 +24,7 @@ export interface IUseFileUploaderReturn {
   selectedFiles: IFile[];
   handleFilesSelectedForUpload: (newFiles: FileList | null) => void;
   totalFilesToUpload: null | number;
+  fileSelectionComplete: boolean;
 }
 
 const promiseAllInSeries = async (iterable) => {
@@ -48,14 +49,24 @@ export const useFileUploader = ({
   const [totalFilesToUpload, setTotalFilesToUpload] = useState<number | null>(
     null
   );
+  const [filesMetaData, setFilesMetaData] = useState<Partial<IFile>[]>([]);
+
+  // Needed to disable the upload button until file selection complete
+  const fileSelectionComplete = useMemo(
+    () =>
+      filesMetaData.length > 0 && filesMetaData.length === selectedFiles.length,
+    [filesMetaData, selectedFiles]
+  );
+
   // handle upload selected
   useEffect(() => {
-    if (filesToUpload && !uploading && !error) {
+    if (filesToUpload && !uploading && !error && fileSelectionComplete) {
       setUploading(true);
       setUploadProgress(filesToUpload.length);
-      const promises = filesToUpload.map((file) => async () => {
+      const promises = filesToUpload.map((file, i) => async () => {
         if (!file.data) throw Error('Missing file data');
-        await asyncFileUpload(file.data, fileType, () => {});
+        const metaData: Partial<IFile> = filesMetaData[i];
+        await asyncFileUpload(file.data, fileType, () => {}, metaData);
         setFilesToUpload(
           (prev) => prev?.filter((f) => f.name !== file.name) || null
         );
@@ -70,6 +81,7 @@ export const useFileUploader = ({
           setSelectedFiles([]);
           onUpload(responses);
           setTotalFilesToUpload(filesToUpload.length);
+          setFilesMetaData([]);
         })
         .catch((e) => {
           setUploadComplete(true);
@@ -81,7 +93,14 @@ export const useFileUploader = ({
     return () => {
       // TODO: handle cancel upload
     };
-  }, [filesToUpload, uploading, fileType, onUpload, uploadProgress]);
+  }, [
+    filesToUpload,
+    uploading,
+    fileType,
+    onUpload,
+    uploadProgress,
+    fileSelectionComplete,
+  ]);
 
   const uploadFiles = (fileList: IFile[]) => {
     setError(null);
@@ -90,15 +109,38 @@ export const useFileUploader = ({
   };
 
   const handleFilesSelectedForUpload = (newFiles: FileList | null) => {
-    const newSelectedFiles: IFile[] = [...(newFiles || [])].map((f: File) => ({
-      uid: f.name,
-      name: f.name,
-      label: f.name,
-      data: f,
-      filePath: '',
-      fileType,
-    }));
+    const files = [...(newFiles || [])];
+    const newSelectedFiles: IFile[] = files.map((f: File) => {
+      return {
+        uid: f.name,
+        name: f.name,
+        label: f.name,
+        data: f,
+        filePath: '',
+        fileType,
+      };
+    });
     setSelectedFiles(newSelectedFiles);
+
+    files.forEach((f) => {
+      const reader = new FileReader();
+      if (fileType === EFileType.IMAGE) {
+        reader.onload = () => {
+          const data = reader.result as string;
+          const img = new Image();
+          img.onload = () => {
+            setFilesMetaData((prev) => [
+              ...prev,
+              { width: img.width, height: img.height, name: f.name },
+            ]);
+          };
+          img.src = data;
+        };
+        reader.readAsDataURL(f);
+      } else {
+        setFilesMetaData((prev) => [...prev, { name: f.name }]);
+      }
+    });
   };
 
   return {
@@ -110,5 +152,6 @@ export const useFileUploader = ({
     selectedFiles,
     handleFilesSelectedForUpload,
     totalFilesToUpload,
+    fileSelectionComplete,
   } as IUseFileUploaderReturn;
 };

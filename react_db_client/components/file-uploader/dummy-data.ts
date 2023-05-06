@@ -1,2 +1,2 @@
-export const asyncFileUpload = async () => {};
+export const asyncFileUpload = async (...args) => {};
 export const onUpload = () => {};

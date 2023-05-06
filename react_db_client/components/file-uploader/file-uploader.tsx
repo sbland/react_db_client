@@ -7,6 +7,7 @@ import {
 import {
   EFileType,
   EFilterType,
+  IFile,
 } from '@react_db_client/constants.client-types';
 
 import { useFileUploader } from './file-uploader-hook';
@@ -35,7 +36,8 @@ export interface IFileUploaderProps {
   asyncFileUpload: (
     data: File,
     fileType: EFileType,
-    callback: () => void
+    callback: () => void,
+    metaData: Partial<IFile>
   ) => Promise<void>;
 }
 
@@ -55,6 +57,7 @@ export const FileUploader = ({
     uploadComplete,
     totalFilesToUpload,
     error,
+    fileSelectionComplete,
   } = useFileUploader({
     fileType,
     asyncFileUpload,
@@ -87,18 +90,19 @@ export const FileUploader = ({
             className="fileUploader_fileInput"
             type="file"
             accept={fileTypesToInputAccept(fileType)}
-            // multiple={multiple}
             onChange={(e) => handleFilesSelectedForUpload(e.target.files)}
-            // onInput={console.log}
-            // value={selectedFilesRaw}
-            // disabled={uploading}
             multiple
           />
         </label>
 
         <FileUploaderSelectButton
           type="button"
-          disabled={!selectedFiles || selectedFiles.length === 0 || uploading}
+          disabled={
+            !fileSelectionComplete ||
+            !selectedFiles ||
+            selectedFiles.length === 0 ||
+            uploading
+          }
           className="button-two uploadBtn"
           onClick={() => uploadFiles(selectedFiles)}
         >
@@ -116,6 +120,19 @@ export const FileUploader = ({
         </select>
       )}
       <p>Files ready to upload:</p>
+      {fileType === EFileType.IMAGE && (
+        <div className="fileUploader_imagePreview">
+          {selectedFiles &&
+            selectedFiles.map((file) => (
+              <img
+                key={file.name}
+                width="100px"
+                src={URL.createObjectURL(file.data as File)}
+                alt={file.name}
+              />
+            ))}
+        </div>
+      )}
       <StyledSelectList
         listInput={selectedFiles || []}
         headings={fileListHeadings}

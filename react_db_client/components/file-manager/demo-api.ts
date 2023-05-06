@@ -1,3 +1,8 @@
-import { EFileType } from '@react_db_client/constants.client-types';
+import { EFileType, IFile } from '@react_db_client/constants.client-types';
 
-export const asyncFileUpload = async (data: File, fileType: EFileType, callback: () => void) => {};
+export const asyncFileUpload = async (
+  data: File,
+  fileType: EFileType,
+  callback: () => void,
+  metaData: Partial<IFile>
+) => {};

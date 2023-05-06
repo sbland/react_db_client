@@ -5,6 +5,8 @@ export interface IFile {
   filePath: string;
   fileType: EFileType;
   data?: File;
+  width?: number;
+  height?: number;
 }
 
 export enum EFileType {

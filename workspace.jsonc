@@ -66,7 +66,7 @@
         "mathjs": "10.6.1",
         "react-base-table": "1.13.0",
         "react-data-grid": "7.0.0-beta.12",
-        "react-json-view": "^1.21.3",
+        "react-json-view": "1.21.3",
         "react-router-dom": "^6.4.1",
         "react-scroll-sync": "^0.9.0",
         "react-scroll-sync-hook": "^0.0.3",

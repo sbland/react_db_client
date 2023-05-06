@@ -16,7 +16,12 @@ export interface IFileManagerProps {
   allowMultiple?: boolean;
   asyncGetFiles: TSearchAndSelectSearchFunction<IFile>;
   fileServerUrl: string;
-  asyncFileUpload: (data: File, fileType: EFileType, callback: () => void) => Promise<void>;
+  asyncFileUpload: (
+    data: File,
+    fileType: EFileType,
+    callback: () => void,
+    metaData: Partial<IFile>
+  ) => Promise<void>;
 }
 
 export const availableFilters = {}; // TODO: Setup available file filters
@@ -32,10 +37,14 @@ export const FileManager: React.FC<IFileManagerProps> = ({
   asyncFileUpload,
 }) => {
   const [forceUpdate, setForceUpdate] = useState(0);
-  if (collectionId || documentId) throw new Error('No longer need collection id and doc id');
+  if (collectionId || documentId)
+    throw new Error('No longer need collection id and doc id');
 
   return (
-    <div className="fileManager_wrap sectionWrapper" data-testid="rdc-file-manager">
+    <div
+      className="fileManager_wrap sectionWrapper"
+      data-testid="rdc-file-manager"
+    >
       <section>
         <h2>Select File</h2>
         <br />
