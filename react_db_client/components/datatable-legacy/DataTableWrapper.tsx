@@ -19,43 +19,35 @@ import { DataTableBottomMenu } from './DataTableBottomMenu/DataTableBottomMenu';
 import useConditionalStylingManager from './ConditionalStylingManager/ConditionalStylingManager';
 import { useSelectionManager } from './SelectionManagerHook';
 import { RowErrors } from './errorTypes';
-
-
-export interface IHeading {
-  uid: Uid;
-  label: string;
-  natural?: boolean;
-}
-
-export interface IRow {
-  uid: Uid;
-}
+import { IRow, ISortBy, THeading } from './lib';
 
 export interface IDataTableWrapperProps {
   id: Uid;
   data: IRow[];
-  headings: IHeading[];
-  previewHeadings?;
-  sortByOverride?;
+  headings: THeading[];
+  previewHeadings?: THeading[];
+  sortByOverride?: null | ISortBy;
   availableFilters?: { [k: string]: FilterOption };
   filterOverride?: FilterObjectClass[];
-  saveData?;
-  updateTotals?;
-  updatedDataHook?;
-  autoSave?;
+  saveData: (data, action: string, newData?, rowId?: Uid, colIds?: Uid[]) => void;
+  updateTotals?: (totals) => void;
+  updatedDataHook?: (row: Uid, column: Uid, field: Uid) => void;
+  autoSave?: boolean;
   styleRule?;
   styleOverride?;
+  baseStyle?: React.CSSProperties;
   errorStyleOverride?;
-  maxTableHeight?;
-  maxTableWidth?;
-  bottomMenuRefOverride?;
+  maxTableHeight?: number;
+  maxTableWidth?: number;
+  bottomMenuRefOverride?: HTMLDivElement;
   onSelectionChange?;
   selectionOverride?;
   customFieldComponents?;
   customFilters?;
   customFiltersComponents?;
   customPreviewParsers?;
-  disableEditing?;
+  disableEditing?: boolean;
+  isContolled?: boolean;
 }
 
 export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
@@ -70,8 +62,10 @@ export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
   updateTotals,
   updatedDataHook, // A function that is called with field changes (row, column, value)
   autoSave,
+  isContolled,
   styleRule,
   styleOverride,
+  baseStyle,
   errorStyleOverride,
   maxTableHeight,
   maxTableWidth,
@@ -128,6 +122,7 @@ export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
     sortBy,
     calculateTotals,
     autoSave,
+    isContolled,
     autoSaveOnNewRow,
     autoSaveCallback: saveData,
     autoSort,
@@ -144,10 +139,6 @@ export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
     useColumnVisabilityManager(headings);
   const className = ['DataTableWrapper', theme].join(' ');
 
-  const baseStyle = {
-    // TODO: Get this from props
-  };
-
   const { rowStyles } = useConditionalStylingManager({
     rowErrors: invalidRowsMessages,
     data: dataProcessed,
@@ -159,39 +150,17 @@ export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
 
   // handle update sort by
   const updateSortBy = useCallback(
-    (headingToSortBy) => {
+    (headingToSortBy: Uid) => {
       const headingData = headings.find((h) => h.uid === headingToSortBy);
       const newSortByData = {
         heading: headingToSortBy,
-        direction: sortBy?.heading === headingToSortBy ? !sortBy.direction : 1,
+        direction: sortBy?.heading === headingToSortBy ? !sortBy?.direction : true,
         natural: headingData?.natural,
       };
       setSortBy(newSortByData);
     },
     [sortBy, headings]
   );
-
-  const handleSaveBtnClick = () => {
-    handleSaveData();
-  };
-  const handleResetBtnClick = () => {
-    resetData();
-  };
-
-  const updateValue = (newVal, rowId, rowIndex, colId) => {
-    handleValueChange(newVal, rowId, rowIndex, colId);
-  };
-  const acceptValue = (newVal, rowId, rowIndex, colId) => {
-    handleValueAccept(newVal, rowId, rowIndex, colId);
-  };
-
-  const resetValue = (rowId, rowIndex, colId) => {
-    handleValueReset(rowId, rowIndex, colId);
-  };
-
-  const deleteRow = (rowId, rowIndex) => handleDeleteRow(rowId, rowIndex);
-
-  const handleAddRowBtnClick = () => handleAddRow();
 
   // First selection
   const currentSelection = useMemo(() => {
@@ -227,10 +196,10 @@ export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
           totalsData={totals}
           updateSortBy={updateSortBy}
           addFilter={addFilter}
-          updateValue={updateValue}
-          acceptValue={acceptValue}
-          resetValue={resetValue}
-          deleteRow={deleteRow}
+          updateValue={handleValueChange}
+          acceptValue={handleValueAccept}
+          resetValue={handleValueReset}
+          deleteRow={handleDeleteRow}
           handleHideColumn={handleHideColumn}
           rowStyles={rowStyles}
           maxTableHeight={maxTableHeight}
@@ -250,10 +219,9 @@ export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
         ReactDOM.createPortal(
           <DataTableBottomMenu
             unsavedChanges={unsavedChanges}
-            handleSaveBtnClick={handleSaveBtnClick}
-            handleResetBtnClick={handleResetBtnClick}
-            handleAddRowBtnClick={handleAddRowBtnClick}
-            // currentSelectionIds={currentSelectionIds}
+            handleSaveBtnClick={handleSaveData}
+            handleResetBtnClick={resetData}
+            handleAddRowBtnClick={handleAddRow}
             handleShowPreviewBtnClick={() => setShowSelectionPreview((prev) => !prev)}
             previewShown={showSelectionPreview}
           />,
@@ -261,10 +229,9 @@ export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
         )}
       {showSelectionPreview && (
         <SelectionPreview
-          headings={previewHeadings}
+          headings={previewHeadings || headings}
           currentSelectionData={currentSelection}
           customParsers={customPreviewParsers}
-          // maxHeight={200}
         />
       )}
     </div>
@@ -334,19 +301,17 @@ DataTableWrapperFunc.defaultProps = {
   saveData: () => {},
   // filterOverride: {},
   autoSave: false,
-  updateTotals: null,
+  updateTotals: () => {},
   updatedDataHook: () => {},
   styleRule: null,
   styleOverride: {},
   errorStyleOverride: {
-    // [RowErrors.DUPLICATE]: { background: 'tomato' },
-    // [RowErrors.MISSING]: { background: 'tomato' },
-
     [RowErrors.DUPLICATE]: { background: 'tomato' },
     [RowErrors.MISSING]: { background: 'tomato' },
   },
   maxTableHeight: 2000,
   maxTableWidth: 2000,
+  // @ts-ignore
   bottomMenuRefOverride: null,
   selectionOverride: [],
   onSelectionChange: () => {},

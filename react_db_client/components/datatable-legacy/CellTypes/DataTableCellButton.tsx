@@ -1,5 +1,11 @@
 import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { ICellProps, IHeadingButton } from '../lib';
+
+export interface IDataTableCellButtonProps extends ICellProps<IHeadingButton> {
+  cellData: { name?: string; label?: string };
+  columnData: IHeadingButton;
+}
 
 const DataTableCellButton = ({
   columnData: { action, uid, btnLabel },
@@ -9,7 +15,7 @@ const DataTableCellButton = ({
   editMode,
   focused,
   resetValue, // called to end edit mode
-}) => {
+}: IDataTableCellButtonProps) => {
   const actionFunc = useMemo(() => {
     const a = action
       ? () => action(rowId, cellData, rowData)

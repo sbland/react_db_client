@@ -1,13 +1,17 @@
 import React from 'react';
 import { screen, render, within } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
-import * as compositions from './datatable-legacy.composition';
-import { demoHeadingsData, demoTableData } from './demoData';
 import {
   comparisonMetaData,
   EComparisons,
   EFilterType,
 } from '@react_db_client/constants.client-types';
+import * as compositions from './datatable-legacy.composition';
+import { demoHeadingsData, demoTableData } from './demoData';
+import { saveData } from './test-utils/mock-api';
+import { SAVE_ACTIONS } from './DataManager';
+
+jest.mock('./test-utils/mock-api');
 
 type QueryType = ReturnType<typeof within>;
 
@@ -27,10 +31,32 @@ const addFilter = async (elQuery: QueryType) => {
   return filterItems[filterItems.length - 1];
 };
 
+const editCell = async (
+  dataTable: HTMLElement,
+  rowIndex: number,
+  columnId: string,
+  newValue: string
+) => {
+  const columnIndex = demoHeadingsData.findIndex((h) => h.uid === columnId);
+  const textCell = within(dataTable).getByTestId(`cell_${columnIndex + 1}_${rowIndex} `, {
+    exact: false,
+  });
+  expect(textCell.textContent).toEqual(demoTableData[rowIndex][demoHeadingsData[columnIndex].uid]);
+  await UserEvent.click(textCell);
+  const textCellInput = within(textCell).getByRole('textbox');
+  await UserEvent.clear(textCellInput);
+  await UserEvent.type(textCellInput, newValue);
+  await UserEvent.click(dataTable);
+};
+
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 describe('SearchAndSelect', () => {
   describe('Compositions', () => {
-    Object.entries(compositions)
-      .filter(([name, Composition]) => (Composition as any).forTests)
+    Object.entries(compositions as unknown as React.FC<{}> & { forTests?: boolean })
+      .filter(([name, Composition]) => Composition.forTests)
       .forEach(([name, Composition]) => {
         test(name, async () => {
           render(<Composition />);
@@ -40,30 +66,131 @@ describe('SearchAndSelect', () => {
       });
   });
   describe('Unit Tests', () => {
-    describe('Displaying row data', () => {});
+    describe('Displaying row data', () => {
+      test("should display each row's data", () => {
+        render(<compositions.BasicDataTableWrapper />);
+        const dataTable = screen.getByTestId('dataTable');
+        const rowCount = within(dataTable).getAllByTestId('cell_1_', { exact: false }).length;
+        expect(rowCount).toEqual(demoTableData.length);
+      });
+    });
   });
   describe('Functional Tests', () => {
     describe('deleting rows', () => {
       test.todo('should delete a row from the data when we click the delete btn');
     });
+    describe('Saving', () => {
+      test('should call saveData with new data', async () => {
+        render(<compositions.BasicDataTableWrapper />);
+        const dataTable = screen.getByTestId('dataTable');
+        const newCellValue = 'abc';
+        const columnId = 'name';
+        const rowIndex = 0;
+        await editCell(dataTable, rowIndex, columnId, newCellValue);
+        const saveBtn = screen.getByRole('button', { name: 'Save' });
+        await UserEvent.click(saveBtn);
+
+        const newRowData = {
+          ...demoTableData[0],
+          name: newCellValue,
+        };
+        expect(saveData).toHaveBeenCalledTimes(1);
+        expect(saveData).toHaveBeenCalledWith(
+          [newRowData, ...demoTableData.slice(1)],
+          SAVE_ACTIONS.SAVE_BTN_CLICKED
+        );
+      });
+      test('should call saveData with new data from multiple rows', async () => {
+        render(<compositions.BasicDataTableWrapper />);
+        const dataTable = screen.getByTestId('dataTable');
+        const newCellValue = 'abc';
+        const columnId = 'name';
+        await editCell(dataTable, 0, columnId, newCellValue);
+        await editCell(dataTable, 1, columnId, newCellValue);
+        const saveBtn = screen.getByRole('button', { name: 'Save' });
+        await UserEvent.click(saveBtn);
+
+        const newRowData0 = {
+          ...demoTableData[0],
+          name: newCellValue,
+        };
+        const newRowData1 = {
+          ...demoTableData[1],
+          name: newCellValue,
+        };
+        expect(saveData).toHaveBeenCalledTimes(1);
+        expect(saveData).toHaveBeenCalledWith(
+          [newRowData0, newRowData1, ...demoTableData.slice(2)],
+          SAVE_ACTIONS.SAVE_BTN_CLICKED
+        );
+      });
+    });
+
+    describe('Managed component', () => {
+      test.todo(
+        'If datatable is a managed component then it should not store data changes but instead pass them up the chain'
+      );
+    });
+
     describe('Autosaving', () => {
-      test('should propogate changes to a cell up to the parent component', () => {
-        // const textCell = component.find(DataTableCellText).first();
-        // const cellInput = textCell.find('.cellInput-text');
-        // const newCellValue = 'abc';
-        // cellInput.simulate('change', { target: { value: newCellValue } });
-        // cellInput.simulate('blur');
-        // const newRowData = {
-        //   ...DEMO_TABLE_DATA[0],
-        //   name: newCellValue,
-        // };
-        // expect(saveData).toHaveBeenCalledWith(
-        //   [newRowData, ...DEMO_TABLE_DATA.slice(1)],
-        //   SAVE_ACTIONS.ROW_CHANGED,
-        //   newRowData,
-        //   newRowData.uid,
-        //   ['name']
-        // );
+      test('should call saveData with new data after making changes', async () => {
+        render(<compositions.BasicDataTableWrapper />);
+        const autosaveBtn = screen.getByRole('button', { name: 'Toggle autosave' });
+        await UserEvent.click(autosaveBtn);
+        const dataTable = screen.getByTestId('dataTable');
+        const newCellValue = 'abc';
+        const columnId = 'name';
+        const rowIndex = 0;
+        await editCell(dataTable, rowIndex, columnId, newCellValue);
+
+        const newRowData = {
+          ...demoTableData[0],
+          name: newCellValue,
+        };
+        expect(saveData).toHaveBeenCalledTimes(1);
+        expect(saveData).toHaveBeenCalledWith(
+          [newRowData, ...demoTableData.slice(1)],
+          SAVE_ACTIONS.ROW_CHANGED,
+          newRowData,
+          newRowData.uid,
+          [columnId]
+        );
+        /* Assert input data not modified */
+        expect(demoTableData[0].name).not.toEqual(newCellValue);
+      });
+
+      test('should call saveData with new data after making changes to multiple rows', async () => {
+        render(<compositions.BasicDataTableWrapper />);
+        const autosaveBtn = screen.getByRole('button', { name: 'Toggle autosave' });
+        await UserEvent.click(autosaveBtn);
+        const dataTable = screen.getByTestId('dataTable');
+        const newCellValue = 'abc';
+        const columnId = 'name';
+        expect(saveData).toHaveBeenCalledTimes(0);
+        await editCell(dataTable, 0, columnId, newCellValue);
+        expect(saveData).toHaveBeenCalledTimes(1);
+        (saveData as jest.Mock).mockClear();
+        await editCell(dataTable, 1, columnId, newCellValue);
+
+        const newRowData0 = {
+          ...demoTableData[0],
+          name: newCellValue,
+        };
+        const newRowData1 = {
+          ...demoTableData[1],
+          name: newCellValue,
+        };
+
+        expect(saveData).toHaveBeenCalledTimes(1);
+        // console.info(demoTableData)
+        // console.info([newRowData0, newRowData1, ...demoTableData.slice(2)])
+        expect(saveData).toHaveBeenCalledWith(
+          [newRowData0, newRowData1, ...demoTableData.slice(2)],
+          SAVE_ACTIONS.ROW_CHANGED,
+          newRowData1,
+          newRowData1.uid,
+          [columnId]
+        );
       });
 
       test('should remove row and autosave when delete row button pressed', () => {
@@ -88,7 +215,7 @@ describe('SearchAndSelect', () => {
         // expect(clearedRowCount).toEqual(DEMO_TABLE_DATA.length);
       });
 
-      test.only('should filter rows when we add a filter from filter manager', async () => {
+      test('should filter rows when we add a filter from filter manager', async () => {
         render(<compositions.BasicDataTableWrapper />);
         const dataTable = screen.getByTestId('dataTable');
         const rowCount = within(dataTable).getAllByTestId('cell_1_', { exact: false }).length;
@@ -100,7 +227,7 @@ describe('SearchAndSelect', () => {
         const newFilter = await addFilter(within(filterPanel));
         const [fieldSelectDropdown]: HTMLSelectElement[] =
           within(newFilter).getAllByRole('combobox');
-        await UserEvent.selectOptions(fieldSelectDropdown, filterHeading.uid);
+        await UserEvent.selectOptions(fieldSelectDropdown, String(filterHeading.uid));
         await within(filterPanel).findByDisplayValue(filterHeading.label);
         const operatorSelectDropdown = within(
           within(within(filterPanel).getByRole('list')).getAllByRole('listitem')[0]

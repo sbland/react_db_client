@@ -2,6 +2,7 @@ import { evaluate } from 'mathjs';
 import { EComparisons, EFilterType, Uid } from '@react_db_client/constants.client-types';
 
 import { RowErrors } from '../errorTypes';
+import { IRow, ISortBy } from '../lib';
 
 const generateRowUid = () => `row_${Date.now()}`;
 
@@ -139,7 +140,10 @@ export const evaluateExpressionColumns = (data, headingsDataList) =>
     return rowOut;
   });
 
-export const sortTableData = (data, sortBy) => {
+export const sortTableData = <IRowCustom extends IRow = IRow>(
+  data: IRowCustom[],
+  sortBy: ISortBy
+) => {
   // 3. If sort by is set then sort rows
   // TODO: Why does copying inside the sort by if statement cause tests to fail?
   const copiedData = data.slice(); // potentially heavy action!

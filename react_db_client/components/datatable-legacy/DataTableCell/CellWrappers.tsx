@@ -9,10 +9,11 @@ import DataTableCellText from '../CellTypes/DataTableCellText';
 import DataTableCellNumber from '../CellTypes/DataTableCellNumber';
 import DataTableCellLink from '../CellTypes/DataTableCellLink';
 import DataTableCellButton from '../CellTypes/DataTableCellButton';
-// import DataTableCellPopup from '../CellTypes/DataTableCellPopup';
 import DataTableCellSelect from '../CellTypes/DataTableCellSelect';
 import DataTableCellToggle from '../CellTypes/DataTableCellToggle';
 import DataTableCellReadOnly from '../CellTypes/DataTableCellReadOnly';
+import { ICellProps, IHeading, IHeadingButton, IHeadingLink, THeading } from '../lib';
+import { Uid } from '@react_db_client/constants.client-types';
 
 /**
  * Data Table cell wrap that handles cell hovering
@@ -59,6 +60,19 @@ DataTableCellHoverWrap.defaultProps = {
   disabled: false,
 };
 
+export interface IEditColumnCellProps {
+  allowSelection: boolean;
+  allowRowDelete: boolean;
+  allowRowEditPanel: boolean;
+  isSelected: boolean;
+  rowIndex: number;
+  handleRemoveFromSelection: (rowId: Uid, rowIndex: number) => void;
+  handleAddToSelection: (rowId: Uid, rowIndex: number) => void;
+  handleDeleteRow: (rowId: Uid, rowIndex: number) => void;
+  handleEditPanelBtnClick: (rowId: Uid, columnId: Uid) => void;
+  rowUid: Uid;
+}
+
 export const EditColumnCell = ({
   allowSelection,
   allowRowDelete,
@@ -70,14 +84,14 @@ export const EditColumnCell = ({
   handleDeleteRow,
   handleEditPanelBtnClick,
   rowUid,
-}) => {
+}: IEditColumnCellProps) => {
   return (
     <>
       {allowSelection && (
         <input
           className="rowSelectionBox"
           type="checkbox"
-          id={rowIndex}
+          id={String(rowIndex)}
           checked={isSelected || false}
           onChange={() =>
             isSelected
@@ -131,6 +145,7 @@ export const CellRightClickWrapper = ({ readOnly, clearCell, setAsDefault, child
 
   return (
     <RightClickWrapper
+      id=""
       items={[
         { uid: 'clearCell', label: 'Clear', onClick: clearCell },
         {
@@ -156,6 +171,9 @@ CellRightClickWrapper.defaultProps = {
   readOnly: false,
 };
 
+export interface IDataTableDataCellProps<HeadingType extends IHeading>
+  extends ICellProps<HeadingType> {}
+
 /**
  * Data Table Cell
  * Selects the correct cell type based on headings
@@ -169,7 +187,9 @@ CellRightClickWrapper.defaultProps = {
  * }
  * @returns
  */
-export const DataTableDataCell = (props) => {
+export const DataTableDataCell = <HeadingType extends IHeading>(
+  props: IDataTableDataCellProps<HeadingType>
+) => {
   const {
     columnData: { type, readOnly, defaultValue },
     updateData,
@@ -179,7 +199,14 @@ export const DataTableDataCell = (props) => {
     isDisabled,
   } = props;
   const isCustomCell = customFieldComponents && customFieldComponents[type] !== undefined;
-
+  const customFieldComponentsMapped = Object.entries(customFieldComponents).reduce(
+    (acc, [key, Field]: [any, (props: IDataTableDataCellProps<HeadingType>) => JSX.Element]) => {
+      acc[key] = () => <Field {...props} />;
+      const accOut: any = acc;
+      return accOut;
+    },
+    {} as { [key: string]: () => JSX.Element }
+  );
   const cellComponent =
     readOnly && !isCustomCell ? (
       <DataTableCellReadOnly {...props} />
@@ -190,8 +217,14 @@ export const DataTableDataCell = (props) => {
           textLong: () => <DataTableCellText {...props} />,
           text: () => <DataTableCellText {...props} />,
           number: () => <DataTableCellNumber {...props} />,
-          link: () => <DataTableCellLink {...props} />,
-          button: () => <DataTableCellButton {...props} />,
+          link: () => (
+            <DataTableCellLink {...(props as unknown as IDataTableDataCellProps<IHeadingLink>)} />
+          ),
+          button: () => (
+            <DataTableCellButton
+              {...(props as unknown as IDataTableDataCellProps<IHeadingButton>)}
+            />
+          ),
           // TODO: Reimplement popup cell type
           // popup: () => <DataTableCellPopup {...props} />,
           // TODO: SelectMulti
@@ -200,10 +233,7 @@ export const DataTableDataCell = (props) => {
           // entity: () => <DataTableCellEntity {...props} />,
           toggle: () => <DataTableCellToggle {...props} />,
           bool: () => <DataTableCellToggle {...props} />,
-          ...Object.entries(customFieldComponents).reduce((acc, [key, Field]) => {
-            acc[key] = () => <Field {...props} />;
-            return acc;
-          }, {}),
+          ...customFieldComponentsMapped,
         },
         () => <div>Invalid Cell Type {type}</div>
       )
@@ -232,7 +262,7 @@ export const DataTableDataCell = (props) => {
 DataTableDataCell.propTypes = {
   rowId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   columnId: PropTypes.string.isRequired,
-  rowData: PropTypes.shape({}).isRequired,
+  // rowData: PropTypes.shape({}).isRequired,
   columnData: PropTypes.shape({
     uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
