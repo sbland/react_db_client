@@ -1,9 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { ICellProps, IHeadingLink } from '../lib';
+
+export interface IDataTableCellLinkProps extends ICellProps<IHeadingLink> {
+  cellData: string | number;
+  columnData: IHeadingLink;
+}
 
 const DataTableCellLink = ({
-  columnData: { to },
+  columnData: { to, uid: columnId },
   cellData,
   updateData,
   acceptValue,
@@ -11,13 +17,14 @@ const DataTableCellLink = ({
   // columnData,
   focused,
   editMode,
-}) => {
+  rowId,
+}: IDataTableCellLinkProps) => {
   const toLink = `${to}/${cellData}`;
-  const refText = useRef(null);
+  const refText = useRef<HTMLInputElement>(null);
   // const [ignoreNextBlur, setIgnoreNextBlur] = useState(false);
 
   useEffect(() => {
-    if (focused && editMode) refText.current.select();
+    if (focused && editMode) refText.current?.select();
   }, [focused, refText, editMode]);
 
   const acceptValueLocal = () => {
@@ -29,7 +36,7 @@ const DataTableCellLink = ({
   };
 
   const handleInputChange = (e) => {
-    updateData(e.target.value);
+    updateData(e.target.value, rowId, columnId);
   };
   const onKeyPress = (e) => {
     // setIgnoreNextBlur(true);

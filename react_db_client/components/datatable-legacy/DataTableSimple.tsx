@@ -3,17 +3,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Uid } from '@react_db_client/constants.client-types';
 import { headingDataShape, tableDataShape } from './inputDataShapes';
-import DataTableWrapper, { IDataTableWrapperProps, IHeading, IRow } from './DataTableWrapper';
+import DataTableWrapper, { IDataTableWrapperProps } from './DataTableWrapper';
 import { IDataTableConfig } from './DataTableConfig/DataTableConfig';
 import './_dataTable.scss';
+import { IRow, THeading } from './lib';
 
-export interface IDataTableSimpleProps extends Partial<IDataTableWrapperProps> {
+export interface IDataTableSimpleProps extends IDataTableWrapperProps {
   id: Uid;
-  headingsData: IHeading[];
+  headingsData: THeading[];
   tableData: IRow[];
   showTotals?: boolean;
   config?: Partial<IDataTableConfig>;
-  tableHeight: unknown;
+  tableHeight: number;
 }
 /** Data Table Component
  * Converts an array of objects to a table by mapping against a column schema(headingsData)
@@ -24,11 +25,12 @@ export const DataTableSimple: React.FC<IDataTableSimpleProps> = ({
   headingsData: headingsDataList,
   tableData,
   showTotals,
-  config={},
+  config = {},
   tableHeight,
   ...additionalProps
 }) => (
   <DataTableWrapper
+    {...additionalProps}
     id={id}
     headings={headingsDataList}
     data={tableData}
@@ -44,7 +46,6 @@ export const DataTableSimple: React.FC<IDataTableSimpleProps> = ({
       showTotals,
       ...config,
     }}
-    {...additionalProps}
   />
 );
 

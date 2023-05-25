@@ -18,8 +18,16 @@ import { DataTableContext } from '../DataTableConfig/DataTableConfig';
 import { RowStyleContext } from '../RowStyleContext';
 import { DataTableCellHoverWrap, DataTableDataCell, EditColumnCell } from './CellWrappers';
 import '../_dataTable.scss';
+import { ICellData, IHeading, IRow } from '../lib';
 
-export const Cell = ({ columnIndex, rowIndex, style, data }) => {
+export interface ICellProps {
+  columnIndex: number;
+  rowIndex: number;
+  style: React.CSSProperties;
+  data: ICellData;
+}
+
+export const Cell = ({ columnIndex, rowIndex, style, data }: ICellProps) => {
   const {
     className,
     tableData,
@@ -46,20 +54,20 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const [editMode, setEditMode] = useState(false);
   const [keyPressInProgress, setKeyPressInProgress] = useState(false);
 
-  const cellWrapNavBtnRef = useRef(null);
-  const cellDataBtnRef = useRef(null);
+  const cellWrapNavBtnRef = useRef<HTMLDivElement | null>(null);
+  const cellDataBtnRef = useRef<HTMLButtonElement | null>(null);
 
   const isSelected = rowSelectionState[rowIndex];
   const isFocused = currentFocusedColumn === columnIndex && currentFocusedRow === rowIndex;
 
   // If we have an edit column then the column data is out of sync with the column index by 1
   const headingData = useMemo(
-    () => headingsData[columnIndex - (hasBtnsColumn ? 1 : 0)] || {},
+    () => headingsData[columnIndex - (hasBtnsColumn ? 1 : 0)] || {} as IHeading,
     [headingsData, columnIndex, hasBtnsColumn]
   );
-  const rowData = useMemo(() => tableData[rowIndex] || {}, [tableData, rowIndex]);
+  const rowData: IRow = useMemo(() => tableData[rowIndex] || {} as IRow, [tableData, rowIndex]);
   const rowStyles = useContext(RowStyleContext);
-  const cellStyle = {
+  const cellStyle: React.CSSProperties = {
     ...style,
     ...(rowStyles && !hasBtnsColumn ? rowStyles[rowIndex] : {}),
   };
@@ -91,7 +99,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
       setNavigationMode(true);
       handleValueAccept(newValue, rowData.uid, rowIndex, headingData.uid);
       handleMoveFocusToTargetRow(rowIndex, columnIndex);
-      cellWrapNavBtnRef.current.focus();
+      cellWrapNavBtnRef.current?.focus();
     },
     [
       keyPressInProgress,
@@ -104,13 +112,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
       setNavigationMode,
     ]
   );
-  useEffect(() => {
-    if (!isFocused) {
-      // handleCellAccept(rowData[headingData.uid]);
-      // setEditMode(false);
-      // setNavigationMode(true);
-    }
-  }, [handleCellAccept, isFocused, rowData, headingData, setNavigationMode]);
 
   const handleCellReset = useCallback(() => {
     setNavigationMode(true);
@@ -182,7 +183,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
             break;
           case 'Enter':
             e.preventDefault();
-            console.info('Pressed enter');
             handleSelectCell();
             break;
           default:
@@ -211,7 +211,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
     ]
   );
 
-  const lhsTagStyle = {
+  const lhsTagStyle: React.CSSProperties = {
     ...(rowStyles ? rowStyles[rowIndex] : {}),
     width: '8px',
     fontSize: '1rem',
@@ -260,7 +260,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
           handleDeleteRow={handleDeleteRow}
           handleEditPanelBtnClick={handleEditPanelBtnClick}
           rowUid={rowData.uid}
-          style={cellStyle}
         />
       </DataTableCellHoverWrap>
     );
@@ -287,7 +286,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
       >
         <div
           ref={cellWrapNavBtnRef}
-          type="button"
           data-testid={`cell_${columnIndex}_${rowIndex} cell_${headingData.uid}`}
           className={`${classNames} navigationButton cellWrapBtn button-reset`}
           onClick={() => handleSelectCell()}
@@ -299,7 +297,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
           }}
           onKeyUp={() => setKeyPressInProgress(false)}
           role="presentation"
-          tabIndex={`${columnIndex + rowIndex * 10}`}
+          tabIndex={columnIndex + rowIndex * 10}
         >
           <DataTableDataCell
             isDisabled={disabled}
@@ -312,9 +310,9 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
             cellData={rowData[headingData.uid]}
             rowData={rowData}
             columnData={headingData}
-            updateData={(newVal) => handleCellUpdate(newVal)}
-            acceptValue={(newVal) => handleCellAccept(newVal)}
-            resetValue={() => handleCellReset()}
+            updateData={handleCellUpdate}
+            acceptValue={handleCellAccept}
+            resetValue={handleCellReset}
             cellDataBtnRef={cellDataBtnRef}
             customFieldComponents={customFieldComponents}
           />

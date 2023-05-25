@@ -6,20 +6,18 @@ import {
   CustomField,
   customFilter,
   availableFilters,
+  evaluationTableHeadings,
+  demoTableDataEvaluationTable,
 } from './demoData';
 import { dataTableDefaultConfig, IDataTableConfig } from './DataTableConfig/DataTableConfig';
-// import { FilterTypes } from '@react_db_client/components.filter-manager';
 import DataTableCellNumber from './CellTypes/DataTableCellNumber';
+import { saveData } from './test-utils/mock-api';
 
 const DEMO_CONFIG = {
   ...dataTableDefaultConfig,
   allowSelection: true,
-  // allowFilters: false,
-  // allowHiddenColumns: false,
   calculateTotals: true,
-  // allowSelection: false,
 };
-const DEMO_SORT_BY = { heading: 'count', direction: 1, map: null };
 
 const DEMO_HEADINGS = demoHeadingsData;
 const customFieldComponents = {
@@ -30,7 +28,25 @@ const customFilters = {
   custom: customFilter,
 };
 const customFiltersComponents = { custom: () => 'CUSTOM' };
-// const customFiltersComponents = { custom: FilterTypes.FilterNumber };
+
+const CompositionWrap = (props) => {
+  const [autosave, setAutosave] = React.useState(props.autoSave);
+  return (
+    <div>
+      <div>
+        <button
+          style={{ background: autosave ? 'green' : 'red' }}
+          onClick={() => setAutosave(!autosave)}
+        >
+          Toggle autosave
+        </button>
+      </div>
+      <div>
+        <DataTableWrapper {...props} autoSave={autosave} />
+      </div>
+    </div>
+  );
+};
 
 const defaultProps: IDataTableWrapperProps & { config: Partial<IDataTableConfig> } = {
   id: 'Demo table',
@@ -38,12 +54,10 @@ const defaultProps: IDataTableWrapperProps & { config: Partial<IDataTableConfig>
   headings: DEMO_HEADINGS,
   availableFilters,
   config: DEMO_CONFIG,
-  sortByOverride: DEMO_SORT_BY,
-  saveData: console.log,
+  saveData: saveData,
   styleOverride: { background: 'green' },
   errorStyleOverride: { DUPLICATE: { background: 'red' }, MISSING: { background: 'orange' } },
   onSelectionChange: (newSelection) => {
-    // alert('Selection changed');
     console.log(newSelection);
   },
   customFieldComponents,
@@ -52,4 +66,16 @@ const defaultProps: IDataTableWrapperProps & { config: Partial<IDataTableConfig>
   maxTableHeight: 2000,
 };
 
-export const BasicDataTableWrapper = () => <DataTableWrapper {...defaultProps} />;
+export const BasicDataTableWrapper = () => <CompositionWrap {...defaultProps} />;
+
+const calculatingTableProps: IDataTableWrapperProps & { config: Partial<IDataTableConfig> } = {
+  ...defaultProps,
+  headings: evaluationTableHeadings,
+  data: demoTableDataEvaluationTable,
+  config: {
+    ...DEMO_CONFIG,
+    hasBtnsColumn: false,
+  },
+};
+
+export const CalculatedDataTableWrapper = () => <CompositionWrap {...calculatingTableProps} />;

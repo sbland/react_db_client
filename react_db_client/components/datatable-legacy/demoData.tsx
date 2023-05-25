@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import React, { useEffect, useMemo } from 'react';
 import {
   EComparisons,
   EFilterType,
@@ -6,7 +7,7 @@ import {
   FilterOption,
   Uid,
 } from '@react_db_client/constants.client-types';
-import React, { useEffect, useMemo } from 'react';
+import { IHeadingCustomExample, THeading } from './lib';
 
 export const demoFilterString = new FilterObjectClass({
   uid: 'demoFilterString',
@@ -110,7 +111,7 @@ export const demoHeadingsDataSimple = [
   {
     uid: 'eval',
     label: 'Eval',
-    evaluateType: 'number',
+    evaluateType: EFilterType.number,
     type: EFilterType.number,
     expression: '$count + 1',
     expressionReversed: '$count=$_ - 1',
@@ -264,11 +265,11 @@ export const demoProcessedData = {
   totals: demoTableTotals,
 };
 
-export const demoHeadingsData = [
+export const demoHeadingsData: THeading<IHeadingCustomExample>[] = [
   {
     uid: 'uid',
     label: 'UID',
-    type: 'button',
+    type: EFilterType.button,
     action: (x) => alert(x),
     styleRule: '$count<5',
     unique: true,
@@ -277,29 +278,29 @@ export const demoHeadingsData = [
   {
     uid: 'name',
     label: 'Name',
-    type: 'text',
+    type: EFilterType.text,
     unique: true,
     required: true,
   },
   {
     uid: 'description',
     label: 'description',
-    type: 'textLong',
+    type: EFilterType.textLong,
   },
   {
     uid: 'count',
     label: 'Count',
-    type: 'number',
+    type: EFilterType.number,
     max: 10,
     min: 2,
-    def: 8,
+    defaultValue: 8,
     step: 1,
     showTotals: true,
   },
   {
     uid: 'def',
     label: 'Def',
-    type: 'number',
+    type: EFilterType.number,
     max: 10,
     min: 1,
     defaultValue: 7,
@@ -308,45 +309,45 @@ export const demoHeadingsData = [
   {
     uid: 'multiplier',
     label: 'Multiplier',
-    type: 'number',
+    type: EFilterType.number,
     max: 10,
     min: 1,
-    def: '$def',
+    // defaultValue: '$def', // NOT IMPLEMENTED
   },
   {
     uid: 'readOnly',
     label: 'Read Only',
-    type: 'text',
+    type: EFilterType.text,
     readOnly: true,
   },
   {
     uid: 'hiddenDemo',
     label: 'Hidden',
-    type: 'text',
+    type: EFilterType.text,
     hidden: true,
   },
   {
     uid: 'hiddenDemoNumber',
     label: 'Hidden Number',
-    type: 'number',
+    type: EFilterType.number,
     hidden: true,
   },
   {
     uid: 'toggle',
     label: 'Toggle',
-    type: 'toggle',
+    type: EFilterType.toggle,
   },
   {
     uid: 'toggleR',
     label: 'ToggleR',
-    type: 'toggle',
+    type: EFilterType.toggle,
     readOnly: true,
   },
   {
     uid: 'expression',
     label: 'Expression',
-    type: 'number',
-    evaluateType: 'number',
+    type: EFilterType.number,
+    evaluateType: EFilterType.number,
     expression: '$count * $multiplier',
     expressionReversed: '$count=$_ / $multiplier',
     // expressionReversed: '$count * $multiplier',
@@ -355,7 +356,7 @@ export const demoHeadingsData = [
   {
     uid: 'validated',
     label: 'Is Validated',
-    evaluateType: 'string',
+    evaluateType: EFilterType.text,
     type: EFilterType.bool,
     operator: EComparisons.EQUALS,
     target: 'a',
@@ -365,23 +366,23 @@ export const demoHeadingsData = [
   {
     uid: 'invalid',
     label: 'Invalid',
-    evaluateType: 'number',
-    type: 'number',
+    evaluateType: EFilterType.number,
+    type: EFilterType.number,
     expression: '$nothing',
     expressionReversed: '$nothing',
   },
   {
     uid: 'invalidb',
     label: 'InvalidB',
-    type: 'number',
-    evaluateType: 'number',
+    type: EFilterType.number,
+    evaluateType: EFilterType.number,
     expression: '$invalid * 2',
     expressionReversed: '$invalid / 2',
   },
   {
     uid: 'select',
     label: 'Select',
-    type: 'select',
+    type: EFilterType.select,
     options: [
       { uid: 'a', label: 'A' },
       { uid: 'b', label: 'B' },
@@ -397,8 +398,7 @@ export const demoHeadingsData = [
   {
     uid: 'longHeading',
     label: 'Long Heading which is really really long',
-    type: 'text',
-    collection: 'rooms',
+    type: EFilterType.text,
   },
   {
     uid: 'customfield',
@@ -413,10 +413,81 @@ export const demoHeadingsData = [
     type: 'customeval',
     isCustomType: true,
     showTotals: true,
-
     expression: '$customfield + 1',
     expressionReversed: '$customfield=$_ - 1',
-    evaluateType: 'number',
+    evaluateType: EFilterType.number,
+  },
+];
+
+export const demoTableDataEvaluationTable = [
+  {
+    uid: 'a',
+    a: 1,
+    b: 1,
+    c: 1,
+    count: 1,
+    totalc: 1,
+    d: 0,
+    lineTotal: 1,
+  },
+  {
+    uid: 'b',
+    a: 2,
+    b: 2,
+    c: 4,
+    count: 7,
+    totalc: 8,
+    d: 33.33,
+    lineTotal: 14,
+  },
+];
+
+export const evaluationTableHeadings = [
+  {
+    uid: 'uid',
+    label: 'Id',
+    type: 'text',
+  },
+  {
+    uid: 'a',
+    label: 'A',
+    type: EFilterType.number,
+    // readOnly: true,
+    def: 1,
+    step: 0.01,
+  },
+  {
+    uid: 'b',
+    label: 'B',
+    type: EFilterType.number,
+    def: '$b-default',
+    step: 0.01,
+  },
+  {
+    uid: 'c',
+    label: 'C',
+    evaluateType: EFilterType.number,
+    type: EFilterType.number,
+    expression: '$a + $b',
+    expressionReversed: '$b=$_ - $a',
+    step: 0.01,
+  },
+  {
+    uid: 'count',
+    label: 'Count',
+    type: EFilterType.number,
+    // readOnly: true,
+    step: 1,
+  },
+  {
+    uid: 'totalc',
+    label: 'Total C',
+    type: EFilterType.number,
+    evaluateType: EFilterType.number,
+    expression: '$count * $c',
+    step: 0.01,
+    showTotals: true,
+    readOnly: true,
   },
 ];
 export const CustomField = ({ acceptValue, cellData, editMode, focused }) => {

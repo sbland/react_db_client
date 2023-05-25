@@ -5,6 +5,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { deepIsEqual, filterData } from '@react_db_client/helpers.filter-helpers';
+import { FilterObjectClass, Uid } from '@react_db_client/constants.client-types';
 import {
   calculateColumnTotals,
   evaluateExpressionColumns,
@@ -14,7 +15,7 @@ import {
   sortTableData,
   validateRows,
 } from './processTableData';
-import { FilterObjectClass, Uid } from '@react_db_client/constants.client-types';
+import { IHeadingEvaluate, IRow, ISortBy, THeading } from '../lib';
 
 const handleUpdateEvalField = (heading, prevRowData, colId, newVal) => {
   if (!heading.expressionReversed)
@@ -48,49 +49,44 @@ export const SAVE_ACTIONS = {
   ROW_ADDED: 'rowAdded',
 };
 
-export interface IUseDataManagerArgs {
-  data;
-  headings;
+export interface IUseDataManagerArgs<IRowCustom extends IRow = IRow> {
+  /* Input data */
+  data: IRowCustom[];
+  /* Headings list */
+  headings: THeading[];
+  /* Active filters */
   filters: FilterObjectClass[];
-  sortBy?: string;
+  /* Current sort by info */
+  sortBy?: null | ISortBy;
+  /* If true then calculate column totals */
   calculateTotals?: boolean;
+  /* If true then recalculate data after each change */
   recalculate?: boolean;
+  /* If true then save data after each change */
   autoSave?: boolean;
+  /** If true then save data after creating a new row */
   autoSaveOnNewRow?: boolean;
-  autoSaveCallback?: (data, action: string, newData?, rowId?: number, colIds?: Uid[]) => void;
+  /** Callback to save data */
+  autoSaveCallback?: (data, action: string, newData?, rowId?: Uid, colIds?: Uid[]) => void;
+  /** If true then sort data on load */
   autoSort?: boolean;
+  /** If true then filter data on load */
   autoFilter?: boolean;
-  saveTotalsCallback: (totals) => void;
-  updatedDataHook: (row: Uid, column: number, field: Uid) => void;
+  /** If true then the data is controlled by the parent component */
+  isContolled?: boolean;
+  /* Callback to save totals */
+  saveTotalsCallback?: (totals) => void;
+  /* Callback when a cell is updated */
+  updatedDataHook?: (row: Uid, column: Uid, field: Uid) => void;
+  /* Dictionary of custom filter functions(See filterDataFunc) */
   customFilters: { [k: Uid]: FilterObjectClass };
 }
-
-type RowData = any;
 
 /**
  * Used by data table to process data
  *
- * Merge edit and start data
- *  also process any evaluate cells
- *
- * @param {
- *  data - Input data
- *  headings - Headings list
- *  filters{Array[FilterObjectClass]} - active filters
- *  sortBy - Current sort by heading id
- *  calculateTotals{bool} - If true then calculate column totals
- *  autoSave{bool}
- *  autoSaveOnNewRow{bool}
- *  autoSaveCallback{func}
- *  autoSort{bool}
- *  autoFilter{bool}
- *  saveTotalsCallback{func}
- *  updatedDataHook{func}
- *  customFilters{dict} - dictionary of custom filter functions(See filterDataFunc)
- * }
- * @returns
  */
-export const useDataManager = ({
+export const useDataManager = <IRowCustom extends IRow = IRow>({
   data: dataIn,
   headings,
   filters,
@@ -102,21 +98,23 @@ export const useDataManager = ({
   autoSaveCallback,
   autoSort = true,
   autoFilter = true,
-  // eslint-disable-next-line no-unused-vars
+  isContolled = false,
   saveTotalsCallback = (_totals) => {},
-  // eslint-disable-next-line no-unused-vars
   updatedDataHook = (_row, _column, _field) => {},
   customFilters,
-}: IUseDataManagerArgs) => {
+}: IUseDataManagerArgs<IRowCustom>) => {
   const error = React.useRef<string | null>(null);
-  const [intData, setIntData] = useState<RowData[]>(dataIn);
-  const [sortBy, setSortBy] = useState<string | null>(() => sortByIn || null);
+  const [rawData, setRawData] = useState<IRowCustom[]>(dataIn);
+  const [sortBy, setSortBy] = useState<ISortBy | null>(() => sortByIn || null);
+
   const [unsavedChanges, setUnsavedChanges] = useState(false);
   // TODO: Implement trigger filter and sort
   // const [triggerFilter, setTriggerFilter] = useState(false);
   // const [triggerSort, setTriggerSort] = useState(false);
 
-  const [intProcessedData, setIntProcessedData] = useState<RowData[]>([]);
+  /* Internal processed data */
+  /* This is the sorted and filtered data */
+  const [intProcessedData, setIntProcessedData] = useState<IRowCustom[]>([]);
 
   useEffect(() => {
     setSortBy(sortByIn || null);
@@ -124,8 +122,7 @@ export const useDataManager = ({
 
   useEffect(() => {
     if (dataIn) {
-      // TODO: Check this is not causing multiple renders!
-      setIntData((prev) => {
+      setRawData((prev) => {
         if (deepIsEqual(dataIn, prev)) return prev;
         return dataIn;
       });
@@ -134,9 +131,9 @@ export const useDataManager = ({
 
   // Process filters and sorting then update in processed state
   useEffect(() => {
-    if (intData) {
-      // if ((!filters || filters.length === 0) && !sortBy) setIntProcessedData(intData);
-      let updatedData = intData;
+    if (rawData) {
+      // if ((!filters || filters.length === 0) && !sortBy) setIntProcessedData(rawData);
+      let updatedData = rawData.map((row, i) => ({ ...row, _rowIndex: i })); // store pre sort and filter index
       if (recalculate && autoFilter && filters.length > 0) {
         updatedData = filterData(customFilters || {})(filters, updatedData);
       }
@@ -145,7 +142,7 @@ export const useDataManager = ({
       }
       setIntProcessedData(updatedData);
     }
-  }, [recalculate, intData, filters, autoFilter, sortBy, autoSort, customFilters]);
+  }, [recalculate, rawData, filters, autoFilter, sortBy, autoSort, customFilters]);
 
   // Evaluate data
   const evaluatedData = useMemo(
@@ -174,13 +171,29 @@ export const useDataManager = ({
   if (!headings) error.current = 'Input headings are invalid';
 
   /* API */
+
+  /**
+   * Handle value change
+   * @param newVal
+   * @param rowId - row UID
+   * @param rowIndex - index of row in data(post sort and filter)
+   * @param colId
+   * @returns
+   * @description
+   * - Update the data in the table
+   * - If autoSave is on then call the autoSaveCallback
+   * - If autoSave is off then update the data in the table
+   * - If the heading is an evaluate heading then we need to process the reverse evaluation
+   */
   const handleValueChange = useCallback(
-    (newVal, rowId, rowIndex, colId) => {
+    (newVal: any, rowId: Uid, rowIndex: number, colId: Uid) => {
       // Note use of callback here ensures if multiple columns are updated
       // in one we update all and don't override the data object
+
+      // Changing intProcessed data here ensures that we don't re-run sorting and filtering
       setIntProcessedData((prev) => {
         const heading = headings.find((h) => h.uid === colId);
-        if (heading.evaluateType) {
+        if ((heading as IHeadingEvaluate).evaluateType) {
           // if the heading type is an evaluate heading we need to process
           // the reverse evaluation
           const prevRowData = prev.find((row) => row.uid === rowId);
@@ -189,89 +202,81 @@ export const useDataManager = ({
           return dataMod;
         }
         const newRowData = { ...prev[rowIndex], [colId]: newVal };
-        const dataMod = Object.assign([], prev, { [rowIndex]: newRowData });
+        const dataMod = Array.from(prev);
+        dataMod.splice(rowIndex, 1, newRowData);
         return dataMod;
       });
     },
     [headings]
   );
 
+  /**
+   * Handle value accept
+   * @param newVal
+   * @param rowId - row UID
+   * @param rowIndex - index of row in data(post sort and filter)
+   * @param colId
+   * @returns
+   * @description
+   * - Update the data in the table after accepting a cell value
+   *
+   *
+   * Note use of callback here ensures if multiple columns are updated
+   * in one we update all and don't override the data object
+   */
   const handleValueAccept = useCallback(
-    (newVal, rowId, rowIndex, colId) => {
-      const liveData = autoSave ? dataIn : intData;
+    (newVal: any, rowId: Uid, rowIndex: number, colId: Uid) => {
+      const liveData = isContolled ? dataIn : rawData;
+
+      // Original data is unsorted so not in sync with rowIndex arg above
+      // TODO: We should switch out sorted row index for unsorted row index
       const originalRowIndex = liveData.findIndex((rowData) => rowData.uid === rowId);
       const oldRowData = liveData[originalRowIndex];
       if (oldRowData[colId] === newVal) return; // don't do anything if value hasn't changed
       // TODO: Handle evaluated values
       if (autoSave && autoSaveCallback) {
-        // Original data is unsorted so not in sync with rowIndex arg above
-        const newRowData = { ...dataIn[originalRowIndex], [colId]: newVal };
-        const dataMod = Object.assign([], dataIn, { [originalRowIndex]: newRowData });
+        const newRowData = { ...liveData[originalRowIndex], [colId]: newVal };
+        const dataMod = Object.assign([], liveData, { [originalRowIndex]: newRowData });
         autoSaveCallback(dataMod, SAVE_ACTIONS.ROW_CHANGED, newRowData, rowId, [colId]);
-      } else {
-        // Note use of callback here ensures if multiple columns are updated
-        // in one we update all and don't override the data object
-        const originalRowIndexPrev = intData.findIndex((rowData) => rowData.uid === rowId);
-        const prevRowData = intData[originalRowIndexPrev];
+      }
+      if (!isContolled) {
+        const originalRowIndexPrev = rawData.findIndex((rowData) => rowData.uid === rowId);
+        const prevRowData = rawData[originalRowIndexPrev];
         const heading = headings.find((h) => h.uid === colId);
-        const newRowData = heading.evaluateType
+        const newRowData = (heading as IHeadingEvaluate).evaluateType
           ? handleUpdateEvalField(heading, prevRowData, colId, newVal)
           : { ...prevRowData, [colId]: newVal };
-        const dataMod = Object.assign([], intData, { [originalRowIndexPrev]: newRowData });
-
-        setIntData(dataMod);
-        // TODO: Make sure we don't need to do it as below
-        // setIntData((prev) => {
-        //   // Note use of callback here ensures if multiple columns are updated
-        //   // in one we update all and don't override the data object
-        //   const originalRowIndexPrev = prev.findIndex((rowData) => rowData.uid === rowId);
-        //   const prevRowData = prev[originalRowIndexPrev];
-        //   const heading = headings.find((h) => h.uid === colId);
-        //   if (heading.type === filterTypes.evaluate) {
-        //     const newRowData = handleUpdateEvalField(heading, prevRowData, colId, newVal);
-        //     const dataMod = Object.assign([], prev, { [rowIndex]: newRowData });
-        //     return dataMod;
-        //   }
-        //   const newRowData = { ...prevRowData, [colId]: newVal };
-        //   const dataMod = Object.assign([], prev, { [originalRowIndexPrev]: newRowData });
-        //   return dataMod;
-        // });
+        const dataMod = Object.assign([], rawData, { [originalRowIndexPrev]: newRowData });
+        setRawData(dataMod);
         setUnsavedChanges(true);
         updatedDataHook(rowId, colId, newVal);
       }
     },
-    [autoSave, intData, dataIn, autoSaveCallback, headings, updatedDataHook]
+    [autoSave, rawData, dataIn, autoSaveCallback, headings, updatedDataHook]
   );
 
   const handleValueReset = (rowId, rowIndex, colId) => {
     setIntProcessedData((prev) => {
-      const originalRowIndex = intData.findIndex((rowData) => rowData.uid === rowId);
-      const originalValue = intData[originalRowIndex][colId];
+      const originalRowIndex = rawData.findIndex((rowData) => rowData.uid === rowId);
+      const originalValue = rawData[originalRowIndex][colId];
       const newRowData = { ...prev[rowIndex], [colId]: originalValue };
       const dataMod = Object.assign([], prev, { [rowIndex]: newRowData });
       return dataMod;
     });
   };
 
-  // const updateRowData = (newData, rowId) => {
-  //   setData((prev) => {
-  //     const dataCopy = cloneDeep(prev);
-  //     dataCopy[rowId] = newData;
-  //     return dataCopy;
-  //   });
-  //   setUnsavedChanges(true);
-  // };
-
   const deleteRow = (rowId, _rowIndex) => {
+    const liveData = isContolled ? dataIn : rawData;
     if ((autoSave || autoSaveOnNewRow) && autoSaveCallback) {
       // Original data is unsorted so not in sync with rowIndex arg above
-      const originalRowIndex = dataIn.findIndex((rowData) => rowData.uid === rowId);
-      const dataCopy = intData
+      const originalRowIndex = liveData.findIndex((rowData) => rowData.uid === rowId);
+      const dataCopy = liveData
         .slice(0, originalRowIndex)
-        .concat(intData.slice(originalRowIndex + 1));
+        .concat(liveData.slice(originalRowIndex + 1));
       autoSaveCallback(dataCopy, SAVE_ACTIONS.ROW_DELETED, null, rowId);
-    } else {
-      setIntData((prev) => {
+    }
+    if (!isContolled) {
+      setRawData((prev) => {
         const originalRowIndex = prev.findIndex((rowData) => rowData.uid === rowId);
         const dataCopy = prev.slice(0, originalRowIndex).concat(prev.slice(originalRowIndex + 1));
         return dataCopy;
@@ -281,18 +286,19 @@ export const useDataManager = ({
   };
 
   const handleSaveData = () => {
-    if (autoSaveCallback) autoSaveCallback(intData, SAVE_ACTIONS.SAVE_BTN_CLICKED);
+    if (autoSaveCallback) autoSaveCallback(rawData, SAVE_ACTIONS.SAVE_BTN_CLICKED);
     setUnsavedChanges(false);
   };
 
   const handleAddRow = () => {
+    const liveData = isContolled ? dataIn : rawData;
     const newRowData = generateNewRowData(headings);
-    if (autoSave || autoSaveOnNewRow) {
-      const newData = [...intData, newRowData];
-      if (autoSaveCallback)
-        autoSaveCallback(newData, SAVE_ACTIONS.ROW_ADDED, newRowData, newRowData.uid);
-    } else {
-      setIntData((prev) => {
+    if ((autoSave || autoSaveOnNewRow) && autoSaveCallback) {
+      const newData = [...liveData, newRowData];
+      autoSaveCallback(newData, SAVE_ACTIONS.ROW_ADDED, newRowData, newRowData.uid);
+    }
+    if (!isContolled) {
+      setRawData((prev) => {
         // TODO: We should have all headings here
         const newData = [...prev, newRowData];
         return newData;
@@ -302,17 +308,19 @@ export const useDataManager = ({
   };
 
   const resetData = () => {
-    setIntData(dataIn);
+    setRawData(dataIn);
     setUnsavedChanges(false);
   };
 
-  if (autoSave && (!autoSaveCallback || typeof autoSaveCallback !== 'function')) {
+  if (
+    (autoSave || autoSaveOnNewRow) &&
+    (!autoSaveCallback || typeof autoSaveCallback !== 'function')
+  ) {
     throw Error('Missing autosave callback');
   }
 
   return {
-    dataUnProcessed: intData,
-    // dataProcessedUnevaluated: intProcessedData,
+    dataUnProcessed: rawData,
     dataProcessed: evaluatedData,
     invalidRows,
     invalidRowsMessages,
