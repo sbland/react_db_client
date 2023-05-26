@@ -127,6 +127,9 @@ importers:
       react-base-table:
         specifier: 1.13.0
         version: registry.npmjs.org/react-base-table@1.13.0(react-dom@17.0.2)(react@17.0.2)
+      react-csv-reader:
+        specifier: ^4.0.0
+        version: registry.npmjs.org/react-csv-reader@4.0.0(prop-types@15.8.1)(react-dom@17.0.2)(react@17.0.2)
       react-data-grid:
         specifier: 7.0.0-beta.12
         version: registry.npmjs.org/react-data-grid@7.0.0-beta.12(react-dom@17.0.2)(react@17.0.2)
@@ -252,6 +255,8 @@ importers:
   react_db_client/components/form/lib: {}
 
   react_db_client/components/loading-panel: {}
+
+  react_db_client/components/local-file-uploader: {}
 
   react_db_client/components/popup-menu: {}
 
@@ -6971,6 +6976,12 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
+  registry.npmjs.org/papaparse@5.4.1:
+    resolution: {integrity: sha512-HipMsgJkZu8br23pW15uvo6sib6wne/4woLZPlFf3rpDyMe9ywEXUsuD7+6K9PRkJlVT51j/sCOYDKGGS3ZJrw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/papaparse/-/papaparse-5.4.1.tgz}
+    name: papaparse
+    version: 5.4.1
+    dev: false
+
   registry.npmjs.org/parent-module@1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/parent-module/-/parent-module-1.0.1.tgz}
     name: parent-module
@@ -7275,6 +7286,29 @@ packages:
       lodash.flow: registry.npmjs.org/lodash.flow@3.5.0
       pure-color: registry.npmjs.org/pure-color@1.3.0
     dev: true
+
+  registry.npmjs.org/react-csv-reader@4.0.0(prop-types@15.8.1)(react-dom@17.0.2)(react@17.0.2):
+    resolution: {integrity: sha512-NRo27kv1YWYAJAR3H5ZZ5KREEw35avUtdGr4DwYel87QN3rwJf2wdAw97swNDO3cTW2i3cuXSNjfPqVIJm5xOg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/react-csv-reader/-/react-csv-reader-4.0.0.tgz}
+    id: registry.npmjs.org/react-csv-reader/4.0.0
+    name: react-csv-reader
+    version: 4.0.0
+    peerDependencies:
+      prop-types: '*'
+      react: '*'
+      react-dom: '*'
+    peerDependenciesMeta:
+      prop-types:
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      papaparse: registry.npmjs.org/papaparse@5.4.1
+      prop-types: registry.npmjs.org/prop-types@15.8.1
+      react: registry.npmjs.org/react@17.0.2
+      react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
+    dev: false
 
   registry.npmjs.org/react-data-grid@7.0.0-beta.12(react-dom@17.0.2)(react@17.0.2):
     resolution: {integrity: sha512-cgKE4fl/glKllpfY444H1ZF4mNDUfIU7kyrSYVUy8W1npTvGk9CL++ASs1pTSSi2Eg2Sx7vqnC1gEx6C92Kqjw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/react-data-grid/-/react-data-grid-7.0.0-beta.12.tgz}

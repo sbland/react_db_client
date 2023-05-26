@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeadingsMapper Matches Snapshot - no file 1`] = `
+"<div className=\\"headingsMapper\\">
+  <form onSubmit={[Function: onSubmit]}>
+    <div className=\\"headingsMapper_heading\\">
+      <label>
+        HeadImport1
+      </label>
+      <select value=\\"\\" onChange={[Function: onChange]}>
+        <option value=\\"a\\">
+          A
+        </option>
+        <option value=\\"b\\">
+          B
+        </option>
+        <option value=\\"c\\">
+          C
+        </option>
+        <option value=\\"\\">
+          NA
+        </option>
+      </select>
+    </div>
+    <div className=\\"headingsMapper_heading\\">
+      <label>
+        HeadImport2
+      </label>
+      <select value=\\"\\" onChange={[Function: onChange]}>
+        <option value=\\"a\\">
+          A
+        </option>
+        <option value=\\"b\\">
+          B
+        </option>
+        <option value=\\"c\\">
+          C
+        </option>
+        <option value=\\"\\">
+          NA
+        </option>
+      </select>
+    </div>
+    <div className=\\"headingsMapper_heading\\">
+      <label>
+        HeadImport3
+      </label>
+      <select value=\\"\\" onChange={[Function: onChange]}>
+        <option value=\\"a\\">
+          A
+        </option>
+        <option value=\\"b\\">
+          B
+        </option>
+        <option value=\\"c\\">
+          C
+        </option>
+        <option value=\\"\\">
+          NA
+        </option>
+      </select>
+    </div>
+    <div className=\\"headingsMapper_heading\\">
+      <label>
+        a
+      </label>
+      <select value=\\"a\\" onChange={[Function: onChange]}>
+        <option value=\\"a\\">
+          A
+        </option>
+        <option value=\\"b\\">
+          B
+        </option>
+        <option value=\\"c\\">
+          C
+        </option>
+        <option value=\\"\\">
+          NA
+        </option>
+      </select>
+    </div>
+    <button type=\\"button\\" className=\\"button-two headingsAcceptButton\\" onClick={[Function: handleAccept]}>
+      Accept Headings Mapping
+    </button>
+  </form>
+</div>"
+`;

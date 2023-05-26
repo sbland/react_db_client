@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LocalFileUploader Matches Snapshot - no file 1`] = `
+"<div className=\\"localFileUploader sectionWrapper\\">
+  <section className=\\"localFileUploader_selectFileSection\\">
+    <h2>
+      Select File
+    </h2>
+    <label>
+      File has a header?
+    </label>
+    <input className=\\"headerCheckbox\\" type=\\"checkbox\\" onChange={[Function: onChange]} checked={false} />
+    <label>
+      Skip Rows: 
+    </label>
+    <input type=\\"number\\" name=\\"skipRowsInput\\" className=\\"skipRowsInput\\" onChange={[Function: onChange]} value={0} />
+    <CSVReader label={[undefined]} parserOptions={{...}} onError={[Function: bound _dispatchAction]} onFileLoaded={[Function: handleFileUploaded]} />
+    <div />
+  </section>
+  <section className=\\"localFileUploader_acceptButtonsSection\\">
+    <button type=\\"button\\" className=\\"button-two\\" disabled={true} onClick={[Function: onClick]}>
+      Accept File
+    </button>
+  </section>
+</div>"
+`;
