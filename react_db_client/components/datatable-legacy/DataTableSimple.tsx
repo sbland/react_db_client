@@ -8,13 +8,15 @@ import { IDataTableConfig } from './DataTableConfig/DataTableConfig';
 import './_dataTable.scss';
 import { IRow, THeading } from './lib';
 
-export interface IDataTableSimpleProps extends IDataTableWrapperProps {
+export interface IDataTableSimpleProps
+  extends Omit<IDataTableWrapperProps, 'data' | 'headings' | 'saveData'> {
   id: Uid;
   headingsData: THeading[];
   tableData: IRow[];
   showTotals?: boolean;
   config?: Partial<IDataTableConfig>;
   tableHeight: number;
+  saveData?: (data, action: string, newData?, rowId?: Uid, colIds?: Uid[]) => void;
 }
 /** Data Table Component
  * Converts an array of objects to a table by mapping against a column schema(headingsData)
@@ -46,6 +48,7 @@ export const DataTableSimple: React.FC<IDataTableSimpleProps> = ({
       showTotals,
       ...config,
     }}
+    saveData={additionalProps.saveData || (() => {})}
   />
 );
 

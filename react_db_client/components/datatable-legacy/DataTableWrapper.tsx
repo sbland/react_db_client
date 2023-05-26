@@ -47,7 +47,7 @@ export interface IDataTableWrapperProps {
   customFiltersComponents?;
   customPreviewParsers?;
   disableEditing?: boolean;
-  isContolled?: boolean;
+  isControlled?: boolean;
 }
 
 export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
@@ -62,7 +62,7 @@ export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
   updateTotals,
   updatedDataHook, // A function that is called with field changes (row, column, value)
   autoSave,
-  isContolled,
+  isControlled,
   styleRule,
   styleOverride,
   baseStyle,
@@ -122,7 +122,7 @@ export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
     sortBy,
     calculateTotals,
     autoSave,
-    isContolled,
+    isControlled,
     autoSaveOnNewRow,
     autoSaveCallback: saveData,
     autoSort,

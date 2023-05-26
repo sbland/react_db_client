@@ -73,7 +73,7 @@ export interface IUseDataManagerArgs<IRowCustom extends IRow = IRow> {
   /** If true then filter data on load */
   autoFilter?: boolean;
   /** If true then the data is controlled by the parent component */
-  isContolled?: boolean;
+  isControlled?: boolean;
   /* Callback to save totals */
   saveTotalsCallback?: (totals) => void;
   /* Callback when a cell is updated */
@@ -98,7 +98,7 @@ export const useDataManager = <IRowCustom extends IRow = IRow>({
   autoSaveCallback,
   autoSort = true,
   autoFilter = true,
-  isContolled = false,
+  isControlled = false,
   saveTotalsCallback = (_totals) => {},
   updatedDataHook = (_row, _column, _field) => {},
   customFilters,
@@ -226,7 +226,7 @@ export const useDataManager = <IRowCustom extends IRow = IRow>({
    */
   const handleValueAccept = useCallback(
     (newVal: any, rowId: Uid, rowIndex: number, colId: Uid) => {
-      const liveData = isContolled ? dataIn : rawData;
+      const liveData = isControlled ? dataIn : rawData;
 
       // Original data is unsorted so not in sync with rowIndex arg above
       // TODO: We should switch out sorted row index for unsorted row index
@@ -239,7 +239,7 @@ export const useDataManager = <IRowCustom extends IRow = IRow>({
         const dataMod = Object.assign([], liveData, { [originalRowIndex]: newRowData });
         autoSaveCallback(dataMod, SAVE_ACTIONS.ROW_CHANGED, newRowData, rowId, [colId]);
       }
-      if (!isContolled) {
+      if (!isControlled) {
         const originalRowIndexPrev = rawData.findIndex((rowData) => rowData.uid === rowId);
         const prevRowData = rawData[originalRowIndexPrev];
         const heading = headings.find((h) => h.uid === colId);
@@ -266,7 +266,7 @@ export const useDataManager = <IRowCustom extends IRow = IRow>({
   };
 
   const deleteRow = (rowId, _rowIndex) => {
-    const liveData = isContolled ? dataIn : rawData;
+    const liveData = isControlled ? dataIn : rawData;
     if ((autoSave || autoSaveOnNewRow) && autoSaveCallback) {
       // Original data is unsorted so not in sync with rowIndex arg above
       const originalRowIndex = liveData.findIndex((rowData) => rowData.uid === rowId);
@@ -275,7 +275,7 @@ export const useDataManager = <IRowCustom extends IRow = IRow>({
         .concat(liveData.slice(originalRowIndex + 1));
       autoSaveCallback(dataCopy, SAVE_ACTIONS.ROW_DELETED, null, rowId);
     }
-    if (!isContolled) {
+    if (!isControlled) {
       setRawData((prev) => {
         const originalRowIndex = prev.findIndex((rowData) => rowData.uid === rowId);
         const dataCopy = prev.slice(0, originalRowIndex).concat(prev.slice(originalRowIndex + 1));
@@ -291,13 +291,13 @@ export const useDataManager = <IRowCustom extends IRow = IRow>({
   };
 
   const handleAddRow = () => {
-    const liveData = isContolled ? dataIn : rawData;
+    const liveData = isControlled ? dataIn : rawData;
     const newRowData = generateNewRowData(headings);
     if ((autoSave || autoSaveOnNewRow) && autoSaveCallback) {
       const newData = [...liveData, newRowData];
       autoSaveCallback(newData, SAVE_ACTIONS.ROW_ADDED, newRowData, newRowData.uid);
     }
-    if (!isContolled) {
+    if (!isControlled) {
       setRawData((prev) => {
         // TODO: We should have all headings here
         const newData = [...prev, newRowData];
