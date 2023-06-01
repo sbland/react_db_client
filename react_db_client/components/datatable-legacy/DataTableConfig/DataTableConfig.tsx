@@ -10,31 +10,32 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 
 export interface IDataTableConfig {
-  allowRowDelete;
-  allowFilters;
-  allowSortBy;
-  allowHiddenColumns;
-  allowRowEditPanel;
-  allowEditRow;
-  allowAddRow;
-  showSaveBtns;
-  calculateTotals;
-  showTotals;
-  theme;
-  limitHeight;
-  maxWidth;
-  minWidth;
-  showTable;
-  showTopMenu;
-  showBottomMenu;
-  allowSelection;
-  hasBtnsColumn;
-  autoSaveOnNewRow;
-  showHeadings;
-  allowColumnResize;
-  allowCellFocus;
-  allowSelectionPreview;
-  autoShowPreview;
+  allowRowDelete: boolean;
+  allowFilters: boolean;
+  allowSortBy: boolean;
+  allowHiddenColumns: boolean;
+  allowRowEditPanel: boolean;
+  allowEditRow: boolean;
+  allowAddRow: boolean;
+  showSaveBtns: boolean;
+  calculateTotals: boolean;
+  showTotals: boolean;
+  theme: string;
+  limitHeight: number;
+  maxWidth: number;
+  minWidth: number;
+  showTable: boolean;
+  showTopMenu: boolean;
+  showBottomMenu: boolean;
+  allowSelection: boolean;
+  hasBtnsColumn: boolean;
+  autoSaveOnNewRow: boolean;
+  showHeadings: boolean;
+  allowColumnResize: boolean;
+  allowCellFocus: boolean;
+  allowSelectionPreview: boolean;
+  autoShowPreview: boolean;
+  debugMode: boolean;
 }
 
 export const dataTableDefaultConfig: IDataTableConfig = {
@@ -63,6 +64,7 @@ export const dataTableDefaultConfig: IDataTableConfig = {
   allowCellFocus: true,
   allowSelectionPreview: false,
   autoShowPreview: false,
+  debugMode: false,
 };
 
 export const DataTableContext = React.createContext(dataTableDefaultConfig);
@@ -71,8 +73,7 @@ export const DataTableConfigConnector = (defaults) => (Component) => {
   const DataTableConfigManager = (props) => {
     const { config: configIn } = props;
 
-    // TODO: clone here
-    const config = { ...dataTableDefaultConfig, ...defaults, ...configIn };
+    const config: IDataTableConfig = { ...dataTableDefaultConfig, ...defaults, ...configIn };
     const hasBtnsColumn =
       config.allowSelection ||
       (config.allowEditRow && (config.allowRowDelete || config.allowRowEditPanel));

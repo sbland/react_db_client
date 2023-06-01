@@ -12,7 +12,14 @@ import DataTableCellButton from '../CellTypes/DataTableCellButton';
 import DataTableCellSelect from '../CellTypes/DataTableCellSelect';
 import DataTableCellToggle from '../CellTypes/DataTableCellToggle';
 import DataTableCellReadOnly from '../CellTypes/DataTableCellReadOnly';
-import { ICellProps, IHeading, IHeadingButton, IHeadingLink, THeading } from '../lib';
+import {
+  ICellProps,
+  IHeading,
+  IHeadingButton,
+  IHeadingLink,
+  IHeadingNumber,
+  THeading,
+} from '../lib';
 import { Uid } from '@react_db_client/constants.client-types';
 
 /**
@@ -216,7 +223,11 @@ export const DataTableDataCell = <HeadingType extends IHeading>(
         {
           textLong: () => <DataTableCellText {...props} />,
           text: () => <DataTableCellText {...props} />,
-          number: () => <DataTableCellNumber {...props} />,
+          number: () => (
+            <DataTableCellNumber
+              {...(props as unknown as IDataTableDataCellProps<IHeadingNumber>)}
+            />
+          ),
           link: () => (
             <DataTableCellLink {...(props as unknown as IDataTableDataCellProps<IHeadingLink>)} />
           ),

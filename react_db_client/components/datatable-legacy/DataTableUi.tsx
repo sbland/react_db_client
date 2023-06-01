@@ -16,13 +16,15 @@ import useColumnWidthManager from './TableColumnManager/ColumnManager';
 import './_dataTable.scss';
 import './_dataTable_condensed.scss';
 import { RowStyleContext } from './RowStyleContext';
+import { IRow } from './lib';
+import { Uid } from '@react_db_client/constants.client-types';
 
 const MIN_TABLE_HEIGHT = 30;
 
 export interface IDataTableUiProps {
   headingsData;
-  tableData;
-  totalsData;
+  tableData: IRow[];
+  totalsData: { [x: Uid]: number } | null;
   updateSortBy;
   addFilter;
   updateValue;
@@ -31,8 +33,8 @@ export interface IDataTableUiProps {
   deleteRow;
   rowStyles; // per row style overrides
   handleHideColumn;
-  maxTableHeight;
-  maxTableWidth;
+  maxTableHeight?: number;
+  maxTableWidth?: number;
   currentSelectionIds;
   addToSelection;
   removeFromSelection;
@@ -59,7 +61,7 @@ export const DataTableUi: React.FC<IDataTableUiProps> = ({
   rowStyles, // per row style overrides
   // Could pass menu component instead
   handleHideColumn,
-  maxTableHeight,
+  maxTableHeight = 99999,
   maxTableWidth,
   currentSelectionIds,
   addToSelection,
@@ -82,24 +84,35 @@ export const DataTableUi: React.FC<IDataTableUiProps> = ({
     showHeadings,
     allowColumnResize,
     allowCellFocus,
+    debugMode,
   } = useContext(DataTableContext);
   const gridRef = useRef<any>(null);
 
   const columnCount = headingsData.length;
   const rowCount = tableData.length;
   const [navigationMode, setNavigationMode] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [tableIsFocused, setTableIsFocused] = useState(false);
 
   const { columnWidths, setColumnWidths, tableWidth } = useColumnWidthManager({
     headingsDataList: headingsData,
     minWidth,
     maxWidth,
-    btnColumnBtnCount: allowRowDelete + allowRowEditPanel + allowSelection,
+    btnColumnBtnCount:
+      (allowRowDelete ? 1 : 0) + (allowRowEditPanel ? 1 : 0) + (allowSelection ? 1 : 0),
   });
   const [currentFocusedColumn, setCurrentFocusedColumn] = useState(
     // eslint-disable-next-line no-nested-ternary
     allowCellFocus ? (hasBtnsColumn ? 1 : 0) : -1
   );
   const [currentFocusedRow, setCurrentFocusedRow] = useState(0);
+
+  const handleMouseEnterTable = useCallback(() => {
+    if (!tableIsFocused) {
+      setTableIsFocused(true);
+      setNavigationMode(true);
+    }
+  }, [tableIsFocused]);
 
   useEffect(() => {
     if (gridRef && gridRef.current) {
@@ -210,6 +223,8 @@ export const DataTableUi: React.FC<IDataTableUiProps> = ({
       currentFocusedRow,
       navigationMode,
       setNavigationMode,
+      editMode,
+      setEditMode,
       customFieldComponents,
       disabled,
       invalidRowsMessages,
@@ -230,25 +245,26 @@ export const DataTableUi: React.FC<IDataTableUiProps> = ({
       currentFocusedRow,
       navigationMode,
       setNavigationMode,
+      editMode,
+      setEditMode,
       customFieldComponents,
       disabled,
       invalidRowsMessages,
     ]
   );
 
-  // TODO: CLEAN UP BELOW BLOCK
   const outsideWrapClassName = [
     'dataTable_rowsOutsideWrap',
     limitHeight ? 'dataTable_rowsOutsideWrap-limitHeight' : '',
   ].join(' ');
 
   const outsideWrapStyleOverride = {
-    maxHeight: limitHeight || null,
+    maxHeight: limitHeight || undefined,
   };
-  const tableWidthMin = useMemo(
-    () => Math.min(maxTableWidth, tableWidth + 20),
-    [tableWidth, maxTableWidth]
-  );
+  // const tableWidthMin = useMemo(
+  //   () => Math.min(maxTableWidth, tableWidth + 20),
+  //   [tableWidth, maxTableWidth]
+  // );
   // ==========================
   return (
     <div
@@ -257,8 +273,8 @@ export const DataTableUi: React.FC<IDataTableUiProps> = ({
       style={{
         maxWidth: `${tableWidth}px`,
       }}
-      onMouseOver={() => setNavigationMode(true)}
-      onMouseLeave={() => setNavigationMode(false)}
+      onMouseOver={handleMouseEnterTable}
+      onMouseLeave={() => setTableIsFocused(false)}
     >
       {allowColumnResize && (
         <DataTableColumnWidthManager
@@ -319,6 +335,23 @@ export const DataTableUi: React.FC<IDataTableUiProps> = ({
           tableWidth={tableWidth}
           customFieldComponents={customFieldComponents}
         />
+      )}
+      {debugMode && (
+        <div className="dataTable_debug">
+          <div>Table width: {tableWidth}</div>
+          <div>Column widths: {JSON.stringify(columnWidths)}</div>
+          {/* Show focus state */}
+          <div>Current focused column: {currentFocusedColumn}</div>
+          <div>Current focused row: {currentFocusedRow}</div>
+          {/* Show selection state */}
+          <div>Current selection: {JSON.stringify(currentSelectionIds)}</div>
+          {/* Show navigationMode state */}
+          <div>Navigation mode: {navigationMode ? 'ON' : 'OFF'}</div>
+          {/* Show tableIsFocused state */}
+          <div>Table is focused: {tableIsFocused ? 'ON' : 'OFF'}</div>
+          {/* Show editMode state */}
+          <div>Edit mode: {editMode ? 'ON' : 'OFF'}</div>
+        </div>
       )}
     </div>
   );

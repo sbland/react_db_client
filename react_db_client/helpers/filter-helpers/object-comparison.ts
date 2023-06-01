@@ -10,6 +10,7 @@ export function deepIsEqual(first, second) {
   if (first === null) return false;
   if (second === null) return false;
   if (first === second) return true;
+  // if (first !== second && typeof first !== 'object' && typeof second !== 'object') return false;
 
   // Try a quick compare by seeing if the length of properties are the same
   const firstProps = Object.getOwnPropertyNames(first);
@@ -30,6 +31,7 @@ export function deepIsEqual(first, second) {
       case 'number':
         // with JavaScript NaN != NaN so we need a special check
         if (Number.isNaN(first[prop]) && Number.isNaN(second[prop])) return true;
+        if (first[prop] !== second[prop]) return false;
         break;
       default:
         if (first[prop] !== second[prop]) return false;

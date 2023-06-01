@@ -16,6 +16,7 @@ export const DataTableCellReadOnly = ({ cellData, columnData }) => {
 DataTableCellReadOnly.propTypes = {
   cellData: PropTypes.oneOfType([
     PropTypes.string,
+    PropTypes.bool,
     PropTypes.number,
     PropTypes.shape({
       label: PropTypes.string,

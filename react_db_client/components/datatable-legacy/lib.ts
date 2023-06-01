@@ -128,6 +128,8 @@ export interface ICellData<RowType extends IRow = IRow, HeadingType extends IHea
   currentFocusedColumn: Uid;
   navigationMode: boolean;
   setNavigationMode: (value: boolean) => void;
+  editMode: boolean;
+  setEditMode: (value: boolean) => void;
   customFieldComponents: { [key: string]: (props: ICellProps<HeadingType>) => JSX.Element };
   disabled: boolean;
   invalidRowsMessages: { text: string }[];

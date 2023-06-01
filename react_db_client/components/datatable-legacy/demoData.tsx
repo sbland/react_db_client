@@ -9,6 +9,7 @@ import {
 } from '@react_db_client/constants.client-types';
 import { IHeadingCustomExample, THeading } from './lib';
 
+/* Example Filters */
 export const demoFilterString = new FilterObjectClass({
   uid: 'demoFilterString',
   field: 'name',
@@ -44,103 +45,6 @@ export const demoFilterSelect = new FilterObjectClass({
 });
 
 export const demoFiltersData = [demoFilterString, demoFilterNumber];
-
-export const demoTableDataSimple = [
-  {
-    uid: 'a',
-    name: 'Foo',
-    count: 4,
-  },
-  {
-    uid: 'b',
-    name: 'Bar',
-    count: 3,
-  },
-  {
-    uid: 'c',
-    name: 'Roo',
-    count: -100,
-  },
-  {
-    uid: 'd',
-    name: 'Foo',
-    count: 2,
-  },
-  {
-    uid: 'e',
-    name: '',
-    count: 2,
-  },
-];
-
-// The demo data after filter, sort and evaluate
-export const demoTableDataEvaluatedSimple = [
-  {
-    uid: 'd',
-    name: 'Foo',
-    count: 2,
-    eval: 3,
-  },
-  {
-    uid: 'a',
-    name: 'Foo',
-    count: 4,
-    eval: 5,
-  },
-];
-
-export const demoHeadingsDataSimple = [
-  {
-    uid: 'uid',
-    label: 'UID',
-    type: 'button',
-    action: (x) => alert(x),
-  },
-  {
-    uid: 'name',
-    label: 'Name',
-    type: EFilterType.text,
-  },
-  {
-    uid: 'count',
-    label: 'Count',
-    type: EFilterType.number,
-    defaultValue: 7,
-    step: 1,
-  },
-  {
-    uid: 'eval',
-    label: 'Eval',
-    evaluateType: EFilterType.number,
-    type: EFilterType.number,
-    expression: '$count + 1',
-    expressionReversed: '$count=$_ - 1',
-  },
-  {
-    uid: 'select',
-    label: 'Select',
-    type: 'select',
-    options: [
-      { uid: 'a', label: 'A' },
-      { uid: 'b', label: 'B' },
-      { uid: 'c', label: 'C' },
-    ],
-  },
-  {
-    uid: 'hidden',
-    label: 'Hidden',
-    type: 'text',
-    hidden: true,
-  },
-];
-
-export const demoHeadingsSimpleHiddenIds = demoHeadingsDataSimple
-  .filter((h) => h.hidden)
-  .map((h) => h.uid);
-
-export const demoDataSimpleTotals = {
-  count: 7,
-};
 
 export const demoTableData = [
   {
@@ -190,6 +94,7 @@ export const demoTableData = [
   },
 ];
 
+/* Expected initial values in totals row */
 export const demoTotals = {
   uid: 'na',
   name: 'na',
@@ -201,21 +106,6 @@ export const demoTotals = {
   hiddenDemoNumber: 8,
   hiddenDemo: 'na',
 };
-
-export const demoTableDataLong = [...Array(100)]
-  .map((v, i) => ({
-    uid: i,
-    name: 'Foo',
-    count: 3,
-    multiplier: 2,
-    toggle: true,
-    readOnly: "Can't touch me",
-    select: 'a',
-  }))
-  .reduce((acc, v) => {
-    acc[v.uid] = v;
-    return acc;
-  }, {});
 
 // export const demoTableData = Object.values(demoTableDataObject);
 
@@ -265,158 +155,198 @@ export const demoProcessedData = {
   totals: demoTableTotals,
 };
 
+export const headingExampleButton = {
+  uid: 'uid',
+  label: 'UID',
+  type: EFilterType.button,
+  action: (x) => alert(x),
+  styleRule: '$count<5',
+  unique: true,
+  required: true,
+};
+
+export const headingExampleText = {
+  uid: 'name',
+  label: 'Name',
+  type: EFilterType.text,
+  unique: true,
+  required: true,
+};
+
+export const headingExampleTextLong = {
+  uid: 'description',
+  label: 'description',
+  type: EFilterType.textLong,
+};
+
+export const headingExampleNumber = {
+  uid: 'count',
+  label: 'Count',
+  type: EFilterType.number,
+  max: 10,
+  min: 2,
+  defaultValue: 8,
+  step: 1,
+  showTotals: true,
+};
+
+export const headingExampleNumberDef = {
+  uid: 'def',
+  label: 'Def',
+  type: EFilterType.number,
+  max: 10,
+  min: 1,
+  defaultValue: 7,
+  showTotals: true,
+};
+
+export const headingExampleNumberMultiplier = {
+  uid: 'multiplier',
+  label: 'Multiplier',
+  type: EFilterType.number,
+  max: 10,
+  min: 1,
+  // defaultValue: '$def', // NOT IMPLEMENTED
+};
+
+export const headingExampleReadOnly = {
+  uid: 'readOnly',
+  label: 'Read Only',
+  type: EFilterType.text,
+  readOnly: true,
+};
+
+export const headingExampleHidden = {
+  uid: 'hiddenDemo',
+  label: 'Hidden',
+  type: EFilterType.text,
+  hidden: true,
+};
+
+export const headingExampleHiddenNumber = {
+  uid: 'hiddenDemoNumber',
+  label: 'Hidden Number',
+  type: EFilterType.number,
+  hidden: true,
+};
+
+export const headingExampleToggle = {
+  uid: 'toggle',
+  label: 'Toggle',
+  type: EFilterType.toggle,
+};
+
+export const headingExampleToggleR = {
+  uid: 'toggleR',
+  label: 'ToggleR',
+  type: EFilterType.toggle,
+  readOnly: true,
+};
+
+export const headingExampleExpression = {
+  uid: 'expression',
+  label: 'Expression',
+  type: EFilterType.number,
+  evaluateType: EFilterType.number,
+  expression: '$count * $multiplier',
+  expressionReversed: '$count=$_ / $multiplier',
+  // expressionReversed: '$count * $multiplier',
+  showTotals: true,
+};
+
+export const headingExampleValidated = {
+  uid: 'validated',
+  label: 'Is Validated',
+  evaluateType: EFilterType.text,
+  type: EFilterType.bool,
+  operator: EComparisons.EQUALS,
+  target: 'a',
+  field: 'select',
+  invert: true,
+};
+
+export const headingExampleInvalid = {
+  uid: 'invalid',
+  label: 'Invalid',
+  evaluateType: EFilterType.number,
+  type: EFilterType.number,
+  expression: '$nothing',
+  expressionReversed: '$nothing',
+};
+
+export const headingExampleInvalidB = {
+  uid: 'invalidb',
+  label: 'InvalidB',
+  type: EFilterType.number,
+  evaluateType: EFilterType.number,
+  expression: '$invalid * 2',
+  expressionReversed: '$invalid / 2',
+};
+
+export const headingExampleSelect = {
+  uid: 'select',
+  label: 'Select',
+  type: EFilterType.select,
+  options: [
+    { uid: 'a', label: 'A' },
+    { uid: 'b', label: 'B' },
+    { uid: 'c', label: 'C' },
+  ],
+};
+
+export const headingExampleReference = {
+  uid: 'referenceExample',
+  label: 'Reference Example',
+  type: EFilterType.reference,
+  collection: 'referencecollection',
+};
+
+export const headingExampleLongHeading = {
+  uid: 'longHeading',
+  label: 'Long Heading which is really really long',
+  type: EFilterType.text,
+};
+
+export const headingExampleCustomField = {
+  uid: 'customfield',
+  label: 'Custom',
+  type: 'custom',
+  isCustomType: true,
+  showTotals: true,
+};
+
+export const headingExampleCustomFieldEval = {
+  uid: 'customfieldeval',
+  label: 'Custom Eval',
+  type: 'customeval',
+  isCustomType: true,
+  showTotals: true,
+  expression: '$customfield + 1',
+  expressionReversed: '$customfield=$_ - 1',
+  evaluateType: EFilterType.number,
+};
+
 export const demoHeadingsData: THeading<IHeadingCustomExample>[] = [
-  {
-    uid: 'uid',
-    label: 'UID',
-    type: EFilterType.button,
-    action: (x) => alert(x),
-    styleRule: '$count<5',
-    unique: true,
-    required: true,
-  },
-  {
-    uid: 'name',
-    label: 'Name',
-    type: EFilterType.text,
-    unique: true,
-    required: true,
-  },
-  {
-    uid: 'description',
-    label: 'description',
-    type: EFilterType.textLong,
-  },
-  {
-    uid: 'count',
-    label: 'Count',
-    type: EFilterType.number,
-    max: 10,
-    min: 2,
-    defaultValue: 8,
-    step: 1,
-    showTotals: true,
-  },
-  {
-    uid: 'def',
-    label: 'Def',
-    type: EFilterType.number,
-    max: 10,
-    min: 1,
-    defaultValue: 7,
-    showTotals: true,
-  },
-  {
-    uid: 'multiplier',
-    label: 'Multiplier',
-    type: EFilterType.number,
-    max: 10,
-    min: 1,
-    // defaultValue: '$def', // NOT IMPLEMENTED
-  },
-  {
-    uid: 'readOnly',
-    label: 'Read Only',
-    type: EFilterType.text,
-    readOnly: true,
-  },
-  {
-    uid: 'hiddenDemo',
-    label: 'Hidden',
-    type: EFilterType.text,
-    hidden: true,
-  },
-  {
-    uid: 'hiddenDemoNumber',
-    label: 'Hidden Number',
-    type: EFilterType.number,
-    hidden: true,
-  },
-  {
-    uid: 'toggle',
-    label: 'Toggle',
-    type: EFilterType.toggle,
-  },
-  {
-    uid: 'toggleR',
-    label: 'ToggleR',
-    type: EFilterType.toggle,
-    readOnly: true,
-  },
-  {
-    uid: 'expression',
-    label: 'Expression',
-    type: EFilterType.number,
-    evaluateType: EFilterType.number,
-    expression: '$count * $multiplier',
-    expressionReversed: '$count=$_ / $multiplier',
-    // expressionReversed: '$count * $multiplier',
-    showTotals: true,
-  },
-  {
-    uid: 'validated',
-    label: 'Is Validated',
-    evaluateType: EFilterType.text,
-    type: EFilterType.bool,
-    operator: EComparisons.EQUALS,
-    target: 'a',
-    field: 'select',
-    invert: true,
-  },
-  {
-    uid: 'invalid',
-    label: 'Invalid',
-    evaluateType: EFilterType.number,
-    type: EFilterType.number,
-    expression: '$nothing',
-    expressionReversed: '$nothing',
-  },
-  {
-    uid: 'invalidb',
-    label: 'InvalidB',
-    type: EFilterType.number,
-    evaluateType: EFilterType.number,
-    expression: '$invalid * 2',
-    expressionReversed: '$invalid / 2',
-  },
-  {
-    uid: 'select',
-    label: 'Select',
-    type: EFilterType.select,
-    options: [
-      { uid: 'a', label: 'A' },
-      { uid: 'b', label: 'B' },
-      { uid: 'c', label: 'C' },
-    ],
-  },
-  {
-    uid: 'internalRoom',
-    label: 'Internal Room',
-    type: EFilterType.reference,
-    collection: 'rooms',
-  },
-  {
-    uid: 'longHeading',
-    label: 'Long Heading which is really really long',
-    type: EFilterType.text,
-  },
-  {
-    uid: 'customfield',
-    label: 'Custom',
-    type: 'custom',
-    isCustomType: true,
-    showTotals: true,
-  },
-  {
-    uid: 'customfieldeval',
-    label: 'Custom Eval',
-    type: 'customeval',
-    isCustomType: true,
-    showTotals: true,
-    expression: '$customfield + 1',
-    expressionReversed: '$customfield=$_ - 1',
-    evaluateType: EFilterType.number,
-  },
+  headingExampleButton,
+  headingExampleText,
+  headingExampleTextLong,
+  headingExampleNumber,
+  headingExampleNumberDef,
+  headingExampleNumberMultiplier,
+  headingExampleReadOnly,
+  headingExampleHidden,
+  headingExampleHiddenNumber,
+  headingExampleToggle,
+  headingExampleToggleR,
+  headingExampleExpression,
+  headingExampleValidated,
+  headingExampleInvalid,
+  headingExampleInvalidB,
+  headingExampleSelect,
+  headingExampleReference,
+  headingExampleLongHeading,
+  headingExampleCustomField,
+  headingExampleCustomFieldEval,
 ];
 
 export const demoTableDataEvaluationTable = [
@@ -452,7 +382,6 @@ export const evaluationTableHeadings = [
     uid: 'a',
     label: 'A',
     type: EFilterType.number,
-    // readOnly: true,
     def: 1,
     step: 0.01,
   },
@@ -476,7 +405,6 @@ export const evaluationTableHeadings = [
     uid: 'count',
     label: 'Count',
     type: EFilterType.number,
-    // readOnly: true,
     step: 1,
   },
   {
@@ -515,24 +443,48 @@ export const customFilter = (value, expression, targetValue) => {
   return false;
 };
 
-// export const DemoTotalsWrapper = () => {
-//   const [total, setTotal] = useState(null);
-//   return (
-//     <div>
-//       <DataTable
-//         tableData={demoTableData}
-//         headingsData={demoHeadingsData}
-//         handleSaveData={(data) => console.log(data)}
-//         outputTotals={setTotal}
-//         showTotals
-//       />
-//       <h3>Totals</h3>
-//       <p className="total">{JSON.stringify(total)}</p>
-//     </div>
-//   );
-// };
-
 export const availableFilters = demoHeadingsData.reduce(
   (acc, h) => ({ ...acc, [h.uid]: new FilterOption({ ...h, field: h.field || h.uid }) }),
   {} as { [k: Uid]: FilterOption }
 );
+
+export const generateDemoTableData = (count = 10) => {
+  const data: Array<{}> = [];
+  for (let i = 0; i < count; i++) {
+    data.push({
+      uid: `${i}`,
+      name: `Name ${i}`,
+      description: `Description ${i}`,
+      count: i,
+      def: i,
+      multiplier: i,
+      readOnly: 'read only',
+      hiddenDemo: 'hidden',
+      hiddenDemoNumber: i,
+      toggle: true,
+      toggleR: true,
+      expression: undefined, // isCalculated
+      validated: undefined, // isCalculated
+      invalid: undefined, // isCalculated
+      invalidb: undefined, // isCalculated
+      select: 'a',
+      referenceExample: `${i}`,
+      longHeading: `${i}`,
+      customfield: i,
+      customfieldeval: undefined, // isCalculated,
+    });
+  }
+  return data;
+};
+
+export const generateDemoTableDataFilteredByColumns = (count = 10, headings: THeading[]) => {
+  const columns = headings.map((h) => h.uid).concat(['uid']);
+  const data = generateDemoTableData(count);
+  return data.map((row) => {
+    const newRow = {};
+    columns.forEach((col) => {
+      newRow[col] = row[col];
+    });
+    return newRow;
+  });
+};

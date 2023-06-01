@@ -19,7 +19,7 @@ export const DataTableBottomMenu = ({
         <>
           <button
             type="button"
-            disabled={!unsavedChanges}
+            disabled={!unsavedChanges ? true : undefined}
             className="button-two saveBtn"
             onClick={handleSaveBtnClick}
             style={{ width: '2rem' }}
@@ -28,7 +28,7 @@ export const DataTableBottomMenu = ({
           </button>
           <button
             type="button"
-            disabled={!unsavedChanges}
+            disabled={!unsavedChanges ? true : undefined}
             className="button-one resetBtn"
             onClick={handleResetBtnClick}
             style={{ width: '2rem' }}

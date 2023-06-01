@@ -45,13 +45,14 @@ export const Cell = ({ columnIndex, rowIndex, style, data }: ICellProps) => {
     currentFocusedColumn,
     navigationMode,
     setNavigationMode,
+    editMode,
+    setEditMode,
     customFieldComponents,
     disabled, // TODO: Make this per cell
     invalidRowsMessages,
   } = data;
   const { allowRowDelete, allowRowEditPanel, allowSelection, hasBtnsColumn } =
     useContext(DataTableContext);
-  const [editMode, setEditMode] = useState(false);
   const [keyPressInProgress, setKeyPressInProgress] = useState(false);
 
   const cellWrapNavBtnRef = useRef<HTMLDivElement | null>(null);
@@ -62,10 +63,10 @@ export const Cell = ({ columnIndex, rowIndex, style, data }: ICellProps) => {
 
   // If we have an edit column then the column data is out of sync with the column index by 1
   const headingData = useMemo(
-    () => headingsData[columnIndex - (hasBtnsColumn ? 1 : 0)] || {} as IHeading,
+    () => headingsData[columnIndex - (hasBtnsColumn ? 1 : 0)] || ({} as IHeading),
     [headingsData, columnIndex, hasBtnsColumn]
   );
-  const rowData: IRow = useMemo(() => tableData[rowIndex] || {} as IRow, [tableData, rowIndex]);
+  const rowData: IRow = useMemo(() => tableData[rowIndex] || ({} as IRow), [tableData, rowIndex]);
   const rowStyles = useContext(RowStyleContext);
   const cellStyle: React.CSSProperties = {
     ...style,
@@ -136,7 +137,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }: ICellProps) => {
     const { readOnly } = headingData;
     setNavigationMode(false);
     if (!readOnly && navigationMode && !editMode && !disabled) {
-      setNavigationMode(false);
       setEditMode(true);
     } else if (!navigationMode) {
       /* Got stuck in nav false */
@@ -287,9 +287,9 @@ export const Cell = ({ columnIndex, rowIndex, style, data }: ICellProps) => {
         <div
           ref={cellWrapNavBtnRef}
           data-testid={`cell_${columnIndex}_${rowIndex} cell_${headingData.uid}`}
+          data-editmode={editMode ? 'true' : 'false'}
           className={`${classNames} navigationButton cellWrapBtn button-reset`}
-          onClick={() => handleSelectCell()}
-          onFocus={() => setNavigationMode(true)}
+          onClick={handleSelectCell}
           style={{ width: '100%' }}
           onKeyDown={(e) => {
             onCellWrapBtnKeyPress(e);

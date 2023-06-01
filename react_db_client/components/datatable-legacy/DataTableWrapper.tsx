@@ -7,7 +7,7 @@ import { wrapWithErrorBoundary } from '@react_db_client/helpers.error-handling';
 import { FilterObjectClass } from '@react_db_client/constants.client-types';
 import { SelectionPreview } from '@react_db_client/components.selection-preview';
 
-import useColumnVisabilityManager from './TableColumnManager/ColumnVisabilityManager';
+import { useColumnVisabilityManager } from '@react_db_client/components.column-manager';
 import DataTableUi from './DataTableUi';
 import { useDataManager } from './DataManager';
 import DataTableConfigConnector, {

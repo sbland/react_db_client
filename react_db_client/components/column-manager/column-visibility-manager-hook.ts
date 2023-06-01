@@ -2,11 +2,12 @@
  *
  */
 
-import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Uid } from '@react_db_client/constants.client-types';
 
 export type HeadingObject = {
-  uid: string,
+  uid: Uid;
   label?: string;
   columnWidth?: number;
   hidden?: boolean;
@@ -19,38 +20,32 @@ const getHiddenColumnIds = (headingsDataList: HeadingObject[]) =>
   headingsDataList.filter((d) => d.hidden).map((d) => d.uid);
 
 export const useColumnVisabilityManager = (headingsDataList: HeadingObject[]) => {
-  const [hiddenColumnIds, setHiddenColumnIds] = useState(
-    () => getHiddenColumnIds(headingsDataList)
+  const [columnVisibilityState, setColumnVisibilityState] = React.useState(() => headingsDataList);
+  const visableColumns = React.useMemo(
+    () => getVisableColumns(columnVisibilityState),
+    [columnVisibilityState]
   );
-  const [visableColumns, setVisableColumns] = useState(
-    () => getVisableColumns(headingsDataList)
+  const hiddenColumnIds = React.useMemo(
+    () => getHiddenColumnIds(columnVisibilityState),
+    [columnVisibilityState]
   );
 
-  useEffect(() => {
-    // TODO: This is refreshing the visible columns
-    // TODO: Extract any new columns or removed columns and update state
-    // setVisableColumns(getVisableColumns(headingsDataList));
-    // setHiddenColumnIds(getHiddenColumnIds(headingsDataList));
+  React.useEffect(() => {
+    setColumnVisibilityState((prev) =>
+      headingsDataList.map((d) => {
+        const p = prev.find((p) => p.uid === d.uid);
+        const hidden = p !== undefined ? p.hidden : d.hidden;
+        return { ...d, hidden };
+      })
+    );
   }, [headingsDataList]);
 
   const handleHideColumn = (columnId: string) => {
-    const indexOfHidden = hiddenColumnIds.indexOf(columnId);
-    const alreadyHidden = indexOfHidden !== -1;
-    const newHiddenList = [...hiddenColumnIds];
-    if (alreadyHidden) {
-      // remove from hidden list
-      newHiddenList.splice(indexOfHidden, 1);
-    } else {
-      // add to hidden list
-      newHiddenList.push(columnId);
-      newHiddenList.sort();
-    }
-    const newVisableColumns = headingsDataList.filter(
-      (d) => newHiddenList.indexOf(d.uid) === -1
+    setColumnVisibilityState((prev) =>
+      prev.map((d) => (d.uid === columnId ? { ...d, hidden: !d.hidden } : d))
     );
-    setVisableColumns(newVisableColumns);
-    setHiddenColumnIds(newHiddenList);
   };
+
   return {
     handleHideColumn,
     visableColumns,

@@ -1,19 +1,42 @@
 import React from 'react';
-import { screen, render, within } from '@testing-library/react';
+import { screen, render, within, waitFor } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import {
   comparisonMetaData,
   EComparisons,
   EFilterType,
+  Uid,
 } from '@react_db_client/constants.client-types';
 import * as compositions from './datatable-legacy.composition';
-import { demoHeadingsData, demoTableData } from './demoData';
+import {
+  demoHeadingsData,
+  demoTableData,
+  generateDemoTableDataFilteredByColumns,
+  headingExampleNumber,
+  headingExampleText,
+} from './demoData';
 import { saveData } from './test-utils/mock-api';
 import { SAVE_ACTIONS } from './DataManager';
+import { IHeadingCustomExample, IHeadingNumber, THeading } from './lib';
 
 jest.mock('./test-utils/mock-api');
 
 type QueryType = ReturnType<typeof within>;
+
+const demoHeadingsDataObj: { [k: Uid]: THeading<IHeadingCustomExample> } = demoHeadingsData.reduce(
+  (acc, h) => ({ ...acc, [h.uid]: h }),
+  {}
+);
+
+const clickToggleBtn = async (btnName: string) => {
+  const btn = screen.getByRole('button', { name: btnName });
+  await UserEvent.click(btn);
+};
+
+const resetDataBtn = async () => {
+  const autosaveBtn = screen.getByRole('button', { name: 'Reset data' });
+  await UserEvent.click(autosaveBtn);
+};
 
 const openFilterPanel = async (elQuery: QueryType) => {
   const filterBtn = elQuery.getByRole('button', { name: 'Filters' });
@@ -31,19 +54,27 @@ const addFilter = async (elQuery: QueryType) => {
   return filterItems[filterItems.length - 1];
 };
 
+const getCellContent = (dataTable: HTMLElement, rowIndex: number, columnId: string) => {
+  const columnCells = within(dataTable).getAllByTestId(`cell_${columnId}`, {
+    exact: false,
+  });
+  const textCell = columnCells[rowIndex];
+  return textCell.textContent;
+};
+
 const editCell = async (
   dataTable: HTMLElement,
   rowIndex: number,
   columnId: string,
-  newValue: string
+  newValue: string,
+  inputRole: 'textbox' | 'combobox' | 'spinbutton' = 'textbox'
 ) => {
-  const columnIndex = demoHeadingsData.findIndex((h) => h.uid === columnId);
-  const textCell = within(dataTable).getByTestId(`cell_${columnIndex + 1}_${rowIndex} `, {
+  const columnCells = within(dataTable).getAllByTestId(`cell_${columnId}`, {
     exact: false,
   });
-  expect(textCell.textContent).toEqual(demoTableData[rowIndex][demoHeadingsData[columnIndex].uid]);
+  const textCell = columnCells[rowIndex];
   await UserEvent.click(textCell);
-  const textCellInput = within(textCell).getByRole('textbox');
+  const textCellInput = within(textCell).getByRole(inputRole);
   await UserEvent.clear(textCellInput);
   await UserEvent.type(textCellInput, newValue);
   await UserEvent.click(dataTable);
@@ -80,19 +111,54 @@ describe('SearchAndSelect', () => {
       test.todo('should delete a row from the data when we click the delete btn');
     });
     describe('Saving', () => {
-      test('should call saveData with new data', async () => {
+      test.each`
+        newCellValue | columnId   | rowIndex | inputRole       | headings                  | columnFilter
+        ${'abc'}     | ${'name'}  | ${0}     | ${'textbox'}    | ${[headingExampleText]}   | ${'Text Column Only'}
+        ${9}         | ${'count'} | ${0}     | ${'spinbutton'} | ${[headingExampleNumber]} | ${'Number Column Only'}
+      `(
+        'should call saveData with new data $columnId',
+        async ({ newCellValue, columnId, rowIndex, inputRole, headings, columnFilter }) => {
+          render(<compositions.DataTableWrapperForTests />);
+          await clickToggleBtn(columnFilter);
+          await clickToggleBtn('Generate 1 row');
+          const tableData = generateDemoTableDataFilteredByColumns(1, headings);
+          const dataTable = screen.getByTestId('dataTable');
+          expect(getCellContent(dataTable, rowIndex, columnId)).toEqual(
+            String(tableData[rowIndex][columnId])
+          );
+          await editCell(dataTable, rowIndex, columnId, String(newCellValue), inputRole);
+          expect(getCellContent(dataTable, rowIndex, columnId)).toEqual(String(newCellValue));
+          const saveBtn = screen.getByRole('button', { name: 'Save' });
+          await UserEvent.click(saveBtn);
+          const newRowData = {
+            ...tableData[rowIndex],
+            [columnId]: newCellValue,
+          };
+          expect(saveData).toHaveBeenCalledTimes(1);
+          expect(saveData).toHaveBeenCalledWith(
+            [newRowData, ...tableData.slice(1)],
+            SAVE_ACTIONS.SAVE_BTN_CLICKED
+          );
+        }
+      );
+
+      test('should call saveData with new data using limited number cell', async () => {
         render(<compositions.BasicDataTableWrapper />);
         const dataTable = screen.getByTestId('dataTable');
-        const newCellValue = 'abc';
-        const columnId = 'name';
+        const heading: IHeadingNumber = demoHeadingsDataObj.count as IHeadingNumber;
+        const newCellValue = (heading.max as number) + 10;
+        const columnId = 'count';
         const rowIndex = 0;
-        await editCell(dataTable, rowIndex, columnId, newCellValue);
+        expect(getCellContent(dataTable, rowIndex, columnId)).toEqual(
+          String(demoTableData[rowIndex][columnId])
+        );
+        await editCell(dataTable, rowIndex, columnId, String(newCellValue), 'spinbutton');
         const saveBtn = screen.getByRole('button', { name: 'Save' });
         await UserEvent.click(saveBtn);
 
         const newRowData = {
-          ...demoTableData[0],
-          name: newCellValue,
+          ...demoTableData[rowIndex],
+          [columnId]: heading.max,
         };
         expect(saveData).toHaveBeenCalledTimes(1);
         expect(saveData).toHaveBeenCalledWith(
@@ -130,6 +196,31 @@ describe('SearchAndSelect', () => {
       test.todo(
         'If datatable is a managed component then it should not store data changes but instead pass them up the chain'
       );
+      test.each`
+        newCellValue | columnId   | rowIndex | inputRole       | headings                  | columnFilter
+        ${'abc'}     | ${'name'}  | ${0}     | ${'textbox'}    | ${[headingExampleText]}   | ${'Text Column Only'}
+        ${9}         | ${'count'} | ${0}     | ${'spinbutton'} | ${[headingExampleNumber]} | ${'Number Column Only'}
+      `(
+        'should update $columnId field when external data changes',
+        async ({ newCellValue, columnId, rowIndex, inputRole, headings, columnFilter }) => {
+          render(<compositions.DataTableWrapperForTests />);
+          await clickToggleBtn(columnFilter);
+          await clickToggleBtn('Generate 1 row');
+          await clickToggleBtn('Toggle managed');
+          await clickToggleBtn('Toggle autosave');
+          const tableData = generateDemoTableDataFilteredByColumns(1, headings);
+          const dataTable = screen.getByTestId('dataTable');
+          expect(getCellContent(dataTable, rowIndex, columnId)).toEqual(
+            String(tableData[rowIndex][columnId])
+          );
+          await editCell(dataTable, rowIndex, columnId, String(newCellValue), inputRole);
+          expect(getCellContent(dataTable, rowIndex, columnId)).toEqual(String(newCellValue));
+          await resetDataBtn();
+          expect(getCellContent(dataTable, rowIndex, columnId)).toEqual(
+            String(tableData[rowIndex][columnId])
+          );
+        }
+      );
     });
 
     describe('Autosaving', () => {
@@ -158,7 +249,33 @@ describe('SearchAndSelect', () => {
         /* Assert input data not modified */
         expect(demoTableData[0].name).not.toEqual(newCellValue);
       });
+      test('should call saveData with new data using limited number cell', async () => {
+        render(<compositions.BasicDataTableWrapper />);
+        const autosaveBtn = screen.getByRole('button', { name: 'Toggle autosave' });
+        await UserEvent.click(autosaveBtn);
+        const dataTable = screen.getByTestId('dataTable');
+        const heading: IHeadingNumber = demoHeadingsDataObj.count as IHeadingNumber;
+        const newCellValue = (heading.max as number) + 10;
+        const columnId = 'count';
+        const rowIndex = 0;
+        expect(getCellContent(dataTable, rowIndex, columnId)).toEqual(
+          String(demoTableData[rowIndex][columnId])
+        );
+        await editCell(dataTable, rowIndex, columnId, String(newCellValue), 'spinbutton');
 
+        const newRowData = {
+          ...demoTableData[rowIndex],
+          [columnId]: heading.max,
+        };
+        expect(saveData).toHaveBeenCalledTimes(1);
+        expect(saveData).toHaveBeenCalledWith(
+          [newRowData, ...demoTableData.slice(1)],
+          SAVE_ACTIONS.ROW_CHANGED,
+          newRowData,
+          newRowData.uid,
+          [columnId]
+        );
+      });
       test('should call saveData with new data after making changes to multiple rows', async () => {
         render(<compositions.BasicDataTableWrapper />);
         const autosaveBtn = screen.getByRole('button', { name: 'Toggle autosave' });
@@ -182,8 +299,6 @@ describe('SearchAndSelect', () => {
         };
 
         expect(saveData).toHaveBeenCalledTimes(1);
-        // console.info(demoTableData)
-        // console.info([newRowData0, newRowData1, ...demoTableData.slice(2)])
         expect(saveData).toHaveBeenCalledWith(
           [newRowData0, newRowData1, ...demoTableData.slice(2)],
           SAVE_ACTIONS.ROW_CHANGED,
@@ -193,16 +308,50 @@ describe('SearchAndSelect', () => {
         );
       });
 
-      test('should remove row and autosave when delete row button pressed', () => {
-        // const deleteRowBtn = component.find('.rowDeleteBtn').first();
-        // deleteRowBtn.simulate('click');
-        // expect(saveData).toHaveBeenCalledWith(
-        //   DEMO_TABLE_DATA.slice(1),
-        //   SAVE_ACTIONS.ROW_DELETED,
-        //   null,
-        //   DEMO_TABLE_DATA[0].uid
-        // );
+      test('should call saveData with new data after making changes to multiple number rows', async () => {
+        render(<compositions.BasicDataTableWrapper />);
+        const heading: IHeadingNumber = demoHeadingsDataObj.count as IHeadingNumber;
+        const autosaveBtn = screen.getByRole('button', { name: 'Toggle autosave' });
+        await UserEvent.click(autosaveBtn);
+        const dataTable = screen.getByTestId('dataTable');
+        const newCellValue = (heading.max as number) + 10;
+        const columnId = 'count';
+        expect(saveData).toHaveBeenCalledTimes(0);
+        await editCell(dataTable, 0, columnId, String(newCellValue), 'spinbutton');
+        expect(saveData).toHaveBeenCalledTimes(1);
+        (saveData as jest.Mock).mockClear();
+        await editCell(dataTable, 1, columnId, String(newCellValue), 'spinbutton');
+
+        const newRowData0 = {
+          ...demoTableData[0],
+          count: heading.max,
+        };
+        const newRowData1 = {
+          ...demoTableData[1],
+          count: heading.max,
+        };
+
+        expect(saveData).toHaveBeenCalledTimes(1);
+        expect(saveData).toHaveBeenCalledWith(
+          [newRowData0, newRowData1, ...demoTableData.slice(2)],
+          SAVE_ACTIONS.ROW_CHANGED,
+          newRowData1,
+          newRowData1.uid,
+          [columnId]
+        );
       });
+
+      test.todo('should remove row and autosave when delete row button pressed');
+      // , () => {
+      //   // const deleteRowBtn = component.find('.rowDeleteBtn').first();
+      //   // deleteRowBtn.simulate('click');
+      //   // expect(saveData).toHaveBeenCalledWith(
+      //   //   DEMO_TABLE_DATA.slice(1),
+      //   //   SAVE_ACTIONS.ROW_DELETED,
+      //   //   null,
+      //   //   DEMO_TABLE_DATA[0].uid
+      //   // );
+      // });
     });
 
     describe('Filtering', () => {
@@ -288,6 +437,71 @@ describe('SearchAndSelect', () => {
         //   })
         // );
       });
+    });
+
+    describe('Cell focus and navigation', () => {
+      test('Should set focus to cell on mouse hover', async () => {
+        render(<compositions.BasicDataTableWrapper />);
+        await clickToggleBtn('Toggle debugMode');
+        const dataTable = screen.getByTestId('dataTable');
+        await UserEvent.hover(dataTable);
+        const columnIndex = 2;
+        const rowIndex = 0;
+        const cell = within(dataTable).getByTestId(`cell_${columnIndex}_${rowIndex}`, {
+          exact: false,
+        });
+        await UserEvent.hover(cell);
+        expect(screen.getByText(`Current focused column: ${columnIndex}`)).toBeInTheDocument();
+        expect(screen.getByText(`Current focused row: ${rowIndex}`)).toBeInTheDocument();
+      });
+      test('Clicking a cell should enter edit mode in that cell', async () => {
+        render(<compositions.BasicDataTableWrapper />);
+        await clickToggleBtn('Toggle debugMode');
+        const dataTable = screen.getByTestId('dataTable');
+        const columnIndex = 2;
+        const rowIndex = 0;
+        const cell = within(dataTable).getByTestId(`cell_${columnIndex}_${rowIndex}`, {
+          exact: false,
+        });
+        await UserEvent.click(cell);
+        expect(screen.getByText(`Current focused column: ${columnIndex}`)).toBeInTheDocument();
+        expect(screen.getByText(`Current focused row: ${rowIndex}`)).toBeInTheDocument();
+        // should have editMode attribute
+        expect(cell).toHaveAttribute('editMode');
+        expect(within(cell).getByRole('textbox')).toBeInTheDocument();
+      });
+      test('should not exit edit mode if user hovers over another cell', async () => {
+        render(<compositions.DataTableWrapperForTests />);
+        await clickToggleBtn('Reset headings');
+        await clickToggleBtn('Generate 2 rows');
+        await clickToggleBtn('Toggle debugMode');
+
+        const dataTable = screen.getByTestId('dataTable');
+        await UserEvent.hover(dataTable);
+        const columnIndex = 2;
+        const rowIndex = 0;
+        const cell = within(dataTable).getByTestId(`cell_${columnIndex}_${rowIndex}`, {
+          exact: false,
+        });
+        await UserEvent.click(cell);
+        expect(screen.getByText(`Current focused column: ${columnIndex}`)).toBeInTheDocument();
+        expect(screen.getByText(`Current focused row: ${rowIndex}`)).toBeInTheDocument();
+        // should have editMode attribute
+        expect(cell).toHaveAttribute('editMode');
+        expect(within(cell).getByRole('textbox')).toBeInTheDocument();
+        const nextCell = within(dataTable).getByTestId(`cell_${columnIndex}_${rowIndex + 1}`, {
+          exact: false,
+        });
+        await UserEvent.hover(nextCell);
+        expect(screen.getByText(`Current focused column: ${columnIndex}`)).toBeInTheDocument();
+        expect(screen.getByText(`Current focused row: ${rowIndex}`)).toBeInTheDocument();
+        // should have editMode attribute
+        expect(cell).toHaveAttribute('editMode');
+        expect(within(cell).getByRole('textbox')).toBeInTheDocument();
+      });
+      test.todo('should exit edit mode if user hovers over another cell and clicks it');
+      test.todo('should not change focused cell if a cell is in edit mode');
+      test.todo('should still change focus cell when autosave is on');
     });
 
     // describe('Row selecting', () => {

@@ -376,6 +376,7 @@ $filterPanelsZindex: 5;
 .filterPanel_filterListWrap,
 .hiddenPanel_hiddenList {
   position: absolute;
+  top: 0;
   padding: $unit;
   background: $white;
   box-shadow: $defaultBoxShadow;

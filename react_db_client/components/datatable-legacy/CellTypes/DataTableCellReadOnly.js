@@ -16,6 +16,7 @@ DataTableCellReadOnly.propTypes = {
   cellData: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
+    PropTypes.bool,
     PropTypes.shape({
       label: PropTypes.string,
       name: PropTypes.string,

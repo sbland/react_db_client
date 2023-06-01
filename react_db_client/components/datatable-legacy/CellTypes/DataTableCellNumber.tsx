@@ -2,6 +2,11 @@ import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { validateValue, formatValue } from '@react_db_client/helpers.data-processing';
 import { DefaultCellInnerStyle } from './style';
+import { ICellProps, IHeadingNumber } from '../lib';
+
+export interface IDataTableCellLinkProps extends ICellProps<IHeadingNumber> {
+  cellData: number;
+}
 
 /**
  * Data Cell Number
@@ -13,7 +18,7 @@ import { DefaultCellInnerStyle } from './style';
  * @returns
  */
 export const DataTableCellNumber = ({
-  columnData: { min, max, uid, defaultValue, step = 0.01 },
+  columnData: { uid: columnId, min, max, uid, defaultValue, step = 0.01 },
   cellData,
   updateData,
   acceptValue,
@@ -21,9 +26,9 @@ export const DataTableCellNumber = ({
   rowData,
   focused,
   editMode,
-}) => {
-  const ref = useRef(null);
-  // const [ignoreNextBlur, setIgnoreNextBlur] = useState(false);
+  rowId,
+}: IDataTableCellLinkProps) => {
+  const ref = useRef<HTMLInputElement>(null);
 
   // get row data max for this cell
   const minApplied = min != null ? min : rowData[`${uid}-min`];
@@ -32,13 +37,13 @@ export const DataTableCellNumber = ({
   useEffect(() => {
     if (focused && editMode) {
       // setIgnoreNextBlur(false)
-      ref.current.select();
+      ref.current?.select();
     }
   }, [focused, ref, editMode]);
 
   const handleInputChange = (e) => {
     const newVal = validateValue(e.target.value, minApplied, maxApplied, step, defaultValue);
-    updateData(newVal);
+    updateData(newVal, rowId, columnId);
   };
 
   const acceptValueLocal = () => {

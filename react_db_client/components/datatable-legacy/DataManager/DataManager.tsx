@@ -82,6 +82,53 @@ export interface IUseDataManagerArgs<IRowCustom extends IRow = IRow> {
   customFilters: { [k: Uid]: FilterObjectClass };
 }
 
+export interface IUseDataManagerReturn<IRowCustom extends IRow = IRow> {
+  /* Unprocessed data */
+  dataUnProcessed: IRowCustom[];
+  /* Processed data */
+  dataProcessed: IRowCustom[];
+  /* List of invalid rows */
+  invalidRows: Uid[];
+  /* List of invalid rows and messages */
+  invalidRowsMessages: string[];
+  /* Totals object */
+  totals: { [x: Uid]: number } | null;
+  /* True if there are unsaved changes */
+  unsavedChanges: boolean;
+  /* Update row data */
+  updateRowData: null | {
+    rowId: Uid;
+    rowData: IRowCustom;
+    rowIndex: number;
+  };
+  /* Handle value change */
+  handleValueChange: (
+    newVal: any,
+    rowId: Uid,
+    rowIndex: number,
+    colId: Uid
+  ) => void | Promise<void>;
+  /* Handle value accept */
+  handleValueAccept: (
+    newVal: any,
+    rowId: Uid,
+    rowIndex: number,
+    colId: Uid
+  ) => void | Promise<void>;
+  /* Handle value reset */
+  handleValueReset: (rowId: Uid, rowIndex: number, colId: Uid) => void | Promise<void>;
+  /* Handle save data */
+  handleSaveData: () => void | Promise<void>;
+  /* Handle add row */
+  handleAddRow: () => void | Promise<void>;
+  /* Handle delete row */
+  handleDeleteRow: (rowId: Uid, rowIndex: number) => void | Promise<void>;
+  /* Reset data */
+  resetData: () => void | Promise<void>;
+  /* Error ref */
+  error: React.MutableRefObject<string | null>;
+} /* Unprocessed data */
+
 /**
  * Used by data table to process data
  *
@@ -102,7 +149,7 @@ export const useDataManager = <IRowCustom extends IRow = IRow>({
   saveTotalsCallback = (_totals) => {},
   updatedDataHook = (_row, _column, _field) => {},
   customFilters,
-}: IUseDataManagerArgs<IRowCustom>) => {
+}: IUseDataManagerArgs<IRowCustom>): IUseDataManagerReturn => {
   const error = React.useRef<string | null>(null);
   const [rawData, setRawData] = useState<IRowCustom[]>(dataIn);
   const [sortBy, setSortBy] = useState<ISortBy | null>(() => sortByIn || null);
