@@ -233,6 +233,11 @@ export const Cell = ({ columnIndex, rowIndex, style, data }: ICellProps) => {
     if (message) alert(message.text);
   };
 
+  if (isNaN(cellStyle.left as number)) {
+    console.info(cellStyle);
+    console.info(columnIndex, rowIndex, rowData, headingData);
+  }
+
   /* Render LHS button Column */
   if (hasBtnsColumn && columnIndex === 0)
     return (

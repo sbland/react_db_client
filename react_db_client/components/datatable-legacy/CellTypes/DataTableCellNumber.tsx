@@ -42,7 +42,8 @@ export const DataTableCellNumber = ({
   }, [focused, ref, editMode]);
 
   const handleInputChange = (e) => {
-    const newVal = validateValue(e.target.value, minApplied, maxApplied, step, defaultValue);
+    // const newVal = validateValue(e.target.value, minApplied, maxApplied, step, defaultValue);
+    const newVal = e.target.value;
     updateData(newVal, rowId, columnId);
   };
 

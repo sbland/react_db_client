@@ -2,7 +2,7 @@ import { evaluate } from 'mathjs';
 import { EComparisons, EFilterType, Uid } from '@react_db_client/constants.client-types';
 
 import { RowErrors } from '../errorTypes';
-import { IRow, ISortBy } from '../lib';
+import { IHeadingNumber, IRow, ISortBy, THeading } from '../lib';
 
 const generateRowUid = () => `row_${Date.now()}`;
 
@@ -231,4 +231,19 @@ export const validateRows = (headings, data) => {
         : [[v[0]], [v[1]]],
     [[], []]
   );
+};
+
+export const validateCell = (heading: THeading, value) => {
+  if (heading.type === EFilterType.number) {
+    if (Number.isNaN(Number(value))) return false;
+    if ((heading as IHeadingNumber).max !== undefined) {
+      if (Number(value) > ((heading as IHeadingNumber)?.max as number)) return false;
+    }
+    if ((heading as IHeadingNumber).min !== undefined) {
+      if (Number(value) < ((heading as IHeadingNumber)?.min as number)) return false;
+    }
+
+  }
+  return true;
+  // TODO: Manage custom validations
 };

@@ -455,7 +455,7 @@ export const generateDemoTableData = (count = 10) => {
       uid: `${i}`,
       name: `Name ${i}`,
       description: `Description ${i}`,
-      count: i,
+      count: i + 3,
       def: i,
       multiplier: i,
       readOnly: 'read only',

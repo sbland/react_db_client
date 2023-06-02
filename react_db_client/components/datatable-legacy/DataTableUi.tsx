@@ -4,6 +4,7 @@ Should be used alongside the DataManager hook */
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VariableSizeGrid as Grid } from 'react-window';
+import { Uid } from '@react_db_client/constants.client-types';
 
 import DataTableHeadings from './DataTableHeadings';
 import DataTableConfigConnector, { DataTableContext } from './DataTableConfig/DataTableConfig';
@@ -17,9 +18,9 @@ import './_dataTable.scss';
 import './_dataTable_condensed.scss';
 import { RowStyleContext } from './RowStyleContext';
 import { IRow } from './lib';
-import { Uid } from '@react_db_client/constants.client-types';
 
 const MIN_TABLE_HEIGHT = 30;
+const getRowHeight = () => 22;
 
 export interface IDataTableUiProps {
   headingsData;
@@ -88,7 +89,6 @@ export const DataTableUi: React.FC<IDataTableUiProps> = ({
   } = useContext(DataTableContext);
   const gridRef = useRef<any>(null);
 
-  const columnCount = headingsData.length;
   const rowCount = tableData.length;
   const [navigationMode, setNavigationMode] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -101,9 +101,22 @@ export const DataTableUi: React.FC<IDataTableUiProps> = ({
     btnColumnBtnCount:
       (allowRowDelete ? 1 : 0) + (allowRowEditPanel ? 1 : 0) + (allowSelection ? 1 : 0),
   });
+  const columnCount = columnWidths.length;
+
+  const tableHeight = React.useMemo(
+    () => Math.max(MIN_TABLE_HEIGHT, Math.min(rowCount * 22 + 22, maxTableHeight)),
+    [rowCount, maxTableHeight]
+  );
   const [currentFocusedColumn, setCurrentFocusedColumn] = useState(
     // eslint-disable-next-line no-nested-ternary
     allowCellFocus ? (hasBtnsColumn ? 1 : 0) : -1
+  );
+
+  const getColumnWidth = React.useCallback(
+    (index) => {
+      return columnWidths[index];
+    },
+    [columnWidths]
   );
   const [currentFocusedRow, setCurrentFocusedRow] = useState(0);
 
@@ -266,6 +279,7 @@ export const DataTableUi: React.FC<IDataTableUiProps> = ({
   //   [tableWidth, maxTableWidth]
   // );
   // ==========================
+
   return (
     <div
       className="dataTable"
@@ -301,14 +315,11 @@ export const DataTableUi: React.FC<IDataTableUiProps> = ({
           <Grid
             ref={gridRef}
             className="Grid"
-            columnCount={columnCount + (hasBtnsColumn ? 1 : 0)}
-            columnWidth={(index) => columnWidths[index]}
-            height={Math.max(
-              MIN_TABLE_HEIGHT,
-              Math.min(tableData.length * 22 + 22, maxTableHeight)
-            )}
+            columnCount={columnCount}
+            columnWidth={getColumnWidth}
+            height={tableHeight}
             rowCount={rowCount}
-            rowHeight={() => 22}
+            rowHeight={getRowHeight}
             width={tableWidth}
             itemData={getCellData}
           >

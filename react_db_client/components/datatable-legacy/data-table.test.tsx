@@ -67,7 +67,8 @@ const editCell = async (
   rowIndex: number,
   columnId: string,
   newValue: string,
-  inputRole: 'textbox' | 'combobox' | 'spinbutton' = 'textbox'
+  inputRole: 'textbox' | 'combobox' | 'spinbutton' = 'textbox',
+  acceptValue: boolean = true
 ) => {
   const columnCells = within(dataTable).getAllByTestId(`cell_${columnId}`, {
     exact: false,
@@ -77,14 +78,14 @@ const editCell = async (
   const textCellInput = within(textCell).getByRole(inputRole);
   await UserEvent.clear(textCellInput);
   await UserEvent.type(textCellInput, newValue);
-  await UserEvent.click(dataTable);
+  if (acceptValue) await UserEvent.click(dataTable);
 };
 
 beforeEach(() => {
   jest.clearAllMocks();
 });
 
-describe('SearchAndSelect', () => {
+describe('Data Table', () => {
   describe('Compositions', () => {
     Object.entries(compositions as unknown as React.FC<{}> & { forTests?: boolean })
       .filter(([name, Composition]) => Composition.forTests)
@@ -132,7 +133,7 @@ describe('SearchAndSelect', () => {
           await UserEvent.click(saveBtn);
           const newRowData = {
             ...tableData[rowIndex],
-            [columnId]: newCellValue,
+            [columnId]: String(newCellValue),
           };
           expect(saveData).toHaveBeenCalledTimes(1);
           expect(saveData).toHaveBeenCalledWith(
@@ -142,7 +143,7 @@ describe('SearchAndSelect', () => {
         }
       );
 
-      test('should call saveData with new data using limited number cell', async () => {
+      test('should call saveData with validated number data when number field has max property', async () => {
         render(<compositions.BasicDataTableWrapper />);
         const dataTable = screen.getByTestId('dataTable');
         const heading: IHeadingNumber = demoHeadingsDataObj.count as IHeadingNumber;
@@ -158,7 +159,7 @@ describe('SearchAndSelect', () => {
 
         const newRowData = {
           ...demoTableData[rowIndex],
-          [columnId]: heading.max,
+          [columnId]: demoTableData[rowIndex][columnId],
         };
         expect(saveData).toHaveBeenCalledTimes(1);
         expect(saveData).toHaveBeenCalledWith(
@@ -265,7 +266,7 @@ describe('SearchAndSelect', () => {
 
         const newRowData = {
           ...demoTableData[rowIndex],
-          [columnId]: heading.max,
+          // [columnId]: heading.max,
         };
         expect(saveData).toHaveBeenCalledTimes(1);
         expect(saveData).toHaveBeenCalledWith(
@@ -314,21 +315,22 @@ describe('SearchAndSelect', () => {
         const autosaveBtn = screen.getByRole('button', { name: 'Toggle autosave' });
         await UserEvent.click(autosaveBtn);
         const dataTable = screen.getByTestId('dataTable');
-        const newCellValue = (heading.max as number) + 10;
+        const newCellValueA = (heading.max as number) - 1;
+        const newCellValueB = (heading.max as number) + 1;
         const columnId = 'count';
         expect(saveData).toHaveBeenCalledTimes(0);
-        await editCell(dataTable, 0, columnId, String(newCellValue), 'spinbutton');
+        await editCell(dataTable, 0, columnId, String(newCellValueA), 'spinbutton');
         expect(saveData).toHaveBeenCalledTimes(1);
         (saveData as jest.Mock).mockClear();
-        await editCell(dataTable, 1, columnId, String(newCellValue), 'spinbutton');
+        await editCell(dataTable, 1, columnId, String(newCellValueB), 'spinbutton');
 
         const newRowData0 = {
           ...demoTableData[0],
-          count: heading.max,
+          count: String(newCellValueA),
         };
         const newRowData1 = {
           ...demoTableData[1],
-          count: heading.max,
+          // count: heading.max,
         };
 
         expect(saveData).toHaveBeenCalledTimes(1);
@@ -467,7 +469,7 @@ describe('SearchAndSelect', () => {
         expect(screen.getByText(`Current focused column: ${columnIndex}`)).toBeInTheDocument();
         expect(screen.getByText(`Current focused row: ${rowIndex}`)).toBeInTheDocument();
         // should have editMode attribute
-        expect(cell).toHaveAttribute('editMode');
+        expect(cell).toHaveAttribute('data-editMode');
         expect(within(cell).getByRole('textbox')).toBeInTheDocument();
       });
       test('should not exit edit mode if user hovers over another cell', async () => {
@@ -487,7 +489,7 @@ describe('SearchAndSelect', () => {
         expect(screen.getByText(`Current focused column: ${columnIndex}`)).toBeInTheDocument();
         expect(screen.getByText(`Current focused row: ${rowIndex}`)).toBeInTheDocument();
         // should have editMode attribute
-        expect(cell).toHaveAttribute('editMode');
+        expect(cell).toHaveAttribute('data-editMode');
         expect(within(cell).getByRole('textbox')).toBeInTheDocument();
         const nextCell = within(dataTable).getByTestId(`cell_${columnIndex}_${rowIndex + 1}`, {
           exact: false,
@@ -496,12 +498,105 @@ describe('SearchAndSelect', () => {
         expect(screen.getByText(`Current focused column: ${columnIndex}`)).toBeInTheDocument();
         expect(screen.getByText(`Current focused row: ${rowIndex}`)).toBeInTheDocument();
         // should have editMode attribute
-        expect(cell).toHaveAttribute('editMode');
+        expect(cell).toHaveAttribute('data-editMode');
         expect(within(cell).getByRole('textbox')).toBeInTheDocument();
       });
       test.todo('should exit edit mode if user hovers over another cell and clicks it');
       test.todo('should not change focused cell if a cell is in edit mode');
       test.todo('should still change focus cell when autosave is on');
+    });
+    describe('Number cells', () => {
+      test.skip("should limit the value of a number cell to it's max value", async () => {
+        // TODO: Implement this feature
+        const columnId = 'count';
+        const rowIndex = 0;
+        const inputRole = 'spinbutton';
+        const headings = [headingExampleNumber];
+        const columnFilter = 'Number Column Only';
+
+        render(<compositions.DataTableWrapperForTests />);
+        await clickToggleBtn(columnFilter);
+        await clickToggleBtn('Generate 1 row');
+        const tableData = generateDemoTableDataFilteredByColumns(1, headings);
+        const dataTable = screen.getByTestId('dataTable');
+        expect(getCellContent(dataTable, rowIndex, columnId)).toEqual(
+          String(tableData[rowIndex][columnId])
+        );
+        expect(headings[0].max).toBeGreaterThan(tableData[rowIndex][columnId]);
+        const newCellValue = (headings[0].max as number) + 1;
+        await editCell(dataTable, rowIndex, columnId, String(newCellValue), inputRole);
+        expect(getCellContent(dataTable, rowIndex, columnId)).toEqual(String(headings[0].max));
+      });
+      test('should allow setting invalid values into a number field but reset when accepted', async () => {
+        const columnId = 'count';
+        const rowIndex = 0;
+        const inputRole = 'spinbutton';
+        const headings = [headingExampleNumber];
+        const columnFilter = 'Number Column Only';
+
+        render(<compositions.DataTableWrapperForTests />);
+        await clickToggleBtn(columnFilter);
+        await clickToggleBtn('Generate 1 row');
+        const tableData = generateDemoTableDataFilteredByColumns(1, headings);
+        const dataTable = screen.getByTestId('dataTable');
+        expect(getCellContent(dataTable, rowIndex, columnId)).toEqual(
+          String(tableData[rowIndex][columnId])
+        );
+        expect(headings[0].min).toBeLessThan(tableData[rowIndex][columnId]);
+
+        const newCellValue = (headings[0].min as number) - 1;
+        await editCell(dataTable, rowIndex, columnId, String(newCellValue), inputRole, false);
+        await waitFor(() => {
+          const columnCells = within(dataTable).getAllByTestId(`cell_${columnId}`, {
+            exact: false,
+          });
+          const cell = columnCells[rowIndex];
+          const value = (within(cell).getByRole('spinbutton') as HTMLInputElement).value;
+          expect(value).toEqual(String(newCellValue));
+        });
+
+        await UserEvent.click(dataTable);
+        expect(getCellContent(dataTable, rowIndex, columnId)).toEqual(
+          tableData[rowIndex][columnId].toString()
+        );
+      });
+      describe('Validation highlighting', () => {
+        test("should indicate row has validation warning with ! on row status button", async()=> {
+          const columnId = 'count';
+          const rowIndex = 0;
+          const inputRole = 'spinbutton';
+          const headings = [headingExampleNumber];
+          const columnFilter = 'Number Column Only';
+
+          render(<compositions.DataTableWrapperForTests />);
+          await clickToggleBtn(columnFilter);
+          await clickToggleBtn('Generate 1 row');
+          const tableData = generateDemoTableDataFilteredByColumns(1, headings);
+          const dataTable = screen.getByTestId('dataTable');
+          expect(getCellContent(dataTable, rowIndex, columnId)).toEqual(
+            String(tableData[rowIndex][columnId])
+          );
+          expect(headings[0].min).toBeLessThan(tableData[rowIndex][columnId]);
+
+          const newCellValue = (headings[0].min as number) - 1;
+          await editCell(dataTable, rowIndex, columnId, String(newCellValue), inputRole, false);
+          await waitFor(() => {
+            const columnCells = within(dataTable).getAllByTestId(`cell_${columnId}`, {
+              exact: false,
+            });
+            const cell = columnCells[rowIndex];
+            const value = (within(cell).getByRole('spinbutton') as HTMLInputElement).value;
+            expect(value).toEqual(String(newCellValue));
+          });
+          const rowStatusBtn = within(dataTable).getByTestId(`rowStatusBtn_${rowIndex}`, {
+            exact: false,
+          });
+          expect(rowStatusBtn).toHaveTextContent('!');
+        })
+        test.todo("should show validation message popup on clicking row status button");
+        test.todo("Should highlight rows that are invalid with a 'warning' class");
+        test.todo("should highlight cells with validation issues with a 'warning' class");
+      });
     });
 
     // describe('Row selecting', () => {

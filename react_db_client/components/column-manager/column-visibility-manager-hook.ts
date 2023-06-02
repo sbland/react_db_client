@@ -35,11 +35,16 @@ export const useColumnVisabilityManager = (headingsDataList: HeadingObject[]) =>
       headingsDataList.map((d) => {
         const p = prev.find((p) => p.uid === d.uid);
         const hidden = p !== undefined ? p.hidden : d.hidden;
+
+        // if(hidden === undefined) {
+        //   console.info("Hidden is undefined", prev, d, p)
+        // }
         return { ...d, hidden };
       })
     );
   }, [headingsDataList]);
 
+  // console.info('useColumnVisabilityManager', { columnVisibilityState })
   const handleHideColumn = (columnId: string) => {
     setColumnVisibilityState((prev) =>
       prev.map((d) => (d.uid === columnId ? { ...d, hidden: !d.hidden } : d))

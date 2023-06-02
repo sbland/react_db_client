@@ -13,6 +13,7 @@ import {
   // filterTableData,
   generateNewRowData,
   sortTableData,
+  validateCell,
   validateRows,
 } from './processTableData';
 import { IHeadingEvaluate, IRow, ISortBy, THeading } from '../lib';
@@ -163,6 +164,12 @@ export const useDataManager = <IRowCustom extends IRow = IRow>({
   /* This is the sorted and filtered data */
   const [intProcessedData, setIntProcessedData] = useState<IRowCustom[]>([]);
 
+  // const  validatedData = useMemo(() => {
+  //   // TODO: Run validateTableData
+  //   return rawData;
+  // }
+  // , [rawData]);
+
   useEffect(() => {
     setSortBy(sortByIn || null);
   }, [sortByIn]);
@@ -236,7 +243,6 @@ export const useDataManager = <IRowCustom extends IRow = IRow>({
     (newVal: any, rowId: Uid, rowIndex: number, colId: Uid) => {
       // Note use of callback here ensures if multiple columns are updated
       // in one we update all and don't override the data object
-
       // Changing intProcessed data here ensures that we don't re-run sorting and filtering
       setIntProcessedData((prev) => {
         const heading = headings.find((h) => h.uid === colId);
@@ -279,24 +285,33 @@ export const useDataManager = <IRowCustom extends IRow = IRow>({
       // TODO: We should switch out sorted row index for unsorted row index
       const originalRowIndex = liveData.findIndex((rowData) => rowData.uid === rowId);
       const oldRowData = liveData[originalRowIndex];
-      if (oldRowData[colId] === newVal) return; // don't do anything if value hasn't changed
+      const oldVal = oldRowData[colId];
+      if (oldVal === newVal) return; // don't do anything if value hasn't changed
       // TODO: Handle evaluated values
+      // TODO: Handle validating values here
+      const heading = headings.find((h) => h.uid === colId);
+      const isValid = validateCell(heading as THeading, newVal);
+      let newValValidated = newVal;
+      if (!isValid) {
+        // TODOTODO: Implement multiple validation procedures
+        newValValidated = oldVal;
+      }
+
       if (autoSave && autoSaveCallback) {
-        const newRowData = { ...liveData[originalRowIndex], [colId]: newVal };
+        const newRowData = { ...liveData[originalRowIndex], [colId]: newValValidated };
         const dataMod = Object.assign([], liveData, { [originalRowIndex]: newRowData });
         autoSaveCallback(dataMod, SAVE_ACTIONS.ROW_CHANGED, newRowData, rowId, [colId]);
       }
       if (!isControlled) {
         const originalRowIndexPrev = rawData.findIndex((rowData) => rowData.uid === rowId);
         const prevRowData = rawData[originalRowIndexPrev];
-        const heading = headings.find((h) => h.uid === colId);
         const newRowData = (heading as IHeadingEvaluate).evaluateType
-          ? handleUpdateEvalField(heading, prevRowData, colId, newVal)
-          : { ...prevRowData, [colId]: newVal };
+          ? handleUpdateEvalField(heading, prevRowData, colId, newValValidated)
+          : { ...prevRowData, [colId]: newValValidated };
         const dataMod = Object.assign([], rawData, { [originalRowIndexPrev]: newRowData });
         setRawData(dataMod);
         setUnsavedChanges(true);
-        updatedDataHook(rowId, colId, newVal);
+        updatedDataHook(rowId, colId, newValValidated);
       }
     },
     [autoSave, rawData, dataIn, autoSaveCallback, headings, updatedDataHook]
