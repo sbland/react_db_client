@@ -250,6 +250,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }: ICellProps) => {
           type="button"
           className={lhsTagClass}
           style={lhsTagStyle}
+          data-testid={`rowStatusBtn_${rowIndex}`}
           onClick={handleTagButtonClick}
         >
           !

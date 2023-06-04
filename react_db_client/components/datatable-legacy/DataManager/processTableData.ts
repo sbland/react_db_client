@@ -1,7 +1,7 @@
 import { evaluate } from 'mathjs';
 import { EComparisons, EFilterType, Uid } from '@react_db_client/constants.client-types';
 
-import { RowErrors } from '../errorTypes';
+import { RowErrors, ERowError } from '../errorTypes';
 import { IHeadingNumber, IRow, ISortBy, THeading } from '../lib';
 
 const generateRowUid = () => `row_${Date.now()}`;
@@ -194,56 +194,99 @@ export const checkIsMissing = (evaluatedData, rowData, _rowIndex) => (h) => {
   return !cellData;
 };
 
-export const validateRow = (evaluatedData, uniqueHeadings, requiredHeadings) => (row, i) => {
-  /* NOTE: Only the first error is returned */
-  /* Handle unique headings */
-  const duplicateHeading = uniqueHeadings.find(checkIsDuplicate(evaluatedData, row, i));
-  if (duplicateHeading) {
-    const invalidMessage = {
-      text: `Duplicate ${duplicateHeading.label}`,
-      type: RowErrors.DUPLICATE,
-    };
-    return [true, invalidMessage];
-  }
-  /* Handle required headings */
-  const missingRequired = requiredHeadings.find(checkIsMissing(evaluatedData, row, i));
-  if (missingRequired) {
-    const invalidMessage = {
-      text: `Missing ${missingRequired.label}`,
-      type: RowErrors.MISSING,
-    };
-    return [true, invalidMessage];
-  }
+export type RowErrors = (
+  | boolean
+  | {
+      text: string;
+      type: string;
+    }
+  | null
+)[];
 
-  return [false, null];
+export interface IRowErrorObject {
+  text: string;
+  type: ERowError;
+}
+
+export const validateCell = (heading: THeading, value: any): [boolean, IRowErrorObject | null] => {
+  if (heading.type === EFilterType.number) {
+    if (Number.isNaN(Number(value)))
+      return [
+        false,
+        {
+          text: `${heading.label} is invalid Invalid number`,
+          type: ERowError.INVALID,
+        },
+      ];
+    if ((heading as IHeadingNumber).max !== undefined) {
+      if (Number(value) > ((heading as IHeadingNumber)?.max as number))
+        return [
+          false,
+          {
+            text: `${heading.label} is invalid Number too large`,
+            type: ERowError.INVALID,
+          },
+        ];
+    }
+    if ((heading as IHeadingNumber).min !== undefined) {
+      if (Number(value) < ((heading as IHeadingNumber)?.min as number))
+        return [
+          false,
+          {
+            text: `${heading.label} is invalid Number too small`,
+            type: ERowError.INVALID,
+          },
+        ];
+    }
+  }
+  return [true, null];
+  // TODO: Manage custom validations
 };
 
-export const validateRows = (headings, data) => {
+export const validateRow =
+  (evaluatedData: IRow[], uniqueHeadings: THeading[], requiredHeadings: THeading[]) =>
+  (row, i): [true, IRowErrorObject] | [false, null] => {
+    /* NOTE: Only the first error is returned */
+    /* Handle unique headings */
+    const duplicateHeading = uniqueHeadings.find(checkIsDuplicate(evaluatedData, row, i));
+    if (duplicateHeading) {
+      const invalidMessage = {
+        text: `Duplicate ${duplicateHeading.label}`,
+        type: ERowError.DUPLICATE,
+      };
+      return [true, invalidMessage];
+    }
+    /* Handle required headings */
+    const missingRequired = requiredHeadings.find(checkIsMissing(evaluatedData, row, i));
+    if (missingRequired) {
+      const invalidMessage = {
+        text: `Missing ${missingRequired.label}`,
+        type: ERowError.MISSING,
+      };
+      return [true, invalidMessage];
+    }
+    const invalidCells = Object.entries(row)
+      .map(([uid, value]) => {
+        const heading = uniqueHeadings.find((h) => h.uid === uid);
+        if (!heading) return [false, null];
+        return validateCell(heading, value);
+      })
+      .filter(([isValid]) => !isValid)[0];
+    if (invalidCells) return invalidCells as [true, IRowErrorObject];
+
+    return [false, null];
+  };
+
+export const validateRows = (headings: THeading[], data: IRow[]) => {
   const uniqueHeadings = headings.filter((h) => h.unique);
   const requiredHeadings = headings.filter((h) => h.required);
   return data.map(validateRow(data, uniqueHeadings, requiredHeadings)).reduce(
-    (acc, v) =>
-      acc
-        ? [
-            [...acc[0], v[0]],
-            [...acc[1], v[1]],
-          ]
-        : [[v[0]], [v[1]]],
-    [[], []]
+    (acc, v) => {
+      const out: [boolean[], (IRowErrorObject | null)[]] = acc
+        ? [[...acc[0], v[0]] as boolean[], [...acc[1], v[1]] as (IRowErrorObject | null)[]]
+        : [[v[0]], [v[1]]];
+      return out;
+    },
+    [[], []] as [boolean[], (IRowErrorObject | null)[]]
   );
-};
-
-export const validateCell = (heading: THeading, value) => {
-  if (heading.type === EFilterType.number) {
-    if (Number.isNaN(Number(value))) return false;
-    if ((heading as IHeadingNumber).max !== undefined) {
-      if (Number(value) > ((heading as IHeadingNumber)?.max as number)) return false;
-    }
-    if ((heading as IHeadingNumber).min !== undefined) {
-      if (Number(value) < ((heading as IHeadingNumber)?.min as number)) return false;
-    }
-
-  }
-  return true;
-  // TODO: Manage custom validations
 };

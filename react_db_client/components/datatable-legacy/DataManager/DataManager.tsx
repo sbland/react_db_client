@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { deepIsEqual, filterData } from '@react_db_client/helpers.filter-helpers';
 import { FilterObjectClass, Uid } from '@react_db_client/constants.client-types';
 import {
+  IRowErrorObject,
   calculateColumnTotals,
   evaluateExpressionColumns,
   evaluateRow,
@@ -89,9 +90,9 @@ export interface IUseDataManagerReturn<IRowCustom extends IRow = IRow> {
   /* Processed data */
   dataProcessed: IRowCustom[];
   /* List of invalid rows */
-  invalidRows: Uid[];
+  invalidRows: boolean[];
   /* List of invalid rows and messages */
-  invalidRowsMessages: string[];
+  invalidRowsMessages: (null | IRowErrorObject)[];
   /* Totals object */
   totals: { [x: Uid]: number } | null;
   /* True if there are unsaved changes */
@@ -221,6 +222,7 @@ export const useDataManager = <IRowCustom extends IRow = IRow>({
     if (!recalculate) return [[], []];
     return validateRows(headings, evaluatedData);
   }, [recalculate, evaluatedData, headings]);
+
   if (!intProcessedData) error.current = 'Data is invalid';
   if (!headings) error.current = 'Input headings are invalid';
 
@@ -290,10 +292,11 @@ export const useDataManager = <IRowCustom extends IRow = IRow>({
       // TODO: Handle evaluated values
       // TODO: Handle validating values here
       const heading = headings.find((h) => h.uid === colId);
-      const isValid = validateCell(heading as THeading, newVal);
+      const [isValid, message] = validateCell(heading as THeading, newVal);
       let newValValidated = newVal;
       if (!isValid) {
-        // TODOTODO: Implement multiple validation procedures
+        // TODO: Implement multiple validation procedures
+        alert(message?.text)
         newValValidated = oldVal;
       }
 
