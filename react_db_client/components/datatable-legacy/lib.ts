@@ -14,6 +14,9 @@ export interface IHeading {
   hidden?: boolean;
   defaultValue?: any;
   field?: Uid;
+  validationRules?: (string | ((value: any, tableData: IRow) => [boolean, string]))[];
+  validationMessage?: string;
+  validationType?: EValidationType;
 }
 
 export interface IHeadingNumber extends IHeading {
@@ -134,3 +137,23 @@ export interface ICellData<RowType extends IRow = IRow, HeadingType extends IHea
   disabled: boolean;
   invalidRowsMessages: { text: string }[];
 }
+
+export enum EValidationType {
+  ERROR = 'ERROR',
+  WARNING = 'WARNING',
+  INFO = 'INFO',
+}
+
+export enum ESaveAction {
+  ROW_CHANGED = 'rowChanged',
+  ROW_DELETED = 'rowDeleted',
+  SAVE_BTN_CLICKED = 'saveBtnClicked',
+  ROW_ADDED = 'rowAdded',
+}
+
+export const SAVE_ACTIONS = {
+  ROW_CHANGED: 'rowChanged',
+  ROW_DELETED: 'rowDeleted',
+  SAVE_BTN_CLICKED: 'saveBtnClicked',
+  ROW_ADDED: 'rowAdded',
+};

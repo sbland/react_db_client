@@ -109,6 +109,9 @@ const defaultProps: IDataTableWrapperProps & { config: Partial<IDataTableConfig>
   config: DEMO_CONFIG,
   saveData: saveData,
   styleOverride: { background: 'green' },
+  styleRule: [
+    '$count==undefined or $count==null or $count<=3',
+  ].join(' or '),
   errorStyleOverride: { DUPLICATE: { background: 'red' }, MISSING: { background: 'orange' } },
   onSelectionChange: (newSelection) => {
     console.log(newSelection);

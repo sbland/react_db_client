@@ -7,7 +7,7 @@ import {
   FilterOption,
   Uid,
 } from '@react_db_client/constants.client-types';
-import { IHeadingCustomExample, THeading } from './lib';
+import { EValidationType, IHeadingCustomExample, THeading } from './lib';
 
 /* Example Filters */
 export const demoFilterString = new FilterObjectClass({
@@ -190,6 +190,18 @@ export const headingExampleNumber = {
   showTotals: true,
 };
 
+/* This column will be invalid if the value is greater than the value of the count column */
+export const headingExampleNumberValidatedLinked = {
+  uid: 'countValidatedLinked',
+  label: 'Count Validated',
+  type: EFilterType.number,
+  step: 1,
+  showTotals: true,
+  validationRules: ['$countValidatedLinked<$count'],
+  validationMessage: 'Must be less than count',
+  validationType: EValidationType.ERROR,
+};
+
 export const headingExampleNumberDef = {
   uid: 'def',
   label: 'Def',
@@ -254,6 +266,7 @@ export const headingExampleExpression = {
   showTotals: true,
 };
 
+/* This column will be false if the field 'select' is not equal to 'a' */
 export const headingExampleValidated = {
   uid: 'validated',
   label: 'Is Validated',
@@ -265,23 +278,23 @@ export const headingExampleValidated = {
   invert: true,
 };
 
-export const headingExampleInvalid = {
-  uid: 'invalid',
-  label: 'Invalid',
-  evaluateType: EFilterType.number,
-  type: EFilterType.number,
-  expression: '$nothing',
-  expressionReversed: '$nothing',
-};
+// export const headingExampleInvalid = {
+//   uid: 'invalid',
+//   label: 'Invalid',
+//   evaluateType: EFilterType.number,
+//   type: EFilterType.number,
+//   expression: '$nothing',
+//   expressionReversed: '$nothing',
+// };
 
-export const headingExampleInvalidB = {
-  uid: 'invalidb',
-  label: 'InvalidB',
-  type: EFilterType.number,
-  evaluateType: EFilterType.number,
-  expression: '$invalid * 2',
-  expressionReversed: '$invalid / 2',
-};
+// export const headingExampleInvalidLinked = {
+//   uid: 'invalidb',
+//   label: 'InvalidB',
+//   type: EFilterType.number,
+//   evaluateType: EFilterType.number,
+//   expression: '$invalid * 2',
+//   expressionReversed: '$invalid / 2',
+// };
 
 export const headingExampleSelect = {
   uid: 'select',
@@ -331,6 +344,7 @@ export const demoHeadingsData: THeading<IHeadingCustomExample>[] = [
   headingExampleText,
   headingExampleTextLong,
   headingExampleNumber,
+  headingExampleNumberValidatedLinked,
   headingExampleNumberDef,
   headingExampleNumberMultiplier,
   headingExampleReadOnly,
@@ -340,8 +354,8 @@ export const demoHeadingsData: THeading<IHeadingCustomExample>[] = [
   headingExampleToggleR,
   headingExampleExpression,
   headingExampleValidated,
-  headingExampleInvalid,
-  headingExampleInvalidB,
+  // headingExampleInvalid,
+  // headingExampleInvalidLinked,
   headingExampleSelect,
   headingExampleReference,
   headingExampleLongHeading,
@@ -456,6 +470,7 @@ export const generateDemoTableData = (count = 10) => {
       name: `Name ${i}`,
       description: `Description ${i}`,
       count: i + 3,
+      countValidatedLinked: 4,
       def: i,
       multiplier: i,
       readOnly: 'read only',

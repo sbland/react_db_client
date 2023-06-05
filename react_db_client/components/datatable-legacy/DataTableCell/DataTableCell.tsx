@@ -138,8 +138,8 @@ export const Cell = ({ columnIndex, rowIndex, style, data }: ICellProps) => {
     setNavigationMode(false);
     if (!readOnly && navigationMode && !editMode && !disabled) {
       setEditMode(true);
-    } else if (!navigationMode) {
-      /* Got stuck in nav false */
+    } else {
+      setNavigationMode(true);
     }
     handleMoveFocusToTargetRow(rowIndex, columnIndex);
   }, [
@@ -253,7 +253,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }: ICellProps) => {
           data-testid={`rowStatusBtn_${rowIndex}`}
           onClick={handleTagButtonClick}
         >
-          !
+          {invalidRowsMessages && invalidRowsMessages[rowIndex] ? '!' : ''}
         </button>
         <EditColumnCell
           allowSelection={allowSelection}
@@ -292,8 +292,12 @@ export const Cell = ({ columnIndex, rowIndex, style, data }: ICellProps) => {
       >
         <div
           ref={cellWrapNavBtnRef}
-          data-testid={`cell_${columnIndex}_${rowIndex} cell_${headingData.uid}`}
+          data-testid={`cell_${columnIndex}_${rowIndex}_ cell_${headingData.uid}_`}
           data-editmode={editMode ? 'true' : 'false'}
+          data-columnid={headingData.uid}
+          data-rowid={rowData.uid}
+          data-columnindex={columnIndex}
+          data-rowindex={rowIndex}
           className={`${classNames} navigationButton cellWrapBtn button-reset`}
           onClick={handleSelectCell}
           style={{ width: '100%' }}

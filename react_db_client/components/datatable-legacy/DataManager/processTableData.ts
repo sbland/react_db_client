@@ -2,7 +2,7 @@ import { evaluate } from 'mathjs';
 import { EComparisons, EFilterType, Uid } from '@react_db_client/constants.client-types';
 
 import { RowErrors, ERowError } from '../errorTypes';
-import { IHeadingNumber, IRow, ISortBy, THeading } from '../lib';
+import { IHeadingEvaluate, IHeadingNumber, IRow, ISortBy, THeading } from '../lib';
 
 const generateRowUid = () => `row_${Date.now()}`;
 
@@ -41,7 +41,7 @@ export const calculateColumnTotals = (tableData, columnIds): { [k: Uid]: number 
   return result;
 };
 
-export const replaceColumnIdsInExpression = (pattern: string, rowData) => {
+export const replaceColumnIdsInExpression = (pattern: string, rowData: IRow) => {
   // 2. replace variables in pattern
   let patternReplaced = pattern;
   let invalid = false;
@@ -60,11 +60,10 @@ export const replaceColumnIdsInExpression = (pattern: string, rowData) => {
       invalid = true;
     patternReplaced = patternReplaced.replace(reg, val);
   });
-  // 3. Evaluate for row
   return !invalid ? patternReplaced : false;
 };
 
-export const evaluateRow = (pattern, rowData) => {
+export const evaluateRow = (pattern: string, rowData: IRow) => {
   if (!pattern) throw Error('Missing pattern');
   const patternReplaced = replaceColumnIdsInExpression(pattern, rowData);
   const result = patternReplaced ? evaluate(patternReplaced) : 'INVALID';
@@ -121,20 +120,26 @@ export const assignDefaultValues = (data, headings) => {
   throw Error('Not Implemented');
 };
 
-export const evaluateExpressionColumns = (data, headingsDataList) =>
+export const evaluateExpressionColumns = (data: IRow[], headingsDataList: THeading[]) =>
   data.map((rowData) => {
     const rowOut = { ...rowData };
     headingsDataList.forEach((headingData) => {
-      const { uid: headingUid, evaluateType } = headingData;
+      const { uid: headingUid, evaluateType } = headingData as IHeadingEvaluate;
       if (evaluateType === 'number') {
-        const { expression } = headingData;
+        const { expression } = headingData as IHeadingEvaluate;
         if (!expression) throw Error('Missing expression');
         rowOut[headingUid] = evaluateRow(expression, rowOut);
       }
-      if (evaluateType === 'string') {
-        const { field, target, invert, operator } = headingData;
+      if (evaluateType === EFilterType.text) {
+        const { field, target, invert, operator } = headingData as IHeadingEvaluate;
         if (!operator) throw Error('Missing operator');
-        rowOut[headingUid] = evaluateStrRow(field, operator, target, invert, rowOut);
+        rowOut[headingUid] = evaluateStrRow(
+          field,
+          operator,
+          String(target),
+          invert || false,
+          rowOut
+        );
       }
     });
     return rowOut;
@@ -208,7 +213,11 @@ export interface IRowErrorObject {
   type: ERowError;
 }
 
-export const validateCell = (heading: THeading, value: any): [boolean, IRowErrorObject | null] => {
+export const validateCell = (
+  heading: THeading,
+  value: any,
+  rowData: IRow
+): [boolean, IRowErrorObject | null] => {
   if (heading.type === EFilterType.number) {
     if (Number.isNaN(Number(value)))
       return [
@@ -239,6 +248,29 @@ export const validateCell = (heading: THeading, value: any): [boolean, IRowError
         ];
     }
   }
+  if (heading.validationRules) {
+    for (let i = 0; i < heading.validationRules.length; i++) {
+      const rule = heading.validationRules[i];
+      if (typeof rule === 'string') {
+        const patternReplaced = replaceColumnIdsInExpression(rule, rowData);
+        const result = patternReplaced ? evaluate(patternReplaced) : 'INVALID';
+        if (result === false)
+          return [false, { text: `${heading.label} is invalid`, type: ERowError.INVALID }];
+      }
+      if (typeof rule === 'function') {
+        const [isValid, errorMessage] = rule(value, rowData);
+        if (!isValid) {
+          return [
+            false,
+            {
+              text: `${heading.label} is invalid ${errorMessage}`,
+              type: ERowError.INVALID,
+            },
+          ];
+        }
+      }
+    }
+  }
   return [true, null];
   // TODO: Manage custom validations
 };
@@ -251,7 +283,7 @@ export const validateRow =
     const duplicateHeading = uniqueHeadings.find(checkIsDuplicate(evaluatedData, row, i));
     if (duplicateHeading) {
       const invalidMessage = {
-        text: `Duplicate ${duplicateHeading.label}`,
+        text: `Value for '${duplicateHeading.label}' is not unique`,
         type: ERowError.DUPLICATE,
       };
       return [true, invalidMessage];
@@ -260,7 +292,7 @@ export const validateRow =
     const missingRequired = requiredHeadings.find(checkIsMissing(evaluatedData, row, i));
     if (missingRequired) {
       const invalidMessage = {
-        text: `Missing ${missingRequired.label}`,
+        text: `Value for '${missingRequired.label}' is missing`,
         type: ERowError.MISSING,
       };
       return [true, invalidMessage];
@@ -269,7 +301,7 @@ export const validateRow =
       .map(([uid, value]) => {
         const heading = uniqueHeadings.find((h) => h.uid === uid);
         if (!heading) return [false, null];
-        return validateCell(heading, value);
+        return validateCell(heading, value, row);
       })
       .filter(([isValid]) => !isValid)[0];
     if (invalidCells) return invalidCells as [true, IRowErrorObject];

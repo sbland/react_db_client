@@ -33,10 +33,10 @@ export interface IDataTableWrapperProps {
   updateTotals?: (totals) => void;
   updatedDataHook?: (row: Uid, column: Uid, field: Uid) => void;
   autoSave?: boolean;
-  styleRule?;
-  styleOverride?;
+  styleRule?: string;
+  styleOverride?: React.CSSProperties;
   baseStyle?: React.CSSProperties;
-  errorStyleOverride?;
+  errorStyleOverride?: { DUPLICATE: React.CSSProperties, MISSING: React.CSSProperties };
   maxTableHeight?: number;
   maxTableWidth?: number;
   bottomMenuRefOverride?: HTMLDivElement;
@@ -303,8 +303,9 @@ DataTableWrapperFunc.defaultProps = {
   autoSave: false,
   updateTotals: () => {},
   updatedDataHook: () => {},
-  styleRule: null,
+  styleRule: '',
   styleOverride: {},
+  // @ts-ignore
   errorStyleOverride: {
     [RowErrors.DUPLICATE]: { background: 'tomato' },
     [RowErrors.MISSING]: { background: 'tomato' },

@@ -1,2 +1,2 @@
-export { useDataManager, SAVE_ACTIONS } from './DataManager';
-export type { IUseDataManagerArgs, ESaveAction } from './DataManager';
+export { useDataManager } from './DataManager';
+export type { IUseDataManagerArgs } from './DataManager';

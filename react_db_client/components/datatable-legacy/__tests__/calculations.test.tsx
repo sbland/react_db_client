@@ -26,22 +26,22 @@ describe('SearchAndSelect', () => {
       const rowCount = within(dataTable).getAllByTestId('cell_1_', { exact: false }).length;
       expect(rowCount).toEqual(demoTableDataEvaluationTable.length);
       expect(evaluationTableHeadings[1].uid).toEqual('a');
-      const cell_2_0 = within(dataTable).getByTestId('cell_2_0 ', { exact: false });
+      const cell_2_0 = within(dataTable).getByTestId('cell_2_0_', { exact: false });
       expect(cell_2_0).toHaveTextContent('1'); // a = 1
       expect(evaluationTableHeadings[2].uid).toEqual('b');
-      const cell_3_0 = within(dataTable).getByTestId('cell_3_0 ', { exact: false });
+      const cell_3_0 = within(dataTable).getByTestId('cell_3_0_', { exact: false });
       expect(cell_3_0).toHaveTextContent('1'); // b = 1
       expect(evaluationTableHeadings[3].uid).toEqual('c');
       expect(evaluationTableHeadings[3].expression).toEqual('$a + $b');
-      const cell_4_0 = within(dataTable).getByTestId('cell_4_0 ', { exact: false });
+      const cell_4_0 = within(dataTable).getByTestId('cell_4_0_', { exact: false });
       expect(cell_4_0).toHaveTextContent('2'); // c = a + b = 1 + 1 = 2
     });
     test('should modify cell C0 if cell A0 is changed', async () => {
       render(<compositions.CalculatedDataTableWrapper />);
       const dataTable = screen.getByTestId('dataTable');
-      const cell_2_0 = within(dataTable).getByTestId('cell_2_0 ', { exact: false });
-      const cell_3_0 = within(dataTable).getByTestId('cell_3_0 ', { exact: false });
-      const cell_4_0 = within(dataTable).getByTestId('cell_4_0 ', { exact: false });
+      const cell_2_0 = within(dataTable).getByTestId('cell_2_0_', { exact: false });
+      const cell_3_0 = within(dataTable).getByTestId('cell_3_0_', { exact: false });
+      const cell_4_0 = within(dataTable).getByTestId('cell_4_0_', { exact: false });
       await waitFor(() => expect(cell_2_0).toHaveTextContent('1'));
       await UserEvent.click(cell_2_0);
       const input = within(cell_2_0).getByRole('spinbutton');

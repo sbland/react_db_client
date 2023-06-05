@@ -35,7 +35,7 @@
     },
     "components/datatable-legacy": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.0.143",
+        "version": "0.0.151",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/datatable-legacy"
     },
@@ -149,7 +149,7 @@
     },
     "components/local-file-uploader": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.0.8",
+        "version": "0.0.16",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/local-file-uploader"
     },

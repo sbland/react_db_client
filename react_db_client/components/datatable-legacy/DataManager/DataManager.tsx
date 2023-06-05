@@ -17,9 +17,14 @@ import {
   validateCell,
   validateRows,
 } from './processTableData';
-import { IHeadingEvaluate, IRow, ISortBy, THeading } from '../lib';
+import { IHeadingEvaluate, IRow, ISortBy, SAVE_ACTIONS, THeading } from '../lib';
 
-const handleUpdateEvalField = (heading, prevRowData, colId, newVal) => {
+const handleUpdateEvalField = <IRowCustom extends IRow = IRow>(
+  heading: IHeadingEvaluate,
+  prevRowData: IRowCustom,
+  colId: Uid,
+  newVal: any
+) => {
   if (!heading.expressionReversed)
     throw Error(`expressionReversed has not been defined for heading: ${heading.uid}`);
   const patterns = heading.expressionReversed.split(';');
@@ -35,20 +40,6 @@ const handleUpdateEvalField = (heading, prevRowData, colId, newVal) => {
   }, {});
   const newRowData = { ...prevRowData, ...updatedRowData };
   return newRowData;
-};
-
-export enum ESaveAction {
-  ROW_CHANGED = 'rowChanged',
-  ROW_DELETED = 'rowDeleted',
-  SAVE_BTN_CLICKED = 'saveBtnClicked',
-  ROW_ADDED = 'rowAdded',
-}
-
-export const SAVE_ACTIONS = {
-  ROW_CHANGED: 'rowChanged',
-  ROW_DELETED: 'rowDeleted',
-  SAVE_BTN_CLICKED: 'saveBtnClicked',
-  ROW_ADDED: 'rowAdded',
 };
 
 export interface IUseDataManagerArgs<IRowCustom extends IRow = IRow> {
@@ -178,6 +169,7 @@ export const useDataManager = <IRowCustom extends IRow = IRow>({
   useEffect(() => {
     if (dataIn) {
       setRawData((prev) => {
+        if (isControlled) return dataIn;
         if (deepIsEqual(dataIn, prev)) return prev;
         return dataIn;
       });
@@ -251,8 +243,13 @@ export const useDataManager = <IRowCustom extends IRow = IRow>({
         if ((heading as IHeadingEvaluate).evaluateType) {
           // if the heading type is an evaluate heading we need to process
           // the reverse evaluation
-          const prevRowData = prev.find((row) => row.uid === rowId);
-          const newRowData = handleUpdateEvalField(heading, prevRowData, colId, newVal);
+          const prevRowData = prev.find((row) => row.uid === rowId) as IRowCustom;
+          const newRowData = handleUpdateEvalField(
+            heading as IHeadingEvaluate,
+            prevRowData,
+            colId,
+            newVal
+          );
           const dataMod = Object.assign([], prev, { [rowIndex]: newRowData });
           return dataMod;
         }
@@ -292,11 +289,14 @@ export const useDataManager = <IRowCustom extends IRow = IRow>({
       // TODO: Handle evaluated values
       // TODO: Handle validating values here
       const heading = headings.find((h) => h.uid === colId);
-      const [isValid, message] = validateCell(heading as THeading, newVal);
+      const [isValid, message] = validateCell(heading as THeading, newVal, {
+        ...rawData[rowIndex],
+        ...evaluatedData[rowIndex],
+      });
       let newValValidated = newVal;
       if (!isValid) {
         // TODO: Implement multiple validation procedures
-        alert(message?.text)
+        alert(message?.text);
         newValValidated = oldVal;
       }
 
@@ -305,11 +305,13 @@ export const useDataManager = <IRowCustom extends IRow = IRow>({
         const dataMod = Object.assign([], liveData, { [originalRowIndex]: newRowData });
         autoSaveCallback(dataMod, SAVE_ACTIONS.ROW_CHANGED, newRowData, rowId, [colId]);
       }
-      if (!isControlled) {
+      if (isControlled) {
+        // pass
+      } else {
         const originalRowIndexPrev = rawData.findIndex((rowData) => rowData.uid === rowId);
         const prevRowData = rawData[originalRowIndexPrev];
         const newRowData = (heading as IHeadingEvaluate).evaluateType
-          ? handleUpdateEvalField(heading, prevRowData, colId, newValValidated)
+          ? handleUpdateEvalField(heading as IHeadingEvaluate, prevRowData, colId, newValValidated)
           : { ...prevRowData, [colId]: newValValidated };
         const dataMod = Object.assign([], rawData, { [originalRowIndexPrev]: newRowData });
         setRawData(dataMod);
@@ -317,7 +319,7 @@ export const useDataManager = <IRowCustom extends IRow = IRow>({
         updatedDataHook(rowId, colId, newValValidated);
       }
     },
-    [autoSave, rawData, dataIn, autoSaveCallback, headings, updatedDataHook]
+    [autoSave, rawData, dataIn, autoSaveCallback, headings, updatedDataHook, evaluatedData]
   );
 
   const handleValueReset = (rowId, rowIndex, colId) => {

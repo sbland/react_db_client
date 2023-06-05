@@ -13,10 +13,11 @@ import {
   demoTableData,
   generateDemoTableDataFilteredByColumns,
   headingExampleNumber,
+  headingExampleReadOnly,
   headingExampleText,
 } from './demoData';
 import { saveData } from './test-utils/mock-api';
-import { SAVE_ACTIONS } from './DataManager';
+import { SAVE_ACTIONS } from './lib';
 import { IHeadingCustomExample, IHeadingNumber, THeading } from './lib';
 
 jest.mock('./test-utils/mock-api');
@@ -31,11 +32,6 @@ const demoHeadingsDataObj: { [k: Uid]: THeading<IHeadingCustomExample> } = demoH
 const clickToggleBtn = async (btnName: string) => {
   const btn = screen.getByRole('button', { name: btnName });
   await UserEvent.click(btn);
-};
-
-const resetDataBtn = async () => {
-  const autosaveBtn = screen.getByRole('button', { name: 'Reset data' });
-  await UserEvent.click(autosaveBtn);
 };
 
 const openFilterPanel = async (elQuery: QueryType) => {
@@ -61,6 +57,14 @@ const getCellContent = (dataTable: HTMLElement, rowIndex: number, columnId: stri
   const textCell = columnCells[rowIndex];
   return textCell.textContent;
 };
+const getCellValue = (dataTable: HTMLElement, rowIndex: number, columnId: string) => {
+  const columnCells = within(dataTable).getAllByTestId(`cell_${columnId}`, {
+    exact: false,
+  });
+  const cell = columnCells[rowIndex];
+  const value = (within(cell).getByRole('spinbutton') as HTMLInputElement).value;
+  return value;
+};
 
 const editCell = async (
   dataTable: HTMLElement,
@@ -70,7 +74,7 @@ const editCell = async (
   inputRole: 'textbox' | 'combobox' | 'spinbutton' = 'textbox',
   acceptValue: boolean = true
 ) => {
-  const columnCells = within(dataTable).getAllByTestId(`cell_${columnId}`, {
+  const columnCells = within(dataTable).getAllByTestId(`cell_${columnId}_`, {
     exact: false,
   });
   const textCell = columnCells[rowIndex];
@@ -80,6 +84,11 @@ const editCell = async (
   await UserEvent.type(textCellInput, newValue);
   if (acceptValue) await UserEvent.click(dataTable);
 };
+
+beforeAll(() => {
+  const alertMock = jest.spyOn(window, 'alert');
+  alertMock.mockImplementation(jest.fn());
+});
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -216,7 +225,7 @@ describe('Data Table', () => {
           );
           await editCell(dataTable, rowIndex, columnId, String(newCellValue), inputRole);
           expect(getCellContent(dataTable, rowIndex, columnId)).toEqual(String(newCellValue));
-          await resetDataBtn();
+          await clickToggleBtn('Reset data');
           expect(getCellContent(dataTable, rowIndex, columnId)).toEqual(
             String(tableData[rowIndex][columnId])
           );
@@ -227,8 +236,9 @@ describe('Data Table', () => {
     describe('Autosaving', () => {
       test('should call saveData with new data after making changes', async () => {
         render(<compositions.BasicDataTableWrapper />);
-        const autosaveBtn = screen.getByRole('button', { name: 'Toggle autosave' });
-        await UserEvent.click(autosaveBtn);
+        // const autosaveBtn = screen.getByRole('button', { name: 'Toggle autosave' });
+        // await UserEvent.click(autosaveBtn);
+        await clickToggleBtn('Toggle autosave');
         const dataTable = screen.getByTestId('dataTable');
         const newCellValue = 'abc';
         const columnId = 'name';
@@ -502,6 +512,30 @@ describe('Data Table', () => {
         expect(within(cell).getByRole('textbox')).toBeInTheDocument();
       });
       test.todo('should exit edit mode if user hovers over another cell and clicks it');
+      test('should stay in navigation mode if user clicks on read only cell', async() => {
+        render(<compositions.DataTableWrapperForTests />);
+        await clickToggleBtn('Reset headings');
+        await clickToggleBtn('Generate 2 rows');
+        await clickToggleBtn('Toggle debugMode');
+
+        const dataTable = screen.getByTestId('dataTable');
+        await UserEvent.hover(dataTable);
+        expect(screen.getByText('Navigation mode: ON')).toBeInTheDocument();
+        const heading = headingExampleReadOnly;
+        const columnId = heading.uid;
+        const columnIndex = 2;
+        const rowIndex = 0;
+        const cell = within(dataTable).getAllByTestId(`cell_${columnId}`, {
+          exact: false,
+        })[0];
+        await UserEvent.hover(cell);
+        await UserEvent.click(cell);
+        const nextCell = within(dataTable).getByTestId(`cell_${columnIndex}_${rowIndex + 1}`, {
+          exact: false,
+        });
+        await UserEvent.click(nextCell);
+        expect(nextCell).toHaveAttribute('data-editMode');
+      });
       test.todo('should not change focused cell if a cell is in edit mode');
       test.todo('should still change focus cell when autosave is on');
     });
@@ -547,11 +581,7 @@ describe('Data Table', () => {
         const newCellValue = (headings[0].min as number) - 1;
         await editCell(dataTable, rowIndex, columnId, String(newCellValue), inputRole, false);
         await waitFor(() => {
-          const columnCells = within(dataTable).getAllByTestId(`cell_${columnId}`, {
-            exact: false,
-          });
-          const cell = columnCells[rowIndex];
-          const value = (within(cell).getByRole('spinbutton') as HTMLInputElement).value;
+          const value = getCellValue(dataTable, rowIndex, columnId);
           expect(value).toEqual(String(newCellValue));
         });
 
@@ -560,55 +590,124 @@ describe('Data Table', () => {
           tableData[rowIndex][columnId].toString()
         );
       });
-      describe('Validation highlighting', () => {
-        test.skip('should indicate row has validation warning with ! on row status button', async () => {
-          // TODO: Fix this test
-          const columnId = 'count';
+    });
+
+    describe('Custom Validation', () => {});
+
+    describe('Validation highlighting', () => {
+      test('should indicate row has validation warning with ! on row status button when duplicate unique column', async () => {
+        const columnId = 'name';
+        const rowIndex = 0;
+        const inputRole = 'textbox';
+        const columnFilter = 'Text Column Only';
+        expect(demoHeadingsData.find((heading) => heading.uid === columnId)?.unique).toBeTruthy();
+        render(<compositions.DataTableWrapperForTests />);
+        await clickToggleBtn(columnFilter);
+        await clickToggleBtn('Generate 2 rows');
+        const dataTable = screen.getByTestId('dataTable');
+        const row2TextValue = getCellContent(dataTable, rowIndex + 1, columnId);
+        expect(getCellContent(dataTable, rowIndex, columnId)).not.toEqual(row2TextValue);
+        expect(
+          within(dataTable).getByTestId(`rowStatusBtn_${rowIndex}`, {
+            exact: false,
+          })
+        ).not.toHaveTextContent('!');
+
+        await editCell(dataTable, rowIndex, columnId, String(row2TextValue), inputRole, false);
+
+        const rowStatusBtn = within(dataTable).getByTestId(`rowStatusBtn_${rowIndex}`, {
+          exact: false,
+        });
+        expect(rowStatusBtn).toHaveTextContent('!');
+      });
+      test('should show validation message popup on clicking row status button', async () => {
+        const columnId = 'name';
+        const rowIndex = 0;
+        const inputRole = 'textbox';
+        const columnFilter = 'Text Column Only';
+        const heading = demoHeadingsData.find((heading) => heading.uid === columnId);
+        expect(heading?.unique).toBeTruthy();
+        render(<compositions.DataTableWrapperForTests />);
+        await clickToggleBtn(columnFilter);
+        await clickToggleBtn('Generate 2 rows');
+        const dataTable = screen.getByTestId('dataTable');
+        const row2TextValue = getCellContent(dataTable, rowIndex + 1, columnId);
+        expect(getCellContent(dataTable, rowIndex, columnId)).not.toEqual(row2TextValue);
+        expect(
+          within(dataTable).getByTestId(`rowStatusBtn_${rowIndex}`, {
+            exact: false,
+          })
+        ).not.toHaveTextContent('!');
+        await editCell(dataTable, rowIndex, columnId, String(row2TextValue), inputRole, false);
+        const rowStatusBtn = within(dataTable).getByTestId(`rowStatusBtn_${rowIndex}`, {
+          exact: false,
+        });
+        expect(rowStatusBtn).toHaveTextContent('!');
+
+        await UserEvent.click(rowStatusBtn);
+
+        expect(window.alert).toHaveBeenCalledWith(`Value for '${heading?.label}' is not unique`);
+      });
+      test.todo("Should highlight rows that are invalid with a 'warning' class");
+      test.todo("should highlight cells with validation issues with a 'warning' class");
+      test.todo(
+        'should highligh cell validation failure if another cell changes and causes it to fail'
+      );
+      test.todo(
+        'should highligh cell validation failure if another cell changes and causes it to pass'
+      );
+      test.each`
+        isControlled | autosave
+        ${true}      | ${true}
+        ${false}     | ${true}
+      `(
+        'should reset cell value when custom cell validation fails when isControlled=$isControlled and autosave is $autosave',
+        async ({ isControlled, autosave }) => {
+          const columnId = 'countValidatedLinked';
+          const targetColumnId = 'count';
           const rowIndex = 0;
           const inputRole = 'spinbutton';
-          const headings = [headingExampleNumber];
-          const columnFilter = 'Number Column Only';
+          const headings = demoHeadingsData;
 
           render(<compositions.DataTableWrapperForTests />);
-          await clickToggleBtn(columnFilter);
           await clickToggleBtn('Generate 1 row');
-
+          await clickToggleBtn('Reset headings');
+          if (isControlled === true) await clickToggleBtn('Toggle managed');
+          if (autosave === true) await clickToggleBtn('Toggle autosave');
           const tableData = generateDemoTableDataFilteredByColumns(1, headings);
           const dataTable = screen.getByTestId('dataTable');
-
+          // const heading = headings.find((heading) => heading.uid === columnId);
           expect(getCellContent(dataTable, rowIndex, columnId)).toEqual(
             String(tableData[rowIndex][columnId])
           );
-          expect(headings[0].min).toBeLessThan(tableData[rowIndex][columnId]);
-
-          const newCellValue = (headings[0].min as number) - 1;
-
+          expect(getCellContent(dataTable, rowIndex, targetColumnId)).toEqual(
+            String(tableData[rowIndex][targetColumnId])
+          );
           expect(
             within(dataTable).getByTestId(`rowStatusBtn_${rowIndex}`, {
               exact: false,
             })
           ).not.toHaveTextContent('!');
 
-          await editCell(dataTable, rowIndex, columnId, String(newCellValue), inputRole, false);
-          await waitFor(() => {
-            const columnCells = within(dataTable).getAllByTestId(`cell_${columnId}`, {
-              exact: false,
-            });
-            const cell = columnCells[rowIndex];
-            const value = (within(cell).getByRole('spinbutton') as HTMLInputElement).value;
-            expect(value).toEqual(String(newCellValue));
-          });
-          const rowStatusBtn = within(dataTable).getByTestId(`rowStatusBtn_${rowIndex}`, {
-            exact: false,
-          });
-          expect(rowStatusBtn).toHaveTextContent('!');
-        });
-        test.todo('should show validation message popup on clicking row status button');
-        test.todo("Should highlight rows that are invalid with a 'warning' class");
-        test.todo("should highlight cells with validation issues with a 'warning' class");
-      });
-    });
+          const oldCellValue = tableData[rowIndex][columnId];
+          const newCellValue = tableData[rowIndex][targetColumnId] + 2;
+          expect(newCellValue).not.toEqual(tableData[rowIndex][columnId]);
+          await editCell(dataTable, rowIndex, columnId, String(newCellValue), inputRole, true);
+          // expect(getCellValue(dataTable, rowIndex, columnId)).toEqual(String(newCellValue));
+          await UserEvent.click(dataTable);
 
+          await waitFor(() => {
+            const value = getCellContent(dataTable, rowIndex, columnId);
+            expect(value).toEqual(String(tableData[rowIndex][columnId]));
+          });
+          expect(alert).toHaveBeenCalledWith(
+            'Count Validated is invalid'
+            // TODO: Improve this message
+            // `Value for '${heading?.label}' must be less than or equal to '${tableData[rowIndex][targetColumnId]}'`
+          );
+        }
+      );
+    });
     // describe('Row selecting', () => {
     //   beforeEach(() => {
     //     component = mount(
