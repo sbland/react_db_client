@@ -79,7 +79,6 @@ export const DataTableConfigConnector = (defaults) => (Component) => {
       (config.allowEditRow && (config.allowRowDelete || config.allowRowEditPanel));
 
     config.hasBtnsColumn = hasBtnsColumn;
-
     return (
       <DataTableContext.Provider value={config}>
         <Component {...props} />

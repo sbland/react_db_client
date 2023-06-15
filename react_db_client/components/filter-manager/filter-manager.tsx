@@ -24,7 +24,9 @@ export interface IFilterPanelProps {
   floating?: boolean;
   autoOpenPanel?: boolean;
   customFilters?: { [key: string]: TFilterFunc };
-  customFiltersComponents?: { [key: string]: React.FC<IFilterComponentProps<any, true>> };
+  customFiltersComponents?: {
+    [key: string]: React.FC<IFilterComponentProps<any, true>>;
+  };
 }
 
 /**
@@ -89,8 +91,7 @@ export const FilterPanel = ({
           deleteFilter={(filterIndex) => deleteFilter(filterIndex)}
           updateFilter={(filterIndex, newFilterData) => updateFilter(filterIndex, newFilterData)}
           fieldsData={fieldsData}
-          // customFilters={customFilters}
-          customFiltersComponents={customFiltersComponents}
+          customFiltersComponents={customFiltersComponents || {}}
           updateFieldTarget={updateFieldTarget}
           updateOperator={updateOperator}
         />

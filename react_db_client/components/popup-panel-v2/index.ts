@@ -24,3 +24,4 @@ export type {
   IPopupPanelManagerProps,
   IPopupPanelManagedWithContentWrapProps,
 } from './managed-popup-panel';
+export { getPopupContentByTitle } from './test-utils';

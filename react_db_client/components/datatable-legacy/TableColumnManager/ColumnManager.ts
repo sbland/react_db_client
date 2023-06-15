@@ -4,7 +4,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { i } from 'mathjs';
 
 const getColumnWidth = (
   itemData,
@@ -27,7 +26,6 @@ const getColumnWidth = (
 
 const resetColumnWidths = (
   cols,
-  btnColumnBtnCount,
   minWidth,
   maxWidth,
   autoWidth,
@@ -38,7 +36,7 @@ const resetColumnWidths = (
   defaultColumnWidth,
   columnWidthOverride
 ) =>
-  (btnColumnBtnCount > 0 ? [btnColumnBtnCount * 40] : []).concat([
+  ([] as number[]).concat([
     ...cols
       .map((item) =>
         getColumnWidth(
@@ -51,7 +49,9 @@ const resetColumnWidths = (
           defaultColumnWidth
         )
       )
-      .map((width, i) => (columnWidthOverride && columnWidthOverride[i] ? columnWidthOverride[i] : width))
+      .map((width, i) =>
+        columnWidthOverride && columnWidthOverride[i] ? columnWidthOverride[i] : width
+      )
       .map((width) => (width > minWidth ? width : minWidth))
       .map((width) => (width < maxWidth ? width : maxWidth)),
   ]);
@@ -65,30 +65,43 @@ const useColumnManager = ({
   extraWidth = 10,
   minWidth = 30,
   maxWidth = 2000,
-  btnColumnBtnCount = 0,
   autoWidth = false,
   containerRef = null,
 }) => {
   const error = null;
-  const [columnCount, setColumnCount] = React.useState(null);
   const [columnWidthOverride, setColumnWidthOverride] = React.useState([]);
 
-  // -- Column widths state
-  // const [columnWidths, setColumnWidths] = useState(() => resetColumnWidths(headingsDataList));
-
-  // useEffect(() => {
-  //   if (headingsDataList.length !== columnCount) {
-  //     setColumnCount(headingsDataList.length);
-  //     setColumnWidths(resetColumnWidths(headingsDataList));
-  //   }
-  // }, [headingsDataList, resetColumnWidths, columnCount]);
-  // const tableWidth = columnWidths.reduce((a, b) => a + b) + columnWidths.length - 1;
-
   const columnWidths = React.useMemo(
-    () => resetColumnWidths(headingsDataList, btnColumnBtnCount, minWidth, maxWidth, autoWidth, containerRef, headingsDataList, unit, extraWidth, defaultColumnWidth, columnWidthOverride),
-    [headingsDataList, btnColumnBtnCount, minWidth, maxWidth, autoWidth, containerRef, headingsDataList, unit, extraWidth, defaultColumnWidth, columnWidthOverride]
+    () =>
+      resetColumnWidths(
+        headingsDataList,
+        minWidth,
+        maxWidth,
+        autoWidth,
+        containerRef,
+        headingsDataList,
+        unit,
+        extraWidth,
+        defaultColumnWidth,
+        columnWidthOverride
+      ),
+    [
+      headingsDataList,
+      minWidth,
+      maxWidth,
+      autoWidth,
+      containerRef,
+      headingsDataList,
+      unit,
+      extraWidth,
+      defaultColumnWidth,
+      columnWidthOverride,
+    ]
   );
-  const tableWidth = React.useMemo(() => columnWidths.reduce((a, b) => a + b) + columnWidths.length - 1, [columnWidths]);
+  const tableWidth = React.useMemo(
+    () => columnWidths.reduce((a, b) => a + b) + columnWidths.length - 1,
+    [columnWidths]
+  );
 
   return {
     columnWidths,

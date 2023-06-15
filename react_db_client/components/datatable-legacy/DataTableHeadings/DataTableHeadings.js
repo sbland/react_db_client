@@ -139,8 +139,12 @@ export const DataTableHeadings = ({
     <DataTableCellHoverWrap
       className={className}
       key={headingData.uid}
-      columnWidth={columnWidths[hasBtnsColumn ? i + 1 : i]}
+      columnWidth={columnWidths[i]}
       handleHover={() => setActiveColumn(i)}
+      style={{
+        minWidth: columnWidths[i],
+        width: columnWidths[i],
+      }}
     >
       <>
         <DataTableHeading key={headingData.uid} id={headingData.uid} title={headingData.label} />

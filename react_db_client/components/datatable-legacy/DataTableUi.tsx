@@ -77,10 +77,7 @@ export const DataTableUi: React.FC<IDataTableUiProps> = ({
     maxWidth,
     showTotals,
     limitHeight,
-    allowRowDelete,
-    allowRowEditPanel,
     hasBtnsColumn,
-    allowSelection,
     allowAddRow,
     showHeadings,
     allowColumnResize,
@@ -98,8 +95,6 @@ export const DataTableUi: React.FC<IDataTableUiProps> = ({
     headingsDataList: headingsData,
     minWidth,
     maxWidth,
-    btnColumnBtnCount:
-      (allowRowDelete ? 1 : 0) + (allowRowEditPanel ? 1 : 0) + (allowSelection ? 1 : 0),
   });
   const columnCount = columnWidths.length;
 

@@ -12,14 +12,7 @@ import DataTableCellButton from '../CellTypes/DataTableCellButton';
 import DataTableCellSelect from '../CellTypes/DataTableCellSelect';
 import DataTableCellToggle from '../CellTypes/DataTableCellToggle';
 import DataTableCellReadOnly from '../CellTypes/DataTableCellReadOnly';
-import {
-  ICellProps,
-  IHeading,
-  IHeadingButton,
-  IHeadingLink,
-  IHeadingNumber,
-  THeading,
-} from '../lib';
+import { ICellProps, IHeading, IHeadingButton, IHeadingLink, IHeadingNumber } from '../lib';
 import { Uid } from '@react_db_client/constants.client-types';
 
 /**
@@ -27,14 +20,7 @@ import { Uid } from '@react_db_client/constants.client-types';
  *
  * @param {*} { className, style, handleHover, children }
  */
-export const DataTableCellHoverWrap = ({
-  className,
-  style,
-  handleHover,
-  children,
-  columnWidth,
-  disabled,
-}) => (
+export const DataTableCellHoverWrap = ({ className, style, handleHover, children, disabled }) => (
   <div
     className={`dataTableCell_wrap ${className} ${disabled ? 'disabled' : ''}`}
     onFocus={() => handleHover && handleHover(true)}
@@ -42,7 +28,6 @@ export const DataTableCellHoverWrap = ({
     onMouseLeave={() => handleHover && handleHover(false)}
     onBlur={() => handleHover && handleHover(false)}
     style={{
-      width: columnWidth,
       ...style,
     }}
   >

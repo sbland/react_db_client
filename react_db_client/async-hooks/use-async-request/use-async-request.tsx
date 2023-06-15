@@ -1,15 +1,16 @@
 /* eslint-disable import/prefer-default-export */
 /* A react hook async request */
 
-import { useState, useEffect, useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { AsyncRequestError } from './error-handling';
 
 const ENV = process.env.NODE_ENV;
 
-const demoCallFn = async () => 'DEMO RESPONSE';
-
-export type ICallback<ResponseType, Args> = (response: ResponseType, args: Args) => any;
+export type ICallback<ResponseType, Args> = (
+  response: ResponseType,
+  args: Args
+) => any;
 export type ICallFn<Args extends Array<any>> = (...args: Args) => Promise<any>;
 
 export interface IUseAsyncRequestProps<ResponseType, Args extends Array<any>> {
@@ -81,9 +82,12 @@ export const useAsyncRequest = <ResponseType, Args extends Array<any>>({
   callback: callbackIn,
   errorCallback: errorCallbackIn,
   reloadKey,
-}: IUseAsyncRequestProps<ResponseType, Args>): IUseAsyncRequestReturn<ResponseType, Args> => {
+}: IUseAsyncRequestProps<ResponseType, Args>): IUseAsyncRequestReturn<
+  ResponseType,
+  Args
+> => {
   // const [latestCallId, setLatestCallId] = useState(0);
-  const [resultState, setResultState] = useState<IResultState>({
+  const [resultState, setResultState] = React.useState<IResultState>({
     isLoading: false,
     latestLoadingId: 0,
     resultsData: null,
@@ -91,18 +95,21 @@ export const useAsyncRequest = <ResponseType, Args extends Array<any>>({
     error: undefined,
     callCount: 0,
   });
-  const [args, setArgs] = useState<Args>(argsInitial || (EmptyArgs as Args));
+  const [args, setArgs] = React.useState<Args>(argsInitial || (EmptyArgs as Args));
 
-  const [callback, setCallback] = useState<null | ICallback<ResponseType, Args>>(() => callbackIn);
+  const [callback, setCallback] = React.useState<null | ICallback<
+    ResponseType,
+    Args
+  >>(() => callbackIn);
 
-  const [allowLoad, setAllowLoad] = useState(callOnInit);
-  const [forceLoad, setForceLoad] = useState(true);
+  const [allowLoad, setAllowLoad] = React.useState(callOnInit);
+  const [forceLoad, setForceLoad] = React.useState(true);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setCallback(() => callbackIn);
   }, [callbackIn]);
 
-  const reload = useCallback(
+  const reload = React.useCallback(
     (argsUpdated?: Args, callbackOverride?: ICallback<ResponseType, Args>) => {
       setArgs((prev) => argsUpdated || prev);
       setCallback((prev) => callbackOverride || prev);
@@ -112,12 +119,12 @@ export const useAsyncRequest = <ResponseType, Args extends Array<any>>({
     []
   );
 
-  useEffect(() => {
+  React.useEffect(() => {
     setForceLoad(true);
   }, [reloadKey]);
 
   // Call callback in use effect
-  useEffect(() => {
+  React.useEffect(() => {
     if (forceLoad && allowLoad) {
       setForceLoad(false);
       setResultState((prev) => ({
@@ -171,8 +178,10 @@ export const useAsyncRequest = <ResponseType, Args extends Array<any>>({
               return prev;
             });
             // TODO: This filtering should be performed outside this component!
-            const errorMessage = e.name === 'ApiError' ? e.message : 'Unknown Error';
-            if (errorCallbackIn) errorCallbackIn(new AsyncRequestError(errorMessage, e));
+            const errorMessage =
+              e.name === 'ApiError' ? e.message : 'Unknown Error';
+            if (errorCallbackIn)
+              errorCallbackIn(new AsyncRequestError(errorMessage, e));
           });
       } catch (error) {
         console.error(`Async Call function failed: ${id || callFn.name}`);

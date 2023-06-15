@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 let hidePanelTimeout: NodeJS.Timeout | null = null;
 
@@ -7,8 +7,8 @@ export const useAutoHidePanel = (
   floating: boolean | undefined | null,
   showPanelOverride: boolean | undefined | null,
   HIDETIME = 900
-) => {
-  const [showPanel, setShowPanel] = useState(() => showPanelOverride);
+): [boolean, React.Dispatch<React.SetStateAction<boolean>>] => {
+  const [showPanel, setShowPanel] = useState(() => showPanelOverride || false);
 
   const handleClickOutside = useCallback(
     (event) => {

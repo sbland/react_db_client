@@ -1,7 +1,8 @@
 lockfileVersion: '6.0'
 
-neverBuiltDependencies:
-  - core-js
+settings:
+  autoInstallPeers: false
+  excludeLinksFromLockfile: true
 
 importers:
 
@@ -27,10 +28,10 @@ importers:
         version: registry.npmjs.org/@teambit/documenter.ui.copy-box@4.1.1(react-dom@17.0.2)(react@17.0.2)
       '@teambit/eslint-config-bit-react':
         specifier: ~0.0.367
-        version: registry.npmjs.org/@teambit/eslint-config-bit-react@0.0.367(eslint-plugin-import@2.27.5)(eslint-plugin-jsx-a11y@6.7.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.32.2)(eslint@7.32.0)(react-dom@17.0.2)(react@17.0.2)(typescript@4.9.5)
+        version: registry.npmjs.org/@teambit/eslint-config-bit-react@0.0.367(@teambit/legacy@node_modules+@teambit+legacy)(eslint-plugin-import@2.27.5)(eslint-plugin-jsx-a11y@6.7.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.32.2)(eslint@7.32.0)(react-dom@17.0.2)(react@17.0.2)(typescript@4.9.5)
       '@teambit/harmony':
-        specifier: 0.3.3
-        version: registry.npmjs.org/@teambit/harmony@0.3.3
+        specifier: ^0.4.6
+        version: registry.npmjs.org/@teambit/harmony@0.4.6
       '@teambit/react.templates.themes.theme':
         specifier: 0.0.4
         version: 0.0.4(@testing-library/react@12.1.5)(react-dom@17.0.2)(react@17.0.2)
@@ -195,7 +196,7 @@ importers:
         specifier: 2.3.1
         version: registry.npmjs.org/classnames@2.3.1
       react-json-view:
-        specifier: 1.21.3
+        specifier: ^1.21.3
         version: registry.npmjs.org/react-json-view@1.21.3(@types/react@17.0.53)(react-dom@17.0.2)(react@17.0.2)
       react-scroll-sync-hook:
         specifier: ^0.0.3
@@ -1908,7 +1909,7 @@ packages:
       react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
     dev: false
 
-  registry.npmjs.org/@teambit/eslint-config-bit-react@0.0.367(eslint-plugin-import@2.27.5)(eslint-plugin-jsx-a11y@6.7.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.32.2)(eslint@7.32.0)(react-dom@17.0.2)(react@17.0.2)(typescript@4.9.5):
+  registry.npmjs.org/@teambit/eslint-config-bit-react@0.0.367(@teambit/legacy@node_modules+@teambit+legacy)(eslint-plugin-import@2.27.5)(eslint-plugin-jsx-a11y@6.7.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.32.2)(eslint@7.32.0)(react-dom@17.0.2)(react@17.0.2)(typescript@4.9.5):
     resolution: {integrity: sha512-d8N9+n/OSxaVpeFBkRhYm6QvqKbzaMf4bN8NJrLmPBuJh4on74U3z4xsqu8sLIphEO0fA2G8ISB9Mo+TINqbMw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@teambit/eslint-config-bit-react/-/eslint-config-bit-react-0.0.367.tgz}
     id: registry.npmjs.org/@teambit/eslint-config-bit-react/0.0.367
     name: '@teambit/eslint-config-bit-react'
@@ -1928,6 +1929,7 @@ packages:
       react-dom:
         optional: true
     dependencies:
+      '@teambit/legacy': link:node_modules/@teambit/legacy
       '@typescript-eslint/eslint-plugin': registry.npmjs.org/@typescript-eslint/eslint-plugin@4.13.0(@typescript-eslint/parser@4.13.0)(eslint@7.32.0)(typescript@4.9.5)
       '@typescript-eslint/parser': registry.npmjs.org/@typescript-eslint/parser@4.13.0(eslint@7.32.0)(typescript@4.9.5)
       core-js: registry.npmjs.org/core-js@3.27.2
@@ -1964,10 +1966,10 @@ packages:
       react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
     dev: false
 
-  registry.npmjs.org/@teambit/harmony@0.3.3:
-    resolution: {integrity: sha512-gjUrfjEvEI46K0OlLbolRWRsLns8oNUmg8IGlb0DExKYwHtF77dn2ZZM4dXVBFT7+xiscBVTcYpUA4eORbbm1g==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@teambit/harmony/-/harmony-0.3.3.tgz}
+  registry.npmjs.org/@teambit/harmony@0.4.6:
+    resolution: {integrity: sha512-9cWKyOVauMc56GQnosRqez22qz+4YrydJs1X1qXQJSToUA3Op874NFgjawRXp8g+V9MF2XT4NZIM3jzNXyQhIQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@teambit/harmony/-/harmony-0.4.6.tgz}
     name: '@teambit/harmony'
-    version: 0.3.3
+    version: 0.4.6
     engines: {node: '>=12.22.0'}
     dependencies:
       cleargraph: registry.npmjs.org/cleargraph@5.8.0
@@ -3466,6 +3468,7 @@ packages:
     resolution: {integrity: sha512-9ashVQskuh5AZEZ1JdQWp1GqSoC1e1G87MzRqg2gIfVAQ7Qn9K+uFj8EcniUFA4P2NLZfV+TOlX1SzoKfo+s7w==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/core-js/-/core-js-3.27.2.tgz}
     name: core-js
     version: 3.27.2
+    requiresBuild: true
 
   registry.npmjs.org/core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.3.tgz}

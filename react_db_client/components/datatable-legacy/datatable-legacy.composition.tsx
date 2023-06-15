@@ -34,7 +34,7 @@ const customFilters = {
 };
 const customFiltersComponents = { custom: () => 'CUSTOM' };
 
-const CompositionWrap = (props: IDataTableWrapperProps) => {
+const CompositionWrap = (props: IDataTableWrapperProps & { config: Partial<IDataTableConfig> }) => {
   const [autosave, setAutosave] = React.useState(props.autoSave);
   const [debugMode, setDebugMode] = React.useState(false);
   const [managed, setManaged] = React.useState(false);
@@ -57,7 +57,7 @@ const CompositionWrap = (props: IDataTableWrapperProps) => {
     data: managed ? data : props.data,
   };
 
-  const config = { ...DEMO_CONFIG, debugMode };
+  const config = { ...DEMO_CONFIG, ...props.config, debugMode };
 
   return (
     <div>
@@ -109,9 +109,7 @@ const defaultProps: IDataTableWrapperProps & { config: Partial<IDataTableConfig>
   config: DEMO_CONFIG,
   saveData: saveData,
   styleOverride: { background: 'green' },
-  styleRule: [
-    '$count==undefined or $count==null or $count<=3',
-  ].join(' or '),
+  styleRule: ['$count==undefined or $count==null or $count<=3'].join(' or '),
   errorStyleOverride: { DUPLICATE: { background: 'red' }, MISSING: { background: 'orange' } },
   onSelectionChange: (newSelection) => {
     console.log(newSelection);
@@ -122,6 +120,18 @@ const defaultProps: IDataTableWrapperProps & { config: Partial<IDataTableConfig>
   maxTableHeight: 300,
 };
 
+const defaultPropsSimple: IDataTableWrapperProps & { config: Partial<IDataTableConfig> } = {
+  ...defaultProps,
+  headings: DEMO_HEADINGS.slice(0, 3),
+  config: {
+    ...DEMO_CONFIG,
+    allowSelection: false,
+    allowRowDelete: false,
+    allowRowEditPanel: false,
+  },
+};
+
+export const SimpleDataTableWrapper = () => <CompositionWrap {...defaultPropsSimple} />;
 export const BasicDataTableWrapper = () => <CompositionWrap {...defaultProps} />;
 
 const calculatingTableProps: IDataTableWrapperProps & { config: Partial<IDataTableConfig> } = {

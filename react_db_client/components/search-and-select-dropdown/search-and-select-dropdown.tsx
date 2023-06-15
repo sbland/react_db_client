@@ -101,6 +101,20 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
   > | null> = React.useRef(null);
   const [isTyping, setIsTyping] = React.useState(false);
 
+  const inputValue = React.useMemo(() => {
+    if (isFocused) {
+      return searchValue || '';
+    } else if (initialValue) {
+      return initialValue === null ||
+        initialValue === undefined ||
+        typeof initialValue !== 'object'
+        ? initialValue || ''
+        : initialValue[searchFieldTargetField];
+    } else {
+      return '';
+    }
+  }, [searchValue, isFocused]);
+
   React.useEffect(() => {
     setSearchValue(
       initialValue === null ||
@@ -132,7 +146,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
   });
 
   const onSearchFieldChange = (e) => {
-    setSearchValue(e.target.value);
+    setSearchValue(e.target.value || '');
     setResults([]);
     setIsTyping(true);
     setShowResults(false);
@@ -327,6 +341,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
     setIsFocused(true);
     setWaitForInput(false);
   };
+
   return (
     <SasDropWrap className={classNames}>
       <SearchFieldWrapStyle className="searchFieldWrap">
@@ -336,7 +351,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
           type="text"
           // aria-label="Search input for selection dropdown"
           placeholder={searchFieldPlaceholder}
-          value={searchValue || ''}
+          value={inputValue}
           onChange={onSearchFieldChange}
           onFocus={handleEnterSearchField}
           onBlur={() => setIsFocused(false)}

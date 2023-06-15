@@ -19,7 +19,7 @@ const defaultProps = {
 export const DemoData = () => {
   const [allowEmptySearch, setAllowEmptySearch] = useState(false);
   const [searchDelay, setSearchDelay] = useState(500);
-  const [selection, setSelection] = useState<null | { uid: string }>(null);
+  const [selection, setSelection] = useState<null | { uid: string, label: string }>(null);
   const props = { ...defaultProps, allowEmptySearch, searchDelay };
   return (
     <div className="">
@@ -46,6 +46,7 @@ export const DemoData = () => {
           id="searchInput"
           style={{ background: 'red' }}
           handleSelect={(v) => setSelection(v)}
+          initialValue={selection}
         />
       </CompositionWrapDefault>
       <p data-testid="curSel">{selection?.uid}</p>
