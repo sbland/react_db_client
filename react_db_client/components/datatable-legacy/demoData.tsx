@@ -171,6 +171,7 @@ export const headingExampleText = {
   type: EFilterType.text,
   unique: true,
   required: true,
+  width: 200,
 };
 
 export const headingExampleTextLong = {

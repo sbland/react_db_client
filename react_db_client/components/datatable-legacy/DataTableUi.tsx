@@ -4,7 +4,7 @@ Should be used alongside the DataManager hook */
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VariableSizeGrid as Grid } from 'react-window';
-import { Uid } from '@react_db_client/constants.client-types';
+import { EFilterType, Uid } from '@react_db_client/constants.client-types';
 
 import DataTableHeadings from './DataTableHeadings';
 import DataTableConfigConnector, { DataTableContext } from './DataTableConfig/DataTableConfig';
@@ -17,7 +17,7 @@ import useColumnWidthManager from './TableColumnManager/ColumnManager';
 import './_dataTable.scss';
 import './_dataTable_condensed.scss';
 import { RowStyleContext } from './RowStyleContext';
-import { IRow } from './lib';
+import { IRow, THeading } from './lib';
 
 const MIN_TABLE_HEIGHT = 30;
 const getRowHeight = () => 22;
@@ -91,8 +91,21 @@ export const DataTableUi: React.FC<IDataTableUiProps> = ({
   const [editMode, setEditMode] = useState(false);
   const [tableIsFocused, setTableIsFocused] = useState(false);
 
+  const fullHeadingsList: THeading[] = useMemo(() => {
+    return hasBtnsColumn
+      ? [
+          {
+            uid: 'buttonColumn',
+            label: '',
+            columnWidth: 5,
+            type: EFilterType.button,
+          },
+        ].concat(headingsData)
+      : headingsData;
+  }, [headingsData, hasBtnsColumn]);
+
   const { columnWidths, setColumnWidths, tableWidth } = useColumnWidthManager({
-    headingsDataList: headingsData,
+    headingsDataList: fullHeadingsList,
     minWidth,
     maxWidth,
   });
@@ -296,7 +309,7 @@ export const DataTableUi: React.FC<IDataTableUiProps> = ({
       )}
       {showHeadings && (
         <DataTableHeadings
-          headingsDataList={headingsData}
+          headingsDataList={fullHeadingsList}
           setSortBy={handleUpdateSortBy}
           handleAddFilter={addFilter}
           columnWidths={columnWidths}
@@ -335,7 +348,7 @@ export const DataTableUi: React.FC<IDataTableUiProps> = ({
       )} */}
       {showTotals && (
         <DataTableTotals
-          headingsDataList={headingsData}
+          headingsDataList={fullHeadingsList}
           columnWidths={columnWidths}
           totals={totalsData || []}
           tableWidth={tableWidth}

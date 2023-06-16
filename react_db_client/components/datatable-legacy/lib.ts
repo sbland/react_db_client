@@ -17,6 +17,7 @@ export interface IHeading {
   validationRules?: (string | ((value: any, tableData: IRow) => [boolean, string]))[];
   validationMessage?: string;
   validationType?: EValidationType;
+  columnWidth?: number;
 }
 
 export interface IHeadingNumber extends IHeading {

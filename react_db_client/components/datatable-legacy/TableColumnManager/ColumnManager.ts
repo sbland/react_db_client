@@ -4,19 +4,20 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { THeading } from '../lib';
 
 const getColumnWidth = (
-  itemData,
-  autoWidth,
-  containerRef,
-  headingsDataList,
-  unit,
-  extraWidth,
-  defaultColumnWidth
+  itemData: THeading,
+  autoWidth: boolean,
+  containerRef: React.MutableRefObject<HTMLDivElement | null> | null,
+  headingsDataList: THeading[],
+  unit: number,
+  extraWidth: number,
+  defaultColumnWidth: number
 ) => {
   if (autoWidth) {
     // We assume a container width of 1080 if the container hasn't yet loaded
-    const containerWidth = containerRef.current ? containerRef.current.clientWidth : 1080;
+    const containerWidth = containerRef?.current ? containerRef.current.clientWidth : 1080;
     return containerWidth / headingsDataList.length;
   }
   if (itemData.columnWidth) return itemData.columnWidth * unit + extraWidth;
@@ -55,9 +56,18 @@ const resetColumnWidths = (
       .map((width) => (width > minWidth ? width : minWidth))
       .map((width) => (width < maxWidth ? width : maxWidth)),
   ]);
-/* 1. Manage the column widths
 
-  */
+export interface IUseColumnManagerArgs {
+  headingsDataList: THeading[];
+  defaultColumnWidth?: number;
+  unit?: number;
+  extraWidth?: number;
+  minWidth?: number;
+  maxWidth?: number;
+  autoWidth?: boolean;
+  containerRef?: React.MutableRefObject<HTMLDivElement | null> | null;
+}
+
 const useColumnManager = ({
   headingsDataList,
   defaultColumnWidth = 200,
@@ -67,7 +77,7 @@ const useColumnManager = ({
   maxWidth = 2000,
   autoWidth = false,
   containerRef = null,
-}) => {
+}: IUseColumnManagerArgs) => {
   const error = null;
   const [columnWidthOverride, setColumnWidthOverride] = React.useState([]);
 

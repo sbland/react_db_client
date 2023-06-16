@@ -1,9 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { formatValue } from '@react_db_client/helpers.data-processing';
 import { headingDataShape } from '../inputDataShapes';
 import { DataTableCellHoverWrap, DataTableDataCell } from '../DataTableCell/CellWrappers';
-import { DataTableContext } from '../DataTableConfig/DataTableConfig';
 
 const DataTableTotals = ({
   className,
@@ -13,8 +12,6 @@ const DataTableTotals = ({
   tableWidth,
   customFieldComponents,
 }) => {
-  const { hasBtnsColumn } = useContext(DataTableContext);
-
   const insideWrapStyleOverride = {
     width: `${tableWidth}px`,
   };
@@ -28,8 +25,12 @@ const DataTableTotals = ({
     return (
       <DataTableCellHoverWrap
         key={headingData.uid}
-        columnWidth={columnWidths[hasBtnsColumn ? i + 1 : i]}
+        columnWidth={columnWidths[i]}
         className="dataTableTotals"
+        style={{
+          minWidth: columnWidths[i],
+          width: columnWidths[i],
+        }}
       >
         {headingData.showTotals ? (
           <DataTableDataCell
@@ -55,18 +56,6 @@ const DataTableTotals = ({
       </DataTableCellHoverWrap>
     );
   });
-
-  if (hasBtnsColumn) {
-    mapTotals.unshift(
-      <DataTableCellHoverWrap
-        className="dataTableTotals"
-        key="Settings"
-        columnWidth={columnWidths[0]}
-      >
-        <></>
-      </DataTableCellHoverWrap>
-    );
-  }
 
   return (
     <div className="dataTable_totalsOutsideWrap">

@@ -35,7 +35,7 @@
     },
     "components/datatable-legacy": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.0.154",
+        "version": "0.0.155",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/datatable-legacy"
     },
@@ -101,7 +101,7 @@
     },
     "components/file-manager": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.6.17",
+        "version": "c4cfc638f7de7125f3906195b2ccb7193c065a2f",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/file-manager"
     },
@@ -149,7 +149,7 @@
     },
     "components/local-file-uploader": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.0.19",
+        "version": "0.0.20",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/local-file-uploader"
     },

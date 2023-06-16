@@ -122,7 +122,7 @@ const defaultProps: IDataTableWrapperProps & { config: Partial<IDataTableConfig>
 
 const defaultPropsSimple: IDataTableWrapperProps & { config: Partial<IDataTableConfig> } = {
   ...defaultProps,
-  headings: DEMO_HEADINGS.slice(0, 3),
+  headings: DEMO_HEADINGS.slice(0, 4),
   config: {
     ...DEMO_CONFIG,
     allowSelection: false,

@@ -53,6 +53,7 @@ export const FileManager: React.FC<IFileManagerProps> = ({
           id="file-manager-existing-files"
           searchFunction={asyncGetFiles}
           initialFilters={[]}
+          previewHeadings={[]}
           handleSelect={handleSelect}
           autoUpdate
           allowFilters={false}

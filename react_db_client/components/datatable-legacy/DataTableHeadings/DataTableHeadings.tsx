@@ -7,6 +7,7 @@ import { useAutoHidePanel } from '@react_db_client/hooks.use-auto-hide-panel-hoo
 import { DataTableCellHoverWrap } from '../DataTableCell/CellWrappers';
 import { headingDataShape } from '../inputDataShapes';
 import { DataTableContext } from '../DataTableConfig/DataTableConfig';
+import { THeading } from '../lib';
 
 export const DataTableHeadingMenu = ({
   handleAddFilter,
@@ -105,18 +106,26 @@ DataTableHeading.propTypes = {
   id: PropTypes.string.isRequired,
 };
 
+export interface IDataTableHeadingProps {
+  headingsDataList: THeading[];
+  setSortBy: (newSortBy: string) => void;
+  handleHideColumn: (columnId: string) => void;
+  columnWidths: number[];
+  handleAddFilter: (newFilter: FilterObjectClass) => void;
+  showFilterBtns?: boolean;
+  tableWidth: number;
+}
+
 export const DataTableHeadings = ({
   headingsDataList,
   setSortBy,
   handleHideColumn,
   columnWidths,
   handleAddFilter,
-  showFilterBtns,
+  showFilterBtns=true,
   tableWidth,
-}) => {
-  const [activeColumn, setActiveColumn] = useState(null);
-  const { hasBtnsColumn } = useContext(DataTableContext);
-
+}: IDataTableHeadingProps) => {
+  const [activeColumn, setActiveColumn] = useState(-1);
   const outsideWrapClassName = ['dataTable_headingsOutsideWrap'].join(' ');
   const insideWrapClassName = ['dataTable_headingsInsideWrap'].join(' ');
   const insideWrapStyleOverride = {
@@ -161,13 +170,21 @@ export const DataTableHeadings = ({
   ));
 
   // if we can edit rows then we need to add extra column for edit buttons
-  if (hasBtnsColumn) {
-    mapHeadings.unshift(
-      <DataTableCellHoverWrap className={className} key="Settings" columnWidth={columnWidths[0]}>
-        <></>
-      </DataTableCellHoverWrap>
-    );
-  }
+  // if (hasBtnsColumn) {
+  //   mapHeadings.unshift(
+  //     <DataTableCellHoverWrap
+  //       className={className}
+  //       key="Settings"
+  //       columnWidth={columnWidths[0]}
+  //       style={{
+  //         minWidth: columnWidths[0],
+  //         width: columnWidths[0],
+  //       }}
+  //     >
+  //       <></>
+  //     </DataTableCellHoverWrap>
+  //   );
+  // }
 
   return (
     <div className={outsideWrapClassName} data-testid="datatable_headings_row">
