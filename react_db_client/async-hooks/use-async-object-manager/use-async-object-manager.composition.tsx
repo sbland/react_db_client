@@ -4,9 +4,14 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 
-import { demoDbData, demoLoadedData, IDemoDoc, inputAdditionalData } from './demo-data';
+import {
+  demoDbData,
+  demoLoadedData,
+  IDemoDoc,
+  inputAdditionalData,
+} from './demo-data';
 
 import {
   IUseAsyncObjectManagerArgs,
@@ -16,6 +21,26 @@ import {
 import cloneDeep from 'lodash/cloneDeep';
 import { JSONStringifySorted } from './test-utils';
 import { Uid } from '@react_db_client/constants.client-types';
+
+const defaultArgs: IUseAsyncObjectManagerArgs<IDemoDoc> = {
+  activeUid: demoLoadedData.uid,
+  collection: 'demoCollection',
+  isNew: false,
+  inputAdditionalData,
+  schema: 'all',
+  loadOnInit: false,
+
+  asyncGetDocument: async () => ({} as any),
+  asyncPutDocument: async () => ({ ok: true } as any),
+  asyncPostDocument: async () => ({ ok: true } as any),
+  asyncDeleteDocument: async () => ({ ok: true } as any),
+};
+
+const defaultArgsNew: IUseAsyncObjectManagerArgs<IDemoDoc> = {
+  ...defaultArgs,
+  isNew: true,
+  activeUid: undefined,
+};
 
 const sleep = (delay) =>
   new Promise((res: (value?: any) => void) => {
@@ -43,6 +68,7 @@ const Viz = ({
   savingData,
   deletingData,
   data,
+  isNew,
   uid,
   callCount,
   dbData,
@@ -71,6 +97,9 @@ const Viz = ({
     </div>
     <div>
       Callcount: <span data-testid="callcount">{callCount}</span>
+    </div>
+    <div>
+      Is New: <span data-testid="isnew">{isNew ? 'true' : 'false'}</span>
     </div>
     <p>
       <label htmlFor="goodbyeInput">Goodbye Input</label>
@@ -107,14 +136,18 @@ const Viz = ({
     <div>
       <h1>Responses</h1>
       <div>
-        <p data-testid="saveResponse">{saveResponse?.ok || JSON.stringify(saveResponse)}</p>
+        <p data-testid="saveResponse">
+          {saveResponse?.ok || JSON.stringify(saveResponse)}
+        </p>
         <p data-testid="saveError">{saveError && saveError.message}</p>
       </div>
     </div>
     <div>
       <h1>Callbacks</h1>
       {onSavedCallbackResponse && (
-        <p data-testid="onSavedCallbackResponse">{JSON.stringify(onSavedCallbackResponse)}</p>
+        <p data-testid="onSavedCallbackResponse">
+          {JSON.stringify(onSavedCallbackResponse)}
+        </p>
       )}
       {saveErrorCallbackResponse && (
         <p data-testid="saveErrorCallbackResponse">
@@ -122,28 +155,17 @@ const Viz = ({
         </p>
       )}
       {onDeleteCallbackResponse && (
-        <p data-testid="onDeleteCallbackResponse">{JSON.stringify(onDeleteCallbackResponse)}</p>
+        <p data-testid="onDeleteCallbackResponse">
+          {JSON.stringify(onDeleteCallbackResponse)}
+        </p>
       )}
     </div>
   </div>
 );
 
-const defaultArgs: IUseAsyncObjectManagerArgs<IDemoDoc> = {
-  activeUid: demoLoadedData.uid,
-  collection: 'demoCollection',
-  isNew: false,
-  inputAdditionalData,
-  schema: 'all',
-  loadOnInit: false,
-
-  asyncGetDocument: async () => ({} as any),
-  asyncPutDocument: async () => ({ ok: true } as any),
-  asyncPostDocument: async () => ({ ok: true } as any),
-  asyncDeleteDocument: async () => ({ ok: true } as any),
-};
-
 const useDemoDatabase = () => {
   const [data, setData] = React.useState(cloneDeep(demoDbData));
+
   const asyncGetDocument = async (collection, uid) => {
     await sleep(100);
     return data[collection][uid];
@@ -194,9 +216,12 @@ interface IUseHandleCallbacksReturn {
   onDeleteCallbackResponse;
 }
 const useHandleCallbacks = () => {
-  const [onSavedCallbackResponse, setonSavedCallbackResponse] = React.useState<any>(null);
-  const [saveErrorCallbackResponse, setsaveErrorCallbackResponse] = React.useState(null);
-  const [onDeleteCallbackResponse, setonDeleteCallbackResponse] = React.useState(null);
+  const [onSavedCallbackResponse, setonSavedCallbackResponse] =
+    React.useState<any>(null);
+  const [saveErrorCallbackResponse, setsaveErrorCallbackResponse] =
+    React.useState(null);
+  const [onDeleteCallbackResponse, setonDeleteCallbackResponse] =
+    React.useState(null);
 
   const onSavedCallback = (uid: Uid, response: any, combinedData: any) => {
     setsaveErrorCallbackResponse(null);
@@ -238,9 +263,8 @@ export const AsyncTestNewObject = () => {
   const handleCallbacks = useHandleCallbacks();
   const database = useDemoDatabase();
   const asyncOut = useAsyncObjectManager({
-    ...defaultArgs,
+    ...defaultArgsNew,
     inputAdditionalData,
-    activeUid: undefined,
     ...database,
     ...handleCallbacks,
   });
@@ -281,4 +305,26 @@ export const AsyncTestSaveAll = () => {
 
 AsyncTestSaveAll.waitForReady = async () => {
   await screen.findByText('Loaded data');
+};
+
+export const AsyncTestAutoSaveNew = () => {
+  const handleCallbacks = useHandleCallbacks();
+  const database = useDemoDatabase();
+  const asyncOut = useAsyncObjectManager({
+    ...defaultArgsNew,
+    inputAdditionalData,
+    ...database,
+    ...handleCallbacks,
+    autoSaveNew: true,
+  });
+  return <Viz {...asyncOut} {...database} {...handleCallbacks} />;
+};
+
+AsyncTestAutoSaveNew.waitForReady = async () => {
+  await screen.findByText('Loaded data');
+  await waitFor(() =>
+    expect(screen.getByTestId('dbData').textContent).toContain(
+      inputAdditionalData.injectedProp
+    )
+  );
 };

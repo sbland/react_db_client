@@ -109,6 +109,27 @@ describe('Use async request hook', () => {
       const dbData = screen.getByTestId('dbData').textContent;
       expect(dbData).toEqual(JSON.stringify(demoDbData));
     });
+    test('should automatically save a new doc if autoSaveNew is true', async () => {
+      render(<compositions.AsyncTestAutoSaveNew />);
+      await compositions.AsyncTest.waitForReady();
+      await waitFor(() =>
+        expect(screen.getByTestId('dbData').textContent).toContain(
+          inputAdditionalData.injectedProp
+        )
+      );
+      const newDataRead = JSON.parse(
+        screen.getByTestId('dbData').textContent || '{}'
+      );
+      expect(Object.values(newDataRead.demoCollection).length).toEqual(2);
+    });
+    test('should not automatically save a new doc if autoSaveNew is false', async () => {
+      render(<compositions.AsyncTestNewObject />);
+      await compositions.AsyncTest.waitForReady();
+      const newDataRead = JSON.parse(
+        screen.getByTestId('dbData').textContent || '{}'
+      );
+      expect(Object.values(newDataRead.demoCollection).length).toEqual(1);
+    });
   });
   describe('Updating doc', () => {
     test('should call save callback on successful submit', async () => {

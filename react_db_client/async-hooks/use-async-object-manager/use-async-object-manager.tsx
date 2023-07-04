@@ -35,6 +35,7 @@ export interface IUseAsyncObjectManagerArgs<DocType extends IDocument> {
   autoSave?: boolean;
   reloadOnSave?: boolean;
   saveAllOnSave?: boolean;
+  autoSaveNew?: boolean;
   onSavedCallback?: (uid: Uid, response: any, combinedData: DocType) => void;
   saveErrorCallback?: (
     e: AsyncRequestError
@@ -72,7 +73,7 @@ export interface IUseAsyncObjectManagerReturn<DocType extends IDocument> {
   loadError?: AsyncRequestError;
   saveError?: AsyncRequestError;
   unsavedChanges: boolean;
-  isNew: boolean;
+  isNew?: boolean;
 }
 
 const NO_OP_ASYNC = async () => {};
@@ -88,6 +89,7 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
   autoSave = false,
   reloadOnSave = false,
   saveAllOnSave = false,
+  autoSaveNew = false,
   onSavedCallback: onSavedCallbackIn /* Returns a message string */,
   saveErrorCallback /* Returns a AsyncRequestError */,
   onDeleteCallback,
@@ -122,7 +124,6 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
   const [savedData, setSavedData] = React.useState<
     Partial<DocType> | undefined
   >(loadedDataState.value);
-
   const [combinedData, setCombinedData] = React.useState<Partial<DocType>>({
     ...(loadedDataState.value || ({} as Partial<DocType>)),
     ...inputAdditionalData,
@@ -134,6 +135,12 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
       callLoadData();
     }
   }, [loadOnInit, callLoadData]);
+
+  React.useEffect(() => {
+    if (autoSaveNew && isNew) {
+      setShouldSave(true);
+    }
+  }, [autoSaveNew, isNew]);
 
   React.useEffect(() => {
     const error = savingDataState.error || savingNewDataState.error;
