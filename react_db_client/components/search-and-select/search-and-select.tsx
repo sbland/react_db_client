@@ -111,6 +111,7 @@ export const SearchAndSelect = <ResultType extends IDocument>({
     fieldsData: availableFilters || {},
     initialFilterData: initialFilters || EmptyArray,
     customFilters,
+    searchFieldTargetField,
   });
   const [searchValue, setSearchValue] = useState(initialSearchValue);
   const [sortBy] = useState(sortByOverride);
