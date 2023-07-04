@@ -42,6 +42,7 @@ export const AddFilterButton: React.FC<IAddFilterButtonProps> = ({
 
 AddFilterButton.propTypes = {
   returnNewFilter: PropTypes.func.isRequired,
+  // @ts-ignore
   fieldsData: PropTypes.objectOf(
     PropTypes.shape({
       uid: PropTypes.string.isRequired,

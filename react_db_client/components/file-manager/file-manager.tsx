@@ -85,6 +85,7 @@ export const FileManager: React.FC<IFileManagerProps> = ({
 
 FileManager.propTypes = {
   handleSelect: PropTypes.func.isRequired,
+  // @ts-ignore
   fileType: PropTypes.oneOf(['image', 'document', 'data', '*']),
   allowMultiple: PropTypes.bool,
   asyncGetFiles: PropTypes.func.isRequired,

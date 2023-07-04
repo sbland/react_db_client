@@ -122,6 +122,7 @@ export const CustomSelectDropdown: React.FC<ICustomSelectDropdownProps> = ({
 
 CustomSelectDropdown.propTypes = {
   handleSelect: PropTypes.func.isRequired,
+  //@ts-ignore
   options: PropTypes.arrayOf(
     PropTypes.shape({
       uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
@@ -130,6 +131,7 @@ CustomSelectDropdown.propTypes = {
   ).isRequired,
   isOpen: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
+  //@ts-ignore
   firstItemRef: PropTypes.object.isRequired,
   goBackToSearchField: PropTypes.func.isRequired,
   containerRef: PropTypes.any,
