@@ -71,7 +71,7 @@ export const FilterPanel = ({
 
   const panelClassName = ['filterPanel_panel', floating ? 'floating' : ''].join(' ');
   return (
-    <div className="filterManager" data-testid="rdc-filterManger">
+    <div className="filterManager" data-testid="rdc-filterManager">
       <button
         type="button"
         className="button-one openFiltersButton"
