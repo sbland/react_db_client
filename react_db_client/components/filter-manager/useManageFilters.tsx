@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   EComparisons,
   EFilterType,
@@ -5,8 +6,8 @@ import {
   FilterOption,
   Uid,
 } from '@react_db_client/constants.client-types';
-import React from 'react';
-import { FilterId, TFilterFunc } from './lib';
+import { TCustomFilter } from '@react_db_client/helpers.filter-helpers';
+import { FilterId } from './lib';
 
 /**
  * Update the target field fot a filter row
@@ -31,7 +32,7 @@ export const updateFieldTarget = (index, fieldId, fieldsData, updateFilter, cust
 export interface IUseManageFiltersArgs {
   fieldsData: { [key: string]: FilterOption };
   initialFilterData?: FilterObjectClass[];
-  customFilters?: { [key: string]: TFilterFunc };
+  customFilters?: { [key: string]: TCustomFilter };
   searchFieldTargetField?: Uid;
 }
 

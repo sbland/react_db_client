@@ -4,7 +4,7 @@
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { deepIsEqual, filterData } from '@react_db_client/helpers.filter-helpers';
+import { TCustomFilter, deepIsEqual, filterData } from '@react_db_client/helpers.filter-helpers';
 import { FilterObjectClass, Uid } from '@react_db_client/constants.client-types';
 import {
   IRowErrorObject,
@@ -72,7 +72,7 @@ export interface IUseDataManagerArgs<IRowCustom extends IRow = IRow> {
   /* Callback when a cell is updated */
   updatedDataHook?: (row: Uid, column: Uid, field: Uid) => void;
   /* Dictionary of custom filter functions(See filterDataFunc) */
-  customFilters: { [k: Uid]: FilterObjectClass };
+  customFilters: { [k: Uid]: TCustomFilter };
 }
 
 export interface IUseDataManagerReturn<IRowCustom extends IRow = IRow> {

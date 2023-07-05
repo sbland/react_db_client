@@ -6,10 +6,10 @@ import {
   FilterOption,
 } from '@react_db_client/constants.client-types';
 import { useAutoHidePanel } from '@react_db_client/hooks.use-auto-hide-panel-hook';
-
+import { TCustomFilter } from '@react_db_client/helpers.filter-helpers';
 import { FiltersList } from './FiltersList';
 import { AddFilterButton } from './add-filter-button';
-import { FilterId, TFilterFunc, IFilterComponentProps } from './lib';
+import { FilterId, IFilterComponentProps } from './lib';
 
 export interface IFilterPanelProps {
   filters: FilterObjectClass[];
@@ -23,9 +23,9 @@ export interface IFilterPanelProps {
   fieldsData: { [key: string]: FilterOption };
   floating?: boolean;
   autoOpenPanel?: boolean;
-  customFilters?: { [key: string]: TFilterFunc };
+  customFilters?: { [key: string]: TCustomFilter };
   customFiltersComponents?: {
-    [key: string]: React.FC<IFilterComponentProps<any, true>>;
+    [key: string]: React.FC<IFilterComponentProps<any, boolean>>;
   };
 }
 

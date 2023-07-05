@@ -1,9 +1,4 @@
-import {
-  EComparisons,
-  EFilterType,
-  FilterObjectClass,
-  Uid,
-} from '@react_db_client/constants.client-types';
+import { FilterObjectClass, Uid } from '@react_db_client/constants.client-types';
 import { FilterOption } from '@react_db_client/constants.client-types';
 
 export interface ILabeled {
@@ -34,8 +29,6 @@ export type TFieldId = Uid;
 //   isCustomFieldType: true;
 // }
 
-export type TFilterFunc<VType = unknown> = (v: VType) => boolean;
-
 export type FilterId = string | number;
 
 export interface IFilterComponentProps<VType = any, IsCustomType extends true | false = false> {
@@ -50,7 +43,7 @@ export interface IGetFilterComponentsProps {
   updateFilter: (filterId: FilterId, newFilterData: FilterObjectClass) => void;
   fieldsData: { [key: string]: FilterOption };
   customFiltersComponents: {
-    [key: string]: React.FC<IFilterComponentProps<any, true>>;
+    [key: string]: React.FC<IFilterComponentProps<any, boolean>>;
   };
 }
 
@@ -58,7 +51,9 @@ export interface IGetFilterComponentProps<VType = any, IsCustomType extends true
   filter: FilterObjectClass<VType, IsCustomType>;
   updateFilter: (newFilterData: FilterObjectClass) => void;
   fieldData: FilterOption<VType, IsCustomType>;
-  customFiltersComponents: { [key: string]: React.FC<IFilterComponentProps<any, true>> };
+  customFiltersComponents: {
+    [key: string]: React.FC<IFilterComponentProps<any, boolean>>;
+  };
 }
 
 // export interface INestedFilterOption {

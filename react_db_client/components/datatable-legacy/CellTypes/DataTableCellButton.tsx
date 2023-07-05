@@ -7,7 +7,7 @@ export interface IDataTableCellButtonProps extends ICellProps<IHeadingButton> {
   columnData: IHeadingButton;
 }
 
-const DataTableCellButton = ({
+export const DataTableCellButton = ({
   columnData: { action, uid, btnLabel },
   rowData,
   rowId,

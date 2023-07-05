@@ -1,4 +1,5 @@
-import { EFilterType, Uid, ILabelled, EComparisons } from '@react_db_client/constants.client-types';
+import { TSearchAndSelectSearchFunction } from '@react_db_client/components.search-and-select-v2';
+import { EFilterType, Uid, ILabelled, EComparisons, IDocument } from '@react_db_client/constants.client-types';
 
 export interface IHeading {
   uid: Uid;
@@ -26,6 +27,9 @@ export interface IHeadingNumber extends IHeading {
   step?: number;
   type: EFilterType.number;
 }
+export interface IHeadingText extends IHeading {
+  type: EFilterType.text | EFilterType.textLong;
+}
 
 export interface IHeadingButton extends IHeading {
   type: EFilterType.button;
@@ -52,6 +56,12 @@ export interface IHeadingSelect extends IHeading {
 export interface IHeadingReference extends IHeading {
   type: EFilterType.reference;
   collection: string;
+  headings: {
+    uid: string;
+    label: string;
+    type: EFilterType;
+  }[];
+  searchFunction: TSearchAndSelectSearchFunction<IDocument>;
 }
 
 export interface IHeadingValidate extends IHeading {
@@ -76,6 +86,7 @@ export interface IHeadingCustomExample extends IHeadingCustom {
 export type THeading<T extends IHeadingCustom = never> =
   | IHeading
   | IHeadingNumber
+  | IHeadingText
   | IHeadingButton
   | IHeadingEvaluate
   | IHeadingValidate

@@ -1,32 +1,39 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { DefaultCellInnerStyle } from './style';
+import { ICellProps, IHeadingText } from '../lib';
+
+export interface IDataTableCellTextProps extends ICellProps<IHeadingText> {
+  cellData: string;
+}
 
 export const DataTableCellText = ({
-  columnData: { type },
+  columnData: { type},
+  rowId,
+  columnId,
   cellData,
   updateData,
   acceptValue,
   resetValue,
   focused,
   editMode,
-}) => {
-  const refText = useRef(null);
-  const refArea = useRef(null);
+}: IDataTableCellTextProps) => {
+  const refText = useRef<HTMLInputElement>(null);
+  const refArea = useRef<HTMLTextAreaElement>(null);
   // const [ignoreNextBlur, setIgnoreNextBlur] = useState(false);
 
   const handleInputChange = (e) => {
-    updateData(e.target.value);
+    updateData(e.target.value, rowId, columnId);
   };
 
   useEffect(() => {
     if (focused && editMode && type === 'text') {
-      refText.current.focus();
-      refText.current.select();
+      refText.current?.focus();
+      refText.current?.select();
     }
     if (focused && editMode && type === 'textLong') {
-      refArea.current.focus();
-      refArea.current.select();
+      refArea.current?.focus();
+      refArea.current?.select();
     }
   }, [focused, refText, refArea, type, editMode]);
 
@@ -109,14 +116,13 @@ export const DataTableCellText = ({
           }}
           className="cellInput-textarea"
           ref={refArea}
-          type="text"
           onChange={handleInputChange}
           value={cellData || ''}
           onBlur={onBlur}
           onKeyDown={onKeyPress}
           wrap="hard"
-          rows="10"
-          cols="20"
+          rows={10}
+          cols={20}
         />
       )}
       {!isEditing && <div className={`dataTableCellData_text ${classNames}`}>{cellData}</div>}

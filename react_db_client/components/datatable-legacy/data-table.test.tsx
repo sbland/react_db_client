@@ -9,6 +9,7 @@ import {
 } from '@react_db_client/constants.client-types';
 import * as compositions from './datatable-legacy.composition';
 import {
+  customAvailableFilter,
   demoHeadingsData,
   demoTableData,
   generateDemoTableDataFilteredByColumns,
@@ -19,71 +20,21 @@ import {
 import { saveData } from './test-utils/mock-api';
 import { SAVE_ACTIONS } from './lib';
 import { IHeadingCustomExample, IHeadingNumber, THeading } from './lib';
+import {
+  clickToggleBtn,
+  openFilterPanel,
+  addFilter,
+  getCellContent,
+  getCellValue,
+  editCell,
+} from './test-utils/utils';
 
 jest.mock('./test-utils/mock-api');
-
-type QueryType = ReturnType<typeof within>;
 
 const demoHeadingsDataObj: { [k: Uid]: THeading<IHeadingCustomExample> } = demoHeadingsData.reduce(
   (acc, h) => ({ ...acc, [h.uid]: h }),
   {}
 );
-
-const clickToggleBtn = async (btnName: string) => {
-  const btn = screen.getByRole('button', { name: btnName });
-  await UserEvent.click(btn);
-};
-
-const openFilterPanel = async (elQuery: QueryType) => {
-  const filterBtn = elQuery.getByRole('button', { name: 'Filters' });
-  await UserEvent.click(filterBtn);
-  const filterPanel = await elQuery.findByTestId('rdc-filterManger');
-  return filterPanel;
-};
-
-const addFilter = async (elQuery: QueryType) => {
-  const addFilterBtn = elQuery.getByRole('button', { name: 'Add Filter' });
-  await UserEvent.click(addFilterBtn);
-  const filtersList = await elQuery.findByRole('list');
-  const filterItems = await within(filtersList).findAllByRole('listitem');
-  expect(filterItems.length).toBeGreaterThan(0);
-  return filterItems[filterItems.length - 1];
-};
-
-const getCellContent = (dataTable: HTMLElement, rowIndex: number, columnId: string) => {
-  const columnCells = within(dataTable).getAllByTestId(`cell_${columnId}`, {
-    exact: false,
-  });
-  const textCell = columnCells[rowIndex];
-  return textCell.textContent;
-};
-const getCellValue = (dataTable: HTMLElement, rowIndex: number, columnId: string) => {
-  const columnCells = within(dataTable).getAllByTestId(`cell_${columnId}`, {
-    exact: false,
-  });
-  const cell = columnCells[rowIndex];
-  const value = (within(cell).getByRole('spinbutton') as HTMLInputElement).value;
-  return value;
-};
-
-const editCell = async (
-  dataTable: HTMLElement,
-  rowIndex: number,
-  columnId: string,
-  newValue: string,
-  inputRole: 'textbox' | 'combobox' | 'spinbutton' = 'textbox',
-  acceptValue: boolean = true
-) => {
-  const columnCells = within(dataTable).getAllByTestId(`cell_${columnId}_`, {
-    exact: false,
-  });
-  const textCell = columnCells[rowIndex];
-  await UserEvent.click(textCell);
-  const textCellInput = within(textCell).getByRole(inputRole);
-  await UserEvent.clear(textCellInput);
-  await UserEvent.type(textCellInput, newValue);
-  if (acceptValue) await UserEvent.click(dataTable);
-};
 
 beforeAll(() => {
   const alertMock = jest.spyOn(window, 'alert');
@@ -449,6 +400,71 @@ describe('Data Table', () => {
         //   })
         // );
       });
+      // TODO: Implement reference type filtering
+      test.skip('should be able to filter by reference type', async () => {
+        render(<compositions.BasicDataTableWrapper />);
+        const dataTable = screen.getByTestId('dataTable');
+        const rowCount = within(dataTable).getAllByTestId('cell_1_', { exact: false }).length;
+        expect(rowCount).toEqual(demoTableData.length);
+        const filterHeading = demoHeadingsData.find((h) => h.type === EFilterType.text);
+        if (!filterHeading) throw new Error('Could not find filter heading');
+        expect(filterHeading?.label).toBeTruthy();
+        const filterPanel = await openFilterPanel(screen);
+        const newFilter = await addFilter(within(filterPanel));
+
+        const [fieldSelectDropdown, operatorSelectDropdown]: HTMLSelectElement[] =
+          within(newFilter).getAllByRole('combobox');
+        await UserEvent.selectOptions(fieldSelectDropdown, String(filterHeading.uid));
+        await within(filterPanel).findByDisplayValue(filterHeading.label);
+        // const operatorSelectDropdown = within(
+        //   within(within(filterPanel).getByRole('list')).getAllByRole('listitem')[0]
+        // ).getByDisplayValue('is');
+        await UserEvent.selectOptions(
+          operatorSelectDropdown,
+          comparisonMetaData[EComparisons.EQUALS].uid
+        );
+
+        const [, , selectReferenceElement]: HTMLSelectElement[] =
+          within(newFilter).getAllByRole('combobox');
+
+        await UserEvent.selectOptions(selectReferenceElement, '1');
+
+        const rowCountFiltered = within(dataTable).getAllByTestId('cell_1_', {
+          exact: false,
+        }).length;
+        expect(rowCountFiltered).toBeLessThan(rowCount);
+      });
+      test('should be able to filter by custom type', async () => {
+        render(<compositions.DataTableWrapperForTests />);
+        await clickToggleBtn('Reset headings');
+        await clickToggleBtn('Generate 100 rows');
+
+        const dataTable = screen.getByTestId('dataTable');
+        const rowCount = within(dataTable).getAllByTestId('cell_1_', { exact: false }).length;
+        const filterHeading = customAvailableFilter;
+        const filterPanel = await openFilterPanel(screen);
+        const newFilter = await addFilter(within(filterPanel));
+        /* Select the filter heading */
+        const [fieldSelectDropdown]: HTMLSelectElement[] =
+          within(newFilter).getAllByRole('combobox');
+        await UserEvent.selectOptions(fieldSelectDropdown, String(filterHeading.uid));
+        await within(filterPanel).findByDisplayValue(filterHeading.label);
+        const customFilterToggleButton: HTMLButtonElement = within(filterPanel).getByRole(
+          'button',
+          {
+            name: 'Set custom filter',
+          }
+        );
+        // Filter also has a toggle button to hide first row
+        const rowToggleButtons = within(dataTable).getAllByTestId('cell_toggle_', { exact: false });
+        await UserEvent.click(rowToggleButtons[0]);
+        await UserEvent.click(customFilterToggleButton);
+        // Custom filter will hide first row
+        const rowCountFiltered = within(dataTable).getAllByTestId('cell_1_', {
+          exact: false,
+        }).length;
+        expect(rowCountFiltered).toBeLessThan(rowCount);
+      });
     });
 
     describe('Cell focus and navigation', () => {
@@ -512,7 +528,7 @@ describe('Data Table', () => {
         expect(within(cell).getByRole('textbox')).toBeInTheDocument();
       });
       test.todo('should exit edit mode if user hovers over another cell and clicks it');
-      test('should stay in navigation mode if user clicks on read only cell', async() => {
+      test('should stay in navigation mode if user clicks on read only cell', async () => {
         render(<compositions.DataTableWrapperForTests />);
         await clickToggleBtn('Reset headings');
         await clickToggleBtn('Generate 2 rows');

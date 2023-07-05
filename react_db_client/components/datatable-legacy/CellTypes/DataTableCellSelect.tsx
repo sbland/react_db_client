@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import { CustomSelectDropdown } from '@react_db_client/components.custom-select-dropdown';
 import { getRoot } from '@react_db_client/helpers.html-helpers';
 import { DefaultCellInnerStyle } from './style';
+import { ICellProps, IHeadingSelect } from '../lib';
+
+export interface IDataTableCellSelectProps extends ICellProps<IHeadingSelect> {
+  cellData: number;
+}
 
 /**
  * Data Cell Select
@@ -13,15 +18,17 @@ import { DefaultCellInnerStyle } from './style';
  * }
  * @returns
  */
-const DataTableCellSelect = ({
+export const DataTableCellSelect = ({
   columnData: { options },
+  rowId,
+  columnId,
   cellData,
   acceptValue,
   resetValue,
   focused,
   editMode,
-}) => {
-  const targetRef = React.useRef(null);
+}: IDataTableCellSelectProps) => {
+  const targetRef = React.useRef<HTMLDivElement>(null);
   const [position, setPosition] = React.useState({ top: 0, left: 0 });
 
   const acceptValueLocal = (v) => {
@@ -31,7 +38,7 @@ const DataTableCellSelect = ({
   const rejectValue = () => {
     resetValue();
   };
-  const containerRef = getRoot('selectContainer');
+  const containerRef = getRoot('selectContainer', `selectContainer_${columnId}_${rowId}`);
 
   React.useEffect(() => {
     if (targetRef.current) {
@@ -74,10 +81,10 @@ const DataTableCellSelect = ({
         {displayValue}
       </div>
       <CustomSelectDropdown
-        options={options}
+        options={options || []}
         handleSelect={acceptValueLocal}
         isOpen={focused && editMode}
-        firstItemRef={{ current: {} }}
+        firstItemRef={{ current: {} } as any}
         handleClose={() => rejectValue()}
         goBackToSearchField={() => rejectValue()}
         position="absolute"

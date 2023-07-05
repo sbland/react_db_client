@@ -1,12 +1,11 @@
 import {
+  EOperator,
+  IDocument,
+  Uid,
   comparisons,
   filterTypes,
 } from '@react_db_client/constants.client-types';
-import {
-  evaluateString,
-  evaluateNumber,
-  evaluateBool,
-} from './FilterExpressions';
+import { evaluateString, evaluateNumber, evaluateBool } from './FilterExpressions';
 
 const getItemValue = (item, field) => {
   return field.split('.').reduce((acc, f) => {
@@ -14,8 +13,15 @@ const getItemValue = (item, field) => {
   }, item);
 };
 
+export type TCustomFilter = (
+  itemFieldValue: any,
+  operator: EOperator,
+  targetValue: any,
+  item: IDocument
+) => boolean;
+
 export const filterData =
-  (customFilters = {}) =>
+  (customFilters: { [key: Uid]: TCustomFilter } = {}) =>
   (filters, items) =>
     items.filter((item) =>
       filters
@@ -29,9 +35,7 @@ export const filterData =
 
           if (
             operator !== comparisons.empty &&
-            (targetValue == null ||
-              targetValue === undefined ||
-              targetValue === '')
+            (targetValue == null || targetValue === undefined || targetValue === '')
           )
             return false;
           return true;
@@ -55,7 +59,6 @@ export const filterData =
                 return evaluateString(itemFieldValue, operator, targetValue);
               case filterTypes.number:
                 return evaluateNumber(itemFieldValue, operator, targetValue);
-
               case filterTypes.bool:
               case filterTypes.toggle:
                 return evaluateBool(itemFieldValue, operator, targetValue);
@@ -65,12 +68,7 @@ export const filterData =
               default: {
                 const customFilter = customFilters[type];
                 if (customFilter) {
-                  return customFilter(
-                    itemFieldValue,
-                    operator,
-                    targetValue,
-                    item
-                  );
+                  return customFilter(itemFieldValue, operator, targetValue, item);
                 }
                 throw Error(`Invalid Filter Type: ${filter.type}`);
               }

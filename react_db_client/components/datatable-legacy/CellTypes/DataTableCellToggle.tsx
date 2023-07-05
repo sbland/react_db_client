@@ -2,6 +2,12 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ToggleBox } from '@react_db_client/components.form.form-components.toggle-box';
 import { DefaultCellInnerStyle } from './style';
+import { ICellProps, IHeading } from '../lib';
+
+export interface IDataTableCellToggleProps extends ICellProps<IHeading> {
+  cellData: boolean | 'INVALID';
+}
+
 
 export const DataTableCellToggle = ({
   cellData,
@@ -9,7 +15,7 @@ export const DataTableCellToggle = ({
   acceptValue,
   editMode,
   focused,
-}) => {
+}: IDataTableCellToggleProps) => {
   useEffect(() => {
     if (editMode && focused) {
       acceptValue(!cellData);

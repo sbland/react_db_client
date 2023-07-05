@@ -382,6 +382,7 @@ DataTableUi.propTypes = {
       // TODO: Add headings shape
     })
   ).isRequired,
+  // @ts-ignore
   tableData: PropTypes.arrayOf(PropTypes.object).isRequired,
   totalsData: PropTypes.objectOf(PropTypes.number),
   updateSortBy: PropTypes.func,

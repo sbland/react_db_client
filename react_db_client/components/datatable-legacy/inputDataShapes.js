@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 export const headingDataShape = {
-  uid: PropTypes.string.isRequired,
+  uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   label: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   action: PropTypes.func,
@@ -11,7 +11,7 @@ export const headingDataShape = {
  * ... plus map against headings
  */
 export const tableDataShape = {
-  uid: PropTypes.string.isRequired,
+  uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   name: PropTypes.string,
   // ... plus map against headings
 };

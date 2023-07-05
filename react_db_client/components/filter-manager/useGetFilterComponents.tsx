@@ -100,7 +100,7 @@ export const getFilterComponent = <VType, IsCustomType extends true | false = fa
   return filterTypeComponent;
 };
 
-const INVALID_FIELD = new FilterOption<never, true>({
+export const INVALID_FIELD = new FilterOption<never, true>({
   uid: 'MISSING_FIELD',
   label: 'MISSING FIELD',
   field: 'MISSING FIELD',

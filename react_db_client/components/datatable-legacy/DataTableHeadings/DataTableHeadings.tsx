@@ -88,8 +88,9 @@ DataTableHeadingMenu.propTypes = {
   handleAddFilter: PropTypes.func.isRequired,
   setSortBy: PropTypes.func.isRequired,
   handleHideColumn: PropTypes.func.isRequired,
+  // @ts-ignore
   headingData: PropTypes.shape({
-    uid: PropTypes.string.isRequired,
+    uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     label: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
   }).isRequired,
@@ -103,7 +104,7 @@ export const DataTableHeading = ({ title, id }) => (
 
 DataTableHeading.propTypes = {
   title: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 export interface IDataTableHeadingProps {
@@ -122,7 +123,7 @@ export const DataTableHeadings = ({
   handleHideColumn,
   columnWidths,
   handleAddFilter,
-  showFilterBtns=true,
+  showFilterBtns = true,
   tableWidth,
 }: IDataTableHeadingProps) => {
   const [activeColumn, setActiveColumn] = useState(-1);

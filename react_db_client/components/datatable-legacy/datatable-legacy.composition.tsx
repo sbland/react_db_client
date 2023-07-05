@@ -4,17 +4,17 @@ import DataTableWrapper, { IDataTableWrapperProps } from './DataTableWrapper';
 import {
   demoTableData,
   demoHeadingsData,
-  CustomField,
-  customFilter,
   availableFilters,
   evaluationTableHeadings,
   demoTableDataEvaluationTable,
   headingExampleNumber,
   headingExampleText,
   generateDemoTableDataFilteredByColumns,
+  customFieldComponents,
+  customFilters,
+  customFiltersComponents,
 } from './demoData';
 import { dataTableDefaultConfig, IDataTableConfig } from './DataTableConfig/DataTableConfig';
-import DataTableCellNumber from './CellTypes/DataTableCellNumber';
 import { saveData } from './test-utils/mock-api';
 import { THeading } from './lib';
 
@@ -25,14 +25,6 @@ const DEMO_CONFIG = {
 };
 
 const DEMO_HEADINGS = demoHeadingsData;
-const customFieldComponents = {
-  custom: CustomField,
-  customeval: DataTableCellNumber,
-};
-const customFilters = {
-  custom: customFilter,
-};
-const customFiltersComponents = { custom: () => 'CUSTOM' };
 
 const CompositionWrap = (props: IDataTableWrapperProps & { config: Partial<IDataTableConfig> }) => {
   const [autosave, setAutosave] = React.useState(props.autoSave);

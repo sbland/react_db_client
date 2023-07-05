@@ -1,9 +1,12 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { FilterPanel, IUseManageFiltersOutput } from '@react_db_client/components.filter-manager';
+import {
+  FilterPanel,
+  IFilterComponentProps,
+  IUseManageFiltersOutput,
+} from '@react_db_client/components.filter-manager';
+import { TCustomFilter } from '@react_db_client/helpers.filter-helpers';
 import { FilterObjectClass, Uid } from '@react_db_client/constants.client-types';
-
-import { arrayToObj } from '../Helpers/objectArrayHelpers';
 import { HiddenColumnsPanel } from '../HiddenColumnsPanel/HiddenColumnsPanel';
 import { DataTableContext } from '../DataTableConfig/DataTableConfig';
 
@@ -18,8 +21,10 @@ export interface IDataTableTopMenuProps {
   autoSort;
   clearSelection;
   selectAll;
-  customFilters;
-  customFiltersComponents;
+  customFilters?: { [key: Uid]: TCustomFilter };
+  customFiltersComponents?: {
+    [key: Uid]: React.FC<IFilterComponentProps<any, boolean>>;
+  };
   invalidRowsMessages;
 }
 
@@ -115,6 +120,7 @@ export const DataTableTopMenu: React.FC<IDataTableTopMenuProps> = ({
 
 DataTableTopMenu.propTypes = {
   hiddenColumnIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  // @ts-ignore
   filterManager: PropTypes.shape({
     filters: PropTypes.arrayOf(PropTypes.instanceOf(FilterObjectClass)).isRequired,
     addFilter: PropTypes.func.isRequired,
@@ -135,6 +141,7 @@ DataTableTopMenu.propTypes = {
   clearSelection: PropTypes.func.isRequired,
   selectAll: PropTypes.func.isRequired,
   customFilters: PropTypes.objectOf(PropTypes.func),
+  // @ts-ignore
   customFiltersComponents: PropTypes.objectOf(PropTypes.elementType),
   invalidRowsMessages: PropTypes.arrayOf(
     PropTypes.shape({

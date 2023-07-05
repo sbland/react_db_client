@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { FilterObjectClass, FilterOption } from '@react_db_client/constants.client-types';
-import { TFilterFunc } from './lib';
+import { TCustomFilter } from '@react_db_client/helpers.filter-helpers';
 
 export interface IAddFilterButtonProps {
   fieldsData: { [key: string]: FilterOption<any, boolean> };
   returnNewFilter: <Vtype, IsCustomType extends boolean>(
     newFilter: FilterObjectClass<Vtype, IsCustomType>
   ) => void;
-  customFilters?: { [key: string]: TFilterFunc };
+  customFilters?: { [key: string]: TCustomFilter };
 }
 
 export const AddFilterButton: React.FC<IAddFilterButtonProps> = ({

@@ -12,8 +12,18 @@ import DataTableCellButton from '../CellTypes/DataTableCellButton';
 import DataTableCellSelect from '../CellTypes/DataTableCellSelect';
 import DataTableCellToggle from '../CellTypes/DataTableCellToggle';
 import DataTableCellReadOnly from '../CellTypes/DataTableCellReadOnly';
-import { ICellProps, IHeading, IHeadingButton, IHeadingLink, IHeadingNumber } from '../lib';
-import { Uid } from '@react_db_client/constants.client-types';
+import DataTableCellEntity from '../CellTypes/DataTableCellEntity';
+import {
+  ICellProps,
+  IHeading,
+  IHeadingButton,
+  IHeadingLink,
+  IHeadingNumber,
+  IHeadingReference,
+  IHeadingSelect,
+  IHeadingText,
+} from '../lib';
+import { EFilterType, Uid } from '@react_db_client/constants.client-types';
 
 /**
  * Data Table cell wrap that handles cell hovering
@@ -156,7 +166,7 @@ CellRightClickWrapper.propTypes = {
   readOnly: PropTypes.bool,
   clearCell: PropTypes.func.isRequired,
   setAsDefault: PropTypes.func.isRequired,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.nodes)]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node)]).isRequired,
 };
 
 CellRightClickWrapper.defaultProps = {
@@ -206,9 +216,13 @@ export const DataTableDataCell = <HeadingType extends IHeading>(
       switchF(
         type,
         {
-          textLong: () => <DataTableCellText {...props} />,
-          text: () => <DataTableCellText {...props} />,
-          number: () => (
+          [EFilterType.textLong]: () => (
+            <DataTableCellText {...(props as unknown as IDataTableDataCellProps<IHeadingText>)} />
+          ),
+          [EFilterType.text]: () => (
+            <DataTableCellText {...(props as unknown as IDataTableDataCellProps<IHeadingText>)} />
+          ),
+          [EFilterType.number]: () => (
             <DataTableCellNumber
               {...(props as unknown as IDataTableDataCellProps<IHeadingNumber>)}
             />
@@ -216,7 +230,7 @@ export const DataTableDataCell = <HeadingType extends IHeading>(
           link: () => (
             <DataTableCellLink {...(props as unknown as IDataTableDataCellProps<IHeadingLink>)} />
           ),
-          button: () => (
+          [EFilterType.button]: () => (
             <DataTableCellButton
               {...(props as unknown as IDataTableDataCellProps<IHeadingButton>)}
             />
@@ -224,11 +238,23 @@ export const DataTableDataCell = <HeadingType extends IHeading>(
           // TODO: Reimplement popup cell type
           // popup: () => <DataTableCellPopup {...props} />,
           // TODO: SelectMulti
-          select: () => <DataTableCellSelect {...props} />,
+          [EFilterType.select]: () => (
+            <DataTableCellSelect
+              {...(props as unknown as IDataTableDataCellProps<IHeadingSelect>)}
+            />
+          ),
           // TODO: Reimplement entity cell type
-          // entity: () => <DataTableCellEntity {...props} />,
-          toggle: () => <DataTableCellToggle {...props} />,
-          bool: () => <DataTableCellToggle {...props} />,
+          [EFilterType.reference]: () => (
+            <DataTableCellEntity
+              {...(props as unknown as IDataTableDataCellProps<IHeadingReference>)}
+            />
+          ),
+          [EFilterType.toggle]: () => (
+            <DataTableCellToggle {...(props as unknown as IDataTableDataCellProps<IHeading>)} />
+          ),
+          [EFilterType.bool]: () => (
+            <DataTableCellToggle {...(props as unknown as IDataTableDataCellProps<IHeading>)} />
+          ),
           ...customFieldComponentsMapped,
         },
         () => <div>Invalid Cell Type {type}</div>

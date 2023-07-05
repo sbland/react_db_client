@@ -25,7 +25,9 @@ export interface IFilterListProps {
   deleteFilter: (filterId: FilterId) => void;
   updateFilter: (filterId: FilterId, newFilterData: FilterObjectClass) => void;
   fieldsData: { [key: string]: FilterOption };
-  customFiltersComponents: { [key: string]: React.FC<IFilterComponentProps<any, true>> };
+  customFiltersComponents: {
+    [key: string]: React.FC<IFilterComponentProps<any, boolean>>;
+  };
   updateFieldTarget: (filterId: FilterId, fieldId: string | number) => void;
   updateOperator: (filterId: FilterId, newOperator: EComparisons) => void;
 }

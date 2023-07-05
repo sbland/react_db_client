@@ -8,7 +8,7 @@ export interface IDataTableCellLinkProps extends ICellProps<IHeadingLink> {
   columnData: IHeadingLink;
 }
 
-const DataTableCellLink = ({
+export const DataTableCellLink = ({
   columnData: { to, uid: columnId },
   cellData,
   updateData,

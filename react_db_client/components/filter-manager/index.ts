@@ -1,6 +1,19 @@
 export { FilterPanel } from './filter-manager';
 export type { IFilterPanelProps } from './filter-manager';
 export * as FilterTypes from './FilterTypes';
-export * from './useGetFilterComponents';
-export * from './useManageFilters';
-export * from './lib';
+export {
+  InvalidFilter,
+  getFilterComponent,
+  useGetFilterComponents,
+  INVALID_FIELD,
+} from './useGetFilterComponents';
+export { updateFieldTarget, useManageFilters } from './useManageFilters';
+export type { IUseManageFiltersArgs, IUseManageFiltersOutput } from './useManageFilters';
+export type {
+  ILabeled,
+  IFilterComponentProps,
+  IGetFilterComponentsProps,
+  IGetFilterComponentProps,
+  TFieldId,
+  FilterId,
+} from './lib';

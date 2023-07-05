@@ -2,11 +2,15 @@ import React, { useCallback, useContext, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { FilterOption, Uid } from '@react_db_client/constants.client-types';
-import { useManageFilters } from '@react_db_client/components.filter-manager';
+import {
+  IFilterComponentProps,
+  useManageFilters,
+} from '@react_db_client/components.filter-manager';
 import { wrapWithErrorBoundary } from '@react_db_client/helpers.error-handling';
 import { FilterObjectClass } from '@react_db_client/constants.client-types';
 import { SelectionPreview } from '@react_db_client/components.selection-preview';
 
+import { TCustomFilter } from '@react_db_client/helpers.filter-helpers';
 import { useColumnVisabilityManager } from '@react_db_client/components.column-manager';
 import DataTableUi from './DataTableUi';
 import { useDataManager } from './DataManager';
@@ -36,15 +40,17 @@ export interface IDataTableWrapperProps {
   styleRule?: string;
   styleOverride?: React.CSSProperties;
   baseStyle?: React.CSSProperties;
-  errorStyleOverride?: { DUPLICATE: React.CSSProperties, MISSING: React.CSSProperties };
+  errorStyleOverride?: { DUPLICATE: React.CSSProperties; MISSING: React.CSSProperties };
   maxTableHeight?: number;
   maxTableWidth?: number;
   bottomMenuRefOverride?: HTMLDivElement;
   onSelectionChange?;
   selectionOverride?;
   customFieldComponents?;
-  customFilters?;
-  customFiltersComponents?;
+  customFilters?: { [key: Uid]: TCustomFilter };
+  customFiltersComponents?: {
+    [key: Uid]: React.FC<IFilterComponentProps<any, boolean>>;
+  };
   customPreviewParsers?;
   disableEditing?: boolean;
   isControlled?: boolean;
@@ -73,7 +79,7 @@ export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
   onSelectionChange, // Called when we make a row selection
   selectionOverride,
   customFieldComponents,
-  customFilters,
+  customFilters = {},
   customFiltersComponents,
   customPreviewParsers,
   disableEditing,
@@ -239,10 +245,12 @@ export const DataTableWrapperFunc: React.FC<IDataTableWrapperProps> = ({
 };
 
 DataTableWrapperFunc.propTypes = {
+  // @ts-ignore
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  // @ts-ignore
   headings: PropTypes.arrayOf(
     PropTypes.shape({
-      uid: PropTypes.string.isRequired,
+      uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       label: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
       action: PropTypes.func,
@@ -251,9 +259,10 @@ DataTableWrapperFunc.propTypes = {
       natural: PropTypes.bool,
     })
   ).isRequired,
+  // @ts-ignore
   previewHeadings: PropTypes.arrayOf(
     PropTypes.shape({
-      uid: PropTypes.string.isRequired,
+      uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       label: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
       action: PropTypes.func,
@@ -264,8 +273,9 @@ DataTableWrapperFunc.propTypes = {
   ),
   // @ts-ignore
   config: PropTypes.shape({}),
+  // @ts-ignore
   sortByOverride: PropTypes.shape({
-    heading: PropTypes.string.isRequired,
+    heading: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     direction: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]).isRequired,
     map: PropTypes.arrayOf(PropTypes.string), // TODO: Check this is correct
     natural: PropTypes.bool,
@@ -277,6 +287,7 @@ DataTableWrapperFunc.propTypes = {
   updatedDataHook: PropTypes.func,
   styleRule: PropTypes.string,
   styleOverride: PropTypes.shape({}),
+  // @ts-ignore
   errorStyleOverride: PropTypes.shape({
     [RowErrors.DUPLICATE]: PropTypes.shape({ background: PropTypes.string }),
   }),
@@ -286,7 +297,9 @@ DataTableWrapperFunc.propTypes = {
   onSelectionChange: PropTypes.func,
   selectionOverride: PropTypes.arrayOf(PropTypes.string),
   customFilters: PropTypes.objectOf(PropTypes.func),
+  // @ts-ignore
   customFieldComponents: PropTypes.objectOf(PropTypes.elementType),
+  // @ts-ignore
   customFiltersComponents: PropTypes.objectOf(PropTypes.elementType),
   customPreviewParsers: PropTypes.objectOf(PropTypes.func),
   disableEditing: PropTypes.bool,

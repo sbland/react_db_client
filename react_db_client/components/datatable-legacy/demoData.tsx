@@ -3,10 +3,14 @@ import React, { useEffect, useMemo } from 'react';
 import {
   EComparisons,
   EFilterType,
+  EOperator,
   FilterObjectClass,
   FilterOption,
   Uid,
 } from '@react_db_client/constants.client-types';
+import { TCustomFilter } from '@react_db_client/helpers.filter-helpers';
+import { IFilterComponentProps } from '@react_db_client/components.filter-manager';
+import DataTableCellNumber from './CellTypes/DataTableCellNumber';
 import { EValidationType, IHeadingCustomExample, THeading } from './lib';
 
 /* Example Filters */
@@ -313,6 +317,21 @@ export const headingExampleReference = {
   label: 'Reference Example',
   type: EFilterType.reference,
   collection: 'referencecollection',
+  searchFunction: async () => {
+    return [{ uid: 'a', label: 'a' }];
+  },
+  headings: [
+    {
+      uid: 'uid',
+      label: 'UID',
+      type: EFilterType.text,
+    },
+    {
+      uid: 'label',
+      label: 'Label',
+      type: EFilterType.text,
+    },
+  ],
 };
 
 export const headingExampleLongHeading = {
@@ -453,15 +472,27 @@ export const CustomField = ({ acceptValue, cellData, editMode, focused }) => {
 };
 
 // eslint-disable-next-line no-unused-vars
-export const customFilter = (value, expression, targetValue) => {
+export const customFilter = (value, operator: EOperator, targetValue, item) => {
+  if (item.toggle) return true;
   if (Math.abs(value - targetValue) < 0.3) return true;
   return false;
 };
 
-export const availableFilters = demoHeadingsData.reduce(
-  (acc, h) => ({ ...acc, [h.uid]: new FilterOption({ ...h, field: h.field || h.uid }) }),
-  {} as { [k: Uid]: FilterOption }
-);
+export const customAvailableFilter = new FilterOption({
+  uid: 'customAvailableFilter',
+  field: 'customfield',
+  label: 'Custom Alt',
+  type: 'custom',
+  isCustomType: true,
+});
+
+export const availableFilters = {
+  ...demoHeadingsData.reduce(
+    (acc, h) => ({ ...acc, [h.uid]: new FilterOption({ ...h, field: h.field || h.uid }) }),
+    {} as { [k: Uid]: FilterOption }
+  ),
+  customAvailableFilter,
+};
 
 export const generateDemoTableData = (count = 10) => {
   const data: Array<{}> = [];
@@ -477,7 +508,7 @@ export const generateDemoTableData = (count = 10) => {
       readOnly: 'read only',
       hiddenDemo: 'hidden',
       hiddenDemoNumber: i,
-      toggle: true,
+      toggle: false,
       toggleR: true,
       expression: undefined, // isCalculated
       validated: undefined, // isCalculated
@@ -503,4 +534,27 @@ export const generateDemoTableDataFilteredByColumns = (count = 10, headings: THe
     });
     return newRow;
   });
+};
+
+export const customFieldComponents = {
+  custom: CustomField,
+  customeval: DataTableCellNumber,
+};
+export const customFilters: { [key: Uid]: TCustomFilter } = {
+  custom: customFilter,
+};
+
+export const CustomFilterComponent = (props: IFilterComponentProps<any, boolean>) => (
+  <div>
+    <button
+      onClick={() => props.updateFilter(new FilterObjectClass({ ...props.filter, value: 1.0 }))}
+    >
+      Set custom filter
+    </button>
+  </div>
+);
+export const customFiltersComponents: {
+  [key: Uid]: React.FC<IFilterComponentProps<any, boolean>>;
+} = {
+  custom: CustomFilterComponent,
 };

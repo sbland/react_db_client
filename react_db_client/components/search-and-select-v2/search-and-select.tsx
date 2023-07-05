@@ -10,17 +10,14 @@ import {
   StyledSelectList,
   IStyledSelectListProps,
 } from '@react_db_client/components.styled-select-list';
-import {
-  FilterPanel,
-  TFilterFunc,
-  useManageFilters,
-} from '@react_db_client/components.filter-manager';
+import { FilterPanel, useManageFilters } from '@react_db_client/components.filter-manager';
 import { useAsyncRequest } from '@react_db_client/async-hooks.use-async-request';
 import { Emoji } from '@react_db_client/components.emoji';
 import {
   SelectionPreview,
   ISelectionPreviewProps,
 } from '@react_db_client/components.selection-preview';
+import { TCustomFilter } from '@react_db_client/helpers.filter-helpers';
 import { useDebounce } from '@react_db_client/hooks.use-debounce';
 import { useSelectionManager } from './useSelectionManager';
 import { SearchAndSelectStyles } from './styles';
@@ -59,7 +56,7 @@ export interface ISearchAndSelectProps<ResultType extends IDocument> {
   selectionPreviewProps?: Partial<ISelectionPreviewProps>;
   styledSelectListProps?: Partial<IStyledSelectListProps<ResultType>>;
   searchInputProps?: Partial<React.HTMLProps<HTMLInputElement>>;
-  customFilters?: { [k: string]: TFilterFunc<any> };
+  customFilters?: { [k: string]: TCustomFilter };
 }
 export const EmptyArray = [];
 

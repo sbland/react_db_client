@@ -53,7 +53,9 @@ export const DataTableSimple: React.FC<IDataTableSimpleProps> = ({
 );
 
 DataTableSimple.propTypes = {
+  // @ts-ignore
   headingsData: PropTypes.arrayOf(PropTypes.shape(headingDataShape)).isRequired,
+  // @ts-ignore
   tableData: PropTypes.arrayOf(PropTypes.shape(tableDataShape)).isRequired,
   showTotals: PropTypes.bool,
   config: PropTypes.shape({}),

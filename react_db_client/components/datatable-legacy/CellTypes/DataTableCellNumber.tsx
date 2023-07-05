@@ -4,7 +4,7 @@ import { validateValue, formatValue } from '@react_db_client/helpers.data-proces
 import { DefaultCellInnerStyle } from './style';
 import { ICellProps, IHeadingNumber } from '../lib';
 
-export interface IDataTableCellLinkProps extends ICellProps<IHeadingNumber> {
+export interface IDataTableCellNumberProps extends ICellProps<IHeadingNumber> {
   cellData: number;
 }
 
@@ -27,7 +27,7 @@ export const DataTableCellNumber = ({
   focused,
   editMode,
   rowId,
-}: IDataTableCellLinkProps) => {
+}: IDataTableCellNumberProps) => {
   const ref = useRef<HTMLInputElement>(null);
 
   // get row data max for this cell
