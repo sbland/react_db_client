@@ -18,51 +18,79 @@ const fileTypesToInputAccept = (fileType: EFileType) => {
   }
 };
 
-export interface IFileUploaderProps {
+export interface IFileUploaderSimpleProps {
   fileType: EFileType;
   onUpload: (responses: unknown) => void;
-  asyncFileUpload: (data: File, fileType: EFileType, callback: () => void) => Promise<void>;
+  asyncFileUpload: (
+    data: File,
+    fileType: EFileType,
+    callback: () => void
+  ) => Promise<void>;
+  showMessage?: boolean;
+  label?: React.ReactNode;
 }
 
 export const FileUploaderSimple = ({
   fileType: fileTypeIn,
   onUpload,
   asyncFileUpload,
-}: IFileUploaderProps) => {
-  const [selectedFiles, setSelectedFiles] = useState<IFile[]>([]);
+  label = <>Upload</>,
+  showMessage = true,
+}: IFileUploaderSimpleProps) => {
+  // const [selectedFiles, setSelectedFiles] = useState<IFile[]>([]);
   const [fileType, setFileType] = useState(fileTypeIn || EFileType.IMAGE);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { uploadFiles, uploading, uploadProgress, uploadComplete, error } = useFileUploader({
+  const {
+    // uploadFiles,
+    uploading,
+    uploadProgress,
+    uploadComplete,
+    selectedFiles,
+    error,
+    handleFilesSelectedForUpload,
+  } = useFileUploader({
     fileType,
     asyncFileUpload,
     onUpload,
   });
 
   const message = useMemo(() => {
+    if (!showMessage) return null;
     if (error) return error;
-    if (uploading) return `Uploading ${uploadProgress} of ${selectedFiles.length}`;
+    if (uploading)
+      return `Uploading ${uploadProgress} of ${selectedFiles.length}`;
     if (uploadComplete) return 'Upload complete';
     return '';
-  }, [error, uploading, uploadComplete, uploadProgress, selectedFiles]);
+  }, [
+    error,
+    uploading,
+    uploadComplete,
+    uploadProgress,
+    selectedFiles,
+    showMessage,
+  ]);
 
   const handleFilesSelected = (e) => {
-    const newSelectedFiles: IFile[] = [...e.target.files].map((f: File) => ({
-      uid: f.name,
-      name: f.name,
-      label: f.name,
-      data: f,
-      filePath: '',
-      fileType,
-    }));
-    setSelectedFiles(newSelectedFiles);
+    handleFilesSelectedForUpload(e.target.files, { instantUpload: true });
+    // const newSelectedFiles: IFile[] = [...e.target.files].map((f: File) => ({
+    //   uid: f.name,
+    //   name: f.name,
+    //   label: f.name,
+    //   data: f,
+    //   filePath: '',
+    //   fileType,
+    // }));
+    // setSelectedFiles(newSelectedFiles);
   };
 
-  useEffect(() => {
-    if (selectedFiles && selectedFiles[0]) {
-      uploadFiles(selectedFiles);
-    }
-  }, [selectedFiles]);
+  // useEffect(() => {
+  //   // Auto upload selected files
+  //   if (selectedFiles && selectedFiles[0]) {
+  //     console.info('Uploading selected files');
+  //     uploadFiles(selectedFiles);
+  //   }
+  // }, [selectedFiles]);
 
   return (
     <div className="fileUploader">
@@ -70,11 +98,12 @@ export const FileUploaderSimple = ({
         <FileUploadBtn onClick={(e) => inputRef.current?.click()}>
           <label
             className={`button ${
-              (selectedFiles && selectedFiles.length > 0) || uploading ? 'button-one' : 'button-two'
+              (selectedFiles && selectedFiles.length > 0) || uploading
+                ? 'button-one'
+                : 'button-two'
             } fileUploader_selectBtn`}
           >
-            {/* <img src={UploadIcon} alt="Upload" /> */}
-            Upload
+            {label}
             <input
               // Hide html input so we can override style
               ref={inputRef}
@@ -84,18 +113,13 @@ export const FileUploaderSimple = ({
               className="fileUploader_fileInput"
               type="file"
               accept={fileTypesToInputAccept(fileType)}
-              // multiple={multiple}
               onChange={handleFilesSelected}
-              // onInput={console.log}
-              // value={selectedFilesRaw}
-              // disabled={uploading}
               multiple
             />
           </label>
         </FileUploadBtn>
         {message}
       </FileUploaderButtonsWrap>
-      {/* If file type not defined provide option to user */}
     </div>
   );
 };

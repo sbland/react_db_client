@@ -1,8 +1,8 @@
 // TODO: Move to serparate component
 /** Adapted from https://github.com/streamich/react-use/blob/master/src/useAsyncFn.ts */
-import { DependencyList, useCallback, useRef, useState } from 'react';
-import useMountedState from 'react-use/lib/useMountedState';
-import { FunctionReturningPromise, PromiseType } from 'react-use/lib/misc/types';
+import { DependencyList, useCallback, useRef, useState } from "react";
+import useMountedState from "react-use/lib/useMountedState";
+import { FunctionReturningPromise, PromiseType } from "react-use/lib/misc/types";
 
 export type AsyncState<T> =
   | {
@@ -26,9 +26,7 @@ export type AsyncState<T> =
       value: T;
     };
 
-type StateFromFunctionReturningPromise<T extends FunctionReturningPromise> = AsyncState<
-  PromiseType<ReturnType<T>>
->;
+type StateFromFunctionReturningPromise<T extends FunctionReturningPromise> = AsyncState<PromiseType<ReturnType<T>>>;
 
 type ResetStateFn = () => void;
 
@@ -38,10 +36,6 @@ export type AsyncFnReturn<T extends FunctionReturningPromise = FunctionReturning
   ResetStateFn
 ];
 
-/**
- * @deprecated use @react-db-client/async-hooks/use-async-reset
- *
- */
 export default function useAsyncFnReset<T extends FunctionReturningPromise>(
   fn: T,
   deps: DependencyList = [],

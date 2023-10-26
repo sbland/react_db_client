@@ -3,15 +3,15 @@
 /**
  * The Bitmap file is an auto generated file used by Bit to track all your Bit components. It maps the component to a folder in your file system.
  * This file should be committed to VCS(version control).
- * Components are listed using their component ID (https://bit.dev/docs/components/component-id).
+ * Components are listed using their component ID (https://bit.dev/reference/components/component-id).
  * If you want to delete components you can use the "bit remove <component-id>" command.
- * See the docs (https://bit.dev/docs/components/removing-components) for more information, or use "bit remove --help".
+ * See the docs (https://bit.dev/reference/components/removing-components) for more information, or use "bit remove --help".
  */
 
 {
     "async-hooks/use-async-object-manager": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.3.14",
+        "version": "0.3.15",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/async-hooks/use-async-object-manager"
     },
@@ -20,6 +20,12 @@
         "version": "0.2.29",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/async-hooks/use-async-request"
+    },
+    "async-hooks/use-async-reset": {
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
+        "mainFile": "index.ts",
+        "rootDir": "react_db_client/async-hooks/use-async-reset"
     },
     "components/column-manager": {
         "scope": "samnbuk.react_db_client",
@@ -35,25 +41,25 @@
     },
     "components/datatable-legacy": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.0.159",
+        "version": "0.0.161",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/datatable-legacy"
     },
     "components/datatable/cell": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.174",
+        "version": "0.1.176",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/cell"
     },
     "components/datatable/cell-types": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.170",
+        "version": "0.1.172",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/cell-types"
     },
     "components/datatable/components": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.174",
+        "version": "0.1.176",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/components"
     },
@@ -77,7 +83,7 @@
     },
     "components/datatable/main": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.175",
+        "version": "0.1.177",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/main"
     },
@@ -89,7 +95,7 @@
     },
     "components/datatable/ui": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.1.174",
+        "version": "0.1.176",
         "mainFile": "index.js",
         "rootDir": "react_db_client/components/datatable/ui"
     },
@@ -101,19 +107,19 @@
     },
     "components/file-manager": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.6.27",
+        "version": "0.6.29",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/file-manager"
     },
     "components/file-uploader": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.6.7",
+        "version": "0.6.8",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/file-uploader"
     },
     "components/filter-manager": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.102",
+        "version": "0.2.103",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/filter-manager"
     },
@@ -149,7 +155,7 @@
     },
     "components/local-file-uploader": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.0.24",
+        "version": "0.0.26",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/local-file-uploader"
     },
@@ -173,7 +179,7 @@
     },
     "components/search-and-select": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.4.99",
+        "version": "0.4.101",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/search-and-select"
     },
@@ -185,7 +191,7 @@
     },
     "components/search-and-select-v2": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.0.17",
+        "version": "0.0.19",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/search-and-select-v2"
     },
@@ -197,7 +203,7 @@
     },
     "components/styled-select-list": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.4.54",
+        "version": "0.4.55",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/styled-select-list"
     },
@@ -263,7 +269,7 @@
     },
     "helpers/filter-helpers": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.37",
+        "version": "0.2.38",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/helpers/filter-helpers"
     },
@@ -315,5 +321,5 @@
         "mainFile": "index.js",
         "rootDir": "react_db_client/testing/enzyme-setup"
     },
-    "$schema-version": "15.0.0"
+    "$schema-version": "16.0.0"
 }

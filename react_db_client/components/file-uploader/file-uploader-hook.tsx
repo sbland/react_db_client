@@ -22,7 +22,12 @@ export interface IUseFileUploaderReturn {
   uploadComplete: boolean;
   error: string;
   selectedFiles: IFile[];
-  handleFilesSelectedForUpload: (newFiles: FileList | null) => void;
+  handleFilesSelectedForUpload: (
+    newFiles: FileList | null,
+    options?: {
+      instantUpload?: boolean;
+    }
+  ) => void;
   totalFilesToUpload: null | number;
   fileSelectionComplete: boolean;
 }
@@ -108,7 +113,10 @@ export const useFileUploader = ({
     setFilesToUpload(fileList);
   };
 
-  const handleFilesSelectedForUpload = (newFiles: FileList | null) => {
+  const handleFilesSelectedForUpload = (
+    newFiles: FileList | null,
+    options: { instantUpload?: boolean } = {}
+  ) => {
     const files = [...(newFiles || [])];
     const newSelectedFiles: IFile[] = files.map((f: File) => {
       return {
@@ -141,6 +149,7 @@ export const useFileUploader = ({
         setFilesMetaData((prev) => [...prev, { name: f.name }]);
       }
     });
+    if (options.instantUpload) uploadFiles(newSelectedFiles);
   };
 
   return {

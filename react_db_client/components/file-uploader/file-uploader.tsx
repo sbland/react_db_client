@@ -138,7 +138,7 @@ export const FileUploader = ({
         headings={fileListHeadings}
         // TODO: Handle remove from selection
         handleSelect={(uid) => {}}
-        currentSelection={undefined}
+        currentSelection={[]}
         // limitHeight
         selectionField="uid"
         // autoWidth
